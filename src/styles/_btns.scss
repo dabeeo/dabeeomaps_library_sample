@@ -1,0 +1,19 @@
+@mixin btns {
+    background-color: white;
+    font-size: 0.8rem;
+    font-weight: bold;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid black;
+    color: gray;
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    z-index: 10;
+
+    &:hover {
+        cursor: pointer;
+        background-color: black;
+        color: white;
+    }
+}

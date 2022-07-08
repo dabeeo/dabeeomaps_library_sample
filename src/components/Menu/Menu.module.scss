@@ -1,0 +1,29 @@
+.menu {
+    width: 300px;
+    height: 100%;
+    position: fixed;
+    top: 70px;
+    left: 0;
+
+    .title {
+        margin: 1rem 0 0 1rem;
+        font-weight: bold;
+        color: brown;
+    }
+
+    .lists {
+        .listItem {
+            border-radius: 8px;
+            width: 200px;
+            padding: 5px;
+            font-size: 14px;
+            font-weight: bold;
+            list-style: none;
+            margin : 1rem 0;
+
+            &:hover {
+                cursor: pointer;
+            }
+        }
+    }
+}

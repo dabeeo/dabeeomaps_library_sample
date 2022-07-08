@@ -1,0 +1,47 @@
+@mixin texts {
+
+    padding-top: 1rem;
+
+    p {
+        max-width: 1000px;
+        margin: 2rem 0;
+        font-size: 15px;
+        line-height: 30px;
+    }
+
+    .title {
+        font-weight: bold;
+        font-size: 32px;
+    }
+
+    .middleTitle {
+        font-weight: bold;
+        font-size: 25px;
+    }
+    
+    .miniTitle {
+        font-weight: bold;
+        margin-top: 1rem;
+        font-size: 18px;
+    }
+    
+    .texts {
+        margin-top: 10px;
+        font-size: 15px;
+    }
+    
+    .code {
+        width: 100%;
+        overflow: auto;
+        overflow-wrap: break-word;
+        font-family: monospace;
+        font-size: 0.8rem;
+        max-width: 800px;
+        display: block;
+        border-radius: 10px;
+        background-color: #333333;
+        color: white;
+        padding: 20px;
+        margin: 1rem 0 2rem 0;
+    }
+}

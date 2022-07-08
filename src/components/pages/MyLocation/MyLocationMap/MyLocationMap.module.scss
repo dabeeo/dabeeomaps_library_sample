@@ -1,0 +1,29 @@
+@import '../../../../styles/btns';
+
+.myLocationMap {
+    position: relative;
+    width: 800px;
+    height: 300px;
+    margin-bottom: 100px;
+
+    .locationPos {
+        z-index: 10;
+        position: absolute;
+        left: 1rem;
+        top: 1rem;
+
+        input {
+            width: 100px;
+            margin-right: 3px;
+        }
+    }
+
+    .showLocation,
+    .hideLocation {
+        @include btns;
+    }
+
+    .hideLocation {
+        top: 4rem;
+    }
+}

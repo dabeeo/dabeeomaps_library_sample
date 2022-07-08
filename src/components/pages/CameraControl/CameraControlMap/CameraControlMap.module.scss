@@ -1,0 +1,59 @@
+@import '../../../../styles/btns';
+
+.cameraControlMap {
+    width : 800px;
+    height: 300px;
+    margin-bottom: 100px;
+    position: relative;
+
+    .cameraSelect {
+        position: absolute;
+        z-index: 10;
+        top: 1rem;
+        left: 1rem;
+        width: 150px;
+        height: 30px;
+    }
+
+    .moveToItem {
+        position: absolute;
+        z-index: 10;
+        top: 3rem;
+        left: 1rem;
+        width: 100%;
+
+        input {
+            width: 100px;
+            margin-right: 5px;
+        }
+
+        .moveToBtn {
+            @include btns;
+            margin-right: 1rem;
+        }
+    }
+
+    .reset {
+        @include btns;
+        display: none;
+    }
+
+    .cameraSet {
+        position: absolute;
+        z-index: 10;
+        top: 3rem;
+        left: 1rem;
+        width: 100%;
+        display: none;
+
+        input {
+            width: 100px;
+            margin-right: 5px;
+        }
+
+        .setBtn {
+            @include btns;
+            margin-right: 1rem;
+        }
+    }
+}

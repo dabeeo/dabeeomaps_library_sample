@@ -1,0 +1,23 @@
+@import '../../../../styles/btns';
+
+.domTagMap {
+    width : 800px;
+    height: 300px;
+    margin-bottom: 100px;
+    position: relative;
+
+    .poiTag,
+    .markerTag,
+    .deletePoiTag,
+    .deleteMarkerTag {
+        @include btns;
+    }
+
+    .markerTag {
+        margin-top: 3rem;
+    }
+
+    .deleteMarkerTag {
+        margin-top: 6rem;
+    }
+}

@@ -1,0 +1,29 @@
+@import '../../../../styles/btns';
+
+.markerMap {
+    width: 800px;
+    height: 300px;
+    padding-bottom: 100px;
+    position: relative;
+
+    .markerPos {
+        z-index: 10;
+        position: absolute;
+        left: 1rem;
+        top: 1rem;
+
+        input {
+            width: 100px;
+            margin-right: 3px;
+        }
+    }
+
+    .showMarker,
+    .hideMarker {
+        @include btns;
+    }
+
+    .hideMarker {
+        top: 4rem;
+    }
+}

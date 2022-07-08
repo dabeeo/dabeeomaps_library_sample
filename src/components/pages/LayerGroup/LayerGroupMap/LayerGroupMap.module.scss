@@ -1,0 +1,24 @@
+@import '../../../../styles/btns';
+
+.layerGroupMap {
+    position: relative;
+    width: 800px;
+    height: 300px;
+    margin-bottom: 100px;
+
+    .input {
+        position: absolute;
+        top: 1rem;
+        left: 1rem;
+        z-index: 10;
+    }
+
+    .hideBtn,
+    .showBtn {
+        @include btns;
+    }
+
+    .showBtn {
+        top: 4rem;
+    }
+}

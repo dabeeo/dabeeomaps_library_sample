@@ -1,0 +1,17 @@
+@import '../../../../styles/btns';
+
+.dimensionMap {
+    width : 800px;
+    height: 300px;
+    margin-bottom: 100px;
+    position: relative;
+
+    .dimension2D,
+    .dimension3D {
+        @include btns;
+    }
+
+    .dimension3D {
+        margin-top: 3rem;
+    }
+}

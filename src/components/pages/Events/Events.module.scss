@@ -1,0 +1,6 @@
+@import '../../../styles/texts';
+
+.events {
+    @include texts;
+    margin-bottom: 100px;
+}
