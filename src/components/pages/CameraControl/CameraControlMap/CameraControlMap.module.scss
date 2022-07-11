@@ -56,4 +56,33 @@
             margin-right: 1rem;
         }
     }
+
+    .zoomSet {
+        position: absolute;
+        z-index: 10;
+        left: 1rem;
+        width: 100%;
+        display: none;
+
+        input {
+            width: 100px;
+            margin-top: 3rem;
+            margin-right: 5px;
+        }
+
+        .changeZoomBtn,
+        .zoomIn,
+        .zoomOut {
+            @include btns;
+            margin-right: 1rem;
+        }
+
+        .zoomIn {
+            margin-top: 3rem;
+        }
+
+        .zoomOut {
+            margin-top: 6rem;
+        }
+    }
 }

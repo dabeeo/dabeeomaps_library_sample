@@ -32,6 +32,15 @@ map.control.set(control);
 `}
                 </code>
             </pre>
+            <div className={styles.text}>You can also edit zoom by using the method below.</div>
+            <pre>
+                <code className={styles.code}>
+{`dabeeoMap.control.changeZoom(number);                   // zoomLevel(percent) 100(%) is the current zoomLevel
+dabeeoMap.control.zoomIn();                             // zoom In
+dabeeoMap.control.zoomOut();                            // zoom Out
+`}
+                </code>
+            </pre>
             <div className={styles.text}>You can check the application example on the map below.</div>
         </div>
     )

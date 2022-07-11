@@ -6,6 +6,7 @@ const CameraControlMap = ({ dabeeoMaps, mapData }) => {
     const moveRef = useRef();
     const resetRef = useRef();
     const setRef = useRef();
+    const zoomRef = useRef();
     const [dabeeoMap, setDabeeoMap] = useState();
 
     useEffect(() => {
@@ -28,16 +29,25 @@ const CameraControlMap = ({ dabeeoMaps, mapData }) => {
             moveRef.current.style.display = 'block';
             resetRef.current.style.display = 'none';
             setRef.current.style.display = 'none';
+            zoomRef.current.style.display = 'none';
         }
         if (e.target.value === '2') {
             moveRef.current.style.display = 'none';
             resetRef.current.style.display = 'block';
             setRef.current.style.display = 'none';
+            zoomRef.current.style.display = 'none';
         }
         if (e.target.value === '3') {
             moveRef.current.style.display = 'none';
             resetRef.current.style.display = 'none';
             setRef.current.style.display = 'block';
+            zoomRef.current.style.display = 'none';
+        }
+        if (e.target.value === '4') {
+            moveRef.current.style.display = 'none';
+            resetRef.current.style.display = 'none';
+            setRef.current.style.display = 'none';
+            zoomRef.current.style.display = 'block';
         }
     }
 
@@ -57,13 +67,27 @@ const CameraControlMap = ({ dabeeoMaps, mapData }) => {
     function onSet() {
         const rotation = document.querySelector('.rotation').value;
         const tilt = document.querySelector('.tilt').value;
-        const zoomLevel = document.querySelector('.zoomLevel').value;
-        const control = { rotation: Number(rotation), tilt: Number(tilt), zoomLevel: Number(zoomLevel) }
+        const zoom = document.querySelector('.zoom').value;
+        const control = { rotation: Number(rotation), tilt: Number(tilt), zoom: Number(zoom) }
         dabeeoMap.control.set(control);
 
         document.querySelector('.rotation').value = '';
         document.querySelector('.tilt').value = '';
-        document.querySelector('.zoomLevel').value = '';
+        document.querySelector('.zoom').value = '';
+    }
+
+    function changeZoom() {
+        const changeZoom = document.querySelector('.changeZoom');
+        dabeeoMap.control.changeZoom(Number(changeZoom.value));
+        changeZoom.value = '';
+    }
+
+    function zoomIn() {
+        dabeeoMap.control.zoomIn();
+    }
+
+    function zoomOut() {
+        dabeeoMap.control.zoomOut();
     }
 
     return (
@@ -72,6 +96,7 @@ const CameraControlMap = ({ dabeeoMaps, mapData }) => {
                 <option value='1'>camera Move To</option>
                 <option value='2'>camera Reset</option>
                 <option value='3'>camera Set</option>
+                <option value='4'>zoom</option>
             </select>
             <div className={styles.moveToItem} ref={moveRef}>
                 <input type='text' placeholder='x' className="moveToX"></input>
@@ -82,8 +107,14 @@ const CameraControlMap = ({ dabeeoMaps, mapData }) => {
             <div className={styles.cameraSet} ref={setRef}>
                 <input type='text' placeholder='rotation' className='rotation'></input>
                 <input type='text' placeholder='tilt' className='tilt'></input>
-                <input type='text' placeholder='zoomLevel' className='zoomLevel'></input>
+                <input type='text' placeholder='zoom' className='zoom'></input>
                 <div className={styles.setBtn} onClick={onSet}>camera Set</div>
+            </div>
+            <div className={styles.zoomSet} ref={zoomRef}>
+                <input type='text' placeholder ='changeZoom' className='changeZoom'></input>
+                <div className={styles.changeZoomBtn} onClick={changeZoom}>changeZoom</div>
+                <div className={styles.zoomIn} onClick={zoomIn}>zoom In</div>
+                <div className={styles.zoomOut} onClick={zoomOut}>zoom Out</div>
             </div>
         </div>
     )

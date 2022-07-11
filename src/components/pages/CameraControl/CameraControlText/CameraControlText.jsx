@@ -19,16 +19,25 @@ map.control.moveTo(position);
             </pre>
             <div className={styles.text}>아래 메소드는 카메라에 적용된 모든 rotation, title, position값을 처음 상태로 초기화 합니다.</div>
             <code className={styles.code}>map.control.reset();</code>
-            <div className={styles.text}>아래 메소드를 호출하면 원하는 카메라의 rotation, tilt, zoomLevel을 적용시킬 수 있습니다</div>
+            <div className={styles.text}>아래 메소드를 호출하면 원하는 카메라의 rotation, tilt, zoom을 적용시킬 수 있습니다</div>
             <pre>
                 <code className={styles.code}>
 {`const control = {
     rotation : number,                                  // camera의 rotation 값
     tilt: number,                                       // camera의 tilt 값
-    zoomLevel: number                                   // camera의 zoomLevel
+    zoom: number                                        // camera의 zoom의 percent value
 };
 
 map.control.set(control);
+`}
+                </code>
+            </pre>
+            <div className={styles.text}>아래 메소드를 활용하여 zoom을 수정하실 수도 있습니다.</div>
+            <pre>
+                <code className={styles.code}>
+{`dabeeoMap.control.changeZoom(number);                   // zoomLevel(percent) 100(%)가 현재 zoomLevel 
+dabeeoMap.control.zoomIn();                             // zoom In
+dabeeoMap.control.zoomOut();                            // zoom Out
 `}
                 </code>
             </pre>
