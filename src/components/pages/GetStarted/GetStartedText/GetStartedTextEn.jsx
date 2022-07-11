@@ -20,7 +20,7 @@ const GetStartedTextEn = () => {
             <div className={styles.texts}>The code to call mapData is as follows.</div>
             <pre>
                 <code className={styles.code}>
-{`const dabeooMaps = new dabeeo.Maps();
+{`const dabeeoMaps = new dabeeo.Maps();
 
 const mapData = await dabeeoMaps.getMapData({
     clientId: [The clientId of the map to load],

@@ -20,7 +20,7 @@ const GetStartedText = () => {
             <div className={styles.texts}>mapData를 불러오는 코드는 다음과 같습니다.</div>
             <pre>
                 <code className={styles.code}>
-{`const dabeooMaps = new dabeeo.Maps();
+{`const dabeeoMaps = new dabeeo.Maps();
 
 const mapData = await dabeeoMaps.getMapData({
     clientId: [불러올 지도의 clientId],
