@@ -10,6 +10,10 @@ const MapOptionTextEn = () => {
                 <code className={styles.code}>
 {`
 let mapOptions = {
+    canvasSize: {                               // Resizes the Canvas to its width and height.
+        width: number, 
+        height: number 
+    },  
     isPoiSprite: boolean,                       // Make Poi always face-to-face. 
     language: 'ko' | 'en',                      // Initial poi language setting 
     camera: '2d' | '3d',                        // Initial camera mode 3d

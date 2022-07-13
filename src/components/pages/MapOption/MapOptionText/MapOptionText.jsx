@@ -10,6 +10,10 @@ const MapOptionText = () => {
                 <code className={styles.code}>
 {`
 let mapOptions = {
+    canvasSize: {                               // canvas의 size를 해당 width, height로 조정. 
+        width: number, 
+        height: number 
+    },  
     isPoiSprite: boolean,                       // Poi를 항상 정면으로 보이게 함. 
     language: 'ko' | 'en',                      // 초기 poi 언어 설정 
     camera: '2d' | '3d',                        // 초기 카메라 모드 3d
