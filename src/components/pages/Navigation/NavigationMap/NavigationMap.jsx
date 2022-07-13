@@ -37,7 +37,8 @@ const NavigationMap = ({ dabeeoMaps, mapData }) => {
                 canvasSize: {
                   width: 800,
                   height: 300,
-                }
+                },
+                canvasFitTo: mapContainer
             });
             const map = await dabeeoMaps.showMap(mapContainer, mapOption, mapData);
             setDabeeoMap(map);
@@ -75,10 +76,20 @@ const NavigationMap = ({ dabeeoMaps, mapData }) => {
         dabeeoMap.routeSimulation.draw(animOption);
     }
 
+    function onStop() {
+      dabeeoMap.routeSimulation.stop();
+    }
+
+    function onClear() {
+      dabeeoMap.routeSimulation.clear();
+    }
+
     return (
         <div className={styles.navigationMap} id='viewport'>
             <div className={styles.route} onClick={onRoute}>set Route</div>
             <div className={styles.navi} onClick={onNav}>on Navigation</div>
+            <div className={styles.stop} onClick={onStop}>Stop</div>
+            <div className={styles.clear} onClick={onClear}>Clear</div>
         </div>
     )
 }

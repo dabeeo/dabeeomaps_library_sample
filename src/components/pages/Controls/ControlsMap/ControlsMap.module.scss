@@ -15,12 +15,30 @@
         height: 30px;
     }
 
+    .dimension {
+        position: absolute;
+        z-index: 10;
+        right: 1rem;
+        top: 1rem;
+        display: flex;
+
+        .dimension2D,
+        .dimension3D {
+            @include btns;
+        }
+
+        .dimension2D {
+            right: 4rem;
+        }
+    }
+
     .moveToItem {
         position: absolute;
         z-index: 10;
         top: 3rem;
         left: 1rem;
         width: 100%;
+        display: none;
 
         input {
             width: 100px;

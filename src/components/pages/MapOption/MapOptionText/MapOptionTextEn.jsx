@@ -13,7 +13,8 @@ let mapOptions = {
     canvasSize: {                               // Resizes the Canvas to its width and height.
         width: number, 
         height: number 
-    },  
+    },
+    canvasFitTo: HTMLElement | null,            // If canvasFitTo is null, change the size of the renderer to the size of the HTMLelement if it is not null.
     isPoiSprite: boolean,                       // Make Poi always face-to-face. 
     language: 'ko' | 'en',                      // Initial poi language setting 
     camera: '2d' | '3d',                        // Initial camera mode 3d

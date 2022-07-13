@@ -1,8 +1,9 @@
 import { useEffect, useRef, useState } from 'react';
-import styles from './CameraControlMap.module.scss';
+import styles from './ControlsMap.module.scss';
 
-const CameraControlMap = ({ dabeeoMaps, mapData }) => {
+const ControlsMap = ({ dabeeoMaps, mapData }) => {
 
+    const dimensionRef = useRef();
     const moveRef = useRef();
     const resetRef = useRef();
     const setRef = useRef();
@@ -16,7 +17,8 @@ const CameraControlMap = ({ dabeeoMaps, mapData }) => {
                 canvasSize: {
                     width: 800,
                     height: 300,
-                }
+                },
+                canvasFitTo: mapContainer
             });
             const map = await dabeeoMaps.showMap(mapContainer, mapOption, mapData);
             setDabeeoMap(map);
@@ -26,29 +28,48 @@ const CameraControlMap = ({ dabeeoMaps, mapData }) => {
 
     function onSelectChange(e) {
         if (e.target.value === '1') {
-            moveRef.current.style.display = 'block';
+            dimensionRef.current.style.display = 'block';
+            moveRef.current.style.display = 'none';
             resetRef.current.style.display = 'none';
             setRef.current.style.display = 'none';
             zoomRef.current.style.display = 'none';
         }
         if (e.target.value === '2') {
+            dimensionRef.current.style.display = 'none';
+            moveRef.current.style.display = 'block';
+            resetRef.current.style.display = 'none';
+            setRef.current.style.display = 'none';
+            zoomRef.current.style.display = 'none';
+        }
+        if (e.target.value === '3') {
+            dimensionRef.current.style.display = 'none';
             moveRef.current.style.display = 'none';
             resetRef.current.style.display = 'block';
             setRef.current.style.display = 'none';
             zoomRef.current.style.display = 'none';
         }
-        if (e.target.value === '3') {
+        if (e.target.value === '4') {
+            dimensionRef.current.style.display = 'none';
             moveRef.current.style.display = 'none';
             resetRef.current.style.display = 'none';
             setRef.current.style.display = 'block';
             zoomRef.current.style.display = 'none';
         }
-        if (e.target.value === '4') {
+        if (e.target.value === '5') {
+            dimensionRef.current.style.display = 'none';
             moveRef.current.style.display = 'none';
             resetRef.current.style.display = 'none';
             setRef.current.style.display = 'none';
             zoomRef.current.style.display = 'block';
         }
+    }
+
+    function onDemension2D() {
+        dabeeoMap.control.changeCamera('2D');
+    }
+
+    function onDemension3D() {
+        dabeeoMap.control.changeCamera('3D');
     }
 
     function onMoveTo() {
@@ -93,11 +114,16 @@ const CameraControlMap = ({ dabeeoMaps, mapData }) => {
     return (
         <div className={styles.cameraControlMap} id='viewport'>
             <select className={styles.cameraSelect} onChange={onSelectChange}>
-                <option value='1'>camera Move To</option>
-                <option value='2'>camera Reset</option>
-                <option value='3'>camera Set</option>
-                <option value='4'>zoom</option>
+                <option value='1'>2D / 3D</option>
+                <option value='2'>camera Move To</option>
+                <option value='3'>camera Reset</option>
+                <option value='4'>camera Set</option>
+                <option value='5'>zoom</option>
             </select>
+            <div className={styles.dimension} ref={dimensionRef}>
+                <div className={styles.dimension2D} onClick={onDemension2D}>2D</div>
+                <div className={styles.dimension3D} onClick={onDemension3D}>3D</div>
+            </div>
             <div className={styles.moveToItem} ref={moveRef}>
                 <input type='text' placeholder='x' className="moveToX"></input>
                 <input type='text' placeholder='y' className='moveToY'></input>
@@ -120,4 +146,4 @@ const CameraControlMap = ({ dabeeoMaps, mapData }) => {
     )
 }
 
-export default CameraControlMap;
+export default ControlsMap;

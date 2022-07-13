@@ -1,14 +1,16 @@
-import styles from './CameraControlText.module.scss';
+import styles from './ControlsText.module.scss';
 
-const CameraControlText = () => {
+const ControlsText = () => {
     return (
         <div className={styles.cameraControlText}>
-            <div className={styles.title}>Camera Controls</div>
-            <div className={styles.miniTitle}>camera를 원하는 위치로 조정 또는 리셋시킬 수 있습니다.</div>
+            <div className={styles.title}>Controls</div>
+            <div className={styles.miniTitle}>camera를 control하여 원하는 위치를 보거나 zoom을 control 할 수 있습니다.</div>
             <p>
-                Dabeeo maps library에서는 사용자가 원하는 camera의 좌표와 rotation, title 값을 알고 있다면<br></br>
-                원하는 위치에 카메라가 위치하도록 조정할 수 있는 메소드들을 제공하고 있습니다.<br />
+                Dabeeo maps library에서는 사용자 camera를 컨트롤 하여<br></br>
+                원하는 위치에 카메라가 위치하거나 zoom을 조정할 수 있는 메소드들을 제공하고 있습니다.<br />
             </p>
+            <div className={styles.texts}>2D / 3D 전환을 원할시 아래 메소드를 이용하시면 됩니다.</div>
+            <code className={styles.code}>map.control.changeCamera("3D"); // 2D | 3D 중 원하는 차원을 입력하시면 됩니다</code>
             <div className={styles.text}>아래 메소드는 카메라를 원하는 좌표로 이동시키는 동작을 합니다.</div>
             <pre>
                 <code className={styles.code}>
@@ -35,9 +37,9 @@ map.control.set(control);
             <div className={styles.text}>아래 메소드를 활용하여 zoom을 수정하실 수도 있습니다.</div>
             <pre>
                 <code className={styles.code}>
-{`dabeeoMap.control.changeZoom(number);                   // zoomLevel(percent) 100(%)가 현재 zoomLevel 
-dabeeoMap.control.zoomIn();                             // zoom In
-dabeeoMap.control.zoomOut();                            // zoom Out
+{`map.control.changeZoom(number);                   // zoomLevel(percent) 100(%)가 현재 zoomLevel 
+map.control.zoomIn();                             // zoom In
+map.control.zoomOut();                            // zoom Out
 `}
                 </code>
             </pre>
@@ -46,4 +48,4 @@ dabeeoMap.control.zoomOut();                            // zoom Out
     )
 }
 
-export default CameraControlText;
+export default ControlsText;

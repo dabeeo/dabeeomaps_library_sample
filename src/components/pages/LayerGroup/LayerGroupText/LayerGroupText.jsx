@@ -16,25 +16,25 @@ const LayerGroupText = () => {
                 </code>
             </pre>
             <div className={styles.middleTitle}>Method</div>
-            <div className={styles.miniTitle}>findChild</div>
+            <div className={styles.miniTitle}>findItemChildCode</div>
             <div className={styles.texts}>입력받은 code의 하위 code들 반환</div>
             <pre>
                 <code className={styles.code}>
-                    layerGroup.findChildCode('A1');
+                    layerGroup.findItemChildCode('A1');
                 </code>
             </pre>
-            <div className={styles.miniTitle}>findAllChildCode</div>
+            <div className={styles.miniTitle}>findItemAllChildCode</div>
             <div className={styles.texts}>입력받은 code의 모든 하위 code들 반환</div>
             <pre>
                 <code className={styles.code}>
-                    layerGroup.findAllChildCode('A1');
+                    layerGroup.findItemAllChildCode('A1');
                 </code>
             </pre>
-            <div className={styles.miniTitle}>findParentCode</div>
+            <div className={styles.miniTitle}>findItemParentCode</div>
             <div className={styles.texts}>입력받은 code의 상위 code 반환</div>
             <pre>
                 <code className={styles.code}>
-                    layerGroup.findParentCode('A111');
+                    layerGroup.findItemParentCode('A111');
                 </code>
             </pre>
             <div className={styles.miniTitle}>findRootParent</div>

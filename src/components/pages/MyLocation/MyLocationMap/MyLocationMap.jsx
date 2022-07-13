@@ -12,7 +12,8 @@ const MyLocationMap = ({ dabeeoMaps, mapData }) => {
                 canvasSize: {
                     width: 800,
                     height: 300,
-                }
+                },
+                canvasFitTo: mapContainer
             });
             const map = await dabeeoMaps.showMap(mapContainer, mapOption, mapData);
             setDabeeoMap(map);

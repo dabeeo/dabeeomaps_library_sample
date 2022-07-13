@@ -11,7 +11,8 @@ const GetStartedMap = ({ dabeeoMaps, mapData }) => {
                 canvasSize: {
                     width: 800,
                     height: 300,
-                }
+                },
+                canvasFitTo: mapContainer
             });
             await dabeeoMaps.showMap(mapContainer, mapOption, mapData);
         }
