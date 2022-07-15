@@ -67,8 +67,8 @@ const NavigationText = () => {
             opacity: number,            //  변경하고자하는 투명도 값
             isAnimate: boolean,         //  색상 애니메이션 효과 적용 여부
             duration: number,           //  애니메이션 complete까지의 시간 ms단위로 default는 1000입니다
-            isRepeat: boolean,          //  애니메이션 반복 여부 true는 반복, false는 반복 x입니다. default는 false
-            isYoyo: boolean             //  애니메이션이 complete됬을때 isRepeat 옵션이 true인 경우 반복 방법, true인 경우 역순징행되며 default는 false입니다.
+            isRepeat: boolean,          //  애니메이션 반복 여부 true는 반복, false는 반복하지 않습니다. default는 false
+            isYoyo: boolean             //  애니메이션이 complete됬을때 isRepeat 옵션이 true인 경우 반복, false인 경우 역순 진행되며 default = false
         },
         zoom: number,                   // 애니메이션 동작 시 zoom Level
         changeFloorDelay: number        // 층 변경시 delay time

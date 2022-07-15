@@ -24,7 +24,7 @@ let mapOptions = {
     floor: string,                              // 적용할 층 정보
     theme: string,                              // 적용할 테마 정보
     showPoi: boolean,                           // map상에 poi 보여줄지 말지 결정 여부. default는 true
-    controlDrag: {                              // 지도 이동할 때 사용자의 마우스 버튼을 설정. 'left' | 'right'값을 가짐. default = 3d: right, 2d = left
+    controlDrag: {                              // 지도 이동할 때 사용자의 마우스 버튼을 설정. 3d => 우클릭, 2d => 좌클릭으로 이동됩니다. default = '3d'. 
         "3d": string,
         "2d": string
     },
