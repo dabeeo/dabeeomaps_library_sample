@@ -1,11 +1,9 @@
-import { useEffect } from 'react';
 import { Route, Routes } from 'react-router';
 import Controls from '../pages/Controls/Controls';
-import Dimension from '../pages/Dimension/Dimension';
 import DomTag from '../pages/DomTag/DomTag';
 import Events from '../pages/Events/Events';
 import GetStarted from '../pages/GetStarted/GetStarted';
-import LayerGroup from '../pages/LayerGroup/LayerGroup';
+import MapContext from '../pages/MapContext/MapContext';
 import MapOption from '../pages/MapOption/MapOption';
 import Marker from '../pages/Marker/Marker';
 import MyLocation from '../pages/MyLocation/MyLocation';
@@ -20,13 +18,12 @@ const Section = ({ lang, dabeeoMaps, mapData }) => {
             <Routes>
                 <Route path='/' element={<GetStarted lang={lang} dabeeoMaps={dabeeoMaps} mapData={mapData} />} />
                 <Route path='/mapOption' element={<MapOption lang={lang}/>} />
-                {/* <Route path='/dimension' element={<Dimension lang={lang} dabeeoMaps={dabeeoMaps} mapData={mapData}/>} /> */}
+                <Route path='/mapContext' element={<MapContext lang={lang} dabeeoMaps={dabeeoMaps} mapData={mapData}/>} />
                 <Route path='/Controls' element={<Controls lang={lang} dabeeoMaps={dabeeoMaps} mapData={mapData} />} />
                 <Route path='/navigation' element={<Navigation lang={lang} dabeeoMaps={dabeeoMaps} mapData={mapData}/>} />
                 <Route path='/marker' element={<Marker lang={lang} dabeeoMaps={dabeeoMaps} mapData={mapData}/>} />
                 <Route path='/mylocation' element={<MyLocation lang={lang} dabeeoMaps={dabeeoMaps} mapData={mapData}/>} />
                 <Route path='/domTag' element={<DomTag lang={lang} dabeeoMaps={dabeeoMaps} mapData={mapData}/>} />
-                <Route path='/layerGroup' element={<LayerGroup lang={lang} dabeeoMaps={dabeeoMaps} mapData={mapData}/>} />
                 <Route path='/events' element={<Events lang={lang}/>} />
             </Routes>
         </div>

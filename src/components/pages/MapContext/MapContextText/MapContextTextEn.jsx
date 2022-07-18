@@ -1,8 +1,8 @@
-import styles from './LayerGroupText.module.scss';
+import styles from './MapContextText.module.scss';
 
-const LayerGroupTextEn = () => {
+const MapContextTextEn = () => {
     return (
-        <div className={styles.layerGroupText}>
+        <div className={styles.mapContextText}>
             <div className={styles.title}>LayerGroup</div>
             <div className={styles.miniTitle}>groupCode function inside item</div>
             <p>
@@ -63,4 +63,4 @@ const LayerGroupTextEn = () => {
     )
 }
 
-export default LayerGroupTextEn;
+export default MapContextTextEn;

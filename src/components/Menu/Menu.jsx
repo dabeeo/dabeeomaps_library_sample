@@ -37,12 +37,12 @@ const Menu = ({ lang }) => {
             <ul className={styles.lists} id='lists'>
                 <li className={styles.listItem} style= {{ backgroundColor: 'black', color: 'white'}} data-link='' onClick={onLink}>{ lang === 'ko' ? '시작하기' : 'Get Started' }</li>
                 <li className={styles.listItem} data-link='mapOption' onClick={onLink}>{ lang === 'ko' ? '지도 옵션 정보' : 'mapOptions'}</li>
+                <li className={styles.listItem} data-link='mapContext' onClick={onLink}>Map Context</li>
                 <li className={styles.listItem} data-link='Controls' onClick={onLink}>Controls</li>
                 <li className={styles.listItem} data-link='navigation' onClick={onLink}>{ lang === 'ko' ? '길찾기' : 'Navigation'}</li>
                 <li className={styles.listItem} data-link='marker' onClick={onLink}>{ lang === 'ko' ? '마커 표시하기' : 'setMarker'}</li>
                 <li className={styles.listItem} data-link='mylocation' onClick={onLink}>{ lang === 'ko' ? '내 위치마커 표시하기' : 'myLocationOn'}</li>
                 <li className={styles.listItem} data-link='domTag' onClick={onLink}>{ lang === 'ko' ? 'HTML Element 표시하기' : 'make HTML Element'}</li>
-                <li className={styles.listItem} data-link='layerGroup' onClick={onLink}>LayerGroup</li>
                 <li className={styles.listItem} data-link='events' onClick={onLink}>Events</li>
             </ul>
         </div>
