@@ -33,7 +33,7 @@ const Menu = ({ lang }) => {
 
     return(
         <div className={styles.menu}>
-            <div className={styles.title}>Tutorial</div>
+            <div className={styles.title}>4.0 Tutorial</div>
             <ul className={styles.lists} id='lists'>
                 <li className={styles.listItem} style= {{ backgroundColor: 'black', color: 'white'}} data-link='' onClick={onLink}>{ lang === 'ko' ? '시작하기' : 'Get Started' }</li>
                 <li className={styles.listItem} data-link='mapOption' onClick={onLink}>{ lang === 'ko' ? '지도 옵션 정보' : 'mapOptions'}</li>

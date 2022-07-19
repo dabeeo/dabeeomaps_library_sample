@@ -130,7 +130,6 @@ const LayerGroupMap = ({ dabeeoMaps, mapData }) => {
                     })}
                 </select>
                 }
-                {/* <input id='layerInput' className={styles.input} type='text' placeholder='code' /> */}
                 <div className={styles.hideBtn} onClick={onHideByCode}>hide</div>
                 <div className={styles.showBtn} onClick={onShowByCode}>show</div>
             </div>

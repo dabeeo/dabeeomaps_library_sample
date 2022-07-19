@@ -75,6 +75,12 @@ const NavigationTextEn = () => {
     map.routeSimulation.draw(animOption);`}
                 </code>
             </pre>
+            <div className={styles.texts}>You can stop navigation while it is running through the following method</div>
+            <code className={styles.code}>map.routeSimulation.stop();</code>
+            <div className={styles.texts}>You can delete a route using the following method</div>
+            <code className={styles.code}>map.routeSimulation.clear();</code>
+            <div className={styles.texts}>Use getNavigation() to return a list of directions for directions.</div>
+            <code className={styles.code}>map.routeSimulation.getNavigation();</code>
         </div>
     )
 }

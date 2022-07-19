@@ -1,5 +1,7 @@
-@mixin texts {
+$fontSize: 1rem;
+$color: #fff;
 
+@mixin texts {
     padding-top: 1rem;
 
     p {
@@ -35,13 +37,35 @@
         overflow: auto;
         overflow-wrap: break-word;
         font-family: monospace;
-        font-size: 0.8rem;
+        font-size: 0.8 * $fontSize;
         max-width: 800px;
         display: block;
         border-radius: 10px;
         background-color: #333333;
-        color: white;
+        color: $color;
         padding: 20px;
-        margin: 1rem 0 2rem 0;
+        line-height: 1.15 * $fontSize;
+
+        span {
+            color: #ff5100;
+            font-weight: bold;
+            &.value {
+                font-family: monospace;
+                color: #00ff00;
+                font-weight: normal;
+            }
+            &.reserved {
+                font-weight: normal;
+                color: #00ffff;
+            }
+            &.special {
+                font-weight: normal;
+                color: #b18cf7;
+            }
+            &.comment {
+                font-weight: normal;
+                color: #cceecc;
+            }
+        }
     }
 }
