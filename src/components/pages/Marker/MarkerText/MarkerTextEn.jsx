@@ -1,6 +1,27 @@
+import { useEffect } from 'react';
 import styles from './MarkerText.module.scss';
 
 const MarkerTextEn = () => {
+
+    useEffect(() => {
+        let codeElement = document.querySelectorAll("code");
+            if (!codeElement) return;
+            codeElement.forEach((data) => {
+                let text = data.innerHTML;
+                let text1 = text.replace(/&lt;/gi, "<");
+                let text2 = text1.replace(/&gt;/gi, ">");
+                let text3 = text2.replace(/[<>]/g, `<span>$&</span>`);
+                let text4 = text3.replace(/['"]([^'"]*)["']/g, `<span class=${styles.value}>$&</span>`);
+                let text5 = text4.replace(
+                    / var | if | return| let | const | function | new | window| document| for /g,
+                    `<span class=${styles.reserved}>$&</span>`,
+                );
+                let text6 = text5.replace(/[{}()]/g, `<span class=${styles.special}>$&</span>`);
+                let text7 = text6.replace(/\/\/.+/g, `<span class=${styles.comment}>$&</span>`);
+                data.innerHTML = text7;
+            });
+    }, []);
+
     return (
         <div className={styles.markerText}>
             <div className={styles.title}>Marker</div>
@@ -55,6 +76,66 @@ const MarkerTextEn = () => {
                     map.markers.clear();
                 </code>
             </pre>
+            <div className={styles.texts}>The execution example code is as follows</div>
+            <pre>
+                <code className={styles.code}>
+{`<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <div id='viewport' class="viewport">
+    <div class="inputContainer">
+      <input type="text" placeholder="x" class="pointX" />
+      <input type='text' placeholder="y" class="pointY" />
+      <input type='text' placeholder="z" class="pointZ" />
+    </div>
+    <div class="addMarker">add</div>
+    <div class="clearMarker">clear</div>
+  </div>
+</body>
+<script type="text/javascript" src='https://assets.dabeeomaps.com/upload/library/dabeeomaps-4.0.0.js'></script>
+<script>
+  window.onload = function() {
+    const dabeeoMaps = new dabeeo.Maps();
+    dabeeoMaps.getMapData({
+      clientId: "75hb8YSnAokb-sZ04aDR91",
+      clientSecret: "0f7ad84f160c7b3fd1849a7920af718b",
+    }).then( async (mapData) => {
+      const mapOption = Object.assign({});
+      const mapContainer = document.getElementById('viewport');
+      const map = await dabeeoMaps.showMap(mapContainer, mapOption, mapData);
+
+      document.querySelector('.addMarker').addEventListener('click', function() {
+        const x = document.querySelector('.pointX').value ? Number(document.querySelector('.pointX').value) : 1000;
+        const y = document.querySelector('.pointY').value ? Number(document.querySelector('.pointY').value) : 1000;
+        const z = document.querySelector('.pointZ').value ? Number(document.querySelector('.pointZ').value) : 1000;
+
+        map.markers.draw({
+            marker: [
+                {
+                    position: { x: x, y: y, z: z },
+                    async: true,
+                    isKeep: true,
+                },
+            ],
+        })
+      });
+
+      document.querySelector('.clearMarker').addEventListener('click', function() {
+        map.markers.clear();
+      });
+    });
+  }
+</script>
+</html>`}
+                </code>
+            </pre>
+            <div className={styles.texts}>Here is a running example</div>
         </div>
     )
 }

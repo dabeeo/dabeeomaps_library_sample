@@ -7,7 +7,8 @@ const Header = ({ setLang }) => {
             <img src={LOGOIMG} className={styles.logo}></img>
             <div className={styles.documents}>
                 {/* <a className={styles.link} href='https://developers.dabeeomaps.com/jsdocs/index.html' target='_blank'>API Reference</a> */}
-                <a className={styles.link} href='https://developers.dabeeomaps.com/example/#index' target='_blank'>Examples</a>
+                {/* <a className={styles.link} href='https://developers.dabeeomaps.com/example/#index' target='_blank'>Examples</a> */}
+                <a className={styles.link} href='http://api-doc.dabeeomaps.com/' target="_blank">Documents</a>
                 <span className={styles.btn} onClick={() => setLang('en')}>ENG</span>
                 <span className={styles.btn} onClick={() => setLang('ko')}>한글</span>
             </div>

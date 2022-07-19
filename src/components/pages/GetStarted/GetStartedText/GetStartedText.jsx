@@ -91,6 +91,7 @@ const mapData = await dabeeoMaps.getMapData({
 </html>`}
                 </code>
             </pre>
+            <div className={styles.texts}>맵 예제 다음과 같습니다.</div>
         </div>
     )
 }
