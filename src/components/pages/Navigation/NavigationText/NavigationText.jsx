@@ -37,10 +37,28 @@ const NavigationText = () => {
     const naviOption = {
         lineColor:"#ff00ff",            // navigation 주행 라인의 색상을 지정
         lineSpotSize: number,           // 주행선의 점의 굵기를 지정합니다. 주행선의 속성이 점선일 경우 적용됩니다.
+        lineSpotInterval: number        // 주행선의 점간의 간격을 지정합니다. 숫자가 커질수록 실선에 가깝게 보입니다.
         lineZ : number,                 // 주행선의 z축 값을 지정합니다.
+        iconUrl: string,                // 모의주행의 icon을 지정.
+        movingWidth: number             // 모의주행의 icon의 width값을 설정합니다.
+        movingHeight: number            // 모의주행의 icon의 height값을 설정합니다.
         speedRate: number,              // 모의주행 속도 지정. 예를 들어 1.5로 지정한 경우 default대비 1.5배 속도
+        origin: {                       // 시작지 아이콘
+          iconUrl: string,              // start icon image url, "" 빈값 일때 아이콘이 사라집니다.
+          width: number,                // start icon image width
+          height: number,               // start icon image height
+        },
+        destination: {                  // 도착지 정보
+          iconUrl: string,              // destination icon image url, "" 빈값 일때 아이콘이 사라집니다.
+          width: number,                // destination icon image width
+          height: number                // destination icon image height
+        },
+        visibleIcon: boolean,           // 길찾기 경로를 표시할 때 시작지와 도착지 이미지를 보이거나 없앨 수 있습니다. Default= true
+        originPositionZ: number         // 출발지 아이콘의 z축값을 지정합니다.
+        destinationPositionZ: number    // 도착지 아이콘의 z축값을 지정합니다.
         solidLineEnabled: true,         // 주행라인의 속성을 결정합니다. false일 때는 점선, true일 때는 실선으로 그려집니다. default는 false. 
-        solidLineWidth: number          // 실선의 굵기입니다. default는 1
+        solidLineWidth: number,         // 실선의 굵기입니다. default는 1
+        moveIconZ: number,              // 모의주행 아이콘의 z축 값을 지정합니다. 입력하지 않을 경우 default값으로 자동생성 됩니다.
     }
 
     map.routeSimulation.set(naviOption);
