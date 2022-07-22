@@ -12,7 +12,10 @@ const GetStartedMap = ({ dabeeoMaps, mapData }) => {
                     width: 800,
                     height: 300,
                 },
-                canvasFitTo: mapContainer
+                canvasFitTo: mapContainer,
+                maxZoom: 700,
+                minZoom: 50,
+                theme: '5175',
             });
             await dabeeoMaps.showMap(mapContainer, mapOption, mapData);
         }

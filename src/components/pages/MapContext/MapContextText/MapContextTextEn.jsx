@@ -24,62 +24,71 @@ const MapContextTextEn = () => {
 
     return (
         <div className={styles.mapContextText}>
-            <div className={styles.title}>LayerGroup</div>
-            <div className={styles.miniTitle}>groupCode function inside item</div>
+            <div className={styles.title}>MapContext</div>
+            <div className={styles.miniTitle}>You can edit the Map using ID or code.</div>
             <p>
+                When you want to change the floor of the current map, you can change the floor using the ID of the floor you want to change.<br />
                 You can find related information by using the groupCode that each object or poi has.<br />
-                When you call a method with groupCode that needs information, you can get related information.<br />             
-                The relevant method call is.
+                When you call a method with groupCode that needs information, you can get related information.<br />
             </p>
+            <div className={styles.texts}>To switch floors, call the following method.</div>
+            <code className={styles.code}>map.context.changeFloor([변경할 층 ID]);</code>
+            <div className={styles.texts}>You can hide the POI of the corresponding ID by calling the following method.</div>
+            <code className={styles.code}>map.context.hide([POI ID]);</code>
+            <div className={styles.texts}>If you call the following method, you can show the POI of the corresponding ID.</div>
+            <code className={styles.code}>map.context.show([POI ID]);</code>
+            <div className={styles.texts}>You can delete the map by calling the following method.</div>
+            <code className={styles.code}>map.context.cleanup();</code>
+            <div className={styles.middleTitle}>GroupCode</div>
+            <div className={styles.texts}>You can get information about groupCode with the following example.</div>
             <pre>
                 <code className={styles.code}>
                     const layerGroup = map.context.getLayerGroup();
                 </code>
             </pre>
-            <div className={styles.middleTitle}>Method</div>
             <div className={styles.miniTitle}>findItemChildCode</div>
-            <div className={styles.texts}>Returns the sub-codes of the input code</div>
+            <div className={styles.reserved}>Returns the sub-codes of the input code</div>
             <pre>
                 <code className={styles.code}>
-                    layerGroup.findItemChildCode('A1');
+                    layerGroup.findItemChildCode([GroupCode]);
                 </code>
             </pre>
             <div className={styles.miniTitle}>findItemAllChildCode</div>
             <div className={styles.texts}>Returns all sub-codes of the input code</div>
             <pre>
                 <code className={styles.code}>
-                    layerGroup.findItemAllChildCode('A1');
+                    layerGroup.findItemAllChildCode([GroupCode]);
                 </code>
             </pre>
             <div className={styles.miniTitle}>findItemParentCode</div>
             <div className={styles.texts}>Returns the upper code of the input code</div>
             <pre>
                 <code className={styles.code}>
-                    layerGroup.findItemParentCode('A111');
+                    layerGroup.findItemParentCode([GroupCode]);
                 </code>
             </pre>
             <div className={styles.miniTitle}>findRootParent</div>
-            <div className={styles.texts}>Returns the root code of the input code of the corresponding groupCode</div>
+            <div className={styles.texts}>Returns the root code of the input code</div>
             <pre>
                 <code className={styles.code}>
-                    layerGroup.findRootParent('A111');
+                    layerGroup.findRootParent([GroupCode]);
                 </code>
             </pre>
             <div className={styles.miniTitle}>showByCode</div>
             <div className={styles.texts}>The object with the groupCode of the input code and all its sub-elements are displayed on the map.</div>
             <pre>
                 <code className={styles.code}>
-                    map.context.showByCode('A1');
+                    map.context.showByCode([GroupCode]);
                 </code>
             </pre>
             <div className={styles.miniTitle}>hideByCode</div>
-            <div className={styles.texts}>Hide the object with the groupCode of the input code and all its sub-elements from the map.</div>
+            <div className={styles.texts}>The object with the groupCode of the input code and all its sub-elements are hidden from the map.</div>
             <pre>
                 <code className={styles.code}>
-                    map.context.hideByCode('A1');
+                    map.context.hideByCode([GroupCode]);
                 </code>
             </pre>
-            <div className={styles.texts}>The execution example code is as follows</div>
+            <div className={styles.texts}>Here is the running example code.</div>
             <pre>
                 <code className={styles.code}>
 {`<!DOCTYPE html>
@@ -208,6 +217,7 @@ const MapContextTextEn = () => {
                 </code>
             </pre>
             <div className={styles.texts}>A running example is</div>
+            
         </div>
     )
 }

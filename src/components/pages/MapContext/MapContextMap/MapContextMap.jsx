@@ -96,6 +96,10 @@ const LayerGroupMap = ({ dabeeoMaps, mapData }) => {
         }
     }
 
+    function onCleanUp() {
+        dabeeoMap.context.cleanup();
+    }
+
     return (
         <div className={styles.layerGroupMap} id='viewport' onChange={onChange}>
             <select className={styles.contextSelector}>
@@ -133,6 +137,7 @@ const LayerGroupMap = ({ dabeeoMaps, mapData }) => {
                 <div className={styles.hideBtn} onClick={onHideByCode}>hide</div>
                 <div className={styles.showBtn} onClick={onShowByCode}>show</div>
             </div>
+            <div className={styles.cleanup} onClick={onCleanUp}>cleanup</div>
         </div>
     )
 }

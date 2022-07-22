@@ -32,15 +32,12 @@ let mapOptions = {
     rotationMouse2d: boolean,                   // Determines whether the user will enable/disable rotation with the mouse in 2d.
     controlZoom: boolean,                       // Determines whether the user will enable/disable map zoom with the mouse wheel.
     poiLevel: any[],                            // Set to show according to the map zoom percentage set according to the poi importance. ex) poiLevel = 50 => Set to show from zoom 50 or higher
-    isPoiAngle: boolean,                        // Please use isPoiSprite instead of isPoiAngle to use the function of looking forward to the poi. Determining whether the poi is always facing forward even if the angle of the map is changed in indoor map 3d mode.
-    splitScreen: number,                        // Split screen. max = 4
     fontWeight: {                               // Poi Title font style
         normal: number,                         // poi title font normal default = 1(100%)
         bold: number                            // poi title font bold default = 1(100%)
     },
     poiSpriteKeppRotation: boolean,             // Whether to keep original angle when drawing with POI sprite
     panningPercent: number,                     // Percentage that the camera can move relative to groupBox3 (0.05 to 1)
-    useMinMap: boolean,                         // Whether to use the minimap default is false
     tiltLimitAngle: number,                     // Set the tilt threshold.
     center: {                                   // initial center coordinates
         x: number,                              // coordinates x in the map
