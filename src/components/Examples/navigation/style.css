@@ -1,0 +1,36 @@
+.viewport {
+  width: 1000px;
+  height: 500px;
+  position: relative;
+}
+
+.routeBtn,
+.navBtn,
+.stopBtn,
+.clearBtn {
+  padding: 5px;
+  border: 1px solid black;
+  border-radius: 8px;
+  position: absolute;
+  z-index: 10;
+}
+
+.routeBtn {
+  top: 1rem;
+  right: 1rem;
+}
+
+.navBtn {
+  top: 3rem;
+  right: 1rem;
+}
+
+.stopBtn {
+  top: 5rem;
+  right: 1rem;
+}
+
+.clearBtn {
+  top: 7rem;
+  right: 1rem;
+}

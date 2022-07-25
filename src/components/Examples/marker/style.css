@@ -1,0 +1,19 @@
+.viewport {
+  width: 1000px;
+  height: 500px;
+}
+
+.inputContainer {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  z-index: 10;
+}
+
+.addBtn,
+.clearBtn {
+  position: absolute;
+  top: 3rem;
+  left: 1rem;
+  z-index: 10;
+}

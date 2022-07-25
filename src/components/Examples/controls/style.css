@@ -1,0 +1,62 @@
+.moveTo,
+.resetBtn,
+.set,
+.zoomIn,
+.zoomOut {
+  padding: 5px;
+  border: 1px solid black;
+  border-radius: 8px;
+}
+
+.viewport {
+  width: 1000px;
+  height: 500px;
+}
+
+.dimensionSelect {
+  position: absolute;
+  width: 100px;
+  height: 30px;
+  top: 1rem;
+  left: 1rem;
+  z-index: 10;
+}
+
+.moveToContainer {
+  position: absolute;
+  top: 3rem;
+  left: 1rem;
+  z-index: 10;
+  display: flex;
+}
+
+.resetBtn {
+  position: absolute;
+  top: 5rem;
+  left: 1rem;
+  z-index: 10;
+}
+
+.setContainer {
+  position: absolute;
+  top: 7rem;
+  left: 1rem;
+  z-index: 10;
+  display: flex;
+}
+
+.changeZoomContainer {
+  position: absolute;
+  top: 9rem;
+  left: 1rem;
+  z-index: 10;
+  display: flex;
+}
+
+.zoomContainer {
+  position: absolute;
+  top: 11rem;
+  left: 1rem;
+  z-index: 10;
+  display: flex;
+}

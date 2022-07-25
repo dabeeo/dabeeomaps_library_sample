@@ -1,0 +1,53 @@
+.viewport {
+  width: 1000px;
+  height: 500px;
+  position: relative;
+}
+
+.changeFloorContainer {
+  display:flex;
+  position: absolute;
+  top: 3rem;
+  left: 1rem;
+  z-index: 10;
+}
+
+.floorBtn {
+  margin-left: 1rem;
+}
+
+.displayBy {
+  position: absolute;
+  display: flex;
+  top: 3rem;
+  left: 1rem;
+  z-index: 10;
+}
+
+.displayShow {
+  margin: 0 1rem;
+}
+
+.contextInputer {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  z-index: 10;
+}
+
+.layerContainer {
+  position: absolute;
+  top: 3rem;
+  z-index: 10;
+  width: 100vw;
+  display: none;
+}
+
+.layerInputer {
+  left: 1rem;
+}
+
+.showBtn,
+.hideBtn {
+  right: 1rem;
+}
