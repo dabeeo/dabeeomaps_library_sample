@@ -2,3 +2,30 @@
   width: 1000px;
   height: 500px;
 }
+
+.inputContainer {
+  display: flex;
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  z-index: 10;
+}
+
+.addPOI,
+.addMarker,
+.delete {
+  padding: 5px;
+  background-color: white;
+  border: 1px solid black;
+  border-radius: 8px;
+  z-index: 10;
+  margin-left: 5px;
+}
+
+.addPOI:hover,
+.addMarker:hover,
+.delete:hover {
+  cursor: pointer;
+  background-color: black;
+  color: white;
+}

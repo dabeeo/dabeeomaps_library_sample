@@ -2,10 +2,12 @@
 .resetBtn,
 .set,
 .zoomIn,
-.zoomOut {
+.zoomOut,
+.changeZoomBtn {
   padding: 5px;
   border: 1px solid black;
   border-radius: 8px;
+  background-color: white;
 }
 
 .viewport {

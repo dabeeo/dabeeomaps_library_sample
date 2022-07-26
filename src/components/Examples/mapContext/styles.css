@@ -4,50 +4,52 @@
   position: relative;
 }
 
-.changeFloorContainer {
-  display:flex;
-  position: absolute;
-  top: 3rem;
-  left: 1rem;
-  z-index: 10;
-}
-
-.floorBtn {
-  margin-left: 1rem;
-}
-
-.displayBy {
-  position: absolute;
-  display: flex;
-  top: 3rem;
-  left: 1rem;
-  z-index: 10;
-}
-
-.displayShow {
-  margin: 0 1rem;
-}
-
 .contextInputer {
   position: absolute;
   top: 1rem;
   left: 1rem;
   z-index: 10;
+  width: 100px;
+  height: 30px;
 }
 
+.changeFloorContainer,
+.displayBy,
 .layerContainer {
+  display:flex;
+  align-items: center;
   position: absolute;
-  top: 3rem;
-  z-index: 10;
-  width: 100vw;
-  display: none;
-}
-
-.layerInputer {
+  top: 50px;
   left: 1rem;
+  z-index: 10;
+  width: 100px;
+  height: 30px;
 }
 
+.changeFloorInputer,
+.displayInputer,
+.layerInputer {
+  height: 100%;
+}
+
+.floorBtn,
+.displayShow,
+.displayHide,
 .showBtn,
 .hideBtn {
-  right: 1rem;
+  border: 1px solid black;
+  background-color: white;
+  border-radius: 8px;
+  padding: 5px;
+  margin-left: 8px;
+}
+
+.floorBtn:hover,
+.displayShow:hover,
+.displayHide:hover,
+.showBtn:hover,
+.hideBtn:hover {
+  background-color: black;
+  color: white;
+  cursor: pointer;
 }

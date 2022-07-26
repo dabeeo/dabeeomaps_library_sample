@@ -9,10 +9,12 @@
 </head>
 <body>
   <div id='viewport' class="viewport">
-    <div class="routeBtn">Route</div>
-    <div class="navBtn">Navigation</div>
-    <div class="stopBtn">Stop</div>
-    <div class="clearBtn">Clear</div>
+    <div class="inputContainer">
+      <div class="routeBtn">Route</div>
+      <div class="navBtn">Navigation</div>
+      <div class="stopBtn">Stop</div>
+      <div class="clearBtn">Clear</div>
+    </div>
   </div>
 </body>
 <script type="text/javascript" src='https://assets.dabeeomaps.com/upload/library/dabeeomaps-4.0.0.js'></script>
@@ -25,7 +27,7 @@
       clientSecret: "0f7ad84f160c7b3fd1849a7920af718b",
     }).then( async (mapData) => {
       const mapContainer = document.getElementById('viewport');
-      const mapOption = Object.assign({ canvasFitTo: mapContainer});
+      const mapOption = Object.assign({});
       const map = await dabeeoMaps.showMap(mapContainer, mapOption, mapData);
 
       const route = {

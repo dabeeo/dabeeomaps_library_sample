@@ -4,16 +4,29 @@
 }
 
 .inputContainer {
+  display: flex;
   position: absolute;
   top: 1rem;
   left: 1rem;
   z-index: 10;
 }
 
-.addBtn,
-.clearBtn {
-  position: absolute;
-  top: 3rem;
-  left: 1rem;
-  z-index: 10;
+input {
+  margin-left: 5px;
+}
+
+.addMarker,
+.clearMarker {
+  margin-left: 5px;
+  background-color: white;
+  border: 1px solid black;
+  padding: 5px;
+  border-radius: 8px;
+}
+
+.addMarker:hover,
+.clearMarker:hover {
+  cursor: pointer;
+  background-color: black;
+  color: white;
 }

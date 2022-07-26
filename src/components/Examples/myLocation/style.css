@@ -2,3 +2,31 @@
   width: 1000px;
   height: 500px;
 }
+
+.inputContainer {
+  display: flex;
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  z-index: 10;
+}
+
+input {
+  margin-left: 5px;
+}
+
+.addLocation,
+.removeLocation {
+  margin-left: 5px;
+  background-color: white;
+  border: 1px solid black;
+  padding: 5px;
+  border-radius: 8px;
+}
+
+.addLocation:hover,
+.removeLocation:hover {
+  cursor: pointer;
+  background-color: black;
+  color: white;
+}

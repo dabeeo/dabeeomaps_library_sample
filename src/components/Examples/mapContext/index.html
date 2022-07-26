@@ -44,21 +44,21 @@
 
       document.querySelector('.contextInputer').addEventListener('change', function(e) {
         if (e.target.value === '1') {
-          document.querySelector('.changeFloorContainer').style.display = 'block';
+          document.querySelector('.changeFloorContainer').style.display = 'flex';
           document.querySelector('.displayBy').style.display = 'none';
           document.querySelector('.layerContainer').style.display = 'none';
         }
 
         if (e.target.value === '2') {
           document.querySelector('.changeFloorContainer').style.display = 'none';
-          document.querySelector('.displayBy').style.display = 'block';
+          document.querySelector('.displayBy').style.display = 'flex';
           document.querySelector('.layerContainer').style.display = 'none';
         }
 
         if (e.target.value === '3') {
           document.querySelector('.changeFloorContainer').style.display = 'none';
           document.querySelector('.displayBy').style.display = 'none';
-          document.querySelector('.layerContainer').style.display = 'block';
+          document.querySelector('.layerContainer').style.display = 'flex';
         }
       });
 
