@@ -1,7 +1,9 @@
 import { useEffect, useState } from 'react';
+import { Route, Routes } from 'react-router';
 import styles from './app.module.scss';
 import Header from './components/Header/Header';
 import Main from './components/Main/Main';
+import Example from './components/pages/Example/Example';
 
 function App() {
   const [lang, setLang] = useState('ko');
@@ -10,8 +12,14 @@ function App() {
 
   return (
     <div className={styles.app}>
-      <Header setLang={setLang}/>
-      <Main lang={lang} dabeeoMaps={dabeeoMaps}/>
+      <Routes>
+        <Route path='*' element={<div>
+          <Header setLang={setLang}/>
+          <Main lang={lang} dabeeoMaps={dabeeoMaps}/>
+        </div>} 
+        />
+        <Route path='/example' element={<Example />} />
+      </Routes>
     </div>
   );
 }
