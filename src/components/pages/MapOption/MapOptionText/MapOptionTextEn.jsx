@@ -36,7 +36,7 @@ let mapOptions = {
         normal: number,                         // poi title font normal default = 1(100%)
         bold: number                            // poi title font bold default = 1(100%)
     },
-    poiSpriteKeppRotation: boolean,             // Whether to keep original angle when drawing with POI sprite
+    poiSpriteKeepRotation: boolean,             // Whether to keep original angle when drawing with POI sprite
     panningPercent: number,                     // Percentage that the camera can move relative to groupBox3 (0.05 to 1)
     tiltLimitAngle: number,                     // Set the tilt threshold.
     center: {                                   // initial center coordinates

@@ -39,6 +39,8 @@ const MapContextTextEn = () => {
             <code className={styles.code}>map.context.show([POI ID]);</code>
             <div className={styles.texts}>You can delete the map by calling the following method.</div>
             <code className={styles.code}>map.context.cleanup();</code>
+            <br />
+            <br />
             <div className={styles.middleTitle}>GroupCode</div>
             <div className={styles.texts}>You can get information about groupCode with the following example.</div>
             <pre>
