@@ -8,7 +8,7 @@ const Example = () => {
   function onClick(e) {
     const lists = document.getElementById('lists');
     lists.childNodes.forEach((list) => {
-      list.style.backgroundColor = 'white';
+      list.style.backgroundColor = 'whitesmoke';
       list.style.color = 'black';
       list.style.fontWeight = 'normal';
     });
