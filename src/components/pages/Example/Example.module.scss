@@ -1,31 +1,72 @@
 .example {
   width: 100vw;
   height: 100vh;
-  display: flex;
+  overflow: hidden;
 
-  .lists {
-    list-style: none;
-    width: 10%;
-    height: 100vh;
+  .header {
+    width: 100%;
+    background-color: black;
+    color: white;
+    height: 70px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    font-weight: bold;
+  }
 
-    li {
-      width: 90px;
-      height: 30px;
-      padding: 3px;
-      text-align: center;
-      line-height: 30px;
-      border-radius: 8px;
-      margin-top: 1rem;
+  .body {
+    display: flex;
 
-      &:hover {
-        cursor: pointer;
+    .lists {
+      margin: 0;
+      list-style: none;
+      width: 10%;
+      background-color: whitesmoke;
+      height: 100vh;
+  
+      li {
+        width: 90px;
+        height: 30px;
+        padding: 3px;
+        text-align: center;
+        line-height: 30px;
+        border-radius: 8px;
+        margin-top: 1rem;
+  
+        &:hover {
+          cursor: pointer;
+        }
       }
+    }
+  
+    iframe {
+      margin: 0;
+      width: 90%;
+      height: 100vh;
+      border: none;
     }
   }
 
-  iframe {
-    width: 90%;
-    height: 100vh;
-    border: none;
+  .viewCode {
+    width: 100px;
+    height: 50px;
+    background-color: black;
+    border-radius: 20px;
+    color: white;
+    position: absolute;
+    bottom: 50px;
+    right: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 100;
+    font-weight: bold;
+    text-decoration: none;
+
+    &:hover {
+      background-color: rgba(0, 0, 0, 0.7);
+      cursor: pointer;
+    }
   }
 }
