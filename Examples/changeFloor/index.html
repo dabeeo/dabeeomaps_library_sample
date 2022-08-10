@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="icon" href="../dabeeo_ci_symbol.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Get Started</title>
+    <!-- <link rel="stylesheet" href="style.css"> -->
+    <style>
+        .map {
+            width: 100vw;
+            height: 100vh;
+        }
+    </style>
+</head>
+
+<body>
+    <button type="button" class="button-menu">floor</button>
+    <select type="text" class="inline-input" name="floor">
+        <option selected value="default">default</option>
+    </select>
+    <div id='map' class="map"></div>
+</body>
+<script type="text/javascript" src='https://assets.dabeeomaps.com/upload/library/dabeeomaps-4.0-pre-release.js'></script>
+<script>
+    async function init () {
+        const dabeeoMaps = new dabeeo.Maps();
+        const mapData = await dabeeoMaps.getMapData({
+            clientId: "75hb8YSnAokb-sZ04aDR91",
+            clientSecret: "0f7ad84f160c7b3fd1849a7920af718b"
+        });
+        handleFloorInfo(mapData.mapInfo.floors);
+
+        const mapOption = Object.assign({});
+        const mapContainer = document.getElementById('map');
+        const map = await dabeeoMaps.showMap(mapContainer, mapOption, mapData);
+        initFloorMenu(map);
+    }
+
+    function handleFloorInfo (response) {
+        let floorElement = document.querySelector("[name='floor']");
+        let floorInfo = response;
+        // 옵션창에 층 추가하기
+
+        for (let index = 0; index < floorInfo.length; index++) {
+            let floor = floorInfo[index];
+            let newOption = document.createElement("option");
+            newOption.value = floor.id;
+            if (floor.defaultYn == true) {
+                newOption.selected = true; //지도에 설정된 디폴트 층을 가져옴
+            }
+            newOption.appendChild(document.createTextNode(floor.name[0].text));
+            floorElement.appendChild(newOption);
+        }
+    }
+    function initFloorMenu (map) {
+        let floorElement = document.querySelector("[name='floor']");
+        floorElement.addEventListener("change", function (e) {
+            console.log(e.target.value);
+            map.context.changeFloor(e.target.value);
+        });
+    }
+
+    init();
+</script>
+
+</html>
