@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="icon" href="../dabeeo_ci_symbol.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>change camera</title>
+    <style>
+        .map {
+            width: 100vw;
+            height: 100vh;
+        }
+    </style>
+</head>
+
+<body>
+    <button type="button" class="button-menu">camera</button>
+    <select type="text" class="inline-input" name="camera">
+        <option value="3d">3D</option>
+        <option value="2d">2D</option>
+    </select>
+    <div id='map' class="map"></div>
+</body>
+<script type="text/javascript" src='https://assets.dabeeomaps.com/upload/library/dabeeomaps-4.0-pre-release.js'></script>
+<script>
+    async function init () {
+        const dabeeoMaps = new dabeeo.Maps();
+
+        //fetch a map
+        const mapData = await dabeeoMaps.getMapData({
+            clientId: "75hb8YSnAokb-sZ04aDR91",
+            clientSecret: "0f7ad84f160c7b3fd1849a7920af718b"
+        });
+
+        // render a map
+        const mapOption = Object.assign({
+            // camera: "2d" //change camera option  when rendering a map (default : "3d")
+        });
+        const mapContainer = document.getElementById('map');
+        const map = await dabeeoMaps.showMap(mapContainer, mapOption, mapData);
+
+        //menu initialization
+        initCameraEvent(map, map.context.getMapOptions().camera);
+    }
+
+    function initCameraEvent (map, camera) {
+        let element = document.querySelector("[name='camera']");
+        element.value = camera;
+
+        element.addEventListener("change", function (e) {
+            const cameraMode = e.target.value;
+            map.control.changeCamera(cameraMode);
+        });
+    }
+
+    init();
+</script>
+
+</html>
