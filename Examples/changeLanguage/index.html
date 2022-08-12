@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <link rel="icon" href="../dabeeo_ci_symbol.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>change floor sample</title>
+    <title>change language</title>
     <style>
         .map {
             width: 100vw;
@@ -16,8 +16,9 @@
 </head>
 
 <body>
-    <button type="button" class="button-menu">floor</button>
-    <select type="text" class="inline-input" name="floor"></select>
+    <button type="button" class="button-menu">language</button>
+    <select type="text" class="inline-input" name="lang">
+    </select>
     <div id='map' class="map"></div>
 </body>
 <script type="text/javascript" src='https://assets.dabeeomaps.com/upload/library/dabeeomaps-4.0-pre-release.js'></script><!-- change to official link  -->
@@ -25,47 +26,46 @@
     async function init () {
         const dabeeoMaps = new dabeeo.Maps();
 
-        ////fetch a map
+        //fetch a map
         const mapData = await dabeeoMaps.getMapData({
             clientId: "75hb8YSnAokb-sZ04aDR91",
             clientSecret: "0f7ad84f160c7b3fd1849a7920af718b"
         });
 
-        ////menu initialization 
-        //floor data 
-        const dataFloor = mapData.dataFloor;
-        initFloorMenu(dataFloor.getFloors(), dataFloor.getDefaultFloor());
+        //language data 
+        const dataLang = mapData.dataLanguage;
+        initMenu(dataLang.getLanguage(), dataLang.getDefaultLanguage());
 
-        //// render a map
+        // render a map
         const mapOption = Object.assign({
-            // floor: "FL-vf3q07spbmsw8132" //change floor when rendering a map 
+            // language: "en" // change language when rendering a map 
         });
         const mapContainer = document.getElementById('map');
         const map = await dabeeoMaps.showMap(mapContainer, mapOption, mapData);
 
-        ////menu initialization
-        initFloorEvent(map, map.context.getMapOptions().floor);
+        //menu initialization
+        initEvent(map, map.context.getMapOptions().language);
     }
 
-    function initFloorMenu (floorInfo, mapDefaultFloor) {
-        let element = document.querySelector("[name='floor']");
+    function initMenu (langInfo, mapDataDefaultLang) {
+        let element = document.querySelector("[name='lang']");
+        // 옵션창에 층 추가하기
 
-        for (const floor of floorInfo) {
+        for (const lang of langInfo) {
             let newOption = document.createElement("option");
-            newOption.value = floor.id;
-            newOption.appendChild(document.createTextNode(floor.name[0].text));
+            newOption.value = lang.lang;
+            newOption.appendChild(document.createTextNode(lang.name));
             element.appendChild(newOption);
         }
-        element.value = mapDefaultFloor.id;
+        element.value = mapDataDefaultLang.id;
 
     }
-
-    function initFloorEvent (map, optionDefaultFloor) {
-        let element = document.querySelector("[name='floor']");
-        element.value = optionDefaultFloor;
+    function initEvent (map, optionDefaultLang) {
+        let element = document.querySelector("[name='lang']");
+        element.value = optionDefaultLang;
         element.addEventListener("change", function (e) {
-            const floor = e.target.value
-            map.context.changeFloor(floor);
+            const lang = e.target.value;
+            map.context.changeLanguage(lang);
         });
     }
 
