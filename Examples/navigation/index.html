@@ -20,11 +20,11 @@
 </head>
 
 <body>
-    <button type="button" class="button-menu" name="getRoute">get route</button>
     <button type="button" class="button-menu" name="set">draw route</button>
     <button type="button" class="button-menu" name="clear">clear route</button>
     <button type="button" class="button-menu" name="start">start animation</button>
     <button type="button" class="button-menu" name="stop">stop animation</button>
+    <div name="naviList" style="display:none;"></div>
     <div id='map' class="map"></div>
 </body>
 <script type="text/javascript" src='https://assets.dabeeomaps.com/upload/library/dabeeomaps-4.0-pre-release.js'></script><!-- change to official link  -->
@@ -40,8 +40,8 @@
         });
 
         //get route information 
-        const routeInfo = getRouteInformation(mapData);
-        console.log(routeInfo);
+        const naviResponse = getRoute(mapData);
+        console.log(naviResponse);
 
         // render a map
         const mapOption = Object.assign({
@@ -51,12 +51,32 @@
         const mapContainer = document.getElementById('map');
         const map = await dabeeoMaps.showMap(mapContainer, mapOption, mapData);
 
-        //initialize events
-        initRouteEvent(map, routeInfo);
+        //disable camera rotation with mouse
+        map.control.setOption({
+            mouseOption: {
+                enableZoom: true,
+                enableRotate: false,
+                enablePan: true,
+                enableTilt: false,
+                buttonOption: {
+                    left: 'pan',
+                    middle: 'zoom',
+                    right: 'rotate'
+                }
+            },
+            // touchOption: {
+            //     enableZoom: true,
+            //     enableRotate: false,
+            //     enablePan: true,
+            //     enableTilt: false,
+            // }
+        });
 
+        //initialize events
+        initRouteEvent(map, naviResponse);
     }
 
-    function getRouteInformation (data) {
+    function getRoute (data) {
         const routeOption = {
             origin: {
                 poiId: "PO-WgCv1-qBo8094", // 사업전략부 (11 floor)
@@ -74,23 +94,21 @@
         return (data.getRoute(routeOption));
     }
 
-    function drawRoute (map, routeInfo) {
-    }
 
-    function initRouteEvent (map, routeInfo) {
+    function initRouteEvent (map, naviResponse) {
+
         document.querySelector("[name='set']").addEventListener('click', function () {
-            const naviOption = {
-                defaultLineOption: {
-                    lineColor: "#0000ff",
-                    solidLineEnabled: true,
-                    solidLineWidth: 10,
-                }, // 기본 주행선 옵션
-            }
-            map.routeSimulation.set(routeInfo, naviOption);
+            setRoute(map, naviResponse);
+            showRouteInfo(map, naviResponse);
         });
 
         document.querySelector("[name='clear']").addEventListener('click', function () {
             map.routeSimulation.clear();
+            const element = document.querySelector("[name='naviList']");
+            element.style.display = "none";
+            element.innerHTML = "";
+
+
         })
 
         document.querySelector("[name='start']").addEventListener('click', function () {
@@ -100,8 +118,38 @@
         document.querySelector("[name='stop']").addEventListener('click', function () {
             map.routeSimulation.stop();
         })
-
     }
+    function showRouteInfo (map, naviResponse) {
+        const element = document.querySelector("[name='naviList']");
+        element.style.display = "block";
+
+        // navigation list 버튼 추가
+        naviResponse.navigationList.forEach((item) => {
+            const move = () => {
+                item.move(map); // 해당 navigation 경로로 이동하는 함수 호출
+            }
+            const button = document.createElement('button');
+            button.onclick = move;
+            button.textContent = item.title;
+            console.log(item.title);
+            // button.style.cssText = 'width: 100%; height: 2rem;';
+
+            element.appendChild(button);
+        });
+    }
+
+    function setRoute (map, naviResponse) {
+        const naviOption = {
+            defaultLineOption: {
+                lineColor: "#0000ff",
+                solidLineEnabled: true,
+                solidLineWidth: 10,
+            }, // 기본 주행선 옵션
+        }
+        map.routeSimulation.set(naviResponse, naviOption);
+    }
+
+
 
     init();
 
