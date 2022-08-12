@@ -58,10 +58,14 @@ const MarkerText = () => {
             <pre>
                 <code className={styles.code}>
 {`
-    map.markers.draw({
+    map.markers.set({
         marker: [
             {
-                position: { x: 100, y: 200, z: 10 },
+                x: 100,
+                y: 200,
+                commonOption: {
+                    positionZ: 400
+                },
                 async: true,
                 isKeep: true,
             },
@@ -70,69 +74,23 @@ const MarkerText = () => {
 `}
                 </code>
             </pre>
+            <div className={styles.texts}>아래 메소드를 호출하시면 map에 표시된 marker의 사이즈를 줌 배율에 맞게 동기화 여부를 설정할 수 있습니다.</div>
+            <pre>
+                <code className={styles.code}>
+{`map.markers.setOption(boolean)    // true or false, true는 동기화 false는 비동기화
+`}
+                </code>
+            </pre>
+            <div className={styles.texts}>아래 메소드를 호출하시면 해당 marker를 삭제할수 있습니다.</div>
+            <pre>
+                <code className={styles.code}>
+{`map.markers.clear(id | id[]);       // marker의 userData에 있는 id값 참조`}
+                </code>
+            </pre>
             <div className={styles.texts}>marker 삭제 관련 메소드는 다음과 같습니다. map상에 존재하는 모든 marker를 삭제합니다.</div>
             <pre>
                 <code className={styles.code}>
-                    map.markers.clear();
-                </code>
-            </pre>
-            <div className={styles.texts}>실행 코드 예제는 다음과 같습니다.</div>
-            <pre>
-                <code className={styles.code}>
-{`<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
-</head>
-<body>
-  <div id='viewport' class="viewport">
-    <div class="inputContainer">
-      <input type="text" placeholder="x" class="pointX" />
-      <input type='text' placeholder="y" class="pointY" />
-      <input type='text' placeholder="z" class="pointZ" />
-    </div>
-    <div class="addMarker">add</div>
-    <div class="clearMarker">clear</div>
-  </div>
-</body>
-<script type="text/javascript" src='https://assets.dabeeomaps.com/upload/library/dabeeomaps-4.0.0.js'></script>
-<script>
-  window.onload = function() {
-    const dabeeoMaps = new dabeeo.Maps();
-    dabeeoMaps.getMapData({
-      clientId: "75hb8YSnAokb-sZ04aDR91",
-      clientSecret: "0f7ad84f160c7b3fd1849a7920af718b",
-    }).then( async (mapData) => {
-      const mapOption = Object.assign({});
-      const mapContainer = document.getElementById('viewport');
-      const map = await dabeeoMaps.showMap(mapContainer, mapOption, mapData);
-
-      document.querySelector('.addMarker').addEventListener('click', function() {
-        const x = document.querySelector('.pointX').value ? Number(document.querySelector('.pointX').value) : 1000;
-        const y = document.querySelector('.pointY').value ? Number(document.querySelector('.pointY').value) : 1000;
-        const z = document.querySelector('.pointZ').value ? Number(document.querySelector('.pointZ').value) : 1000;
-
-        map.markers.draw({
-            marker: [
-                {
-                    position: { x: x, y: y, z: z },
-                    async: true,
-                    isKeep: true,
-                },
-            ],
-        })
-      });
-
-      document.querySelector('.clearMarker').addEventListener('click', function() {
-        map.markers.clear();
-      });
-    });
-  }
-</script>
-</html>`}
+                    map.markers.clearAll();
                 </code>
             </pre>
             <div className={styles.texts}>실행 예제는 다음과 같습니다.</div>

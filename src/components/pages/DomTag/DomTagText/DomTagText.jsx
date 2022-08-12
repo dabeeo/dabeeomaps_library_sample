@@ -53,16 +53,23 @@ const DomTagText = () => {
     tag.style.height = '100%';
     tag.textContent = 'test';
 
-    map.markers.draw({
+    map.markers.set({
         marker: [
             {
-                position: { x: 3000, y: 1000, z: 400 }, // 마커 위치
+                x: 100,
+                y: 200,
+                commonOption: {
+                    positionZ: 400
+                },
+                async: true,
+                isKeep: true,
                 tagInfo: {                              // 태그 정보를 담고 있는 object. 없을 경우 태그 생성안함
                     tag: tag,
                     width: 300,
                     height: 100,
                     pos: 'TOP',
                     isResize: true,
+                    floorId: 'FL-123456'
                 }
             }
         ]
@@ -78,93 +85,34 @@ const DomTagText = () => {
     tag.style.height = '100%';
     tag.textContent = 'test';
 
-    map.tag.addTag(type['poi' || 'marker'], 원하는 좌표의 POI ID 또는 marker ID, tag , 300, 200, 'TOP', true, floorId); 
+    const tagInfo = {
+        type: 'poi'       // 'poi' || 'marker',
+        tag: tag,         // HTMLElement
+        width: 300        // tag의 넓이
+        height: 200       // tag의 높이
+        pos: 'TOP'        // tag의 위치값. 'TOP' || 'BOTTOM' || 'LEFT' || 'RIGHT'
+        isResize: true    // 맵 사이즈에 변화를 줄지 말지 여부. true일 경우 맵사이즈에 동기적으로 변화함
+        floorId: 'FL-123456'   // tag가 위치할 floor의 ID,
+        id: 'PO-123456'   // 연동할 POI or marker의 ID
+    }
+
+    map.tag.set(type['poi' || 'marker'], 원하는 좌표의 POI ID 또는 marker ID, tag , 300, 200, 'TOP', true, floorId); 
     // type : 'marker' or 'poi', id, tag, width, height, pos, isResize, floorId
 `}
                 </code>
             </pre>
-            <div className={styles.texts}>마커 또는 POI와 연동된 tag를 찾고 싶다면 다음 메소드를 호출하시면 됩니다.</div>
-            <code className={styles.code}>map.tag.findTag(id) // poi 또는 marker.userData.id</code>
-            <div className={styles.texts}>tag를 삭제하는 메소드 호출은 다음과 같습니다.</div>
-            <code className={styles.code}>map.tag.removeTag(id);</code>
-            <div className={styles.texts}>전체 tag를 삭제하는 메소드는 다음과 같습니다.</div>
-            <code className={styles.code}>map.tag.removeAllTag()</code>
-            <div className={styles.texts}>실행 코드 예제는 다음과 같습니다.</div>
+            <div className={styles.texts}>아래 메소드를 호출하시면 입력한 ID와 연동된 tag를 삭제합니다.</div>
             <pre>
-                <code className={styles.code}>
-{`<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
-</head>
-<body>
-  <div id='viewport' class="viewport">
-    <div class="addPOI">addPOI</div>
-    <div class="addMarker">addMarker</div>
-    <div class="delete">delete</div>
-  </div>
-</body>
-<script type="text/javascript" src='https://assets.dabeeomaps.com/upload/library/dabeeomaps-4.0.0.js'></script>
-<script>
-  window.onload = function() {
-
-    const dabeeoMaps = new dabeeo.Maps();
-    dabeeoMaps.getMapData({
-      clientId: "75hb8YSnAokb-sZ04aDR91",
-      clientSecret: "0f7ad84f160c7b3fd1849a7920af718b",
-    }).then( async (mapData) => {
-      const mapOption = Object.assign({});
-      const mapContainer = document.getElementById('viewport');
-      const map = await dabeeoMaps.showMap(mapContainer, mapOption, mapData);
-
-      document.querySelector('.addPOI').addEventListener('click', function() {
-        const tag = document.createElement('div'); 
-        tag.style.width = '100%';
-        tag.style.height = '100%';
-        tag.style.backgroundColor = 'rgba(0, 0, 255, 1)';
-        tag.style.color = 'white';
-        tag.textContent = 'poi Tag';
-
-        map.tag.addTag('poi', 'PO-NMvw3E0pe1690', tag , 300, 100, 'LEFT', true, 'FL-t4vqgyek3jnb8146');
-      });
-
-      document.querySelector('.addMarker').addEventListener('click', function() {
-        const tag = document.createElement('div'); 
-        tag.style.width = '100%';
-        tag.style.height = '100%';
-        tag.style.backgroundColor = 'rgba(0, 255, 0, 1)';
-        tag.textContent = 'marker Tag';
-
-        map.markers.draw({
-            marker: [
-                {
-                    position: { x: 3000, y: 1000, z: 400 }, 
-                    tagInfo: {  
-                        tag: tag,
-                        width: 200,
-                        height: 200,
-                        pos: 'LEFT',
-                        isResize: true,
-                    }
-                }
-            ]
-        });
-      });
-
-      document.querySelector('.delete').addEventListener('click', function() {
-        map.markers.clear();
-        map.tag.removeAllTag();
-      });
-    });
-  }
-</script>
-</html>`}
-            </code>
-        </pre>
-            <div className={styles.texts}>해당 메소드들의 동작 예제는 다음과 같습니다.</div>
+                <code className={styles.code}>map.tag.clear(id);    // 연동된 poi나 marker의 ID를 넣으시면 됩니다.</code>
+            </pre>
+            <div className={styles.texts}>아래 메소드를 호출하시면 입력한 ID와 연동된 tag의 정보를 반환합니다</div>
+            <pre>
+                <code className={styles.code}>map.tag.find(id);    // 연동된 poi나 marker의 ID를 넣으시면 됩니다.</code>
+            </pre>
+            <div className={styles.texts}>아래 메소드를 호출하시면 모든 tag를 삭제합니다.</div>
+            <pre>
+                <code className={styles.code}>map.tag.clearAll();</code>
+            </pre>
         </div>
     )
 }

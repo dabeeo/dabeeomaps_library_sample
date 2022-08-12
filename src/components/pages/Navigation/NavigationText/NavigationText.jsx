@@ -28,74 +28,110 @@ const NavigationText = () => {
             <div className={styles.miniTitle}>지도에 출발지에서 목적지까의 경로를 설정하고 안내받을 수 있습니다.</div>
             <p>
                 지도상에 경로를 설정한 뒤 해당 경로를 드로잉하고 이동하는 모의주행 애니메이션을 설정할 수 있습니다.<br />
-                
             </p>
-            <div className={styles.texts}>dabeeoMap.routeSimulation.set을 통해 경로의 옵션을 설정할 수 있습니다.</div>
+            <div className={styles.texts}>아래 메소드를 사용해 해당 목적지까지의 경로에 대한 정보를 반환 받을 수 있습니다.</div>
             <pre>
-                <code className={styles.code}>
-                    {`
+              <code className={styles.code}>
+{`const des = {
+  origin: {
+    poiId : "PO-4JvSQCWHC2270", // 남자화장실 (11층)
+    floorId: "FL-t4vqgyek3jnb8146",
+  },
+  destination:  {
+    poiId : "PO-M02DvTVjp8449", // 회의실1 (11층)
+    floorId: "FL-t4vqgyek3jnb8146",
+  },
+  type: "recommendation",
+  waypoints: [
+    {
+      poiId : "PO-NMvw3E0pe1690", // 플랫폼사업부 회의실 (11층)
+      floorId: "FL-t4vqgyek3jnb8146",
+    },
+    {
+      poiId : "PO-WgCv1-qBo8094", // 사업전략부 (11층)
+      floorId: "FL-t4vqgyek3jnb8146",
+    }
+  ],
+}
+
+const naviResponse = mapData.getRoute(des);
+`}
+              </code>
+            </pre>
+            <div className={styles.texts}>아래 메소드를 사용해 목적지 까지의 경로를 설정할 수 있습니다.</div>
+            <pre>
+              <code className={styles.code}>
+{`  // route 설정
     const naviOption = {
-        lineColor:"#ff00ff",            // navigation 주행 라인의 색상을 지정
-        lineSpotSize: number,           // 주행선의 점의 굵기를 지정합니다. 주행선의 속성이 점선일 경우 적용됩니다.
-        lineSpotInterval: number        // 주행선의 점간의 간격을 지정합니다. 숫자가 커질수록 실선에 가깝게 보입니다.
-        lineZ : number,                 // 주행선의 z축 값을 지정합니다.
-        iconUrl: string,                // 모의주행의 icon을 지정.
-        movingWidth: number             // 모의주행의 icon의 width값을 설정합니다.
-        movingHeight: number            // 모의주행의 icon의 height값을 설정합니다.
-        speedRate: number,              // 모의주행 속도 지정. 예를 들어 1.5로 지정한 경우 default대비 1.5배 속도
-        origin: {                       // 시작지 아이콘
-          iconUrl: string,              // start icon image url, "" 빈값 일때 아이콘이 사라집니다.
-          width: number,                // start icon image width
-          height: number,               // start icon image height
-        },
-        destination: {                  // 도착지 정보
-          iconUrl: string,              // destination icon image url, "" 빈값 일때 아이콘이 사라집니다.
-          width: number,                // destination icon image width
-          height: number                // destination icon image height
-        },
-        visibleIcon: boolean,           // 길찾기 경로를 표시할 때 시작지와 도착지 이미지를 보이거나 없앨 수 있습니다. Default= true
-        originPositionZ: number         // 출발지 아이콘의 z축값을 지정합니다.
-        destinationPositionZ: number    // 도착지 아이콘의 z축값을 지정합니다.
-        solidLineEnabled: true,         // 주행라인의 속성을 결정합니다. false일 때는 점선, true일 때는 실선으로 그려집니다. default는 false. 
-        solidLineWidth: number,         // 실선의 굵기입니다. default는 1
-        moveIconZ: number,              // 모의주행 아이콘의 z축 값을 지정합니다. 입력하지 않을 경우 default값으로 자동생성 됩니다.
-    }
-
-    map.routeSimulation.set(naviOption);
-                    `}
-                </code>
-            </pre>
-            <div className={styles.texts}>map.routeSimulation.setRoute를 통해 경로를 설정할 수 있습니다. 비동기 처리하셔서 사용해야합니다.</div>
-            <pre>
-                <code className={styles.code}>
-                    {`
-    routeOption = {
-        origin: {                               // 출발지
-            poiId: [출발지 POI ID] or position: { x: number, y: number, z: number},
-            floorId: [출발지의 층 ID]
-        },
-        destination:  {                         // 도착지
-            poiId: [도착지 POI ID] or position: { x: number, y: number, z: number},
-            floorId: [도착지의 층 ID]
-        },
-        type: "recommendation",                 // 층간이동경로(recommendation - 추천, stairs - 계단, elevator - 엘리베이터)
-        waypoints: [                            // 경유지
-            {
-                poiId: [경유지 POI ID] or position: { x: number, y: number, z: number},
-                floorId: [경유지의 층 ID]
+        origin: {
+            markerOptions: {
+                // iconUrl: 'https://assets.dabeeomaps.com/image/btn_floor_up.png',
+                width: 150,
+                height: 150,
+                positionZ: 100,
+                visibleIcon: true,
             }
-        ],
-        retResponse: boolean                    // 반환값에 대한 옵션, true로 하는 경우 소요시간과 거리 반환받음. false인 경우 소요시간만 반환받음.
+        }, // 출발지 아이콘 및 주행선
+        destination: {
+            markerOptions: {
+                // iconUrl: 'https://assets.dabeeomaps.com/image/btn_floor_up.png',
+                width: 150,
+                height: 150,
+                positionZ: 100,
+                visibleIcon: false,
+            },
+            lineOptions: {
+                lineColor: "#ffbb00",
+                solidLineEnabled: true,
+                solidLineWidth: 20,
+            },
+        }, // 도착지 아이콘 및 주행선
+        wayPoints: [
+            {
+                markerOptions: {
+                    iconUrl: 'https://assets.dabeeomaps.com/image/btn_floor_up.png',
+                    width: 150,
+                    height: 150,
+                    positionZ: 100,
+                    visibleIcon: false,
+                },
+                lineOptions: {
+                    lineColor: "#ff00ff",
+                    solidLineEnabled: true,
+                    solidLineWidth: 30,
+                },
+            },
+            {
+                markerOptions: {
+                    iconUrl: 'https://assets.dabeeomaps.com/image/btn_floor_down_on.png',
+                    width: 150,
+                    height: 150,
+                    positionZ: 100,
+                    visibleIcon: true,
+                },
+                lineOptions: {
+                    lineColor: "#00ff53",
+                    lineSpotSize: 10,
+                    lineSpotInterval: 30,
+                    lineSpotAnimate: true,
+                    lineSpotAnimateSpeed: 0.08,
+                },
+            },
+        ], // 경유지 아이콘 및 주행선
+        defaultLineOption: {
+            lineColor: "#0000ff",
+            solidLineEnabled: true,
+            solidLineWidth: 10,
+        }, // 기본 주행선 옵션
+        lineDivide: true, // 네비게이션 선 분할여부 결정 (false 인 경우, defaultLineOption 만 사용)
+        lineZ: 100,
     }
-
-    map.routeSimulation.setRoute(routeOption);
-                    `}
-                </code>
+    await map.routeSimulation.set(naviResponse, naviOption);
+`}
+              </code>
             </pre>
-            <p>
-                map.routeSimulation.draw를 통해 모의주행 애니메이션을 실행시킬 수 있습니다.<br />
-                setRoute를 통해 경로 설정 후 실행하셔야합니다.
-            </p>
+            <div className={styles.texts}>map.routeSimulation.start를 통해 모의주행 애니메이션을 실행시킬 수 있습니다.<br />
+                set을 통해 경로 설정 후 실행하셔야합니다.</div>
             <pre>
                 <code className={styles.code}>
                     {`
@@ -112,115 +148,13 @@ const NavigationText = () => {
         zoom: number,                   // 애니메이션 동작 시 zoom Level
         changeFloorDelay: number        // 층 변경시 delay time
     }
-    map.routeSimulation.draw(animOption);`}
+    map.routeSimulation.start(animOption);`}
                 </code>
             </pre>
             <div className={styles.texts}>다음 메소드를 통해 동작중인 navigation을 멈추실 수 있습니다.</div>
             <code className={styles.code}>map.routeSimulation.stop();</code>
             <div className={styles.texts}>다음 메소드를 통해 route를 삭제하실 수 있습니다</div>
             <code className={styles.code}>map.routeSimulation.clear();</code>
-            <div className={styles.texts}>실행 예제 코드는 다음과 같습니다.</div>
-            <pre>
-                <code className={styles.code}>
-{`<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
-  <link rel="stylesheet" href="style.css">
-</head>
-<body>
-  <div id='viewport' class="viewport">
-    <div class="routeBtn">Route</div>
-    <div class="navBtn">Navigation</div>
-    <div class="stopBtn">Stop</div>
-    <div class="clearBtn">Clear</div>
-  </div>
-</body>
-<script type="text/javascript" src='https://assets.dabeeomaps.com/upload/library/dabeeomaps-4.0.0.js'></script>
-<script>
-  window.onload = function() {
-
-    const dabeeoMaps = new dabeeo.Maps();
-    dabeeoMaps.getMapData({
-      clientId: "75hb8YSnAokb-sZ04aDR91",
-      clientSecret: "0f7ad84f160c7b3fd1849a7920af718b",
-    }).then( async (mapData) => {
-      const mapContainer = document.getElementById('viewport');
-      const mapOption = Object.assign({ canvasFitTo: mapContainer});
-      const map = await dabeeoMaps.showMap(mapContainer, mapOption, mapData);
-
-      const route = {
-        origin: {
-          poiId : "PO-4JvSQCWHC2270", // 남자화장실 (11층)
-          floorId: "FL-t4vqgyek3jnb8146"
-        },
-        destination:  {
-          poiId : "PO-M02DvTVjp8449", // 회의실1 (11층)
-          floorId: "FL-t4vqgyek3jnb8146"
-        },
-        type: "recommendation",
-        // type: "stairs",
-        // type: "elevator",
-        waypoints: [
-          {
-            poiId : "PO-NMvw3E0pe1690", // 플랫폼사업부 회의실 (11층)
-            floorId: "FL-t4vqgyek3jnb8146"
-          },
-          {
-            poiId : "PO-bG8eepPeB2502", // 여자화장실 (2층)
-            floorId: "FL-vf3q07spbmsw8132" 
-          }
-        ],
-        retResponse: true
-      }
-
-      document.querySelector('.routeBtn').addEventListener('click', function() {
-        const naviOption = {
-            lineColor:"#ff00ff",
-            lineSpotSize: 12,
-            lineZ : 200,
-            speedRate: 50,
-            solidLineEnabled: true,
-            solidLineWidth: 3
-        }
-
-        map.routeSimulation.set(naviOption);
-        map.routeSimulation.setRoute(route);
-      });
-
-      document.querySelector('.navBtn').addEventListener('click', function() {
-        const animOption = {
-            destOption:{
-                activeDest: true,
-                color: "#00ffff",
-                opacity: 0.3,
-                isAnimate: true,
-                duration: 1200,
-                isRepeat: true,
-                isYoyo: false
-            },
-        };
-
-        map.routeSimulation.draw(animOption);
-      });
-
-      document.querySelector('.stopBtn').addEventListener('click', function() {
-        map.routeSimulation.stop();
-      });
-
-      document.querySelector('.clearBtn').addEventListener('click', function() {
-        map.routeSimulation.clear();
-      })
-    });
-
-  }
-</script>
-</html>`}
-                </code>
-            </pre>
             <div className={styles.texts}>getNavigation()을 사용하시면 길찾기의 경로 리스트를 반환 받으실 수 있습니다.</div>
             <code className={styles.code}>map.routeSimulation.getNavigation();</code>
             <div className={styles.texts}>아래 지도에서 테스트를 해보실 수 있습니다.</div>

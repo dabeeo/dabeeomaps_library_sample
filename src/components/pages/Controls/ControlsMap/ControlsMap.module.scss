@@ -1,106 +1,32 @@
-@import '../../../../styles/btns';
-
-.cameraControlMap {
-    width : 800px;
-    height: 300px;
-    margin-bottom: 100px;
+.viewport {
+    width: 1000px;
+    height: 500px;
     position: relative;
 
-    .cameraSelect {
-        position: absolute;
-        z-index: 20;
-        top: 1rem;
-        left: 1rem;
-        width: 150px;
+    iframe {
+        width: 100%;
+        height: 100%;
+    }
+
+    .codes{
+        width: 50px;
         height: 30px;
-    }
-
-    .dimension {
+        background-color: black;
+        border-radius: 20px;
+        color: white;
         position: absolute;
-        z-index: 10;
+        bottom: 1rem;
         right: 1rem;
-        top: 1rem;
         display: flex;
-
-        .dimension2D,
-        .dimension3D {
-            @include btns;
-        }
-
-        .dimension2D {
-            right: 4rem;
-        }
-    }
-
-    .moveToItem {
-        position: absolute;
-        z-index: 10;
-        top: 3rem;
-        left: 1rem;
-        width: 100%;
-        display: none;
-
-        input {
-            width: 100px;
-            margin-right: 5px;
-        }
-
-        .moveToBtn {
-            @include btns;
-            margin-right: 1rem;
-        }
-    }
-
-    .reset {
-        @include btns;
-        display: none;
-    }
-
-    .cameraSet {
-        position: absolute;
-        z-index: 10;
-        top: 3rem;
-        left: 1rem;
-        width: 100%;
-        display: none;
-
-        input {
-            width: 100px;
-            margin-right: 5px;
-        }
-
-        .setBtn {
-            @include btns;
-            margin-right: 1rem;
-        }
-    }
-
-    .zoomSet {
-        position: absolute;
-        z-index: 10;
-        left: 1rem;
-        width: 100%;
-        display: none;
-
-        input {
-            width: 100px;
-            margin-top: 3rem;
-            margin-right: 5px;
-        }
-
-        .changeZoomBtn,
-        .zoomIn,
-        .zoomOut {
-            @include btns;
-            margin-right: 1rem;
-        }
-
-        .zoomIn {
-            margin-top: 3rem;
-        }
-
-        .zoomOut {
-            margin-top: 6rem;
+        align-items: center;
+        justify-content: center;
+        z-index: 100;
+        font-weight: bold;
+        text-decoration: none;
+    
+        &:hover {
+          background-color: rgba(0, 0, 0, 0.7);
+          cursor: pointer;
         }
     }
 }

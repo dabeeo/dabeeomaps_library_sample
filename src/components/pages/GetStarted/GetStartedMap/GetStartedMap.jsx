@@ -1,29 +1,13 @@
-import { useEffect } from 'react';
+
 import styles from './GetStartedMap.module.scss';
 
-const GetStartedMap = ({ dabeeoMaps, mapData }) => {
-
-    useEffect(() => {
-        async function viewMap() {
-            const mapContainer = document.getElementById('viewport');
-            const mapOption = Object.assign({
-                camera: '3d', 
-                canvasSize: {
-                    width: 800,
-                    height: 300,
-                },
-                canvasFitTo: mapContainer,
-                maxZoom: 700,
-                minZoom: 50,
-                theme: '5175',
-            });
-            await dabeeoMaps.showMap(mapContainer, mapOption, mapData);
-        }
-        viewMap();
-    }, [mapData]);
+const GetStartedMap = () => {
 
     return (
-        <div className={styles.viewport} id='viewport'></div>
+        <div className={styles.viewport}>
+             <iframe src={`https://dabeeo.github.io/dabeeomaps_library_sample/Examples/getStarted/index.html`}></iframe>
+             <a className={styles.codes} href={`https://github.com/dabeeo/dabeeomaps_library_sample/blob/master/Examples/getStarted/index.html`} target='_blank'>코드</a>
+        </div>
     )
 }
 

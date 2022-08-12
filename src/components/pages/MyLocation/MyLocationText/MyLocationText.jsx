@@ -34,23 +34,24 @@ const MyLocationText = () => {
             <pre>
                 <code className={styles.code}>
 {`const locationOption = {
-    x: number,                                          // 내 위치 x 좌표
-    y: number,                                          // 내 위치 y 좌표
-    z: number,                                          // 내 위치 z 좌표
-    onActive: boolean,                                  // 타층 이동후 다시 돌아왔을 때 표시 여부
-    isKeep: boolean,                                    // 층 변경시에도 유지되는 지에 대한 여부. default값은 false
-    icon: {                                             // 내 위치 마커의 아이콘 속성
-        image: string,                                  // 내 위치 마커의 이미지
-        size: { width: number, height: number }         // 내 위치 마커 아이콘의 크기
+    x: 2500,                                                                          // 내 위치 x 좌표
+    y: 1000,                                                                          // 내 위치 y 좌표
+    commonOption: {
+      positionZ: 400,                                                                 // 내 위치 z 좌표
+      iconUrl: "https://assets.dabeeomaps.com/image/ico/img_person-3x.png",           // 내 위치 마커의 이미지
+      width: 200,                                                                     // 내 위치 마커의 넓이
+      height: 200,                                                                    // 내 위치 마커의 높이
     },
-    animate: boolean | {                                // 내 위치 마커 애니메이션 효과 속성
-        color: string,                                  // 내 위치 마커의 색상
-        opacity: number,                                // 내 위치 마커의 투명도
-        desireScale: number                             // 내 위치 마커의 최대 크기
-    }
-}
+    onActive: true,                                                                    // 타층 이동후 다시 돌아왔을 때 표시 여부
+    isKeep: true,                                                                      // 층 변경시에도 유지되는 지에 대한 여부. default값은 false
+    animate: {                                                                         // 내 위치 마커 애니메이션 효과 속성
+      color: string,                                                                   // 내 위치 마커의 색상
+      opacity: number,                                                                 // 내 위치 마커의 투명도
+      desireScale: number                                                              // 내 위치 마커의 최대 크기
+    },
+  };
 
-map.mylocation.draw(locationOption);
+map.mylocation.set(locationOption);
 `}
                 </code>
             </pre>
@@ -58,70 +59,6 @@ map.mylocation.draw(locationOption);
             <pre>
                 <code className={styles.code}>
                     map.mylocation.clear();
-                </code>
-            </pre>
-            <div className={styles.texts}>실행 예제 코드는 다음과 같습니다.</div>
-            <pre>
-                <code className={styles.code}>
-{`<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
-  <link rel="stylesheet" href="style.css">
-</head>
-<body>
-  <div id='viewport' class="viewport">
-    <div class="inputContainer">
-      <input type="text" placeholder="x" class="pointX" />
-      <input type='text' placeholder="y" class="pointY" />
-      <input type='text' placeholder="z" class="pointZ" />
-    </div>
-    <div class="addLocation">add</div>
-    <div class="removeLocation">remove</div>
-  </div>
-</body>
-<script type="text/javascript" src='https://assets.dabeeomaps.com/upload/library/dabeeomaps-4.0.0.js'></script>
-<script>
-  window.onload = function() {
-
-    const dabeeoMaps = new dabeeo.Maps();
-    dabeeoMaps.getMapData({
-      clientId: "75hb8YSnAokb-sZ04aDR91",
-      clientSecret: "0f7ad84f160c7b3fd1849a7920af718b",
-    }).then( async (mapData) => {
-      const mapOption = Object.assign({});
-      const mapContainer = document.getElementById('viewport');
-      const map = await dabeeoMaps.showMap(mapContainer, mapOption, mapData);
-
-      document.querySelector('.addLocation').addEventListener('click', function() {
-        const x = document.querySelector('.pointX').value ? Number(document.querySelector('.pointX').value) : 1000;
-        const y = document.querySelector('.pointY').value ? Number(document.querySelector('.pointY').value) : 1000;
-        const z = document.querySelector('.pointZ').value ? Number(document.querySelector('.pointZ').value) : 1000;
-
-        const location = {
-            x: x, 
-            y: y, 
-            z: z,
-            animate: {
-                color: "#00ff00",
-                opacity: 0.4,
-                desireScale: 4,
-            },
-        };
-
-        map.mylocation.draw(location);
-      });
-
-      document.querySelector('.removeLocation').addEventListener('click', function() {
-        map.mylocation.clear();
-      });
-    });
-  }
-</script>
-</html>`}
                 </code>
             </pre>
             <div className={styles.texts}>실행 예제는 다음과 같습니다.</div>
