@@ -155,8 +155,6 @@ const naviResponse = mapData.getRoute(des);
             <code className={styles.code}>map.routeSimulation.stop();</code>
             <div className={styles.texts}>다음 메소드를 통해 route를 삭제하실 수 있습니다</div>
             <code className={styles.code}>map.routeSimulation.clear();</code>
-            <div className={styles.texts}>getNavigation()을 사용하시면 길찾기의 경로 리스트를 반환 받으실 수 있습니다.</div>
-            <code className={styles.code}>map.routeSimulation.getNavigation();</code>
             <div className={styles.texts}>아래 지도에서 테스트를 해보실 수 있습니다.</div>
         </div>
     )

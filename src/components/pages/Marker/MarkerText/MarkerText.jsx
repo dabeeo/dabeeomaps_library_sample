@@ -40,18 +40,20 @@ const MarkerText = () => {
     position: {
             x: number,                      // 마커의 x좌표
             y: number,                      // 마커의 y좌표
-            z: number                       // 마커의 z좌표
     },
-    image: './img_marker_blue-3x.png',      // 아이콘 이미지
-    size: {
-        width: number,                      // 아이콘의 넓이
-        height: number                      // 아이콘의 높이 
+    commonOption: {
+        iconUrl: string,                     // marker의 이미지 url
+        width: number,                      // 마커의 넓이
+        height: number,                     // 마커의 높이
+        positionZ: number,                  // 마커의 Z좌표
+        visibleIcon: boolean                // 마커를 보여줄지 말지 여부. default = true, true일 경우 보여줌.
     },
     floorId: string,                        // 각 마커의 층을 지정. 지정하지않을 경우 현재 보이는 층에만 표시,
     data: any,                              // 마커를 클릭했을 때 반환할 정보
     async: true,                            // 마커의 크기가 줌에 관계없이 항상 동일한 크기로 보여줄지 여부. true인 경우네는 항상 동일한 크기로 보임. default 값은 false
     tagInfo: object,                        // 마커와 연동되는 dom tag정보.
-    isKeep: boolean                         // 층 변경시에도 유지되는 지에 대한 여부. default값은 false`}
+    isKeep: boolean,                        // 층 변경시에도 유지되는 지에 대한 여부. default값은 false
+`}
                 </code>
             </pre>
             <div className={styles.texts}>marker 그리는 메소드는 다음과 같습니다.</div>

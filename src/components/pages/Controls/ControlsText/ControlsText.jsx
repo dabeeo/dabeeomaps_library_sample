@@ -91,6 +91,56 @@ map.control.zoomOut();                            // zoom Out
 `}
                 </code>
             </pre>
+            <div className={styles.text}>카메라 컨트롤의 옵션을 설정합니다..</div>
+            <pre>
+                <code className={styles.code}>
+{`
+
+const option = {
+    /** 카메라 컨트롤 범위 옵션 */
+    controlRangeOption? : {
+      zoom? : {
+        min:number, 
+        max:number
+      },  
+      rotate? : {
+        min:number, 
+        max:number
+      }, 
+      pan? : {
+        min:number, 
+        max:number
+      }, 
+      tilt? : {
+        min:number, 
+        max:number
+      }, 
+    },
+    /** 마우스 컨트롤 옵션 */
+    mouseOption? : {
+      enableZoom? : boolean, 
+      enableRotate? : boolean, 
+      enablePan? : boolean,
+      enableTilt? : boolean, 
+      buttonOption? : { 
+          left : string,
+          middle : string,
+          right : string
+      }
+    },
+    /** 터치 컨트롤 옵션 */
+    touchOption? : {
+      enableZoom? : boolean,
+      enableRotate? : boolean,
+      enablePan? : boolean,
+      enableTilt? : boolean,
+    }
+  }
+
+map.control.setOption(option);                   
+`}
+                </code>
+            </pre>
             <div className={styles.text}>아래 지도에서 적용 예시를 확인해보실 수 있습니다.</div>
         </div>
     )

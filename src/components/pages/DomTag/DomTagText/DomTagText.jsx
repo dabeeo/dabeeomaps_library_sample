@@ -96,8 +96,7 @@ const DomTagText = () => {
         id: 'PO-123456'   // 연동할 POI or marker의 ID
     }
 
-    map.tag.set(type['poi' || 'marker'], 원하는 좌표의 POI ID 또는 marker ID, tag , 300, 200, 'TOP', true, floorId); 
-    // type : 'marker' or 'poi', id, tag, width, height, pos, isResize, floorId
+    map.tag.set(tagInfo); 
 `}
                 </code>
             </pre>
