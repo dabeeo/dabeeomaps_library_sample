@@ -17,8 +17,7 @@
 
 <body>
     <button type="button" class="button-menu">language</button>
-    <select type="text" class="inline-input" name="lang">
-    </select>
+    <select type="text" class="inline-input" name="lang"> </select>
     <div id='map' class="map"></div>
 </body>
 <script type="text/javascript" src='https://assets.dabeeomaps.com/upload/library/dabeeomaps-4.1.0.js'></script>
@@ -35,7 +34,7 @@
         //language data 
         const dataLang = mapData.dataLanguage;
         // default language is defined in dabeeomap editor
-        initMenu(dataLang.getLanguage(), dataLang.getDefaultLanguage());
+        initLanguageMenu(dataLang.getLanguage(), dataLang.getDefaultLanguage());
 
         // render a map
         const mapOption = Object.assign({
@@ -46,10 +45,10 @@
 
         //menu initialization
         //read language option and set language value
-        initEvent(map, map.context.getMapOptions().language);
+        initLanguageEvent(map, map.context.getMapOptions().language);
     }
 
-    function initMenu (langInfo, mapDataDefaultLang) {
+    function initLanguageMenu (langInfo, mapDataDefaultLang) {
         let element = document.querySelector("[name='lang']");
         // 옵션창에 층 추가하기
 
@@ -62,7 +61,7 @@
         element.value = mapDataDefaultLang.id;
 
     }
-    function initEvent (map, optionDefaultLang) {
+    function initLanguageEvent (map, optionDefaultLang) {
         let element = document.querySelector("[name='lang']");
         element.value = optionDefaultLang;
         element.addEventListener("change", function (e) {
