@@ -14,13 +14,13 @@
         <div class="inputContainer">
             <input type="text" placeholder="x" class="pointX" />
             <input type='text' placeholder="y" class="pointY" />
-            <input type='text' placeholder="z" class="pointZ" />
-            <div class="addMarker">add</div>
-            <div class="clearMarker">clear</div>
+            <button type="button" class="inline-input" name="set">set</button>
+            <button type="button" class="inline-input" name="clear">clear</button>
+
         </div>
     </div>
 </body>
-<script type="text/javascript" src='https://assets.dabeeomaps.com/upload/library/dabeeomaps-4.0.0.js'></script>
+<script type="text/javascript" src='https://assets.dabeeomaps.com/upload/library/dabeeomaps-4.1.0.js'></script>
 <script>
     window.onload = function () {
         const dabeeoMaps = new dabeeo.Maps();
@@ -28,28 +28,32 @@
             clientId: "75hb8YSnAokb-sZ04aDR91",
             clientSecret: "0f7ad84f160c7b3fd1849a7920af718b",
         }).then(async (mapData) => {
-            const mapOption = Object.assign({});
+            const mapOption = Object.assign({
+                camera: "2d"
+            });
             const mapContainer = document.getElementById('viewport');
             const map = await dabeeoMaps.showMap(mapContainer, mapOption, mapData);
 
-            document.querySelector('.addMarker').addEventListener('click', function () {
+            document.querySelector("[name='set']").addEventListener('click', function () {
                 const x = document.querySelector('.pointX').value ? Number(document.querySelector('.pointX').value) : 1000;
                 const y = document.querySelector('.pointY').value ? Number(document.querySelector('.pointY').value) : 1000;
-                const z = document.querySelector('.pointZ').value ? Number(document.querySelector('.pointZ').value) : 1000;
 
-                map.markers.draw({
+                map.markers.set({
                     marker: [
                         {
-                            position: { x: x, y: y, z: z },
-                            async: true,
-                            isKeep: true,
+                            x: x,
+                            y: y,
+                            commonOption: {
+                                positionZ: 400,
+                            },
                         },
                     ],
                 })
             });
 
-            document.querySelector('.clearMarker').addEventListener('click', function () {
-                map.markers.clear();
+            document.querySelector("[name='clear']").addEventListener('click', function () {
+                console.log('clear all')
+                map.markers.clearAll();
             });
         });
     }

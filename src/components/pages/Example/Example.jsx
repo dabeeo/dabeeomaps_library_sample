@@ -24,6 +24,11 @@ const Example = () => {
       <div className={styles.body}>
         <ul id='lists' className={styles.lists}>
           <li onClick={onClick} style={{ backgroundColor: 'black', color: 'white', fontWeight: 'bold'}}>getStarted</li>
+          <li onClick={onClick}>changeCamera</li>
+          <li onClick={onClick}>changeFloor</li>
+          <li onClick={onClick}>changeLanguage</li>
+          <li onClick={onClick}>groupCode</li>
+          <li onClick={onClick}>mapOption</li>
           <li onClick={onClick}>controls</li>
           <li onClick={onClick}>mapContext</li>
           <li onClick={onClick}>marker</li>

@@ -1,59 +1,65 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
-  <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
-  <div id='viewport' class="viewport">
-    <div class="inputContainer">
-      <input type="text" placeholder="x" class="pointX" />
-      <input type='text' placeholder="y" class="pointY" />
-      <input type='text' placeholder="z" class="pointZ" />
-      <div class="addLocation">add</div>
-      <div class="removeLocation">remove</div>
+    <div id='viewport' class="viewport">
+        <div class="inputContainer">
+            <input type="text" placeholder="x" class="pointX" />
+            <input type='text' placeholder="y" class="pointY" />
+            <button type="button" class="inline-input" name="set">set</button>
+            <button type="button" class="inline-input" name="clear">clear</button>
+        </div>
     </div>
-  </div>
 </body>
-<script type="text/javascript" src='https://assets.dabeeomaps.com/upload/library/dabeeomaps-4.0.0.js'></script>
+<script type="text/javascript" src='https://assets.dabeeomaps.com/upload/library/dabeeomaps-4.1.0.js'></script>
 <script>
-  window.onload = function() {
+    window.onload = function () {
 
-    const dabeeoMaps = new dabeeo.Maps();
-    dabeeoMaps.getMapData({
-      clientId: "75hb8YSnAokb-sZ04aDR91",
-      clientSecret: "0f7ad84f160c7b3fd1849a7920af718b",
-    }).then( async (mapData) => {
-      const mapOption = Object.assign({});
-      const mapContainer = document.getElementById('viewport');
-      const map = await dabeeoMaps.showMap(mapContainer, mapOption, mapData);
+        const dabeeoMaps = new dabeeo.Maps();
+        dabeeoMaps.getMapData({
+            clientId: "75hb8YSnAokb-sZ04aDR91",
+            clientSecret: "0f7ad84f160c7b3fd1849a7920af718b",
+        }).then(async (mapData) => {
+            const mapOption = Object.assign({});
+            const mapContainer = document.getElementById('viewport');
+            const map = await dabeeoMaps.showMap(mapContainer, mapOption, mapData);
 
-      document.querySelector('.addLocation').addEventListener('click', function() {
-        const x = document.querySelector('.pointX').value ? Number(document.querySelector('.pointX').value) : 1000;
-        const y = document.querySelector('.pointY').value ? Number(document.querySelector('.pointY').value) : 1000;
-        const z = document.querySelector('.pointZ').value ? Number(document.querySelector('.pointZ').value) : 1000;
+            document.querySelector('[name="set"]').addEventListener('click', function () {
+                const x = document.querySelector('.pointX').value ? Number(document.querySelector('.pointX').value) : 1000;
+                const y = document.querySelector('.pointY').value ? Number(document.querySelector('.pointY').value) : 1000;
 
-        const location = {
-            x: x, 
-            y: y, 
-            z: z,
-            animate: {
-                color: "#00ff00",
-                opacity: 0.4,
-                desireScale: 4,
-            },
-        };
+                const location = {
+                    x: x,
+                    y: y,
+                    commonOption: {
+                        positionZ: 400,
+                        iconUrl: "https://assets.dabeeomaps.com/image/ico/img_person-3x.png",
+                        width: 200,
+                        height: 200,
+                    },
+                    animate: {
+                        color: "#00ff00",
+                        opacity: 0.4,
+                        desireScale: 4,
+                    },
+                };
 
-        map.mylocation.draw(location);
-      });
+                map.mylocation.set(location);
+            });
 
-      document.querySelector('.removeLocation').addEventListener('click', function() {
-        map.mylocation.clear();
-      });
-    });
-  }
+            document.querySelector('[name="clear"]').addEventListener('click', function () {
+                map.mylocation.clear();
+            });
+        });
+    }
 </script>
+
 </html>
