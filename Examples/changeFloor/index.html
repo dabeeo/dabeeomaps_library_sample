@@ -20,7 +20,7 @@
     <select type="text" class="inline-input" name="floor"></select>
     <div id='map' class="map"></div>
 </body>
-<script type="text/javascript" src='https://assets.dabeeomaps.com/upload/library/dabeeomaps-4.0-pre-release.js'></script><!-- change to official link  -->
+<script type="text/javascript" src='https://assets.dabeeomaps.com/upload/library/dabeeomaps-4.1.0.js'></script>
 <script>
     async function init () {
         const dabeeoMaps = new dabeeo.Maps();
@@ -34,16 +34,19 @@
         ////menu initialization 
         //floor data 
         const dataFloor = mapData.dataFloor;
+
+        // default value is defined in DabeeoMap Editor 
         initFloorMenu(dataFloor.getFloors(), dataFloor.getDefaultFloor());
 
         //// render a map
         const mapOption = Object.assign({
-            // floor: "FL-vf3q07spbmsw8132" //change floor when rendering a map 
+            // floor: "FL-vf3q07spbmsw8132" // you can change floor when rendering a map 
         });
         const mapContainer = document.getElementById('map');
         const map = await dabeeoMaps.showMap(mapContainer, mapOption, mapData);
 
         ////menu initialization
+        //read floor option and set floor value
         initFloorEvent(map, map.context.getMapOptions().floor);
     }
 

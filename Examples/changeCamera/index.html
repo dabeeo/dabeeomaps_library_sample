@@ -23,7 +23,7 @@
     </select>
     <div id='map' class="map"></div>
 </body>
-<script type="text/javascript" src='https://assets.dabeeomaps.com/upload/library/dabeeomaps-4.0-pre-release.js'></script>
+<script type="text/javascript" src='https://assets.dabeeomaps.com/upload/library/dabeeomaps-4.1.0.js'></script>
 <script>
     async function init () {
         const dabeeoMaps = new dabeeo.Maps();
@@ -36,18 +36,19 @@
 
         // render a map
         const mapOption = Object.assign({
-            // camera: "2d" //change camera option  when rendering a map (default : "3d")
+            camera: "2d" // default : "3d",  you can change camera mode when rendering a map
         });
         const mapContainer = document.getElementById('map');
         const map = await dabeeoMaps.showMap(mapContainer, mapOption, mapData);
 
         //menu initialization
+        //read option and set camera value
         initCameraEvent(map, map.context.getMapOptions().camera);
     }
 
-    function initCameraEvent (map, camera) {
+    function initCameraEvent (map, optionDefaultCamera) {
         let element = document.querySelector("[name='camera']");
-        element.value = camera;
+        element.value = optionDefaultCamera;
 
         element.addEventListener("change", function (e) {
             const cameraMode = e.target.value;

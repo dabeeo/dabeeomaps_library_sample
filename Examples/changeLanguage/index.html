@@ -21,7 +21,7 @@
     </select>
     <div id='map' class="map"></div>
 </body>
-<script type="text/javascript" src='https://assets.dabeeomaps.com/upload/library/dabeeomaps-4.0-pre-release.js'></script><!-- change to official link  -->
+<script type="text/javascript" src='https://assets.dabeeomaps.com/upload/library/dabeeomaps-4.1.0.js'></script>
 <script>
     async function init () {
         const dabeeoMaps = new dabeeo.Maps();
@@ -34,16 +34,18 @@
 
         //language data 
         const dataLang = mapData.dataLanguage;
+        // default language is defined in dabeeomap editor
         initMenu(dataLang.getLanguage(), dataLang.getDefaultLanguage());
 
         // render a map
         const mapOption = Object.assign({
-            // language: "en" // change language when rendering a map 
+            // language: "en" // you can change language when rendering a map 
         });
         const mapContainer = document.getElementById('map');
         const map = await dabeeoMaps.showMap(mapContainer, mapOption, mapData);
 
         //menu initialization
+        //read language option and set language value
         initEvent(map, map.context.getMapOptions().language);
     }
 
