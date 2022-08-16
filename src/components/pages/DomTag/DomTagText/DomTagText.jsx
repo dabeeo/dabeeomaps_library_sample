@@ -58,7 +58,7 @@ const DomTagText = () => {
             {
                 x: 100,
                 y: 200,
-                commonOption: {
+                iconOption: {
                     positionZ: 400
                 },
                 async: true,

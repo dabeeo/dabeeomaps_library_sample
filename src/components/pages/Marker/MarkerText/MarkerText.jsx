@@ -38,7 +38,7 @@ const MarkerText = () => {
 {`
     x: number,                      // 마커의 x좌표
     y: number,                      // 마커의 y좌표
-    commonOption: {
+    iconOption: {
         iconUrl: string,                     // marker의 이미지 url
         width: number,                      // 마커의 넓이
         height: number,                     // 마커의 높이
@@ -62,7 +62,7 @@ const MarkerText = () => {
             {
                 x: 100,
                 y: 200,
-                commonOption: {
+                iconOption: {
                     positionZ: 400
                 },
                 async: true,

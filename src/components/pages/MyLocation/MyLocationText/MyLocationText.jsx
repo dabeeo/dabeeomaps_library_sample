@@ -36,7 +36,7 @@ const MyLocationText = () => {
 {`const locationOption = {
     x: 2500,                                                                          // 내 위치 x 좌표
     y: 1000,                                                                          // 내 위치 y 좌표
-    commonOption: {
+    iconOption: {
       positionZ: 400,                                                                 // 내 위치 z 좌표
       iconUrl: "https://assets.dabeeomaps.com/image/ico/img_person-3x.png",           // 내 위치 마커의 이미지
       width: 200,                                                                     // 내 위치 마커의 넓이
