@@ -38,7 +38,7 @@ const GetStartedText = () => {
                 3. 상세 지도 정보에서 인증접근 정보를 확인합니다.<br />
                 4. 코드에 클라이언트아이디와 클라이언트시크릿을 입력합니다.
             </p>
-            <div className={styles.texts}>mapData를 불러오는 코드는 다음과 같습니다.</div>
+            <div className={styles.texts}>맵 데이터를 불러오는 코드는 다음과 같습니다.</div>
             <pre>
                 <code className={styles.code}>
 {`const dabeeoMaps = new dabeeo.Maps();
