@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="icon" href="../dabeeo_ci_symbol.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>map context sample</title>
+    <style>
+        .map {
+            width: 100vw;
+            height: 100vh;
+        }
+    </style>
+</head>
+
+<body>
+    <button type="button" class="button-menu">language</button>
+    <select type="text" class="inline-input" name="lang"> </select>
+
+    <button type="button" class="button-menu">floor</button>
+    <select type="text" class="inline-input" name="floor"></select>
+
+    <button type="button" class="button-menu">camera</button>
+    <select type="text" class="inline-input" name="camera">
+        <option value="3d">3D</option>
+        <option value="2d">2D</option>
+    </select>
+
+    <button type="button" class="button-menu">group</button>
+    <select type="text" class="inline-input" name="group"></select>
+    <button type="button" class="inline-input" name="show">show</button>
+    <button type="button" class="inline-input" name="hide">hide</button>
+
+    <div id='map' class="map"></div>
+</body>
+<script type="text/javascript" src='https://assets.dabeeomaps.com/upload/library/dabeeomaps-4.1.0.js'></script>
+<script>
+    async function init () {
+        const dabeeoMaps = new dabeeo.Maps();
+
+        //// fetch a map
+        const mapData = await dabeeoMaps.getMapData({
+            clientId: "cmnGuxYqQkV87wHcXXOvfN",
+            clientSecret: "46a9752504f3054998b53adbfb73297e",
+        });
+
+        console.log(mapData);
+        const dataFloor = mapData.dataFloor;
+
+        const allFloors = dataFloor.getFloors();
+        console.log(allFloors);
+        // default value is defined in DabeeoMap Editor 
+        initFloorMenu(dataFloor.getFloors(), dataFloor.getDefaultFloor());
+
+        const dataPoi = mapData.dataPoi.getPois();
+        const dataObject = mapData.dataObject.getObjects();
+
+        // const groupCode = dataPoi.find("간호스테이션(소아과)", { type: 'groupCode' });
+        const resultPoi = dataPoi.filter((poi) => poi.layerGroupCode.includes("암병원_9F_Depth3_간호스테이션(서병동)"));
+        const resultObj = dataObject.filter((obj) => obj.layerGroupCode.includes("암병원_9F_Depth3_간호스테이션(서병동)"));
+        console.log(resultPoi);
+        console.log(resultObj);
+
+        // console.log(groupCode);
+
+
+
+
+        //get all of group codes
+        const dataGroupCode = mapData.dataGroupCode;
+        const groupCodeAll = dataGroupCode.findAll();
+        // console.log(groupCodeAll);
+
+        initGroupMenu(dataGroupCode.findAll());
+        const dataLang = mapData.dataLanguage;
+        // default language is defined in dabeeomap editor
+        initLanguageMenu(dataLang.getLanguage(), dataLang.getDefaultLanguage());
+
+
+        //// render a map
+        const mapOption = Object.assign({});
+        const mapContainer = document.getElementById('map');
+        const map = await dabeeoMaps.showMap(mapContainer, mapOption, mapData);
+
+        ////event listener initialization
+        initGroupEvent(map);
+        initCameraEvent(map, map.context.getMapOptions().camera);
+        initFloorEvent(map, map.context.getMapOptions().floor);
+        initLanguageEvent(map, map.context.getMapOptions().language);
+
+
+    }
+
+    function initGroupMenu (codes) {
+        const element = document.querySelector("[name='group']");
+        for (const code of codes) {
+            let newOption = document.createElement("option");
+            newOption.value = code;
+            newOption.appendChild(document.createTextNode(code));
+            element.appendChild(newOption);
+        }
+    }
+
+    function initGroupEvent (map) {
+        //show group by code 
+        document.querySelector("[name='show']").addEventListener('click', function () {
+            const code = document.querySelector("[name='group']").value;
+            map.context.showByCode(code);
+        });
+
+        //hide group by code 
+        document.querySelector("[name='hide']").addEventListener('click', function () {
+            const code = document.querySelector("[name='group']").value;
+            map.context.hideByCode(code);
+        });
+    }
+    function initCameraEvent (map, optionDefaultCamera) {
+        let element = document.querySelector("[name='camera']");
+        element.value = optionDefaultCamera;
+
+        element.addEventListener("change", function (e) {
+            const cameraMode = e.target.value;
+            map.control.changeCamera(cameraMode);
+        });
+    }
+    function initFloorMenu (floorInfo, mapDefaultFloor) {
+        let element = document.querySelector("[name='floor']");
+
+        for (const floor of floorInfo) {
+            let newOption = document.createElement("option");
+            newOption.value = floor.id;
+            newOption.appendChild(document.createTextNode(floor.name[0].text));
+            element.appendChild(newOption);
+        }
+        element.value = mapDefaultFloor.id;
+
+    }
+
+    function initFloorEvent (map, optionDefaultFloor) {
+        let element = document.querySelector("[name='floor']");
+        element.value = optionDefaultFloor;
+        element.addEventListener("change", function (e) {
+            const floor = e.target.value
+            map.context.changeFloor(floor);
+        });
+    }
+    function initLanguageMenu (langInfo, mapDataDefaultLang) {
+        let element = document.querySelector("[name='lang']");
+        // 옵션창에 층 추가하기
+
+        for (const lang of langInfo) {
+            let newOption = document.createElement("option");
+            newOption.value = lang.lang;
+            newOption.appendChild(document.createTextNode(lang.name));
+            element.appendChild(newOption);
+        }
+        element.value = mapDataDefaultLang.id;
+
+    }
+    function initLanguageEvent (map, optionDefaultLang) {
+        let element = document.querySelector("[name='lang']");
+        element.value = optionDefaultLang;
+        element.addEventListener("change", function (e) {
+            const lang = e.target.value;
+            map.context.changeLanguage(lang);
+        });
+    }
+
+    init();
+</script>
+
+</html>
