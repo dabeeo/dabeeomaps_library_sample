@@ -16,155 +16,269 @@
 </head>
 
 <body>
-    <button type="button" class="button-menu">language</button>
-    <select type="text" class="inline-input" name="lang"> </select>
 
-    <button type="button" class="button-menu">floor</button>
-    <select type="text" class="inline-input" name="floor"></select>
-
-    <button type="button" class="button-menu">camera</button>
-    <select type="text" class="inline-input" name="camera">
-        <option value="3d">3D</option>
-        <option value="2d">2D</option>
+    <button type="button" class="button-menu">building</button>
+    <select type="text" class="inline-input" name="building">
+        <option value="">전체</option>
     </select>
 
-    <button type="button" class="button-menu">group</button>
-    <select type="text" class="inline-input" name="group"></select>
-    <button type="button" class="inline-input" name="show">show</button>
-    <button type="button" class="inline-input" name="hide">hide</button>
+    <button type="button" class="button-menu">floor</button>
+    <select type="text" class="inline-input" name="floor">
+        <option value="">전체</option>
+    </select>
 
-    <div id='map' class="map"></div>
+    <button type="button" class="button-menu">zone</button>
+    <select type="text" class="inline-input" name="zone">
+        <option value="">전체</option>
+    </select>
+
+    <button type="button" class="inline-input" name="detail">상세위치</button>
+    <button type="button" class="inline-input" name="firesafe">화재안전</button>
+    <button type="button" class="inline-input" name="toxic">유해물질</button>
+
+    <!-- <div id='map' class="map"></div> -->
 </body>
-<script type="text/javascript" src='https://assets.dabeeomaps.com/upload/library/dabeeomaps-4.1.0.js'></script>
-<script>
-    async function init () {
-        const dabeeoMaps = new dabeeo.Maps();
+<!-- <script type="text/javascript" src='https://assets.dabeeomaps.com/upload/library/dabeeomaps-4.1.0.js'></script> -->
+<script type="text/javascript" src='https://assets.dabeeomaps.com/upload/library/dabeeomaps-4.0-pre-release.js'></script>
 
-        //// fetch a map
-        const mapData = await dabeeoMaps.getMapData({
-            clientId: "75hb8YSnAokb-sZ04aDR91",
-            clientSecret: "0f7ad84f160c7b3fd1849a7920af718b"
+<script>
+    const dabeeoMaps = new dabeeo.Maps();
+    let mapData = null;
+    let map = null;
+    let mapDataOutdoor = null;
+    let mapOutdoor = null;
+
+
+    async function init () {
+        // const dabeeoMaps = new dabeeo.Maps();
+
+        //// fetch a buidling map data
+        mapData = await dabeeoMaps.getMapData({
+            clientId: ,
+            clientSecret: ,
         });
 
-        console.log(mapData);
-        const dataFloor = mapData.dataFloor;
-
-        const allFloors = dataFloor.getFloors();
-        console.log(allFloors);
-        // default value is defined in DabeeoMap Editor 
-        initFloorMenu(dataFloor.getFloors(), dataFloor.getDefaultFloor());
-
-        const dataPoi = mapData.dataPoi.getPois();
-        const dataObject = mapData.dataObject.getObjects();
-
-        // const groupCode = dataPoi.find("간호스테이션(소아과)", { type: 'groupCode' });
-        const resultPoi = dataPoi.filter((poi) => poi.layerGroupCode.includes("암병원_9F_Depth3_간호스테이션(서병동)"));
-        const resultObj = dataObject.filter((obj) => obj.layerGroupCode.includes("암병원_9F_Depth3_간호스테이션(서병동)"));
-        console.log(resultPoi);
-        console.log(resultObj);
-
-        // console.log(groupCode);
+        //// fetch a outdoor map data 
+        mapDataOutDoor = await dabeeoMaps.getMapData({
+            clientId: ,
+            clientSecret: ,
+        });
 
 
+        //// render a outdoor map
+        const mapContainer = document.createElement("div");
+        mapContainer.classList.add("map");
+        document.body.appendChild(mapContainer);
 
+        const mapOption = Object.assign({
+            // set camera to 2d mode 
+            camera: "3d",
+            controlOption: {
+                rotate: 180,
+                tilt: 60,
+            }
+        });
+        mapOutdoor = await dabeeoMaps.showMap(mapContainer, mapOption, mapDataOutDoor);
 
-        //get all of group codes
-        const dataGroupCode = mapData.dataGroupCode;
-        const groupCodeAll = dataGroupCode.findAll();
-        // console.log(groupCodeAll);
+        // disable rotation
+        mapOutdoor.control.setOption({
+            mouseOption: {
+                enableRotate: false,
+                enableTilt: false,
+                enablePan: false,
+            },
+        })
 
-        initGroupMenu(dataGroupCode.findAll());
-        const dataLang = mapData.dataLanguage;
-        // default language is defined in dabeeomap editor
-        initLanguageMenu(dataLang.getLanguage(), dataLang.getDefaultLanguage());
-
-
-        //// render a map
-        const mapOption = Object.assign({});
-        const mapContainer = document.getElementById('map');
-        const map = await dabeeoMaps.showMap(mapContainer, mapOption, mapData);
-
-        ////event listener initialization
-        initGroupEvent(map);
-        initCameraEvent(map, map.context.getMapOptions().camera);
-        initFloorEvent(map, map.context.getMapOptions().floor);
-        initLanguageEvent(map, map.context.getMapOptions().language);
-
-
+        //building mapData, outdoor map context
+        initBuilding();
     }
 
-    function initGroupMenu (codes) {
-        const element = document.querySelector("[name='group']");
-        for (const code of codes) {
+    // make up building select menu 
+    let maploaded = false;
+    function initBuilding () {
+        const buildings = mapData.dataGroupCode.findRoot();
+
+        let element = document.querySelector("[name='building']");
+
+        for (const building of buildings) {
             let newOption = document.createElement("option");
-            newOption.value = code;
-            newOption.appendChild(document.createTextNode(code));
+            newOption.value = building
+            newOption.appendChild(document.createTextNode(building));
             element.appendChild(newOption);
         }
-    }
-
-    function initGroupEvent (map) {
-        //show group by code 
-        document.querySelector("[name='show']").addEventListener('click', function () {
-            const code = document.querySelector("[name='group']").value;
-            map.context.showByCode(code);
-        });
-
-        //hide group by code 
-        document.querySelector("[name='hide']").addEventListener('click', function () {
-            const code = document.querySelector("[name='group']").value;
-            map.context.hideByCode(code);
-        });
-    }
-    function initCameraEvent (map, optionDefaultCamera) {
-        let element = document.querySelector("[name='camera']");
-        element.value = optionDefaultCamera;
-
+        //select building -> init floor
         element.addEventListener("change", function (e) {
-            const cameraMode = e.target.value;
-            map.control.changeCamera(cameraMode);
+            const building = e.target.value;
+            initFloors(building)
         });
     }
-    function initFloorMenu (floorInfo, mapDefaultFloor) {
-        let element = document.querySelector("[name='floor']");
 
-        for (const floor of floorInfo) {
+    //makeup floor select menu
+    function initFloors (building) {
+        const floors = mapData.dataFloor.find(building + '_', { type: 'title' });
+
+        let element = document.querySelector("[name='floor']");
+        element.innerHTML = '<option value="">전체</option>';
+
+        for (const floor of floors) {
             let newOption = document.createElement("option");
             newOption.value = floor.id;
             newOption.appendChild(document.createTextNode(floor.name[0].text));
             element.appendChild(newOption);
         }
-        element.value = mapDefaultFloor.id;
 
-    }
+        //select floor -> init zone
+        element.addEventListener("change", async function (e) {
+            const floorId = e.target.value;
 
-    function initFloorEvent (map, optionDefaultFloor) {
-        let element = document.querySelector("[name='floor']");
-        element.value = optionDefaultFloor;
-        element.addEventListener("change", function (e) {
-            const floor = e.target.value
-            map.context.changeFloor(floor);
+            if (!maploaded) {
+                maploaded = true;
+                //clean up memory of outdoor map and container 
+                mapOutdoor.context.cleanup();
+                document.querySelector('.map').remove();
+
+                //// render a indoor map
+                const mapContainer = document.createElement("div");
+                mapContainer.classList.add("map");
+                document.body.appendChild(mapContainer);
+
+                const mapOption = Object.assign({
+                    // set camera to 2d mode 
+                    camera: "2d",
+                    floor: floorId
+                });
+                map = await dabeeoMaps.showMap(mapContainer, mapOption, mapData);
+                map.control.setOption({
+                    mouseOption: {
+                        enableRotate: false,
+                        enableTilt: false,
+                        // enablePan: false,
+                    },
+                })
+            } else {
+                await map.context.changeFloor(floorId);
+            }
+            const floorObj = mapData.dataFloor.find(floorId, { type: 'id' })
+            const floorName = floorObj.name[0].text;
+            map.context.hideByCode(floorName);
+
+            initZone(floorName);
+            initFireToxic(floorName);
+            initDetail(floorName);
+
         });
     }
-    function initLanguageMenu (langInfo, mapDataDefaultLang) {
-        let element = document.querySelector("[name='lang']");
-        // 옵션창에 층 추가하기
-
-        for (const lang of langInfo) {
-            let newOption = document.createElement("option");
-            newOption.value = lang.lang;
-            newOption.appendChild(document.createTextNode(lang.name));
-            element.appendChild(newOption);
+    function hideDepth3 (depth2, depth3) {
+        if (mapData.dataGroupCode.findChild(depth2).includes(depth3)) {
+            map.context.hideByCode(depth3);
         }
-        element.value = mapDataDefaultLang.id;
-
     }
-    function initLanguageEvent (map, optionDefaultLang) {
-        let element = document.querySelector("[name='lang']");
-        element.value = optionDefaultLang;
-        element.addEventListener("change", function (e) {
-            const lang = e.target.value;
-            map.context.changeLanguage(lang);
+    function showDepth3 (depth2, depth3) {
+        if (mapData.dataGroupCode.findChild(depth2).includes(depth3)) {
+            map.context.showByCode(depth3);
+        }
+    }
+
+    //init detail button 
+    function initDetail (depth2) {
+        const depth4 = depth2 + '_Depth4';
+        const depth3 = depth2 + '_Depth3';
+        let detailOn = true;
+        document.querySelector("[name='detail']").addEventListener('click', function () {
+            if (detailOn) {
+                hideDepth3(depth2, depth3);
+                map.context.showByCode(depth4);
+                detailOn = false;
+            } else {
+                showDepth3(depth2, depth3);
+                map.context.hideByCode(depth4);
+                detailOn = true;
+            }
+        });
+    }
+
+    //make up the zone select menu
+    function initZone (depth2) {
+        map.context.hideByCode(depth2);
+        const depth3 = depth2 + '_Depth3';
+        const depth4 = depth2 + '_Depth4';
+
+        if (mapData.dataGroupCode.findChild(depth2).includes(depth3)) {
+            map.context.showByCode(depth3);
+            const codeList = mapData.dataGroupCode.findChild(depth3);
+
+            const element = document.querySelector("[name='zone']");
+            element.innerHTML = '<option value="">전체</option>';
+
+            for (const code of codeList) {
+                let newOption = document.createElement("option");
+                newOption.value = code;
+                newOption.appendChild(document.createTextNode(code));
+                element.appendChild(newOption);
+            }
+
+            //select zone -> focus to zone
+            element.addEventListener("change", function (e) {
+                const zone = e.target.value;
+                map.context.hideByCode(depth3);
+                map.context.hideByCode(depth4);
+
+                focusToZone(zone);
+            });
+        }
+    }
+
+    // focus to zone
+    function focusToZone (zone) {
+        map.context.showByCode(zone);
+        const objects = mapData.dataObject.find(zone, { type: "groupCode" });
+        const pois = mapData.dataPoi.find(zone, { type: "groupCode" });
+        const objectIds = objects.map((object) => { return object.id; });
+        console.log(objectIds);
+
+        map.control.focusTo({
+            focus: {
+                ids: objectIds,
+                type: 'object',
+            },
+            transition: true,
+            padding: {
+                top: 20,
+                left: 20,
+                bottom: 20,
+                right: 20
+            }
+        });
+        map.control.set({
+            zoom: 200
+        });
+    }
+
+    // init firesafe and toxic button
+    function initFireToxic (depth2) {
+        const firesafe = depth2 + '_화재안전';
+        const toxic = depth2 + '_유해물질';
+
+        let firesafeOn = true;
+        document.querySelector("[name='firesafe']").addEventListener('click', function () {
+            if (firesafeOn) {
+                map.context.showByCode(firesafe);
+                firesafeOn = false;
+            } else {
+                map.context.hideByCode(firesafe);
+                firesafeOn = true;
+            }
+        });
+
+        let toxicOn = true;
+        document.querySelector("[name='toxic']").addEventListener('click', function () {
+            if (toxicOn) {
+                map.context.showByCode(toxic);
+                toxicOn = false;
+            } else {
+                map.context.hideByCode(toxic);
+                toxicOn = true;
+            }
         });
     }
 
