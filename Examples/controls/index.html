@@ -6,35 +6,43 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>control camera sample</title>
-    <link rel="stylesheet" href="style.css">
+    <!-- <link rel="stylesheet" href="style.css"> -->
+    <style>
+        .viewport {
+            width: 1000px;
+            height: 500px;
+            position: relative;
+        }
+    </style>
 </head>
 
 <body>
-    <div id='viewport' class="viewport"></div>
+    <button type="button" class="button-menu">camera</button>
     <select class="dimensionSelect">
         <option value="2D">2D</option>
         <option value="3D" selected>3D</option>
     </select>
+    <button type="button" class="resetBtn">reset</button>
+
     <div class="moveToContainer">
         <input type='text' placeholder="x" class="moveToX" />
         <input type='text' placeholder="y" class="moveToY" />
-        <div class="moveTo">moveTo</div>
+        <button type="button" class="moveTo">moveTo</button>
     </div>
-    <div class="resetBtn">reset</div>
     <div class="setContainer">
         <input type="text" placeholder="rotation" class="rotation" />
         <input type='text' placeholder="tilt" class="tilt" />
         <input type="text" placeholder="zoom" class="zoom" />
-        <div class="set">set</div>
+        <button type="button" class="set">set</button>
     </div>
     <div class="changeZoomContainer">
         <input type='text' placeholder="zoom" class="changeZoom" />
-        <div class="changeZoomBtn">changeZoom</div>
+        <button type="button" class="changeZoomBtn">changeZoom</button>
+        <button type="button" class="zoomIn">zoomIn</button>
+        <button type="button" class="zoomOut">zoomOut</button>
     </div>
-    <div class="zoomContainer">
-        <div class="zoomIn">zoomIn</div>
-        <div class="zoomOut">zoomOut</div>
-    </div>
+    <div id='viewport' class="viewport"></div>
+
 </body>
 <script type="text/javascript" src='https://assets.dabeeomaps.com/upload/library/dabeeomaps-4.1.0.js'></script>
 <script>
@@ -56,7 +64,7 @@
                 const x = document.querySelector('.moveToX').value ? document.querySelector('.moveToX').value : 0;
                 const y = document.querySelector('.moveToY').value ? document.querySelector('.moveToY').value : 0;
 
-                map.control.moveTo({ x: Number(x), y: Number(y) });
+                map.control.moveTo({ position: { x: Number(x), y: Number(y) } });
             });
 
             document.querySelector('.resetBtn').addEventListener('click', function () {
@@ -73,7 +81,7 @@
 
             document.querySelector('.changeZoomBtn').addEventListener('click', function () {
                 const zoom = document.querySelector('.changeZoom').value ? document.querySelector('.changeZoom').value : 0;
-                map.control.changeZoom(zoom);
+                map.control.changeZoom({ zoom: zoom });
             });
 
             document.querySelector('.zoomIn').addEventListener('click', function () {

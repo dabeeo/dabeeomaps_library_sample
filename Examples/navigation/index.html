@@ -27,7 +27,7 @@
     <div name="naviList" style="display:none;"></div>
     <div id='map' class="map"></div>
 </body>
-<script type="text/javascript" src='https://assets.dabeeomaps.com/upload/library/dabeeomaps-4.0-pre-release.js'></script><!-- change to official link  -->
+<script type="text/javascript" src='https://assets.dabeeomaps.com/upload/library/dabeeomaps-4.1.0.js'></script>
 <script>
 
     async function init () {
@@ -45,7 +45,7 @@
 
         // render a map
         const mapOption = Object.assign({
-            camera: "2d"
+            // camera: "2d"
 
         });
         const mapContainer = document.getElementById('map');
@@ -59,17 +59,17 @@
                 enablePan: true,
                 enableTilt: false,
                 buttonOption: {
-                    left: 'pan',
-                    middle: 'zoom',
-                    right: 'rotate'
+                    left: 'PAN',
+                    middle: 'ZOOM',
+                    right: 'ROTATE'
                 }
             },
-            // touchOption: {
-            //     enableZoom: true,
-            //     enableRotate: false,
-            //     enablePan: true,
-            //     enableTilt: false,
-            // }
+            touchOption: {
+                enableZoom: true,
+                enableRotate: false,
+                enablePan: true,
+                enableTilt: false,
+            }
         });
 
         //initialize events

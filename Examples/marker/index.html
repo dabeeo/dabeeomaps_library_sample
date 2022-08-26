@@ -7,17 +7,28 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <!-- <link rel="stylesheet" href="style.css"> -->
+    <style>
+        body {
+            margin: 0;
+        }
+
+        .viewport {
+            width: 100vw;
+            height: 100vh;
+        }
+    </style>
+
 </head>
 
 <body>
-    <div id='viewport' class="viewport">
-        <div class="inputContainer">
-            <input type="text" placeholder="x" class="pointX" />
-            <input type='text' placeholder="y" class="pointY" />
-            <button type="button" class="inline-input" name="set">set</button>
-            <button type="button" class="inline-input" name="clear">clear</button>
+    <div class="inputContainer">
+        <input type="text" placeholder="x" class="pointX" />
+        <input type='text' placeholder="y" class="pointY" />
+        <button type="button" class="inline-input" name="set">set</button>
+        <button type="button" class="inline-input" name="clear">clear</button>
 
-        </div>
+    </div>
+    <div id='viewport' class="viewport">
     </div>
 </body>
 <script type="text/javascript" src='https://assets.dabeeomaps.com/upload/library/dabeeomaps-4.1.0.js'></script>
@@ -29,7 +40,7 @@
             clientSecret: "0f7ad84f160c7b3fd1849a7920af718b",
         }).then(async (mapData) => {
             const mapOption = Object.assign({
-                camera: "2d"
+                // camera: "2d"
             });
             const mapContainer = document.getElementById('viewport');
             const map = await dabeeoMaps.showMap(mapContainer, mapOption, mapData);
@@ -43,9 +54,6 @@
                         {
                             x: x,
                             y: y,
-                            iconOption: {
-                                positionZ: 400,
-                            },
                         },
                     ],
                 })
