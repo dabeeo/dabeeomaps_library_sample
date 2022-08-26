@@ -66,7 +66,7 @@ map.control.set(control);
             <div className={styles.text}>아래 메소드를 활용하여 zoom을 수정하실 수도 있습니다.</div>
             <pre>
                 <code className={styles.code}>
-{`map.control.changeZoom(number);                   // zoomLevel(percent) 100(%)가 현재 zoomLevel 
+{`map.control.changeZoom({zoom:number});                   // zoomLevel(percent) 100(%)가 현재 zoomLevel 
 map.control.zoomIn();                             // zoom In
 map.control.zoomOut();                            // zoom Out
 `}
@@ -107,10 +107,6 @@ const option = {
         min:number, 
         max:number
       }, 
-      pan? : {
-        min:number, 
-        max:number
-      }, 
       tilt? : {
         min:number, 
         max:number
@@ -123,9 +119,9 @@ const option = {
       enablePan? : boolean,
       enableTilt? : boolean, 
       buttonOption? : { 
-          left : string,
-          middle : string,
-          right : string
+          left : 'ZOOM' | 'ROTATE' | 'PAN'
+          middle : 'ZOOM' | 'ROTATE' | 'PAN'
+          right : 'ZOOM' | 'ROTATE' | 'PAN'
       }
     },
     /** 터치 컨트롤 옵션 */

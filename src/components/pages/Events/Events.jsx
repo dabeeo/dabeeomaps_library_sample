@@ -33,6 +33,24 @@ const Events = () => {
             <div className={styles.miniTitle}>zoom-possible</div>
             <div className={styles.texts}>zoomIn, zoomOut의 상태값을 받아올 수 있습니다.</div>
             <code className={styles.code}>{`mapContainer.addEventListener("zoom-possible", (e) => console.log(e.detail));`}</code>
+
+            <div className={styles.miniTitle}>on-mouse-move</div>
+            <div className={styles.texts}>mouse가 움직일 때 좌표값을 반환합니다. </div>
+            <code className={styles.code}>{`mapContainer.addEventListener("on-mouse-move", (e) => console.log(e.detail));`}</code>
+
+            <div className={styles.miniTitle}>on-mouse-click</div>
+            <div className={styles.texts}>mouse가 click될 때 좌표값을 반환합니다. </div>
+            <code className={styles.code}>{`mapContainer.addEventListener("on-mouse-click", (e) => console.log(e.detail));`}</code>
+
+            <div className={styles.miniTitle}>tilt-changed</div>
+            <div className={styles.texts}>tilt가 변경될 때 변경된 값을 반환합니다.</div>
+            <code className={styles.code}>{`mapContainer.addEventListener("tilt-changed", (e) => console.log(e.detail));`}</code>
+            <div className={styles.miniTitle}>rotation-changed</div>
+            <div className={styles.texts}>각도가 변경될 때 변경된 값을 반환합니다.</div>
+            <code className={styles.code}>{`mapContainer.addEventListener("rotation-changed", (e) => console.log(e.detail));`}</code>
+            <div className={styles.miniTitle}>zoom-changed</div>
+            <div className={styles.texts}>줌이 변경될 때 변경된 값을 반환합니다.</div>
+            <code className={styles.code}>{`mapContainer.addEventListener("zoom-changed", (e) => console.log(e.detail));`}</code>
         </div>
     )
 }

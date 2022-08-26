@@ -34,11 +34,12 @@ let mapOptions = {
     camera: '2d' | '3d',                        // 초기 카메라 모드 3d
     floor: string,                              // 적용할 층 정보
     theme: string,                              // 적용할 테마의 ID
+    language: 'ko' | 'en',                      // 초기 poi 언어 설정 
+    resize : boolean,                            // map을 그릴 영역의 크기가 변경시 지도의 줌 변경 여부 설정  
     poiOption: {                                // POI 옵션
-        language: 'ko' | 'en',                    // 초기 poi 언어 설정 
-        showPoi: boolean,                         // map상에 poi 보여줄지 말지 결정 여부. default는 true
-        poiSpriteEnable: boolean,                // Poi를 항상 정면으로 보이게 함. 
-        poiSpriteKeepRotation: boolean,          // POI sprite로 그릴때 원래 각도 유지 여부
+        showPoi: boolean,                       // map상에 poi 보여줄지 말지 결정 여부. default는 true
+        poiSpriteEnable: boolean,               // Poi를 항상 정면으로 보이게 함. 
+        poiSpriteKeepRotation: boolean,         // POI sprite로 그릴때 원래 각도 유지 여부
     },
     controlOption: {
         zoom: 100,                                //초기줌

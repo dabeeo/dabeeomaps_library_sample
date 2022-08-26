@@ -43,10 +43,6 @@ const MapContextText = () => {
             <pre>
               <code className={styles.code}>map.context.getMapOptions();</code>
             </pre>
-            <div className={styles.texts}>아래 메소드를 호출하시면 groupCode를 확인하실 수 있습니다.</div>
-            <pre>
-              <code className={styles.code}>map.context.geyLayerGroup();</code>
-            </pre>
             <div className={styles.texts}>입력받은 code의 groupCode를 가지는 object와 그 모든 하위 요소들을 map에 표시합니다.</div>
             <pre>
                 <code className={styles.code}>
