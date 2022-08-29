@@ -8,91 +8,242 @@
     <title>control camera sample</title>
     <!-- <link rel="stylesheet" href="style.css"> -->
     <style>
-        .viewport {
-            width: 1000px;
-            height: 500px;
-            position: relative;
+        .map {
+            width: 100vw;
+            height: 100vh;
+            /* position: relative; */
+        }
+
+        .function {
+            text-align: center;
+        }
+
+        .function:hover {
+            background-color: gold;
         }
     </style>
 </head>
 
 <body>
-    <button type="button" class="button-menu">camera</button>
-    <select class="dimensionSelect">
-        <option value="2D">2D</option>
-        <option value="3D" selected>3D</option>
-    </select>
-    <button type="button" class="resetBtn">reset</button>
-
-    <div class="moveToContainer">
-        <input type='text' placeholder="x" class="moveToX" />
-        <input type='text' placeholder="y" class="moveToY" />
-        <button type="button" class="moveTo">moveTo</button>
-    </div>
-    <div class="setContainer">
-        <input type="text" placeholder="rotation" class="rotation" />
-        <input type='text' placeholder="tilt" class="tilt" />
-        <input type="text" placeholder="zoom" class="zoom" />
-        <button type="button" class="set">set</button>
-    </div>
-    <div class="changeZoomContainer">
-        <input type='text' placeholder="zoom" class="changeZoom" />
-        <button type="button" class="changeZoomBtn">changeZoom</button>
-        <button type="button" class="zoomIn">zoomIn</button>
-        <button type="button" class="zoomOut">zoomOut</button>
-    </div>
-    <div id='viewport' class="viewport"></div>
+    <div id='map' class="map"></div>
 
 </body>
-<script type="text/javascript" src='https://assets.dabeeomaps.com/upload/library/dabeeomaps-4.1.0.js'></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/dat-gui/0.7.9/dat.gui.min.js"></script>
+<!-- <script type="text/javascript" src='https://assets.dabeeomaps.com/upload/library/dabeeomaps-4.1.0.js'></script> -->
+<script type="text/javascript" src='https://assets.dabeeomaps.com/upload/library/dabeeomaps-4.0-pre-release.js'></script>
 <script>
-    window.onload = function () {
-        const dabeeoMaps = new dabeeo.Maps();
-        dabeeoMaps.getMapData({
-            clientId: "75hb8YSnAokb-sZ04aDR91",
-            clientSecret: "0f7ad84f160c7b3fd1849a7920af718b",
-        }).then(async (mapData) => {
-            const mapOption = Object.assign({});
-            const mapContainer = document.getElementById('viewport');
-            const map = await dabeeoMaps.showMap(mapContainer, mapOption, mapData);
 
-            document.querySelector('.dimensionSelect').addEventListener('change', function (e) {
-                map.control.changeCamera(e.target.value);
-            });
+    const dabeeoMaps = new dabeeo.Maps();
+    let mapData = null;
+    let map = null;
+    let mapContainer = null;
 
-            document.querySelector('.moveTo').addEventListener('click', function () {
-                const x = document.querySelector('.moveToX').value ? document.querySelector('.moveToX').value : 0;
-                const y = document.querySelector('.moveToY').value ? document.querySelector('.moveToY').value : 0;
+    const gui = new dat.GUI();
 
-                map.control.moveTo({ position: { x: Number(x), y: Number(y) } });
-            });
-
-            document.querySelector('.resetBtn').addEventListener('click', function () {
-                map.control.reset();
-            });
-
-            document.querySelector('.set').addEventListener('click', function () {
-                const rotation = document.querySelector('.rotation').value ? document.querySelector('.rotation').value : 0;
-                const tilt = document.querySelector('.tilt').value ? document.querySelector('.tilt').value : 0;
-                const zoom = document.querySelector('.zoom').value ? document.querySelector('.zoom').value : 0;
-
-                map.control.set({ rotation: rotation, tilt: tilt, zoom: zoom });
-            });
-
-            document.querySelector('.changeZoomBtn').addEventListener('click', function () {
-                const zoom = document.querySelector('.changeZoom').value ? document.querySelector('.changeZoom').value : 0;
-                map.control.changeZoom({ zoom: zoom });
-            });
-
-            document.querySelector('.zoomIn').addEventListener('click', function () {
-                map.control.zoomIn();
-            });
-
-            document.querySelector('.zoomOut').addEventListener('click', function () {
-                map.control.zoomOut();
-            })
-        });
+    const mapOptionDefault = {
+        camera: "3d",
+        controlOption: {
+            zoom: 90,                                //초기줌
+        },
     }
+    async function init () {
+        mapData = await dabeeoMaps.getMapData({
+            clientId: "75hb8YSnAokb-sZ04aDR91",
+            clientSecret: "0f7ad84f160c7b3fd1849a7920af718b"
+        });
+
+        mapContainer = document.getElementById('map');
+        map = await dabeeoMaps.showMap(mapContainer, mapOptionDefault, mapData);
+
+        initChangeCamera();
+        initZoomIn();
+        initZoomOut();
+        initChangeZoom();
+        initReset();
+        initMoveTo();
+        initSet();
+        initEvent();
+    }
+
+    //Change Camera
+    function initChangeCamera () {
+        const changeCamera = value => {
+            map.control.changeCamera(value);
+        }
+        const setting = { 'mode': mapOptionDefault.camera };
+        gui.add(setting, "mode", ['2d', '3d']).onChange(changeCamera);
+    }
+
+    //Zoom In
+    function initZoomIn () {
+        const zoomIn = value => {
+
+            const zoomInOption = {
+                transition: settingZoomIn.transition
+            }
+            console.log(zoomInOption);
+
+            map.control.zoomIn(zoomInOption);
+        }
+        const settingZoomIn = {
+            'transition': false,
+            'zoomIn': zoomIn
+        }
+        const zoomInMenu = gui.addFolder('Zoom In');
+        zoomInMenu.open();
+        zoomInMenu.add(settingZoomIn, "transition");
+        zoomInMenu.add(settingZoomIn, "zoomIn");
+    }
+
+    //Zoom out
+    function initZoomOut () {
+        const zoomOut = value => {
+            const zoomOutOption = {
+                transition: settingZoomOut.transition
+            }
+            console.log(zoomOutOption)
+            map.control.zoomOut(zoomOutOption);
+        }
+        const settingZoomOut = {
+            'transition': false,
+            'zoomOut': zoomOut
+        }
+
+        const zoomOutMenu = gui.addFolder('Zoom Out');
+        zoomOutMenu.add(settingZoomOut, "transition");
+        zoomOutMenu.add(settingZoomOut, "zoomOut");
+        zoomOutMenu.open();
+    }
+
+    const settingChangeZoom = {
+        transition: false,
+        'zoom': mapOptionDefault.controlOption.zoom
+    }
+    function initChangeZoom () {
+        const changeZoom = value => {
+
+            const changeZoomOption = {
+                transition: settingChangeZoom.transition,
+                zoom: value
+            }
+            console.log(changeZoomOption);
+
+            map.control.changeZoom(changeZoomOption);
+        }
+        const changeZoomMenu = gui.addFolder('Change Zoom');
+        changeZoomMenu.add(settingChangeZoom, "transition");
+        changeZoomMenu.add(settingChangeZoom, "zoom", 50, 1000).listen().onFinishChange(changeZoom);
+        changeZoomMenu.open();
+    }
+
+    //reset
+    function initReset () {
+        const reset = value => {
+            const resetOption = {
+                transition: settingReset.transition
+            }
+            console.log(resetOption)
+            map.control.reset(resetOption);
+        }
+        const settingReset = {
+            'transition': false,
+            'reset': reset
+        }
+        const resetMenu = gui.addFolder('Reset');
+        resetMenu.open();
+        resetMenu.add(settingReset, "transition");
+        resetMenu.add(settingReset, "reset");
+    }
+
+    //initMoveTo
+    function initMoveTo () {
+        const moveTo = value => {
+            const moveToOption = {
+                position: { x: settingMoveTo.x, y: settingMoveTo.y },
+                transition: settingMoveTo.transition
+            }
+            console.log(moveToOption);
+            map.control.moveTo(moveToOption);
+        }
+        const settingMoveTo = {
+            'transition': false,
+            x: 1000,
+            y: 1000,
+            'moveTo': moveTo
+        }
+        const moveToMenu = gui.addFolder('Move To');
+        moveToMenu.open();
+        moveToMenu.add(settingMoveTo, "transition");
+        moveToMenu.add(settingMoveTo, "x", 0, 6000);
+        moveToMenu.add(settingMoveTo, "y", 0, 3000);
+        moveToMenu.add(settingMoveTo, "moveTo");
+    }
+
+    //initSet
+    const set = value => {
+        const setOption = {
+            rotation: settingSet.rotation,
+            tilt: settingSet.tilt,
+            zoom: settingSet.zoom,
+            transition: settingSet.transition
+        }
+        console.log(setOption);
+        map.control.set(setOption);
+    }
+
+    const settingSet = {
+        'rotation': 0,
+        'tilt': 0,
+        'zoom': mapOptionDefault.controlOption.zoom,
+        'set': set,
+        'transition': false
+    }
+
+    function initSet () {
+        const setMenu = gui.addFolder('Set');
+        setMenu.open();
+        setMenu.add(settingSet, "transition");
+        setMenu.add(settingSet, "rotation", 0, 360).listen();
+        setMenu.add(settingSet, "tilt", 0, 360).listen();
+        setMenu.add(settingSet, "zoom", 50, 1000).listen();
+        setMenu.add(settingSet, "set");
+    }
+
+
+    //event 
+    function initEvent () {
+        mapContainer.addEventListener('zoom-changed', (e) => {
+            console.log('zoom-changed 에 대한 결과값', e.detail);
+            settingChangeZoom.zoom = e.detail.changedValue;
+            settingSet.zoom = e.detail.changedValue;
+
+        });
+        // camera tilt changed
+        mapContainer.addEventListener('tilt-changed', (e) => {
+            console.log('tilt-changed 에 대한 결과값', e.detail);
+            settingSet.tilt = e.detail.changedValue;
+
+        });
+        // camera rotation changed
+        mapContainer.addEventListener('rotation-changed', (e) => {
+            console.log('rotation-changed 에 대한 결과값', e.detail);
+            settingSet.rotation = e.detail.changedValue;
+
+        });
+
+        // camera rotation changed
+        mapContainer.addEventListener('control-start', (e) => {
+            console.log('control start 에 대한 결과값', e.detail);
+        });
+
+        // camera rotation changed
+        mapContainer.addEventListener('control-end', (e) => {
+            console.log('control end 에 대한 결과값', e.detail);
+        });
+
+    }
+    init();
 </script>
 
 </html>
