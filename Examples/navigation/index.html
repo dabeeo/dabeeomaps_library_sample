@@ -13,6 +13,8 @@
         }
 
         .map {
+            top: 0px;
+            left: 0px;
             width: 1000px;
             height: 500px;
         }
@@ -20,6 +22,9 @@
 </head>
 
 <body>
+    <button type="button" class="button-menu">floor</button>
+    <select type="text" class="inline-input" name="floor"></select>
+
     <button type="button" class="button-menu" name="set">draw route</button>
     <button type="button" class="button-menu" name="clear">clear route</button>
     <button type="button" class="button-menu" name="start">start animation</button>
@@ -29,18 +34,21 @@
 </body>
 <script type="text/javascript" src='https://assets.dabeeomaps.com/upload/library/dabeeomaps-4.1.0.js'></script>
 <script>
+    const dabeeoMaps = new dabeeo.Maps();
+    let mapData = null;
+    let map = null;
 
     async function init () {
-        const dabeeoMaps = new dabeeo.Maps();
-
         //fetch a map
-        const mapData = await dabeeoMaps.getMapData({
+            mapData = await dabeeoMaps.getMapData({
             clientId: "75hb8YSnAokb-sZ04aDR91",
             clientSecret: "0f7ad84f160c7b3fd1849a7920af718b"
         });
 
         //get route information 
-        const naviResponse = getRoute(mapData);
+        const naviResponse = getRoute();
+        initFloorMenu();
+
         console.log(naviResponse);
 
         // render a map
@@ -49,7 +57,7 @@
 
         });
         const mapContainer = document.getElementById('map');
-        const map = await dabeeoMaps.showMap(mapContainer, mapOption, mapData);
+        map = await dabeeoMaps.showMap(mapContainer, mapOption, mapData);
 
         //disable camera rotation with mouse
         map.control.setOption({
@@ -73,10 +81,12 @@
         });
 
         //initialize events
-        initRouteEvent(map, naviResponse);
+        initFloorEvent();
+
+        initRouteEvent(naviResponse);
     }
 
-    function getRoute (data) {
+    function getRoute () {
         const routeOption = {
             origin: {
                 poiId: "PO-WgCv1-qBo8094", // 사업전략부 (11 floor)
@@ -91,15 +101,26 @@
                 floorId: "FL-vf3q07spbmsw8132",
             }
         }
-        return (data.getRoute(routeOption));
+        const routeOption2 = {
+            origin: {
+                position: { x: 1000, y: 1000 },
+                floorId: "FL-t4vqgyek3jnb8146",
+            },
+            destination: {
+                position: { x: 1000, y: 1000 },
+                floorId: "FL-vf3q07spbmsw8132",
+            }
+
+        }
+        return (mapData.getRoute(routeOption2));
     }
 
 
-    function initRouteEvent (map, naviResponse) {
+    function initRouteEvent (naviResponse) {
 
         document.querySelector("[name='set']").addEventListener('click', function () {
-            setRoute(map, naviResponse);
-            showRouteInfo(map, naviResponse);
+            setRoute(naviResponse);
+            showRouteInfo(naviResponse);
         });
 
         document.querySelector("[name='clear']").addEventListener('click', function () {
@@ -119,7 +140,7 @@
             map.routeSimulation.stop();
         })
     }
-    function showRouteInfo (map, naviResponse) {
+    function showRouteInfo (naviResponse) {
         const element = document.querySelector("[name='naviList']");
         element.style.display = "block";
 
@@ -138,7 +159,7 @@
         });
     }
 
-    function setRoute (map, naviResponse) {
+    function setRoute (naviResponse) {
         const naviOption = {
             defaultLineOption: {
                 lineColor: "#0000ff",
@@ -149,7 +170,31 @@
         map.routeSimulation.set(naviResponse, naviOption);
     }
 
+    function initFloorMenu () {
+        //floor data 
+        const dataFloor = mapData.dataFloor;
+        const floorInfo = dataFloor.getFloors();
+        const mapDefaultFloor = dataFloor.getDefaultFloor();
+        let element = document.querySelector("[name='floor']");
 
+        for (const floor of floorInfo) {
+            let newOption = document.createElement("option");
+            newOption.value = floor.id;
+            newOption.appendChild(document.createTextNode(floor.name[0].text));
+            element.appendChild(newOption);
+        }
+        element.value = mapDefaultFloor.id;
+    }
+
+    function initFloorEvent () {
+        const optionDefaultFloor = map.context.getMapOptions().floor
+        let element = document.querySelector("[name='floor']");
+        element.value = optionDefaultFloor;
+        element.addEventListener("change", function (e) {
+            const floor = e.target.value
+            map.context.changeFloor(floor);
+        });
+    }
 
     init();
 
