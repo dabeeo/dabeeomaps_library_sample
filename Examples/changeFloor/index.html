@@ -22,35 +22,37 @@
 </body>
 <script type="text/javascript" src='https://assets.dabeeomaps.com/upload/library/dabeeomaps-4.1.0.js'></script>
 <script>
+    const dabeeoMaps = new dabeeo.Maps();
+    let mapData = null;
+    let map = null;
     async function init () {
-        const dabeeoMaps = new dabeeo.Maps();
 
         ////fetch a map
-        const mapData = await dabeeoMaps.getMapData({
+        mapData = await dabeeoMaps.getMapData({
             clientId: "75hb8YSnAokb-sZ04aDR91",
             clientSecret: "0f7ad84f160c7b3fd1849a7920af718b"
         });
 
-        ////menu initialization 
-        //floor data 
-        const dataFloor = mapData.dataFloor;
-
         // default value is defined in DabeeoMap Editor 
-        initFloorMenu(dataFloor.getFloors(), dataFloor.getDefaultFloor());
+        initFloorMenu();
 
         //// render a map
         const mapOption = Object.assign({
             // floor: "FL-vf3q07spbmsw8132" // you can change floor when rendering a map 
         });
         const mapContainer = document.getElementById('map');
-        const map = await dabeeoMaps.showMap(mapContainer, mapOption, mapData);
+        map = await dabeeoMaps.showMap(mapContainer, mapOption, mapData);
 
         ////menu initialization
         //read floor option and set floor value
-        initFloorEvent(map, map.context.getMapOptions().floor);
+        initFloorEvent();
     }
 
-    function initFloorMenu (floorInfo, mapDefaultFloor) {
+    function initFloorMenu () {
+        //floor data 
+        const dataFloor = mapData.dataFloor;
+        const floorInfo = dataFloor.getFloors();
+        const mapDefaultFloor = dataFloor.getDefaultFloor();
         let element = document.querySelector("[name='floor']");
 
         for (const floor of floorInfo) {
@@ -60,10 +62,10 @@
             element.appendChild(newOption);
         }
         element.value = mapDefaultFloor.id;
-
     }
 
-    function initFloorEvent (map, optionDefaultFloor) {
+    function initFloorEvent () {
+        const optionDefaultFloor = map.context.getMapOptions().floor
         let element = document.querySelector("[name='floor']");
         element.value = optionDefaultFloor;
         element.addEventListener("change", function (e) {

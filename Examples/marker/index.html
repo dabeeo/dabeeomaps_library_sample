@@ -22,6 +22,9 @@
 
 <body>
     <div class="inputContainer">
+        <button type="button" class="button-menu">floor</button>
+        <select type="text" class="inline-input" name="floor"></select>
+
         <input type="text" placeholder="x" class="pointX" />
         <input type='text' placeholder="y" class="pointY" />
         <button type="button" class="inline-input" name="set">set</button>
@@ -33,8 +36,11 @@
 </body>
 <script type="text/javascript" src='https://assets.dabeeomaps.com/upload/library/dabeeomaps-4.1.0.js'></script>
 <script>
+    const dabeeoMaps = new dabeeo.Maps();
+    let mapData = null;
+    let map = null;
+
     window.onload = function () {
-        const dabeeoMaps = new dabeeo.Maps();
         dabeeoMaps.getMapData({
             clientId: "75hb8YSnAokb-sZ04aDR91",
             clientSecret: "0f7ad84f160c7b3fd1849a7920af718b",
@@ -42,8 +48,12 @@
             const mapOption = Object.assign({
                 // camera: "2d"
             });
+            initFloorMenu();
+
             const mapContainer = document.getElementById('viewport');
-            const map = await dabeeoMaps.showMap(mapContainer, mapOption, mapData);
+            map = await dabeeoMaps.showMap(mapContainer, mapOption, mapData);
+            initFloorEvent();
+
 
             document.querySelector("[name='set']").addEventListener('click', function () {
                 const x = document.querySelector('.pointX').value ? Number(document.querySelector('.pointX').value) : 1000;
@@ -63,6 +73,39 @@
                 console.log('clear all')
                 map.markers.clearAll();
             });
+
+
+            function initFloorMenu () {
+                //floor data 
+                const dataFloor = mapData.dataFloor;
+                const floorInfo = dataFloor.getFloors();
+                const mapDefaultFloor = dataFloor.getDefaultFloor();
+                let element = document.querySelector("[name='floor']");
+
+                for (const floor of floorInfo) {
+                    let newOption = document.createElement("option");
+                    newOption.value = floor.id;
+                    newOption.appendChild(document.createTextNode(floor.name[0].text));
+                    element.appendChild(newOption);
+                }
+                element.value = mapDefaultFloor.id;
+            }
+
+            function initFloorEvent () {
+                const optionDefaultFloor = map.context.getMapOptions().floor
+                let element = document.querySelector("[name='floor']");
+                element.value = optionDefaultFloor;
+                element.addEventListener("change", function (e) {
+                    const floor = e.target.value
+                    map.context.changeFloor(floor);
+                });
+            }
+
+
+
+
+
+
         });
     }
 </script>
