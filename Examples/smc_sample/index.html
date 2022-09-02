@@ -6,11 +6,20 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <link rel="icon" href="../dabeeo_ci_symbol.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>map context sample</title>
+    <title>dabeeo smc</title>
     <style>
+        body {
+            overflow: hidden;
+            /* Hide scrollbars */
+        }
+
         .map {
             width: 100vw;
             height: 100vh;
+        }
+
+        .clicked {
+            background-color:grey;
         }
     </style>
 </head>
@@ -21,20 +30,8 @@
     <select type="text" class="inline-input" name="building">
         <option value="">전체</option>
     </select>
-
-    <button type="button" class="button-menu">floor</button>
-    <select type="text" class="inline-input" name="floor">
-        <option value="">전체</option>
-    </select>
-
-    <button type="button" class="button-menu">zone</button>
-    <select type="text" class="inline-input" name="zone">
-        <option value="">전체</option>
-    </select>
-
-    <button type="button" class="inline-input" name="detail">상세위치</button>
-    <button type="button" class="inline-input" name="firesafe">화재안전</button>
-    <button type="button" class="inline-input" name="toxic">유해물질</button>
+    <span id="floor"></span>
+    <span id="layer3"></span>
 
     <!-- <div id='map' class="map"></div> -->
 </body>
@@ -43,27 +40,31 @@
 
 <script>
     const dabeeoMaps = new dabeeo.Maps();
-    let mapData = null;
-    let map = null;
+    // indoor map data, map context
+    let mapDataIndoor = null;
+    let mapIndoor = null;
+
+    // outdoor map data, map context
     let mapDataOutdoor = null;
     let mapOutdoor = null;
 
+    //initialize mapIndoor load flag
+    let mapIndoorloaded = false;
 
     async function init () {
         // const dabeeoMaps = new dabeeo.Maps();
 
-        //// fetch a buidling map data
-        mapData = await dabeeoMaps.getMapData({
-            clientId: ,
-            clientSecret: ,
+        //// fetch a indoor map data
+        mapDataIndoor = await dabeeoMaps.getMapData({
+            clientId: "cmnGuxYqQkV87wHcXXOvfN",
+            clientSecret: "46a9752504f3054998b53adbfb73297e",
         });
 
         //// fetch a outdoor map data 
         mapDataOutDoor = await dabeeoMaps.getMapData({
-            clientId: ,
-            clientSecret: ,
+            clientId: "47o545DKANS8Jra5FZUXJq",
+            clientSecret: "72671b30f940fc0bcb7225fe2e0b27b7",
         });
-
 
         //// render a outdoor map
         const mapContainer = document.createElement("div");
@@ -71,7 +72,7 @@
         document.body.appendChild(mapContainer);
 
         const mapOption = Object.assign({
-            // set camera to 2d mode 
+            // set camera to 2d or 3d mode 
             camera: "3d",
             controlOption: {
                 rotate: 180,
@@ -90,49 +91,94 @@
         })
 
         //building mapData, outdoor map context
-        initBuilding();
+        initLayer1();
     }
 
     // make up building select menu 
-    let maploaded = false;
-    function initBuilding () {
-        const buildings = mapData.dataGroupCode.findRoot();
+    function initLayer1 () {
+
+        //group contains the structure of smc 
+        //building(layer1), 
+        //floor(layer2), 
+        //zone(layer3-"xx_Depth3"-layer4 ), 
+        //detail info(layer3-"xx_Depth4")
+
+        //root group is the same as building of the outdoor map
+        //get the root group from data group
+        const layer1 = mapDataIndoor.dataGroupCode.findRoot();
 
         let element = document.querySelector("[name='building']");
+        layer1.forEach(code => {
 
-        for (const building of buildings) {
+            // debug code
+            // const layer2 = mapDataIndoor.dataGroupCode.findChild(code);
+            // layer2.forEach(code => {
+            //     console.log(mapDataIndoor.dataGroupCode.findChild(code))
+            // });
+
             let newOption = document.createElement("option");
-            newOption.value = building
-            newOption.appendChild(document.createTextNode(building));
+            newOption.value = code
+            newOption.appendChild(document.createTextNode(code));
             element.appendChild(newOption);
-        }
+        });
+
+
         //select building -> init floor
         element.addEventListener("change", function (e) {
-            const building = e.target.value;
-            initFloors(building)
+            const layer1 = e.target.value;
+            initLayer2(layer1)
         });
     }
 
+    function initMenu () {
+        let elementFloor = document.querySelector("#floor");
+        elementFloor.innerHTML = '';
+        let elementLayer3 = document.querySelector("#layer3");
+        elementLayer3.innerHTML = '';
+    }
+    function makeSelectElement () {
+        let element = document.querySelector("#floor");
+
+        let newButton = document.createElement("button");
+        newButton.type = "button";
+        newButton.innerHTML = 'floor';
+        element.appendChild(newButton);
+
+        let newSelect = document.createElement("select");
+        newSelect.innerHTML = '<option value="">전체</option>';
+        element.appendChild(newSelect);
+        return newSelect;
+
+    }
+
     //makeup floor select menu
-    function initFloors (building) {
-        const floors = mapData.dataFloor.find(building + '_', { type: 'title' });
+    function initLayer2 (layer1) {
 
-        let element = document.querySelector("[name='floor']");
-        element.innerHTML = '<option value="">전체</option>';
+        initMenu();
 
-        for (const floor of floors) {
+        //layer2 is floors of selected layer1(building)
+        const layer2 = mapDataIndoor.dataGroupCode.findChild(layer1);
+        // console.log(layer2);
+        const element = makeSelectElement();
+        if (!layer2) return;
+
+        layer2.forEach(code => {
             let newOption = document.createElement("option");
-            newOption.value = floor.id;
-            newOption.appendChild(document.createTextNode(floor.name[0].text));
+            floors = mapDataIndoor.dataFloor.find(code, { type: 'title' });
+            if (floors.legnth > 1) console.log('ERROR');
+
+            newOption.value = floors[0].id;
+            newOption.appendChild(document.createTextNode(code));
             element.appendChild(newOption);
-        }
+        });
 
         //select floor -> init zone
         element.addEventListener("change", async function (e) {
+            const layer2 = e.target.options[e.target.selectedIndex].text;
             const floorId = e.target.value;
 
-            if (!maploaded) {
-                maploaded = true;
+            if (!mapIndoorloaded) {
+                mapIndoorloaded = true;
                 //clean up memory of outdoor map and container 
                 mapOutdoor.context.cleanup();
                 document.querySelector('.map').remove();
@@ -147,8 +193,8 @@
                     camera: "2d",
                     floor: floorId
                 });
-                map = await dabeeoMaps.showMap(mapContainer, mapOption, mapData);
-                map.control.setOption({
+                mapIndoor = await dabeeoMaps.showMap(mapContainer, mapOption, mapDataIndoor);
+                mapIndoor.control.setOption({
                     mouseOption: {
                         enableRotate: false,
                         enableTilt: false,
@@ -156,132 +202,44 @@
                     },
                 })
             } else {
-                await map.context.changeFloor(floorId);
+                console.log('changeFloor');
+                await mapIndoor.context.changeFloor(floorId);
             }
-            const floorObj = mapData.dataFloor.find(floorId, { type: 'id' })
-            const floorName = floorObj.name[0].text;
-            map.context.hideByCode(floorName);
 
-            initZone(floorName);
-            initFireToxic(floorName);
-            initDetail(floorName);
-
-        });
-    }
-    function hideDepth3 (depth2, depth3) {
-        if (mapData.dataGroupCode.findChild(depth2).includes(depth3)) {
-            map.context.hideByCode(depth3);
-        }
-    }
-    function showDepth3 (depth2, depth3) {
-        if (mapData.dataGroupCode.findChild(depth2).includes(depth3)) {
-            map.context.showByCode(depth3);
-        }
-    }
-
-    //init detail button 
-    function initDetail (depth2) {
-        const depth4 = depth2 + '_Depth4';
-        const depth3 = depth2 + '_Depth3';
-        let detailOn = true;
-        document.querySelector("[name='detail']").addEventListener('click', function () {
-            if (detailOn) {
-                hideDepth3(depth2, depth3);
-                map.context.showByCode(depth4);
-                detailOn = false;
-            } else {
-                showDepth3(depth2, depth3);
-                map.context.hideByCode(depth4);
-                detailOn = true;
-            }
+            initLayer3(layer2)
         });
     }
 
-    //make up the zone select menu
-    function initZone (depth2) {
-        map.context.hideByCode(depth2);
-        const depth3 = depth2 + '_Depth3';
-        const depth4 = depth2 + '_Depth4';
+    function initLayer3 (layer2) {
 
-        if (mapData.dataGroupCode.findChild(depth2).includes(depth3)) {
-            map.context.showByCode(depth3);
-            const codeList = mapData.dataGroupCode.findChild(depth3);
+        const layer3 = mapDataIndoor.dataGroupCode.findChild(layer2);
 
-            const element = document.querySelector("[name='zone']");
-            element.innerHTML = '<option value="">전체</option>';
+        let element = document.querySelector("#layer3");
+        element.innerHTML = '';
 
-            for (const code of codeList) {
-                let newOption = document.createElement("option");
-                newOption.value = code;
-                newOption.appendChild(document.createTextNode(code));
-                element.appendChild(newOption);
-            }
+        layer3.forEach(code => {
+            let newButton = document.createElement("button");
+            newButton.type = "button";
+            newButton.innerHTML = code;
+            newButton.className = "button"
+            element.appendChild(newButton);
+            let ishidden = true;
+            mapIndoor.context.hideByCode(code);
 
-            //select zone -> focus to zone
-            element.addEventListener("change", function (e) {
-                const zone = e.target.value;
-                map.context.hideByCode(depth3);
-                map.context.hideByCode(depth4);
-
-                focusToZone(zone);
+            newButton.addEventListener('click', function (e) {
+                const code = e.target.innerHTML;
+                e.target.classList.toggle('clicked');
+                if (ishidden) {
+                    mapIndoor.context.showByCode(code);
+                    ishidden = false;
+                } else {
+                    mapIndoor.context.hideByCode(code);
+                    ishidden = true;
+                }
             });
-        }
+        });
+
     }
-
-    // focus to zone
-    function focusToZone (zone) {
-        map.context.showByCode(zone);
-        const objects = mapData.dataObject.find(zone, { type: "groupCode" });
-        const pois = mapData.dataPoi.find(zone, { type: "groupCode" });
-        const objectIds = objects.map((object) => { return object.id; });
-        console.log(objectIds);
-
-        map.control.focusTo({
-            focus: {
-                ids: objectIds,
-                type: 'object',
-            },
-            transition: true,
-            padding: {
-                top: 20,
-                left: 20,
-                bottom: 20,
-                right: 20
-            }
-        });
-        map.control.set({
-            zoom: 200
-        });
-    }
-
-    // init firesafe and toxic button
-    function initFireToxic (depth2) {
-        const firesafe = depth2 + '_화재안전';
-        const toxic = depth2 + '_유해물질';
-
-        let firesafeOn = true;
-        document.querySelector("[name='firesafe']").addEventListener('click', function () {
-            if (firesafeOn) {
-                map.context.showByCode(firesafe);
-                firesafeOn = false;
-            } else {
-                map.context.hideByCode(firesafe);
-                firesafeOn = true;
-            }
-        });
-
-        let toxicOn = true;
-        document.querySelector("[name='toxic']").addEventListener('click', function () {
-            if (toxicOn) {
-                map.context.showByCode(toxic);
-                toxicOn = false;
-            } else {
-                map.context.hideByCode(toxic);
-                toxicOn = true;
-            }
-        });
-    }
-
     init();
 </script>
 

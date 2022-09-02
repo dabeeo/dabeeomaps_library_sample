@@ -36,8 +36,11 @@ const Menu = ({ lang }) => {
             <div className={styles.title}>4.0 Tutorial</div>
             <ul className={styles.lists} id='lists'>
                 <li className={styles.listItem} style= {{ backgroundColor: 'black', color: 'white'}} data-link='' onClick={onLink}>{ lang === 'ko' ? '시작하기' : 'Get Started' }</li>
+                <li className={styles.listItem} data-link='mapData' onClick={onLink}>{ lang === 'ko' ? '지도데이터' : 'mapData'}</li>
                 <li className={styles.listItem} data-link='mapOption' onClick={onLink}>{ lang === 'ko' ? '지도 옵션 정보' : 'mapOptions'}</li>
                 <li className={styles.listItem} data-link='mapContext' onClick={onLink}>Map Context</li>
+                <li className={styles.listItem} data-link='Pois' onClick={onLink}>Pois</li>
+                <li className={styles.listItem} data-link='Objects' onClick={onLink}>Objects</li>
                 <li className={styles.listItem} data-link='Controls' onClick={onLink}>Controls</li>
                 <li className={styles.listItem} data-link='navigation' onClick={onLink}>{ lang === 'ko' ? '길찾기' : 'Navigation'}</li>
                 <li className={styles.listItem} data-link='marker' onClick={onLink}>{ lang === 'ko' ? '마커 표시하기' : 'setMarker'}</li>

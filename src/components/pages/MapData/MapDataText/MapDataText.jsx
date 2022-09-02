@@ -1,0 +1,77 @@
+import { useEffect } from 'react';
+import styles from './MapDataText.module.scss';
+
+const MapDataText = () => {
+
+    useEffect(() => {
+        let codeElement = document.querySelectorAll("code");
+            if (!codeElement) return;
+            codeElement.forEach((data) => {
+                let text = data.innerHTML;
+                let text1 = text.replace(/&lt;/gi, "<");
+                let text2 = text1.replace(/&gt;/gi, ">");
+                let text3 = text2.replace(/[<>]/g, `<span>$&</span>`);
+                let text4 = text3.replace(/['"]([^'"]*)["']/g, `<span class=${styles.value}>$&</span>`);
+                let text5 = text4.replace(
+                    / var | if | return| let | const | function | new | window| document| for /g,
+                    `<span class=${styles.reserved}>$&</span>`,
+                );
+                let text6 = text5.replace(/[{}()]/g, `<span class=${styles.special}>$&</span>`);
+                let text7 = text6.replace(/\/\/.+/g, `<span class=${styles.comment}>$&</span>`);
+                data.innerHTML = text7;
+            });
+    }, []);
+
+    return (
+        <div className={styles.mapDataText}>
+            <div className={styles.title}>MapData</div>
+            <div className={styles.miniTitle}>dabeeoMaps.getMapData()호출시 반환된 객체의 메소드를 이용하여 각종 검색 등 여러 기능을 이용할 수 있습니다.  </div>
+            <p>
+                지도에 포함된 층과 언어, 오브젝트, POI, 그룹에 대한 정보를 알 수 있습니다.  <br />
+                아이디와 타이틀로 층을 검색할 수 있습니다. <br />
+                그룹코드의 트리구조를 이용한 부모와 자식에 대한 검색이 가능합니다.<br />
+                오브젝트와 poi에 대하여 타이틀, 층, 아이디, 그룹코드로 검색이 가능합니다<br />
+            </p>
+            <div className={styles.texts}>층에 대한 정보를 가져옵니다.</div>
+            <pre>
+              <code className={styles.code}>mapData.dataFloor.getFloors()</code>
+            </pre>
+            <div className={styles.texts}><br />언어에 대한 정보를 가져옵니다.</div>
+            <pre>
+              <code className={styles.code}>mapData.dataLanguage.getLanguage()</code>
+            </pre>
+            <div className={styles.texts}><br />POI에 대한 정보를 가져옵니다.</div>
+            <pre>
+              <code className={styles.code}>mapData.dataPoi.getPois()</code>
+            </pre>
+            <div className={styles.texts}><br />오브젝트에 대한 정보를 가져옵니다.</div>
+            <pre>
+              <code className={styles.code}>mapData.dataObject.getObjects()</code>
+            </pre>
+            <div className={styles.texts}><br />id로 해당하는 층을 찾습니다.</div>
+            <pre>
+              <code className={styles.code}>{`mapData.dataFloor.find('FL-03vEsKnBNz5665', { type: 'id'})`}</code>
+            </pre>
+            <div className={styles.texts}><br />특정한 층에 포함된 POI를 찾습니다.</div>
+            <pre>
+              <code className={styles.code}>{`mapData.dataPoi.find('FL-t4vqgyek3jnb8146', { type : 'floorId' })`}</code>
+            </pre>
+            <div className={styles.texts}><br />특정한 그룹에 해당하는 오브젝트를 찾습니다.</div>
+            <pre>
+              <code className={styles.code}>{`mapData.dataObject.find('A1-1', { type : 'groupCode' })`}</code>
+            </pre>
+            <div className={styles.texts}><br />디폴트층을 찾습니다.</div>
+            <pre>
+              <code className={styles.code}>mapData.dataFloor.getDefaultFloor()</code>
+            </pre>
+            <div className={styles.texts}><br />특정 그룹의 부모 코드를 찾습니다.</div>
+            <pre>
+              <code className={styles.code}>mapData.dataGroupCode.findRootParent('A1-1')</code>
+            </pre>
+            <div className={styles.texts}><br /><br /><br /><br /><br /><br /></div>
+            
+        </div>
+    )
+}
+
+export default MapDataText;
