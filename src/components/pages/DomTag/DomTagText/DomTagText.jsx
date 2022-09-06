@@ -76,7 +76,7 @@ const DomTagText = () => {
     const tagInfo = {
         type: 'poi'       // 'poi' || 'marker',
         tag: tag,         // HTMLElement
-        pos: 'TOP'        // tag의 위치값. 'TOP' || 'BOTTOM' || 'LEFT' || 'RIGHT'
+        pos: 'TOP'        // tag의 위치값. 
         floorId: 'FL-123456'   // tag가 위치할 floor의 ID,
         id: 'PO-123456'   // 연동할 POI or marker의 ID
     }
