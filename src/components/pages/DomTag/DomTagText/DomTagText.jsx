@@ -37,10 +37,7 @@ const DomTagText = () => {
                 <code className={styles.code}>
                     {`
     tag: HTMLElement, map에 표시할 HTML element
-    width: number, // 입력한 tag의 부모 element의 넓이
-    height: number, // 입력한 tag의 부모 Element의 높이
     pos: 'TOP' | 'BOTTOM' | 'LEFT' | 'RIGHT' | 'CENTER' |  // Dom tag가 생성될 위치,
-    isResize: true // zoom, map 이동에 따른 동적 사이즈 처리 여부.
     `}
                 </code>
             </pre>
@@ -49,8 +46,6 @@ const DomTagText = () => {
                 <code className={styles.code}>
 {`
     const tag = document.createElement('div'); // 지도상에 표시할 태그
-    tag.style.width = '100%';
-    tag.style.height = '100%';
     tag.textContent = 'test';
 
     map.markers.set({
@@ -58,14 +53,10 @@ const DomTagText = () => {
             {
                 x: 100,
                 y: 200,
-                iconOption: {
-                    positionZ: 400
-                },
                 async: true,
                 tagInfo: {                              // 태그 정보를 담고 있는 object. 없을 경우 태그 생성안함
                     tag: tag,
                     pos: 'TOP',
-                    isResize: true,
                     floorId: 'FL-123456'
                 }
             }
