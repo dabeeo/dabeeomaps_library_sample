@@ -25,11 +25,32 @@ const Events = () => {
             <div className={styles.texts}>층이 변경되기 전 현재 층의 정보와 다음 층의 정보를 반환합니다.</div>
             <code className={styles.code}>{`mapContainer.addEventListener("floor-changing", (e) => console.log(e.detail));`}</code>
             <div className={styles.miniTitle}>navi-complete</div>
-            <div className={styles.texts}>navigation의 동작이 완료됬음을 감지합니다.</div>
+            <div className={styles.texts}>모의주행 애니메이션이 완료되었음을 알립니다.</div>
             <code className={styles.code}>{`mapContainer.addEventListener("navi-complete", (e) => console.log(e.detail));`}</code>
             <div className={styles.miniTitle}>render-complete</div>
             <div className={styles.texts}>층이 다시 그려졌을 때 실행됩니다. 다시 그려진 층의 정보를 반환합니다.</div>
             <code className={styles.code}>{`mapContainer.addEventListener("render-complete", (e) => console.log(e.detail));`}</code>
+
+            <div className={styles.miniTitle}>zoom-changed</div>
+            <div className={styles.texts}>줌이 변경될 때 변경된 값을 반환합니다.</div>
+            <code className={styles.code}>{`mapContainer.addEventListener("zoom-changed", (e) => console.log(e.detail));`}</code>
+
+            <div className={styles.miniTitle}>tilt-changed</div>
+            <div className={styles.texts}>tilt가 변경될 때 변경된 값을 반환합니다.</div>
+            <code className={styles.code}>{`mapContainer.addEventListener("tilt-changed", (e) => console.log(e.detail));`}</code>
+
+            <div className={styles.miniTitle}>rotation-changed</div>
+            <div className={styles.texts}>각도가 변경될 때 변경된 값을 반환합니다.</div>
+            <code className={styles.code}>{`mapContainer.addEventListener("rotation-changed", (e) => console.log(e.detail));`}</code>
+
+            <div className={styles.miniTitle}>control-start</div>
+            <div className={styles.texts}>사용자가 지도를 움직이는 시작시점을 알립니다.</div>
+            <code className={styles.code}>{`mapContainer.addEventListener("rotation-changed", (e) => console.log(e.detail));`}</code>
+
+            <div className={styles.miniTitle}>control-end</div>
+            <div className={styles.texts}>사용자가 지도를 움직이는 종료시점을 알립니다.</div>
+            <code className={styles.code}>{`mapContainer.addEventListener("rotation-changed", (e) => console.log(e.detail));`}</code>
+
             <div className={styles.miniTitle}>zoom-possible</div>
             <div className={styles.texts}>zoomIn, zoomOut의 상태값을 받아올 수 있습니다.</div>
             <code className={styles.code}>{`mapContainer.addEventListener("zoom-possible", (e) => console.log(e.detail));`}</code>
@@ -42,15 +63,13 @@ const Events = () => {
             <div className={styles.texts}>mouse가 click될 때 좌표값을 반환합니다. </div>
             <code className={styles.code}>{`mapContainer.addEventListener("on-mouse-click", (e) => console.log(e.detail));`}</code>
 
-            <div className={styles.miniTitle}>tilt-changed</div>
-            <div className={styles.texts}>tilt가 변경될 때 변경된 값을 반환합니다.</div>
-            <code className={styles.code}>{`mapContainer.addEventListener("tilt-changed", (e) => console.log(e.detail));`}</code>
-            <div className={styles.miniTitle}>rotation-changed</div>
-            <div className={styles.texts}>각도가 변경될 때 변경된 값을 반환합니다.</div>
-            <code className={styles.code}>{`mapContainer.addEventListener("rotation-changed", (e) => console.log(e.detail));`}</code>
-            <div className={styles.miniTitle}>zoom-changed</div>
-            <div className={styles.texts}>줌이 변경될 때 변경된 값을 반환합니다.</div>
-            <code className={styles.code}>{`mapContainer.addEventListener("zoom-changed", (e) => console.log(e.detail));`}</code>
+            <div className={styles.miniTitle}>object-mouse-over</div>
+            <div className={styles.texts}>mouse가 오브젝트 위를 움직일 때 오브젝트 정보를 반환합니다. </div>
+            <code className={styles.code}>{`mapContainer.addEventListener("on-mouse-click", (e) => console.log(e.detail));`}</code>
+
+            <div className={styles.miniTitle}>void-click</div>
+            <div className={styles.texts}>mouse가 오브젝트나 poi가 아닌 빈공간을 클릭시 반환합니다. </div>
+            <code className={styles.code}>{`mapContainer.addEventListener("on-mouse-click", (e) => console.log(e.detail));`}</code>
         </div>
     )
 }
