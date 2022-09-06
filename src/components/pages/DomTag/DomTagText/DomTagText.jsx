@@ -62,11 +62,8 @@ const DomTagText = () => {
                     positionZ: 400
                 },
                 async: true,
-                isKeep: true,
                 tagInfo: {                              // 태그 정보를 담고 있는 object. 없을 경우 태그 생성안함
                     tag: tag,
-                    width: 300,
-                    height: 100,
                     pos: 'TOP',
                     isResize: true,
                     floorId: 'FL-123456'
@@ -88,8 +85,6 @@ const DomTagText = () => {
     const tagInfo = {
         type: 'poi'       // 'poi' || 'marker',
         tag: tag,         // HTMLElement
-        width: 300        // tag의 넓이
-        height: 200       // tag의 높이
         pos: 'TOP'        // tag의 위치값. 'TOP' || 'BOTTOM' || 'LEFT' || 'RIGHT'
         isResize: true    // 맵 사이즈에 변화를 줄지 말지 여부. true일 경우 맵사이즈에 동기적으로 변화함
         floorId: 'FL-123456'   // tag가 위치할 floor의 ID,
