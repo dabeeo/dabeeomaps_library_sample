@@ -77,7 +77,6 @@ const DomTagText = () => {
         type: 'poi'       // 'poi' || 'marker',
         tag: tag,         // HTMLElement
         pos: 'TOP'        // tag의 위치값. 'TOP' || 'BOTTOM' || 'LEFT' || 'RIGHT'
-        isResize: true    // 맵 사이즈에 변화를 줄지 말지 여부. true일 경우 맵사이즈에 동기적으로 변화함
         floorId: 'FL-123456'   // tag가 위치할 floor의 ID,
         id: 'PO-123456'   // 연동할 POI or marker의 ID
     }
