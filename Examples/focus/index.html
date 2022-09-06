@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>focus camera sample</title>
+    <!-- <link rel="stylesheet" href="style.css"> -->
+    <style>
+        .map {
+            width: 100vw;
+            height: 100vh;
+            /* position: relative; */
+        }
+
+        .function {
+            text-align: center;
+        }
+
+        .function:hover {
+            background-color: gold;
+        }
+    </style>
+</head>
+
+<body>
+
+    <body>
+        <button type="button" class="button-menu">floor</button>
+        <select type="text" class="inline-input" name="floor"></select>
+        <div id='map' class="map"></div>
+
+    </body>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dat-gui/0.7.9/dat.gui.min.js"></script>
+    <script type="text/javascript" src='https://assets.dabeeomaps.com/upload/library/dabeeomaps-4.1.0.js'></script>
+    <script>
+
+        const dabeeoMaps = new dabeeo.Maps();
+        let mapData = null;
+        let map = null;
+        let mapContainer = null;
+        let objectIds = [];
+
+
+        const gui = new dat.GUI();
+
+        const mapOptionDefault = {
+            camera: "3d",
+            controlOption: {
+                zoom: 90,                                //초기줌
+            },
+        }
+        async function init () {
+            mapData = await dabeeoMaps.getMapData({
+                clientId: "75hb8YSnAokb-sZ04aDR91",
+                clientSecret: "0f7ad84f160c7b3fd1849a7920af718b"
+            });
+
+            mapContainer = document.getElementById('map');
+            map = await dabeeoMaps.showMap(mapContainer, mapOptionDefault, mapData);
+
+            initFloorMenu();
+            initFloorEvent();
+            initFocus();
+            initControlEvent();
+            initObjectClickEvent();
+        }
+
+        function initFloorMenu () {
+            //floor data 
+            const dataFloor = mapData.dataFloor;
+            const floorInfo = dataFloor.getFloors();
+            const mapDefaultFloor = dataFloor.getDefaultFloor();
+            let element = document.querySelector("[name='floor']");
+
+            for (const floor of floorInfo) {
+                let newOption = document.createElement("option");
+                newOption.value = floor.id;
+                newOption.appendChild(document.createTextNode(floor.name[0].text));
+                element.appendChild(newOption);
+            }
+            element.value = mapDefaultFloor.id;
+        }
+
+        function initFloorEvent () {
+            const optionDefaultFloor = map.context.getMapOptions().floor
+            let element = document.querySelector("[name='floor']");
+            element.value = optionDefaultFloor;
+            element.addEventListener("change", function (e) {
+                const floor = e.target.value
+                map.context.changeFloor(floor);
+                objectIds = [];
+
+            });
+        }
+
+        function initFocus () {
+            const focusTo = value => {
+                if (settingFocusTo.type === "OBJECT" && objectIds.length == 0) {
+                    alert("click one or multiple objects to focus ");
+                    return;
+                }
+                const focusToOption = {
+                    focus: {
+                        type: settingFocusTo.type,
+                        ids: objectIds
+                    },
+                    transition: settingFocusTo.transition,
+                    padding: {
+                        top: settingFocusTo.top,
+                        left: settingFocusTo.left,
+                        bottom: settingFocusTo.bottom,
+                        right: settingFocusTo.right,
+                    }
+                }
+                console.log(focusToOption);
+                map.control.focusTo(focusToOption);
+
+            }
+            const settingFocusTo = {
+                'transition': false,
+                'type': 'OBJECT_ALL',
+                'top': 0,
+                'left': 0,
+                'bottom': 0,
+                'right': 0,
+                'focusTo': focusTo,
+                'clearObjects' :clearObejcts
+            }
+            const focusToMenu = gui.addFolder('Focus To');
+            focusToMenu.open();
+            focusToMenu.add(settingFocusTo, "transition");
+            focusToMenu.add(settingFocusTo, "type", ['OBJECT_ALL', 'OBJECT', 'NAVIGATION']);
+            focusToMenu.add(settingFocusTo, "top", 0, 2000);
+            focusToMenu.add(settingFocusTo, "left", 0, 2000);
+            focusToMenu.add(settingFocusTo, "bottom", 0, 2000);
+            focusToMenu.add(settingFocusTo, "right", 0, 2000);
+            focusToMenu.add(settingFocusTo, "focusTo");
+        }
+
+
+        function initObjectClickEvent () {
+            const updateOption = {
+                activeDest: true,
+                color: "#00ffff",
+                opacity: 0.3,
+                isAnimate: true,
+                duration: 1200,
+                isRepeat: true,
+                isYoyo: false,
+                // ids: [
+                //     'OB-aN7fGeVoze1959', // 플랫폼사업부 회의실
+                //     'OB-mxanpdYA1T2410', // 남자화장실
+                //     'PO-JQ4mw4YeT4536', // 여자화장실
+                // ],
+            };
+
+            mapContainer?.addEventListener("object-click", function (e) {
+                console.log("object click ", e.detail);
+                let id = e.detail[0].id;
+                console.log("id : ", id);
+
+                objectIds.push(id);
+                console.log(objectIds);
+                const option = { ...updateOption, ids: [id] };
+                console.log(option);
+                map.objects.set(option);
+
+            });
+
+        }
+
+        //event 
+        function initControlEvent () {
+            mapContainer.addEventListener('zoom-changed', (e) => {
+                console.log('zoom-changed 에 대한 결과값', e.detail);
+
+            });
+            // camera tilt changed
+            mapContainer.addEventListener('tilt-changed', (e) => {
+                console.log('tilt-changed 에 대한 결과값', e.detail);
+
+            });
+            // camera rotation changed
+            mapContainer.addEventListener('rotation-changed', (e) => {
+                console.log('rotation-changed 에 대한 결과값', e.detail);
+
+            });
+
+            // camera rotation changed
+            mapContainer.addEventListener('control-start', (e) => {
+                console.log('control start 에 대한 결과값', e.detail);
+            });
+
+            // camera rotation changed
+            mapContainer.addEventListener('control-end', (e) => {
+                console.log('control end 에 대한 결과값', e.detail);
+            });
+
+        }
+        init();
+    </script>
+
+</html>
