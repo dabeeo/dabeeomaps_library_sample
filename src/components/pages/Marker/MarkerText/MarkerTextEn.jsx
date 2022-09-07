@@ -50,8 +50,7 @@ const MarkerTextEn = () => {
     floorId: string,                        // Designate a layer for each marker. If not specified, only the currently visible floor is displayed.
     data: any,                              // Information to return when a marker is clicked
     async: true,                            // Whether the marker's size will always show the same size regardless of zoom. If true, they always appear the same size. default is false
-    tagInfo: object,                        // dom tag information linked to the marker.
-    isKeep: boolean                         // Whether or not it persists across floor changes. default value is false`}
+    tagInfo: object,                        // dom tag information linked to the marker.`}
                 </code>
             </pre>
             <div className={styles.texts}>The method to draw a marker is as follows.</div>
@@ -63,7 +62,6 @@ const MarkerTextEn = () => {
             {
                 position: { x: 100, y: 200, z: 10 },
                 async: true
-                isKeep: true,
             },
         ],
     })

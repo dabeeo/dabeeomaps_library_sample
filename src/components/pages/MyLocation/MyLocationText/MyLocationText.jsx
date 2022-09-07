@@ -43,7 +43,6 @@ const MyLocationText = () => {
       height: 200,                                                                    // 내 위치 마커의 높이
     },
     onActive: true,                                                                    // 타층 이동후 다시 돌아왔을 때 표시 여부
-    isKeep: true,                                                                      // 층 변경시에도 유지되는 지에 대한 여부. default값은 false
     animate: {                                                                         // 내 위치 마커 애니메이션 효과 속성
       color: string,                                                                   // 내 위치 마커의 색상
       opacity: number,                                                                 // 내 위치 마커의 투명도

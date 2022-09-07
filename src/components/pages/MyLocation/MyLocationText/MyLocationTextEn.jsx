@@ -38,7 +38,6 @@ const MyLocationTextEn = () => {
     y: number,                                          // my position y coordinate
     z: number,                                          // my position z coordinate
     onActive: boolean,                                  // Whether to display when returning from moving to another floor
-    isKeep: boolean,                                    // Whether or not it persists across floor changes. default value is false
     icon: {                                             // Icon properties of my location marker
         image: string,                                  // image of my location marker
         size: { width: number, height: number }         // size of my location marker icon
