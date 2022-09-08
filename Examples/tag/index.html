@@ -33,8 +33,8 @@
 
             document.querySelector('.addPOI').addEventListener('click', function () {
                 const tag = document.createElement('div');
-                tag.style.width = '100%';
-                tag.style.height = '100%';
+                tag.style.width = '100px';
+                tag.style.height = '100px';
                 tag.style.backgroundColor = 'rgba(0, 0, 255, 1)';
                 tag.style.color = 'white';
                 tag.textContent = 'poi Tag';
@@ -52,8 +52,8 @@
 
             document.querySelector('.addMarker').addEventListener('click', function () {
                 const tag = document.createElement('div');
-                tag.style.width = '100%';
-                tag.style.height = '100%';
+                tag.style.width = '100px';
+                tag.style.height = '100px';
                 tag.style.backgroundColor = 'rgba(0, 255, 0, 1)';
                 tag.textContent = 'marker Tag';
 
@@ -66,7 +66,7 @@
                             },
                             tagInfo: {
                                 tag: tag,
-                                pos: 'LEFT',
+                                pos: 'top',
                             }
                         }
                     ]
