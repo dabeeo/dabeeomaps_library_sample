@@ -45,11 +45,11 @@ const Events = () => {
 
             <div className={styles.miniTitle}>control-start</div>
             <div className={styles.texts}>사용자가 지도를 움직이는 시작시점을 알립니다.</div>
-            <code className={styles.code}>{`mapContainer.addEventListener("rotation-changed", (e) => console.log(e.detail));`}</code>
+            <code className={styles.code}>{`mapContainer.addEventListener("control-start", (e) => console.log(e.detail));`}</code>
 
             <div className={styles.miniTitle}>control-end</div>
             <div className={styles.texts}>사용자가 지도를 움직이는 종료시점을 알립니다.</div>
-            <code className={styles.code}>{`mapContainer.addEventListener("rotation-changed", (e) => console.log(e.detail));`}</code>
+            <code className={styles.code}>{`mapContainer.addEventListener("control-end", (e) => console.log(e.detail));`}</code>
 
             <div className={styles.miniTitle}>zoom-possible</div>
             <div className={styles.texts}>zoomIn, zoomOut의 상태값을 받아올 수 있습니다.</div>
@@ -65,11 +65,24 @@ const Events = () => {
 
             <div className={styles.miniTitle}>object-mouse-over</div>
             <div className={styles.texts}>mouse가 오브젝트 위를 움직일 때 오브젝트 정보를 반환합니다. </div>
-            <code className={styles.code}>{`mapContainer.addEventListener("on-mouse-click", (e) => console.log(e.detail));`}</code>
+            <code className={styles.code}>{`mapContainer.addEventListener("object-mouse-over", (e) => console.log(e.detail));`}</code>
 
             <div className={styles.miniTitle}>void-click</div>
             <div className={styles.texts}>mouse가 오브젝트나 poi가 아닌 빈공간을 클릭시 반환합니다. </div>
-            <code className={styles.code}>{`mapContainer.addEventListener("on-mouse-click", (e) => console.log(e.detail));`}</code>
+            <code className={styles.code}>{`mapContainer.addEventListener("void-click", (e) => console.log(e.detail));`}</code>
+
+            <div className={styles.miniTitle}>drag-start</div>
+            <div className={styles.texts}>사용자가 지도를 drag시 움직이는 시작시점을 알립니다.</div>
+            <code className={styles.code}>{`mapContainer.addEventListener("drag-start", (e) => console.log(e.detail));`}</code>
+
+            <div className={styles.miniTitle}>drag-end</div>
+            <div className={styles.texts}>사용자가 지도를 drag시 움직이는 종료시점을 알립니다.</div>
+            <code className={styles.code}>{`mapContainer.addEventListener("drag-end", (e) => console.log(e.detail));`}</code>
+
+            <div className={styles.miniTitle}>drag-move</div>
+            <div className={styles.texts}>사용자가 지도를 drag하는 동안 발생합니다.</div>
+            <code className={styles.code}>{`mapContainer.addEventListener("drag-move", (e) => console.log(e.detail));`}</code>
+
         </div>
     )
 }

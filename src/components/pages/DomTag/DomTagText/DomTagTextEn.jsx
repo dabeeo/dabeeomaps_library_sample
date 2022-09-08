@@ -37,10 +37,7 @@ const DomTagTextEn = () => {
                 <code className={styles.code}>
                     {`
     tag: HTMLElement,                                       // HTML element to display on map
-    width: number,                                          // The width of the parent element of the entered tag
-    height: number,                                         // The height of the parent element of the entered tag
     pos: 'TOP' | 'BOTTOM' | 'LEFT' | 'RIGHT' | 'CENTER' |   // The location where the dom tag will be created,
-    isResize: true                                          // Whether to handle dynamic size according to zoom and map movement.
     `}
                 </code>
             </pre>
@@ -59,10 +56,7 @@ const DomTagTextEn = () => {
                 position: { x: 3000, y: 1000, z: 400 }, // marker position
                 tagInfo: {                              // An object containing tag information. If not, tag is not created.
                     tag: tag,
-                    width: 300,
-                    height: 100,
                     pos: 'TOP',
-                    isResize: true,
                 }
             }
         ]

@@ -53,7 +53,6 @@ const DomTagText = () => {
             {
                 x: 100,
                 y: 200,
-                async: true,
                 tagInfo: {                              // 태그 정보를 담고 있는 object. 없을 경우 태그 생성안함
                     tag: tag,
                     pos: 'TOP',

@@ -63,8 +63,8 @@ const MarkerText = () => {
                 y: 200,
                 iconOption: {
                     positionZ: 400
+                    async: true,
                 },
-                async: true,
             },
         ],
     })

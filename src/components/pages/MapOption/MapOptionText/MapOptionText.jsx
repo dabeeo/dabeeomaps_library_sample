@@ -41,7 +41,7 @@ let mapOptions = {
         poiSpriteKeepRotation: boolean,         // POI sprite로 그릴때 원래 각도 유지 여부
     },
     controlOption: {
-        zoom: 100,                                //초기줌
+        zoom: ,                                 //줌은 zoomlevel로 0~24까지 줄 수 있습니다. 
         pan: {                                  //중심좌표 
             x: number,
             y: number
