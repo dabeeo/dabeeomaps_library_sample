@@ -14,11 +14,9 @@ let mapOptions = {
     floor: string,                              // Floor information to be applied
     theme: string,                              // About the theme to be applied
     language: 'ko' | 'en',                      // Initial poi language setting 
-    resize : boolean                            // map redraw setting according to element size of map 
-    poiOption: {                                // POI option 
-        showPoi: boolean,                       // Whether to show poi on the map or not. default is true
-        poiSpriteEnable: boolean,               // Make Poi always face-to-face. 
-        poiSpriteKeepRotation: boolean,         // Whether to keep original angle when drawing with POI sprite
+    showPoi: boolean,                           // Whether to show poi on the map or not. default is true
+    poiSpriteEnable: boolean,                   // Make Poi always face-to-face. 
+    poiSpriteKeepRotation: boolean,             // Whether to keep original angle when drawing with POI sprite
     },
     controlOption: {
         zoom: 100,                                //initial zoom value 

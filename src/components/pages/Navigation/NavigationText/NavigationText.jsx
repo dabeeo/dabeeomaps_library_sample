@@ -25,10 +25,34 @@ const NavigationText = () => {
     return(
         <div className={styles.navigationText}>
             <div className={styles.title}>Navigation</div>
-            <div className={styles.miniTitle}>지도에 출발지에서 목적지까의 경로를 설정하고 안내받을 수 있습니다.</div>
+            <div className={styles.miniTitle}>지도에 출발지에서 목적지까의 경로를 설정하고 모의주행을 실행할 수 있습니다.</div>
             <p>
-                지도상에 경로를 설정한 뒤 해당 경로를 드로잉하고 이동하는 모의주행 애니메이션을 설정할 수 있습니다.<br />
+                경로를 그리기 위해서는 먼저 경로를 찾아야 합니다. 경로를 찾은 후 찾은 경로를 지도에 그리는 순서로 이용해야 합니다.<br />
+                1. 경로를 찾을 때 출발지와 목적지는 (경유지는 옵션) poi Id로 주거나 좌표로 입력하여도 됩니다. <br />
+                이 때 층이동수단을 지정할 수 있으며 지정하지 않는 경우 추천경로(가장 짧은 경로)로 설정됩니다. <br />
+                2. 경로를 지도에 그릴 때 주행선에 대한 옵션을 지정할 수 있습니다. <br />
+                3. 경로가 그려진 후 모의주행을 실행할 수 있으며 모의주행에 대한 옵션을 함께 지정할 수 있습니다. <br />
+                <br />
+                옵션에 대한 자세한 사항은 Document를 참조바랍니다.
             </p>
+            
+            <div className={styles.texts}>해당 목적지까지의 경로를 받은 후에 경로를 지도에 그리는 방법은 간단히 설명하자면 아래와 같습니다. .</div>
+            <pre>
+              <code className={styles.code}>
+{`
+const naviResponse = mapData.getRoute(des);                 //경로 구하기
+await map.routeSimulation.set(naviResponse, naviOption);    //경로 그리기
+map.routeSimulation.start(animOption);                      //모의주행 시작
+map.routeSimulation.stop();                                 //모의주행 멈춤
+map.routeSimulation.clear()                                 //경로 지우기
+`}
+              </code>
+            </pre>
+
+            <div className={styles.texts}>해당 목적지까지의 경로를 받은 후에 경로에 대한 정보(예: 10m 걷기 후 좌회전) 는 아래 속성에 저장되어 있습니다. 이를 이용하여 경로에 대한 설명을 안내할 수 있습니다.</div>
+            <pre>
+              <code className={styles.code}>{`naviResponse.navigationList`}</code>
+            </pre>
             <div className={styles.texts}>아래 메소드를 사용해 해당 목적지까지의 경로에 대한 정보를 반환 받을 수 있습니다.</div>
             <pre>
               <code className={styles.code}>
@@ -53,12 +77,35 @@ const NavigationText = () => {
     }
   ],
 }
+//Position으로 설정하는 경우 
+const des ={
+    origin: {
+      position: { x: 3000, y: 1000, },
+      floorId: "FL-rhg41w7x6vy15369"
+    },
+    destination:  {
+      position: { x: 1000, y: 4000,  },
+      floorId: "FL-rhg41w7x6vy15369"
+    },
+    type: "recommendation",
+    waypoints: [
+      {
+        position: { x: 2500, y: 2500,},
+        floorId: "FL-rhg41w7x6vy15369"
+      },
+      {
+        position: { x: 1000, y: 1300, },
+        floorId: "FL-rhg41w7x6vy15369"
+      }
+    ],
+  },
 
 const naviResponse = mapData.getRoute(des);
 `}
               </code>
             </pre>
-            <div className={styles.texts}>아래 메소드를 사용해 목적지 까지의 경로를 설정할 수 있습니다.</div>
+            <div className={styles.texts}>아래 메소드를 사용해 목적지 까지의 경로를 지도에 그릴 수 있습니다.</div>
+            <div className={styles.texts}>출발지 마커, 경유지 마커와 주행선, 목적지 마커와 주행선 옵션을 설정할 수 있습니다.</div>
             <pre>
               <code className={styles.code}>
 {`  // route 설정
@@ -131,7 +178,7 @@ const naviResponse = mapData.getRoute(des);
               </code>
             </pre>
             <div className={styles.texts}>map.routeSimulation.start를 통해 모의주행 애니메이션을 실행시킬 수 있습니다.<br />
-                set을 통해 경로 설정 후 실행하셔야합니다.</div>
+            </div>
             <pre>
                 <code className={styles.code}>
                     {`
@@ -151,11 +198,6 @@ const naviResponse = mapData.getRoute(des);
     map.routeSimulation.start(animOption);`}
                 </code>
             </pre>
-            <div className={styles.texts}>다음 메소드를 통해 동작중인 navigation을 멈추실 수 있습니다.</div>
-            <code className={styles.code}>map.routeSimulation.stop();</code>
-            <div className={styles.texts}>다음 메소드를 통해 route를 삭제하실 수 있습니다</div>
-            <code className={styles.code}>map.routeSimulation.clear();</code>
-            <div className={styles.texts}>아래 지도에서 테스트를 해보실 수 있습니다.</div>
         </div>
     )
 }

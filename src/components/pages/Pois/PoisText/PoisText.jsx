@@ -35,24 +35,22 @@ const PoisText = () => {
             </p>
             </p>
             
-            <div className={styles.texts}>지도의 모든 poi를 숨깁니다.</div>
+            <div className={styles.texts}>지도의 모든 poi, 또는 특정 poi를 숨깁니다.</div>
             <pre>
-              <code className={styles.code}>map.pois.hide()</code>
+              <code className={styles.code}>{`
+map.pois.hide(); 
+map.pois.hide('PO-BCMoiSGto0271');
+map.pois.hide(['PO-123456', 'PO-5543432']);
+              `}</code>
             </pre>
 
-            <div className={styles.texts}><br />지도의 모든 poi를 표출합니다.</div>
+            <div className={styles.texts}><br />지도의 모든 poi, 또는 특정 poi를 표출합니다.</div>
             <pre>
-              <code className={styles.code}>map.pois.show()</code>
-            </pre>
-
-            <div className={styles.texts}><br />특정 poi를 숨깁니다.</div>
-            <pre>
-              <code className={styles.code}>map.pois.hide('PO-BCMoiSGto0271')</code>
-            </pre>
-
-            <div className={styles.texts}><br />특정 poi를 표출합니다.</div>
-            <pre>
-              <code className={styles.code}>map.pois.show('PO-BCMoiSGto0271')</code>
+              <code className={styles.code}>{`
+map.pois.show();
+map.pois.show('PO-BCMoiSGto0271');
+map.pois.show(['PO-123456', 'PO-5543432']);
+              `}</code>
             </pre>
 
             <div className={styles.texts}><br />모든 poi를 제거합니다.</div>

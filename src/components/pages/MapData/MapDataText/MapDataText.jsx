@@ -32,41 +32,85 @@ const MapDataText = () => {
                 그룹코드의 트리구조를 이용한 부모와 자식에 대한 검색이 가능합니다.<br />
                 오브젝트와 poi에 대하여 타이틀, 층, 아이디, 그룹코드로 검색이 가능합니다<br />
             </p>
-            <div className={styles.texts}>층에 대한 정보를 가져옵니다.</div>
+            
+
+            <div className={styles.texts}>지도데이터 호출시 객체가 반환됩니다.</div>
+            <pre>
+              <code className={styles.code}>const mapData = await dabeeoMaps.getMapData(mapDataOption);</code>
+            </pre>
+
+            <div className={styles.texts}><br/><br/><br/>층에 대한 정보를 가져옵니다.</div>
             <pre>
               <code className={styles.code}>mapData.dataFloor.getFloors()</code>
             </pre>
+            
+            <div className={styles.texts}><br />지도 속성 정보를 가져옵니다.</div>
+            <pre>
+              <code className={styles.code}>mapData.mapInfo.address</code>
+            </pre>
+
+
             <div className={styles.texts}><br />언어에 대한 정보를 가져옵니다.</div>
             <pre>
               <code className={styles.code}>mapData.dataLanguage.getLanguage()</code>
             </pre>
+
             <div className={styles.texts}><br />POI에 대한 정보를 가져옵니다.</div>
             <pre>
               <code className={styles.code}>mapData.dataPoi.getPois()</code>
             </pre>
+
             <div className={styles.texts}><br />오브젝트에 대한 정보를 가져옵니다.</div>
             <pre>
               <code className={styles.code}>mapData.dataObject.getObjects()</code>
             </pre>
-            <div className={styles.texts}><br />id로 해당하는 층을 찾습니다.</div>
+
+            <div className={styles.texts}><br />그룹에 대한 정보를 가져옵니다.</div>
             <pre>
-              <code className={styles.code}>{`mapData.dataFloor.find('FL-03vEsKnBNz5665', { type: 'id'})`}</code>
+              <code className={styles.code}>map.dataGroupCode.getCodes();</code>
             </pre>
-            <div className={styles.texts}><br />특정한 층에 포함된 POI를 찾습니다.</div>
+
+            <div className={styles.texts}><br /><br /><br />옵션을 이용하여 title, id, groupcode에 해당하는 층을 찾습니다.</div>
             <pre>
-              <code className={styles.code}>{`mapData.dataPoi.find('FL-t4vqgyek3jnb8146', { type : 'floorId' })`}</code>
+              <code className={styles.code}>{`
+mapData.dataFloor.find('FL-03vEsKnBNz5665', { type: 'ID'}) //id로 찾기 ;
+mapData.dataFloor.find('11F', { type: 'TITLE'})  // title로 찾기
+mapData.dataPoi.find('A1-21', { type: 'GROUPCODE' })`}</code>
             </pre>
-            <div className={styles.texts}><br />특정한 그룹에 해당하는 오브젝트를 찾습니다.</div>
+
+            <div className={styles.texts}><br />에디터에서 디폴트로 지정된 층의 정보를 찾습니다.</div>
             <pre>
-              <code className={styles.code}>{`mapData.dataObject.find('A1-1', { type : 'groupCode' })`}</code>
+              <code className={styles.code}>{`map.dataFloor.getDefaultFloor();`}</code>
             </pre>
-            <div className={styles.texts}><br />디폴트층을 찾습니다.</div>
+
+            <div className={styles.texts}><br /><br /><br />옵션을 이용하여 타이틀, 아이디, 그룹, 특정한 층에 포함된 POI를 찾습니다.</div>
             <pre>
-              <code className={styles.code}>mapData.dataFloor.getDefaultFloor()</code>
+              <code className={styles.code}>{`
+mapData.dataPoi.find('FL-t4vqgyek3jnb8146', { type : 'FLOORID' }); // 특정층에 있는 모든 poi를 찾습니다.
+mapData.dataPoi.find('실', { type: 'TITLE' }); // '실'이란 단어가 title에 들어간 모든 poi를 찾습니다.
+mapData.dataPoi.find('PO-9InVzIGv20417', { type: 'ID' }); // 'PO-123456'에 해당하는 ID를 가진 poi를 찾습니다.
+mapData.dataPoi.find('A1', { type: 'GROUPCODE' }); //  'A1'에 해당하는 groupCode를 가진 모든 POI를 찾습니다.`}</code>
             </pre>
-            <div className={styles.texts}><br />특정 그룹의 부모 코드를 찾습니다.</div>
+
+            <div className={styles.texts}><br />옵션을 이용하여 타이틀, 아이디, 그룹, 특정한 층에 포함된 오브젝트를 찾습니다.</div>
             <pre>
-              <code className={styles.code}>mapData.dataGroupCode.findRootParent('A1-1')</code>
+              <code className={styles.code}>{`
+mapData.dataObject.find('실', { type: 'title' }); // '실'이란 단어가 title에 들어간 모든 오브젝트를 반환해줍니다.
+mapData.dataObject.find('OB-aN7fGeVoze1959', { type: 'iD' }); // 'OB-aN7fGeVoze1959'에 해당하는 ID를 가진 오브젝트를 반환해줍니다.
+mapData.dataObject.find('Fl-123456', { type: 'floorId' }); // 'FL-123456'에 해당하는 floorID를 가진 모든 오브젝트를 반환해줍니다.
+mapData.dataObject.find('A1', { type: 'groupCode' }); // -> 'A1'에 해당하는 groupCode를 가진 모든 오브젝트를 반환해줍니다.`}</code>
+            </pre>
+
+            <div className={styles.texts}><br />특정 그룹의 코드를 찾습니다.</div>
+            <pre>
+              <code className={styles.code}>{`
+mapData.dataGroupCode.findAll();                //모든 code
+mapData.dataGroupCode.findAllChild('A1');       //모든 자식 code
+mapData.dataGroupCode.findAllRoot();            //모든 root code
+mapData.dataGroupCode.findChild('A1');          //직계 자식 code
+mapData.dataGroupCode.findParent('A1');         //직계 parent code
+mapData.dataGroupCode.findRootParent("A1-1");   //최상단 root parent code
+`}</code>
             </pre>
             <div className={styles.texts}><br /><br /><br /><br /><br /><br /></div>
             

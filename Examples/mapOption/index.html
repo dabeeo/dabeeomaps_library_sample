@@ -37,19 +37,17 @@
         // render a map
         const mapOption = Object.assign({
             // camera: "2d", //change camera option  when rendering a map (default : "3d")
-            // language: "en", // change language when rendering a map 
             // floor: "FL-vf3q07spbmsw8132", //change floor when rendering a map 
-            controlOption: {
-                // zoom: 100,
-                // pan: { x: 2000, y: 100 },
-                // rotate: 90,
-                // tilt: 20
-            },
-            poiOption: {
-                // showPoi: false,
-                // poiSpriteEnable: false,
-                // poiSpriteKeepRotation: true
-            }
+            // language: "en", // change language when rendering a map 
+            // showPoi: false,
+            // poiSpriteEnable: false,
+            // poiSpriteKeepRotation: true,
+            // controlOption: {
+            //     zoom: 22,
+            //     pan: { x: 2000, y: 100 },
+            //     rotate: 90,
+            //     tilt: 20
+            // },
         });
         const mapContainer = document.getElementById('map');
         const map = await dabeeoMaps.showMap(mapContainer, mapOption, mapData);

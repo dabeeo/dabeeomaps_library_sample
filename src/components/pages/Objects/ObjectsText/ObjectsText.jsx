@@ -33,25 +33,25 @@ const ObjectsText = () => {
                 스타일을 바꾸거나 다시 되돌릴 수 있습니다. <br />
             </p>
             
-            <div className={styles.texts}>지도의 모든 오브젝트를 숨깁니다.</div>
+            <div className={styles.texts}>지도의 모든 오브젝트, 또는 특정 오브젝트를 숨깁니다.</div>
             <pre>
-              <code className={styles.code}>map.objects.hide()</code>
+              <code className={styles.code}>{`
+map.objects.hide(); // 모든 object 를 지도에서 숨김.
+map.objects.hide('OB-aN7fGeVoze1959'); // 단일 object 를 지도에서 숨김.
+map.objects.hide(['OB-aN7fGeVoze1959', 'OB-mxanpdYA1T2410']); // 여러 object 를 지도에서 숨김.
+
+`}</code>
             </pre>
             
-            <div className={styles.texts}><br />지도의 모든 poi를 표출합니다.</div>
+            <div className={styles.texts}><br />지도의 모든 오브젝트 또는 특정 오브젝트를 표출합니다.</div>
             <pre>
-              <code className={styles.code}>map.objects.show()</code>
+              <code className={styles.code}>{`
+map.objects.show(); // 모든 object 를 지도에서 보여줌.
+map.objects.show('OB-aN7fGeVoze1959'); // 단일 object 를 지도에서 보여줌.
+map.objects.show(['OB-aN7fGeVoze1959', 'OB-mxanpdYA1T2410']); // 여러 object 를 지도에서 보여줌.
+`}</code>
             </pre>
             
-            <div className={styles.texts}><br />특정 오브젝트, 또는 여러개의 오브젝트를 숨깁니다.</div>
-            <pre>
-              <code className={styles.code}>map.objects.hide('[PO-BCMoiSGto0271'])</code>
-            </pre>
-            
-            <div className={styles.texts}><br />특정 오브젝트, 또는 여러개의 오브젝트를 표출합니다.</div>
-            <pre>
-              <code className={styles.code}>map.objects.show(['PO-BCMoiSGto0271'])</code>
-            </pre>
 
             <div className={styles.texts}><br />모든 오브젝트를 제거합니다.</div>
             <pre>
