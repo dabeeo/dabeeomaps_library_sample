@@ -54,7 +54,7 @@
             map = await dabeeoMaps.showMap(mapContainer, mapOption, mapData);
             initFloorEvent();
 
-            map.markers.set({
+            markerId = await map.markers.set({
                 marker: [
                     {
                         x: 3000,
@@ -91,7 +91,9 @@
 
             document.querySelector("[name='clear']").addEventListener('click', function () {
                 console.log('clear all')
-                map.markers.clearAll();
+                
+                map.markers.clear(markerId);
+                // map.markers.clearAll();
             });
 
 
