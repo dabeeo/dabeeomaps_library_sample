@@ -7,13 +7,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>tag sample</title>
     <link rel="stylesheet" href="styles.css">
+    <style>
+
+        .tag-container {
+            z-index: 10;
+            border-radius: 15px;
+            outline: 1px solid gray;
+            padding: 10px;
+            text-align: center;
+            background-color: rgba(250, 250, 250, 0.8);
+        }
+    </style>
 </head>
 
 <body>
     <div id='viewport' class="viewport">
         <div class="inputContainer">
-            <div class="addPOI">addPOI</div>
-            <div class="addMarker">addMarker</div>
+            <div class="addTag">add Tag</div>
             <div class="delete">delete</div>
         </div>
     </div>
@@ -30,52 +40,30 @@
             const mapOption = Object.assign({});
             const mapContainer = document.getElementById('viewport');
             const map = await dabeeoMaps.showMap(mapContainer, mapOption, mapData);
+            let item = null; 
 
-            document.querySelector('.addPOI').addEventListener('click', function () {
+            document.querySelector('.addTag').addEventListener('click', function () {
                 const tag = document.createElement('div');
-                tag.style.width = '100px';
-                tag.style.height = '100px';
-                tag.style.backgroundColor = 'rgba(0, 0, 255, 1)';
-                tag.style.color = 'white';
-                tag.textContent = 'poi Tag';
+                tag.innerHTML = `<div class="tag-container">
+                        <div class="tag-body">재직 506</div>
+                        <div class="tag-body">근무 149 </div>
+                        </div>`;
 
                 const option = {
-                    type: 'poi',
-                    id: 'PO-NMvw3E0pe1690',
+                    coordinate:{x:1000,y:1000, z:100},
                     tag: tag,
                     pos: 'LEFT',
                     floorId: 'FL-t4vqgyek3jnb8146'
                 }
 
-                map.tag.set(option);
+                item = map.tag.set(option);
             });
 
-            document.querySelector('.addMarker').addEventListener('click', function () {
-                const tag = document.createElement('div');
-                tag.style.width = '100px';
-                tag.style.height = '100px';
-                tag.style.backgroundColor = 'rgba(0, 255, 0, 1)';
-                tag.textContent = 'marker Tag';
-
-                map.markers.set({
-                    marker: [
-                        {
-                            x: 3000, y: 1000,
-                            iconOption: {
-                                positionZ: 400,
-                            },
-                            tagInfo: {
-                                tag: tag,
-                                pos: 'top',
-                            }
-                        }
-                    ]
-                });
-            });
 
             document.querySelector('.delete').addEventListener('click', function () {
-                map.markers.clearAll();
-                map.tag.clearAll();
+                // map.tag.clearAll();
+                if (item)  map.tag.clear(item.id);
+                item = null; 
             });
         });
     }
