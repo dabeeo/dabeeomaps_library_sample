@@ -25,12 +25,13 @@ const MapContextText = () => {
     return (
         <div className={styles.mapContextText}>
             <div className={styles.title}>MapContext</div>
-            <div className={styles.miniTitle}>ID 또는 code를 사용해 Map을 수정할 수 있습니다.</div>
+            <div className={styles.miniTitle}>그려진 맵에 대한 각종 정보를 가져오거나 제어를 할 수 있습니다.</div>
             <p>
-                현재 Map의 층을 바꾸고 싶으실 때 바꿀 층의 ID를 이용해 층을 바꾸실 수 있습니다.<br />
-                각 object 또는 poi가 가지고 있는 groupCode를 사용해서 관련 정보를 찾을 수 있습니다.<br />
-                정보가 필요한 groupCode로 메소드를 호출 시 관련 정보를 얻으실 수 있습니다.<br />
             </p>
+            <div className={styles.texts}>현재 표출되고 있는 층에 대한 정보를 얻을 수 있습니다.</div>
+            <pre>
+              <code className={styles.code}>map.context.getCurrentFloor();</code>
+            </pre>
             <div className={styles.texts}>층 전환은 다음 메소드를 호출하시면 됩니다.</div>
             <pre>
               <code className={styles.code}>map.context.changeFloor([변경할 층 ID]);</code>
