@@ -8,7 +8,6 @@
     <title>tag sample</title>
     <link rel="stylesheet" href="styles.css">
     <style>
-
         .tag-container {
             z-index: 10;
             border-radius: 15px;
@@ -28,7 +27,9 @@
         </div>
     </div>
 </body>
-<script type="text/javascript" src='https://assets.dabeeomaps.com/upload/library/dabeeomaps-4.1.0.js'></script>
+<!-- <script type="text/javascript" src='https://assets.dabeeomaps.com/upload/library/dabeeomaps-4.1.0.js'></script> -->
+<script type="text/javascript" src='https://assets.dabeeomaps.com/upload/library/dabeeomaps-4.0-pre-release.js'></script>
+
 <script>
     window.onload = function () {
 
@@ -40,9 +41,11 @@
             const mapOption = Object.assign({});
             const mapContainer = document.getElementById('viewport');
             const map = await dabeeoMaps.showMap(mapContainer, mapOption, mapData);
-            let item = null; 
+            let item = null;
 
-            document.querySelector('.addTag').addEventListener('click', function () {
+            document.querySelector('.addTag').addEventListener('click', async function () {
+
+                //지정한 좌표로 tag생성 
                 const tag = document.createElement('div');
                 tag.innerHTML = `<div class="tag-container">
                         <div class="tag-body">재직 506</div>
@@ -50,20 +53,61 @@
                         </div>`;
 
                 const option = {
-                    coordinate:{x:1000,y:1000, z:100},
+                    position: { x: 2000, y: 1000, z: 100 },
                     tag: tag,
                     pos: 'LEFT',
                     floorId: 'FL-t4vqgyek3jnb8146'
                 }
 
                 item = map.tag.set(option);
+
+                //마커에 tag 생성 
+                //마커 생성
+                const lists = await map.markers.set({      // 생성된 marker들의 ID List를 저장합니다.
+                    marker: [
+                        {
+                            x: 1000,
+                            y: 1000,
+                            iconOption: {
+                                positionZ: 400,
+                                anchor: {
+                                    x: 0.5,
+                                    y: 0.5
+                                },
+                            },
+                        }
+                    ]
+                });
+
+                // marker와 연동되는 tag 생성 메소드 실행 구문입니다.
+                const tag3 = document.createElement('div');
+                tag3.innerHTML = `<div class="tag-container">
+                        <div class="tag-body">재직 506</div>
+                        <div class="tag-body">근무 149 </div>
+                        </div>`;
+
+                console.log(lists);
+
+                const markerTag = map.tag.setMarkerTag({ parentId: lists[0], pos: 'BOTTOM', tag: tag3 });
+
+
+                //poi에 tag생성
+                const tag2 = document.createElement('div');
+                tag2.innerHTML = `<div class="tag-container">
+                        <div class="tag-body">재직 506</div>
+                        <div class="tag-body">근무 149 </div>
+                        </div>`;
+                const poi = mapData.dataPoi.getPois()[0];
+                const poiTag = map.tag.setPOITag({ parentId: poi.id, pos: 'BOTTOM', tag: tag2 });
+
+
             });
 
 
             document.querySelector('.delete').addEventListener('click', function () {
-                // map.tag.clearAll();
-                if (item)  map.tag.clear(item.id);
-                item = null; 
+                map.tag.clearAll();
+                // if (item)  map.tag.clear(item.id);
+                item = null;
             });
         });
     }

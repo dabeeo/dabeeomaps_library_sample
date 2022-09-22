@@ -83,6 +83,10 @@ const Events = () => {
             <div className={styles.texts}>사용자가 지도를 drag하는 동안 발생합니다.</div>
             <code className={styles.code}>{`mapContainer.addEventListener("drag-move", (e) => console.log(e.detail));`}</code>
 
+            <div className={styles.miniTitle}>poi-mouse-over</div>
+            <div className={styles.texts}>마우스가 poi 위를 움직일 때 poi 정보를 반환합니다. </div>
+            <code className={styles.code}>{`mapContainer.addEventListener("poi-mouse-over", (e) => console.log(e.detail));`}</code>
+
         </div>
     )
 }

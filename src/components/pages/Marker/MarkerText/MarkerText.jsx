@@ -45,7 +45,6 @@ const MarkerText = () => {
         height: number,                     // 마커의 높이
         positionZ: number,                  // 마커의 Z좌표
         visibleIcon: boolean                // 마커를 보여줄지 말지 여부. default = true, true일 경우 보여줌.
-        async: true,                            // 마커의 크기가 줌에 관계없이 항상 동일한 크기로 보여줄지 여부. true인 경우네는 항상 동일한 크기로 보임. default 값은 false
     },
     floorId: string,                        // 각 마커의 층을 지정. 지정하지않을 경우 현재 보이는 층에만 표시,
     data: any,                              // 마커를 클릭했을 때 반환할 정보
@@ -64,19 +63,10 @@ const MarkerText = () => {
                 y: 200,
                 iconOption: {
                     positionZ: 400
-                    async: true,
                 },
             },
         ],
     })
-`}
-                </code>
-            </pre>
-            <div className={styles.texts}>아래 메소드를 호출하시면 map에 표시된 marker의 사이즈를 줌 배율에 맞게 동기화 여부를 설정할 수 있습니다.</div>
-            <pre>
-                <code className={styles.code}>
-{`  const option = {isAsync: true} // true or false, true로 설정시 줌에 관계없이 동일한 크기 유지 
-    map.markers.setOption(option);
 `}
                 </code>
             </pre>

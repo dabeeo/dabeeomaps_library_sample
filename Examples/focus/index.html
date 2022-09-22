@@ -49,7 +49,7 @@
         const mapOptionDefault = {
             camera: "3d",
             controlOption: {
-                zoom: 90,                                //초기줌
+                zoom: 20,                                //초기줌
             },
         }
         async function init () {
@@ -127,7 +127,7 @@
                 'bottom': 0,
                 'right': 0,
                 'focusTo': focusTo,
-                'clearObjects' :clearObejcts
+                // 'clearObjects' :clearObejcts
             }
             const focusToMenu = gui.addFolder('Focus To');
             focusToMenu.open();

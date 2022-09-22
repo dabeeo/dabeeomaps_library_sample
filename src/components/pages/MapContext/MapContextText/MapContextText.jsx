@@ -62,8 +62,15 @@ const MapContextText = () => {
                     map.context.changeLanguage([지도가 가지고 있는 언어 타입]);
                 </code>
             </pre>
-            <div className={styles.texts}>실행 예제는 다음과 같습니다.</div>
             
+            <div className={styles.texts}>지도화면을 이미지로 다운받습니다.</div>
+            <pre>
+                <code className={styles.code}>
+                {`map.context.convertToImg({ ratio: number})  //ratio는 지도의 해상도. 1~5, 숫자가 클수록 높은 해상도를 갖습니다. `}
+                </code>
+            </pre>
+            <div className={styles.texts}>실행 예제는 다음과 같습니다.</div>
+
         </div>
     )
 }

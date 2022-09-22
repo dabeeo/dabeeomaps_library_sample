@@ -194,6 +194,9 @@ const naviResponse = mapData.getRoute(des);
         },
         zoom: number,                   // 애니메이션 동작 시 zoom Level
         changeFloorDelay: number        // 층 변경시 delay time
+        speedRate: number,              // 모의주행 속도 
+        removeIcon: true,               // 모의주행을 멈추거나 종료시 모의주행 아이콘 표출 여부, default는 true 
+
     }
     map.routeSimulation.start(animOption);`}
                 </code>
