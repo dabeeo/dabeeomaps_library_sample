@@ -49,7 +49,6 @@ const MarkerText = () => {
     },
     floorId: string,                        // 각 마커의 층을 지정. 지정하지않을 경우 현재 보이는 층에만 표시,
     data: any,                              // 마커를 클릭했을 때 반환할 정보
-    tagInfo: object,                        // 마커와 연동되는 dom tag정보.
 `}
                 </code>
             </pre>

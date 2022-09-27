@@ -59,7 +59,7 @@ map.pois.show(['PO-123456', 'PO-5543432']);
 {`
 const updateOption = {
     //id를 지정하지 않ㅇ면 모든 poi의 스타일을 변경합니다. 
-    id: ['PO-M02DvTVjp8449', 'PO-JQ4mw4YeT4536'],
+    ids: ['PO-M02DvTVjp8449', 'PO-JQ4mw4YeT4536'],
     outerColor: 'black',
     innerColor: 'white',
     scale: 3
@@ -95,7 +95,7 @@ const filterOptions = {
     }
  }
  
- const pois = map.pois.getCurrentPois({ isVisible:true });
+ const pois = map.pois.getCurrentPois(filterOptions);
  
 `}</code>
             </pre>
