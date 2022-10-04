@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>mapData test</title>
+    <style>
+        /* .map{
+            width: 1000px;
+            height: 700px;
+            border: 1px solid black;
+        } */
+        .map {
+            width: calc(100vw-10px);
+            height: calc(100vh - 100px);
+            border: 1px solid black;
+        }
+
+        .function {
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="map" class="map"></div>
+</body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/dat-gui/0.7.9/dat.gui.min.js"></script>
+
+<!-- <script type="text/javascript" src='../../build/dabeeomaps-4.0.0.js'></script> -->
+<!-- <script type="text/javascript" src='https://assets.dabeeomaps.com/upload/library/dabeeomaps-4.1.0.js'></script> -->
+<script type="text/javascript" src='https://assets.dabeeomaps.com/upload/library/dabeeomaps-4.0-pre-release.js'></script>
+
+<script type="module">
+    import { MapInfo } from '../MapInfo.js';
+    import { MapOption } from '../MapOption.js';
+    import { ContextMenu } from '../ContextMenu.js';
+    import { ObjectsMenu } from '../ObjectsMenu.js';
+    import { GetMapDataMenu } from '../GetMapDataMenu.js';
+
+    const gui = new dat.GUI({ width: 300 });
+    const dabeeoMaps = new dabeeo.Maps();
+
+    // menu initialization
+    async function init () {
+        const mapContainer = document.querySelector('.map');
+        const context = new ContextMenu();
+        const objectsMenu = new ObjectsMenu();
+        const mapInfo = new MapInfo();
+        const mapOption = new MapOption(dabeeoMaps, context, objectsMenu);
+        const getMapDataMenu = new GetMapDataMenu(dabeeoMaps, mapContainer, mapInfo, mapOption, context, objectsMenu);
+
+        const mapGui = getMapDataMenu.init(gui);
+    }
+
+    init(); 
+</script>
+
+</html>
