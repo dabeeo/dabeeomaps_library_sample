@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>models</title>
+    <style>
+        .map {
+            width: 100vw;
+            height: 100vh;
+        }
+    </style>
+</head>
+
+<body>
+    <div id='map' class="map"></div>
+</body>
+<script type="text/javascript" src='https://assets.dabeeomaps.com/upload/library/dabeeomaps-4.1.0.js'></script>
+<script>
+    async function init() {
+    
+    const dabeeoMaps = new dabeeo.Maps();
+    
+    //mapDataOption 정의
+    const mapDataOption = {
+        clientId: "djuVS4eGku58qpo_6sue80",
+        clientSecret: "0bdcf18584dab6292d1c81e81db1c7d3",
+    }
+
+    //mapData 가져오기 
+    const mapData = await dabeeoMaps.getMapData(mapDataOption);
+    console.log(mapData);
+
+    //mapContainer
+    const mapContainer = document.getElementById('map');
+
+    //mapOption 정의 
+    const mapOption = Object.assign({
+    });
+
+    //mapOption으로 mapContainer에 map 그리기 
+    const map = await dabeeoMaps.showMap(mapContainer, mapOption, mapData);
+    map.objects.setModel({
+      filename: 'https://assets.dabeeomaps.com/upload/models/objectA',
+      transform: {
+        translate: {
+          x: 85000,
+          y: -42000,
+          z: 0,
+        },
+        scale: {
+          x: 30,
+          y: 30,
+          z: 30,
+        },
+        rotate: {
+          x: 90,
+          y: -38,
+          z: 0,
+        },
+      }
+    });
+    map.objects.setModel({
+      filename: 'https://assets.dabeeomaps.com/upload/models/objectB',
+      transform: {
+        translate: {
+          x: 92000,
+          y: -47000,
+          z: 0,
+        },
+        scale: {
+          x: 30,
+          y: 30,
+          z: 30,
+        },
+        rotate: {
+          x: 90,
+          y: -38,
+          z: 0,
+        },
+      }
+    });
+    console.log('test: models.ts');
+
+    }
+    init();
+</script>
+
+</html>
