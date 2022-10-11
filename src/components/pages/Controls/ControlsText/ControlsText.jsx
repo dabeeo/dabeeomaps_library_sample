@@ -78,12 +78,12 @@ map.control.zoomIn({transition:true});                             // zoom In
 map.control.zoomOut({transition:true});                            // zoom Out
 `}</code>
             </pre>
-            <div className={styles.text}>아래 메소드를 활용하여 해당 오브젝트의 전체를 포커스 할수도 있습니다.</div>
+            <div className={styles.text}>아래 메소드를 활용하여 오브젝트 일부, 오브젝트 전체, 네비게이션, poi 일부, poi 전부를 포커스 할수도 있습니다.</div>
             <pre>
                 <code className={styles.code}>
 {`map.control.focusTo({
             focus:{
-                type:'OBJECT',                    // OBJECT/ OBJECT_ALL / NAVIGATION
+                type:'OBJECT',      // OBJECT/ OBJECT_ALL / NAVIGATION /  POI, POI_ALL
                 ids: [포커스할 ID 배열]
             },
             transition:true,

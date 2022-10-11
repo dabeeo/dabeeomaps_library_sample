@@ -36,11 +36,11 @@ const NavigationText = () => {
                 옵션에 대한 자세한 사항은 Document를 참조바랍니다.
             </p>
             
-            <div className={styles.texts}>해당 목적지까지의 경로를 받은 후에 경로를 지도에 그리는 방법은 간단히 설명하자면 아래와 같습니다. .</div>
+            <div className={styles.texts}>해당 목적지까지의 경로를 받은 후에 경로를 지도에 그리는 방법은 간단히 설명하자면 아래와 같습니다. 경로를 구하는 위해 서버에 접속하게 되므로 비동기방식으로 호출됩니다. </div>
             <pre>
               <code className={styles.code}>
 {`
-const naviResponse = mapData.getRoute(des);                 //경로 구하기
+const naviResponse = await mapData.getRoute(des);                 //경로 구하기
 await map.routeSimulation.set(naviResponse, naviOption);    //경로 그리기
 map.routeSimulation.start(animOption);                      //모의주행 시작
 map.routeSimulation.stop();                                 //모의주행 멈춤
@@ -100,7 +100,7 @@ const des ={
     ],
   },
 
-const naviResponse = mapData.getRoute(des);
+const naviResponse = await mapData.getRoute(des);
 `}
               </code>
             </pre>

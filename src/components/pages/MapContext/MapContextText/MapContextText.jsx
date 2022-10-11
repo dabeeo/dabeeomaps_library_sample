@@ -32,9 +32,9 @@ const MapContextText = () => {
             <pre>
               <code className={styles.code}>map.context.getCurrentFloor();</code>
             </pre>
-            <div className={styles.texts}>층 전환은 다음 메소드를 호출하시면 됩니다.</div>
+            <div className={styles.texts}>층 전환은 다음 메소드를 호출하시면 됩니다. 필요한 층데이터가 로딩안된 경우 서버로부터 가져오게 되므로 비동기방식으로 호출됩니다. </div>
             <pre>
-              <code className={styles.code}>map.context.changeFloor([변경할 층 ID]);</code>
+              <code className={styles.code}>await map.context.changeFloor([변경할 층 ID]);</code>
             </pre>
             <div className={styles.texts}>다음 메소드를 호출하시면 map을 지우실 수 있습니다.</div>
             <pre>

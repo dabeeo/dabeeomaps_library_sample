@@ -60,9 +60,9 @@ const MapDataText = () => {
               <code className={styles.code}>mapData.dataPoi.getPois()</code>
             </pre>
 
-            <div className={styles.texts}><br />오브젝트에 대한 정보를 가져옵니다.</div>
+            <div className={styles.texts}><br />오브젝트에 대한 정보를 가져옵니다. 해당층 아이디를 명시해주어야 합니다. </div>
             <pre>
-              <code className={styles.code}>mapData.dataObject.getObjects()</code>
+              <code className={styles.code}>mapData.dataObject.getObjects('FL-03vEsKnBNz5665')</code>
             </pre>
 
             <div className={styles.texts}><br />그룹에 대한 정보를 가져옵니다.</div>
@@ -70,12 +70,12 @@ const MapDataText = () => {
               <code className={styles.code}>map.dataGroupCode.getCodes();</code>
             </pre>
 
-            <div className={styles.texts}><br /><br /><br />옵션을 이용하여 title, id, groupcode에 해당하는 층을 찾습니다.</div>
+            <div className={styles.texts}><br /><br /><br />옵션을 이용하여 title, id에 해당하는 층을 찾습니다.</div>
             <pre>
               <code className={styles.code}>{`
-mapData.dataFloor.find('FL-03vEsKnBNz5665', { type: 'ID'}) //id로 찾기 ;
-mapData.dataFloor.find('11F', { type: 'TITLE'})  // title로 찾기
-mapData.dataPoi.find('A1-21', { type: 'GROUPCODE' })`}</code>
+mapData.dataFloor.find({ title: '11F'}) // title로 찾기
+mapData.dataFloor.find({ id: 'FL-t4vqgyek3jnb8146' })//id로 찾기
+`}</code>
             </pre>
 
             <div className={styles.texts}><br />에디터에서 디폴트로 지정된 층의 정보를 찾습니다.</div>
@@ -86,19 +86,21 @@ mapData.dataPoi.find('A1-21', { type: 'GROUPCODE' })`}</code>
             <div className={styles.texts}><br /><br /><br />옵션을 이용하여 타이틀, 아이디, 그룹, 특정한 층에 포함된 POI를 찾습니다.</div>
             <pre>
               <code className={styles.code}>{`
-mapData.dataPoi.find('FL-t4vqgyek3jnb8146', { type : 'FLOORID' }); // 특정층에 있는 모든 poi를 찾습니다.
-mapData.dataPoi.find('실', { type: 'TITLE' }); // '실'이란 단어가 title에 들어간 모든 poi를 찾습니다.
-mapData.dataPoi.find('PO-9InVzIGv20417', { type: 'ID' }); // 'PO-123456'에 해당하는 ID를 가진 poi를 찾습니다.
-mapData.dataPoi.find('A1', { type: 'GROUPCODE' }); //  'A1'에 해당하는 groupCode를 가진 모든 POI를 찾습니다.`}</code>
+mapData.dataPoi.find({ title: '실' }) // '실'이란 단어가 title에 들어간 모든 poi를 찾습니다.
+mapData.dataPoi.find({ id: 'PO-9InVzIGv20417' }) // 해당하는 ID를 가진 poi를 찾습니다.
+mapData.dataPoi.find({ floorId: 'FL-t4vqgyek3jnb8146' }) // 특정층에 있는 모든 poi를 찾습니다.
+mapData.dataPoi.find({ groupCode: 'A1-12' }) //  해당하는 groupCode를 가진 모든 POI를 찾습니다.
+`}</code>
             </pre>
 
-            <div className={styles.texts}><br />옵션을 이용하여 타이틀, 아이디, 그룹, 특정한 층에 포함된 오브젝트를 찾습니다.</div>
+            <div className={styles.texts}><br />옵션을 이용하여 타이틀, 아이디, 그룹, 특정한 층에 포함된 오브젝트를 찾습니다. 층은 항상 지정해줘야 합니다. </div>
             <pre>
               <code className={styles.code}>{`
-mapData.dataObject.find('실', { type: 'title' }); // '실'이란 단어가 title에 들어간 모든 오브젝트를 반환해줍니다.
-mapData.dataObject.find('OB-aN7fGeVoze1959', { type: 'iD' }); // 'OB-aN7fGeVoze1959'에 해당하는 ID를 가진 오브젝트를 반환해줍니다.
-mapData.dataObject.find('Fl-123456', { type: 'floorId' }); // 'FL-123456'에 해당하는 floorID를 가진 모든 오브젝트를 반환해줍니다.
-mapData.dataObject.find('A1', { type: 'groupCode' }); // -> 'A1'에 해당하는 groupCode를 가진 모든 오브젝트를 반환해줍니다.`}</code>
+mapData.dataObject.find({title: '실', floorId: 'FL-t4vqgyek3jnb8146'}); // 1. title로 찾을 경우
+mapData..dataObject.find({ id: 'OB-aN7fGeVoze1959', floorId: 'FL-t4vqgyek3jnb8146' }) // 2. id로 찾을 경우
+mapData.dataObject.find({ floorId: 'FL-t4vqgyek3jnb8146' }) // 3. floorId로 찾을 경우
+mapData.dataObject.find({ groupCode: 'A1-1', floorId: 'FL-t4vqgyek3jnb8146' }) // 4. groupCode로 찾을 경우
+`}</code>
             </pre>
 
             <div className={styles.texts}><br />특정 그룹의 코드를 찾습니다.</div>
