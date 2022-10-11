@@ -33,6 +33,7 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/dat-gui/0.7.9/dat.gui.min.js"></script>
 <script type="text/javascript" src='https://assets.dabeeomaps.com/upload/library/dabeeomaps-4.1.0.js'></script>
+
 <script>
 
     const dabeeoMaps = new dabeeo.Maps();
@@ -163,7 +164,7 @@
         }
         const changeZoomMenu = gui.addFolder('Change Zoom');
         changeZoomMenu.add(settingChangeZoom, "transition");
-        changeZoomMenu.add(settingChangeZoom, "zoom", 50, 1000).listen().onFinishChange(changeZoom);
+        changeZoomMenu.add(settingChangeZoom, "zoom").onFinishChange(changeZoom);
         changeZoomMenu.open();
     }
 
@@ -205,8 +206,8 @@
         const moveToMenu = gui.addFolder('Move To');
         moveToMenu.open();
         moveToMenu.add(settingMoveTo, "transition");
-        moveToMenu.add(settingMoveTo, "x", 0, 6000);
-        moveToMenu.add(settingMoveTo, "y", 0, 3000);
+        moveToMenu.add(settingMoveTo, "x");
+        moveToMenu.add(settingMoveTo, "y");
         moveToMenu.add(settingMoveTo, "moveTo");
     }
 
@@ -234,9 +235,9 @@
         const setMenu = gui.addFolder('Set');
         setMenu.open();
         setMenu.add(settingSet, "transition");
-        setMenu.add(settingSet, "rotation", 0, 360).listen();
-        setMenu.add(settingSet, "tilt", 0, 360).listen();
-        setMenu.add(settingSet, "zoom", 50, 1000).listen();
+        setMenu.add(settingSet, "rotation");
+        setMenu.add(settingSet, "tilt");
+        setMenu.add(settingSet, "zoom");
         setMenu.add(settingSet, "set");
     }
 

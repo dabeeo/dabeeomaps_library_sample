@@ -46,7 +46,8 @@
         });
 
         //get route information 
-        const naviResponse = getRoute();
+        const naviResponse = await getRoute();
+        console.log(mapData);
         initFloorMenu();
 
         console.log(naviResponse);
@@ -59,8 +60,7 @@
         const mapContainer = document.getElementById('map');
         map = await dabeeoMaps.showMap(mapContainer, mapOption, mapData);
 
-        //disable camera rotation with mouse
-        map.control.setOption({
+        const controlOption = {
             mouseOption: {
                 enableZoom: true,
                 enableRotate: false,
@@ -78,7 +78,10 @@
                 enablePan: true,
                 enableTilt: false,
             }
-        });
+        }
+
+        //disable camera rotation with mouse
+        // map.control.setOption(controlOption);
 
         //initialize events
         initFloorEvent();
@@ -86,7 +89,7 @@
         initRouteEvent(naviResponse);
     }
 
-    function getRoute () {
+    async function getRoute () {
         const routeOption = {
             origin: {
                 poiId: "PO-WgCv1-qBo8094", // 사업전략부 (11 floor)
@@ -112,7 +115,8 @@
             }
 
         }
-        return (mapData.getRoute(routeOption2));
+        const naviResponse = await mapData.getRoute(routeOption)
+        return (naviResponse);
     }
 
 

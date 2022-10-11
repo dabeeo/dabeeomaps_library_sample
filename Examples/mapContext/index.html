@@ -36,6 +36,7 @@
     <div id='map' class="map"></div>
 </body>
 <script type="text/javascript" src='https://assets.dabeeomaps.com/upload/library/dabeeomaps-4.1.0.js'></script>
+
 <script>
     async function init () {
         const dabeeoMaps = new dabeeo.Maps();
@@ -119,9 +120,9 @@
     function initFloorEvent (map, optionDefaultFloor) {
         let element = document.querySelector("[name='floor']");
         element.value = optionDefaultFloor;
-        element.addEventListener("change", function (e) {
+        element.addEventListener("change", async function (e) {
             const floor = e.target.value
-            map.context.changeFloor(floor);
+            await map.context.changeFloor(floor);
         });
     }
     function initLanguageMenu (langInfo, mapDataDefaultLang) {
