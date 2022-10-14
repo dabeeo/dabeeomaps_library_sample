@@ -87,6 +87,22 @@ const Events = () => {
             <div className={styles.texts}>마우스가 poi 위를 움직일 때 poi 정보를 반환합니다. </div>
             <code className={styles.code}>{`mapContainer.addEventListener("poi-mouse-over", (e) => console.log(e.detail));`}</code>
 
+            <div className={styles.miniTitle}>object-mouse-enter</div>
+            <div className={styles.texts}>마우스가 object 위로 들어갈 때 object 정보를 반환합니다. </div>
+            <code className={styles.code}>{`mapContainer.addEventListener("object-mouse-enter", (e) => console.log(e.detail));`}</code>
+
+            <div className={styles.miniTitle}>object-mouse-leave</div>
+            <div className={styles.texts}>마우스가 object를 떠날 때 object 정보를 반환합니다. </div>
+            <code className={styles.code}>{`mapContainer.addEventListener("object-mouse-leave", (e) => console.log(e.detail));`}</code>
+
+            <div className={styles.miniTitle}>poi-mouse-enter</div>
+            <div className={styles.texts}>마우스가 poi 위로 들어갈 때 poi 정보를 반환합니다. </div>
+            <code className={styles.code}>{`mapContainer.addEventListener("poi-mouse-enter", (e) => console.log(e.detail));`}</code>
+
+            <div className={styles.miniTitle}>poi-mouse-leave</div>
+            <div className={styles.texts}>마우스가 poi 를 떠날 때 poi 정보를 반환합니다. </div>
+            <code className={styles.code}>{`mapContainer.addEventListener("poi-mouse-leave", (e) => console.log(e.detail));`}</code>
+
         </div>
     )
 }

@@ -90,9 +90,9 @@
             const optionDefaultFloor = map.context.getMapOptions().floor
             let element = document.querySelector("[name='floor']");
             element.value = optionDefaultFloor;
-            element.addEventListener("change", function (e) {
+            element.addEventListener("change", async function (e) {
                 const floor = e.target.value
-                map.context.changeFloor(floor);
+                await map.context.changeFloor(floor);
             });
         }
 

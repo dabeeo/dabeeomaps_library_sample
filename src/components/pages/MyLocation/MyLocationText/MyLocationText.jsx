@@ -29,7 +29,8 @@ const MyLocationText = () => {
             <p>
                 내 위치 마커의 위치를 지정하고 마커 아이콘의 속성과 애니메이션 효과를 설정할 수 있습니다.<br />
                 내 위치 마커 아이콘의 속성을 지정하지 않는 경우 디폴트 값으로 표시되며 애니메이션 효과는 활성화되지 않습니다.<br />
-            </p>
+                GPS를 활성화하여 내 위치 마커가 gps로 수신한 위치에 따라 움직이게 할 수 있습니다.<br />
+            </p> 
             <div className={styles.texts}>내 위치 마커의 속성과 그리는 예제는 아래와 같습니다.</div>
             <pre>
                 <code className={styles.code}>
@@ -60,6 +61,26 @@ map.mylocation.set(locationOption);
                     map.mylocation.clear();
                 </code>
             </pre>
+
+            <div className={styles.texts}>GPS tracking을 활성화/비활성화 예제는 다음과 같습니다.</div>
+            <div className={styles.texts}>GPS tracking을 길찾기 경로가 그려져 있는 경우 목적지에 도달한 경우 tracking-complete 이벤트가 발생합니다.</div>
+            <pre>
+                <code className={styles.code}>
+                {`                  
+map.mylocation.start();
+map.mylocation.stop();
+
+// 길찾기경로의 목적지 부근에 내위치 마커가 도달한 경우 이벤트 발생 
+mapContainer.addEventListener('tracking-complete', (e) => {
+  console.log('tracking-complete에 대한 결과값: ', e.detail);
+  map.mylocation.stop(); // geolocation 중단
+  map.mylocation.clear(); // myLocation 제거
+});
+
+                `}
+                </code>
+            </pre>
+
             <div className={styles.texts}>실행 예제는 다음과 같습니다.</div>
         </div>
     )

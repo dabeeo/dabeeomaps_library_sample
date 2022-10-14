@@ -76,8 +76,8 @@
         });
       });
 
-      document.querySelector('.floorBtn').addEventListener('click', function() {
-        map.context.changeFloor(document.querySelector('.changeFloorInputer').value);
+      document.querySelector('.floorBtn').addEventListener('click', async function() {
+        await map.context.changeFloor(document.querySelector('.changeFloorInputer').value);
       });
 
       document.querySelector('.displayShow').addEventListener('click', function() {

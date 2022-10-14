@@ -29,9 +29,10 @@ const NavigationText = () => {
             <p>
                 경로를 그리기 위해서는 먼저 경로를 찾아야 합니다. 경로를 찾은 후 찾은 경로를 지도에 그리는 순서로 이용해야 합니다.<br />
                 1. 경로를 찾을 때 출발지와 목적지는 (경유지는 옵션) poi Id로 주거나 좌표로 입력하여도 됩니다. <br />
-                이 때 층이동수단을 지정할 수 있으며 지정하지 않는 경우 추천경로(가장 짧은 경로)로 설정됩니다. <br />
-                2. 경로를 지도에 그릴 때 주행선에 대한 옵션을 지정할 수 있습니다. <br />
-                3. 경로가 그려진 후 모의주행을 실행할 수 있으며 모의주행에 대한 옵션을 함께 지정할 수 있습니다. <br />
+                2. 이 때 층이동수단을 복수개로 지정할 수 있으며 지정하지 않는 경우 추천경로(가장 짧은 경로)로 설정됩니다. <br />
+                3. 경로요청에 대한 응답을 받은 후 층이동수단을 선택하여 경로를 지도에 그릴 수 있습니다. <br/>
+                4. 이 때 주행선에 대한 옵션을 지정할 수 있습니다. <br />
+                5. 경로가 그려진 후 모의주행을 실행할 수 있으며 모의주행에 대한 옵션을 함께 지정할 수 있습니다. <br />
                 <br />
                 옵션에 대한 자세한 사항은 Document를 참조바랍니다.
             </p>
@@ -41,7 +42,7 @@ const NavigationText = () => {
               <code className={styles.code}>
 {`
 const naviResponse = await mapData.getRoute(des);                 //경로 구하기
-await map.routeSimulation.set(naviResponse, naviOption);    //경로 그리기
+await map.routeSimulation.set(naviResponse.recommendation, naviOption);    //추천경로 그리기
 map.routeSimulation.start(animOption);                      //모의주행 시작
 map.routeSimulation.stop();                                 //모의주행 멈춤
 map.routeSimulation.clear()                                 //경로 지우기
@@ -65,7 +66,7 @@ map.routeSimulation.clear()                                 //경로 지우기
     poiId : "PO-M02DvTVjp8449", // 회의실1 (11층)
     floorId: "FL-t4vqgyek3jnb8146",
   },
-  type: "recommendation",
+  type: ["recommendation", "elevator"],//복수개의 경로 요청 
   waypoints: [
     {
       poiId : "PO-NMvw3E0pe1690", // 플랫폼사업부 회의실 (11층)
@@ -87,7 +88,7 @@ const des ={
       position: { x: 1000, y: 4000,  },
       floorId: "FL-rhg41w7x6vy15369"
     },
-    type: "recommendation",
+    type: ["recommendation","stairs"], //복수개의 경로 요청 
     waypoints: [
       {
         position: { x: 2500, y: 2500,},
@@ -173,7 +174,8 @@ const naviResponse = await mapData.getRoute(des);
         lineDivide: true, // 네비게이션 선 분할여부 결정 (false 인 경우, defaultLineOption 만 사용)
         lineZ: 100,
     }
-    await map.routeSimulation.set(naviResponse, naviOption);
+    //응답받은 경로중에 지도에 표출할 경로를 지정
+    await map.routeSimulation.set(naviResponse.recommendation, naviOption);
 `}
               </code>
             </pre>

@@ -102,7 +102,8 @@
             destination: {
                 poiId: "PO-9InVzIGv20417", // 남자화장실 (2 floor )
                 floorId: "FL-vf3q07spbmsw8132",
-            }
+            },
+            type: ['recommendation', 'elevator']
         }
         const routeOption2 = {
             origin: {
@@ -112,7 +113,8 @@
             destination: {
                 position: { x: 1000, y: 1000 },
                 floorId: "FL-vf3q07spbmsw8132",
-            }
+            },
+            type: ['recommendation', 'elevator']
 
         }
         const naviResponse = await mapData.getRoute(routeOption)
@@ -149,7 +151,7 @@
         element.style.display = "block";
 
         // navigation list 버튼 추가
-        naviResponse.navigationList.forEach((item) => {
+        naviResponse.recommendation.navigationList.forEach((item) => {
             const move = () => {
                 item.move(map); // 해당 navigation 경로로 이동하는 함수 호출
             }
@@ -171,7 +173,7 @@
                 solidLineWidth: 10,
             }, // 기본 주행선 옵션
         }
-        map.routeSimulation.set(naviResponse, naviOption);
+        map.routeSimulation.set(naviResponse.recommendation, naviOption);
     }
 
     function initFloorMenu () {
@@ -194,9 +196,9 @@
         const optionDefaultFloor = map.context.getMapOptions().floor
         let element = document.querySelector("[name='floor']");
         element.value = optionDefaultFloor;
-        element.addEventListener("change", function (e) {
+        element.addEventListener("change", async function (e) {
             const floor = e.target.value
-            map.context.changeFloor(floor);
+            await map.context.changeFloor(floor);
         });
     }
 
