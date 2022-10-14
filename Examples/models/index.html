@@ -17,7 +17,7 @@
 <body>
     <div id='map' class="map"></div>
 </body>
-<script type="text/javascript" src='https://assets.dabeeomaps.com/upload/library/dabeeomaps-4.0-pre-release_3dmodel.js'></script>
+<script type="text/javascript" src='https://assets.dabeeomaps.com/upload/gps-library/dabeeomaps-4.0.0.js'></script>
 <script>
     async function init() {
     
@@ -43,37 +43,17 @@
     //mapOption으로 mapContainer에 map 그리기 
     const map = await dabeeoMaps.showMap(mapContainer, mapOption, mapData);
     map.objects.setModel({
-      filename: 'https://assets.dabeeomaps.com/upload/models/church',
+      filename: 'https://assets.dabeeomaps.com/upload/models/답동성당',
       transform: {
         translate: {
-          x: 88000,
-          y: -44000,
+          x: 3600,
+          y: -1700,
           z: 0,
         },
         scale: {
-          x: 30,
-          y: 30,
-          z: 30,
-        },
-        rotate: {
-          x: 90,
-          y: -38,
-          z: 0,
-        },
-      }
-    });
-    map.objects.setModel({
-      filename: 'https://assets.dabeeomaps.com/upload/models/museum',
-      transform: {
-        translate: {
-          x: 92000,
-          y: -47000,
-          z: 0,
-        },
-        scale: {
-          x: 30,
-          y: 30,
-          z: 30,
+          x: 8,
+          y: 8,
+          z: 8,
         },
         rotate: {
           x: 90,
