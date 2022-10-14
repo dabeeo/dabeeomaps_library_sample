@@ -52,7 +52,7 @@ map.routeSimulation.clear()                                 //경로 지우기
 
             <div className={styles.texts}>해당 목적지까지의 경로를 받은 후에 경로에 대한 정보(예: 10m 걷기 후 좌회전) 는 아래 속성에 저장되어 있습니다. 이를 이용하여 경로에 대한 설명을 안내할 수 있습니다.</div>
             <pre>
-              <code className={styles.code}>{`naviResponse.navigationList`}</code>
+              <code className={styles.code}>{`naviResponse.recommendation.navigationList`}</code>
             </pre>
             <div className={styles.texts}>아래 메소드를 사용해 해당 목적지까지의 경로에 대한 정보를 반환 받을 수 있습니다.</div>
             <pre>
