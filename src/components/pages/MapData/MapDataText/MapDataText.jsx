@@ -97,7 +97,7 @@ mapData.dataPoi.find({ groupCode: 'A1-12' }) //  해당하는 groupCode를 가�
             <pre>
               <code className={styles.code}>{`
 mapData.dataObject.find({title: '실', floorId: 'FL-t4vqgyek3jnb8146'}); // 1. title로 찾을 경우
-mapData..dataObject.find({ id: 'OB-aN7fGeVoze1959', floorId: 'FL-t4vqgyek3jnb8146' }) // 2. id로 찾을 경우
+mapData.dataObject.find({ id: 'OB-aN7fGeVoze1959', floorId: 'FL-t4vqgyek3jnb8146' }) // 2. id로 찾을 경우
 mapData.dataObject.find({ floorId: 'FL-t4vqgyek3jnb8146' }) // 3. floorId로 찾을 경우
 mapData.dataObject.find({ groupCode: 'A1-1', floorId: 'FL-t4vqgyek3jnb8146' }) // 4. groupCode로 찾을 경우
 `}</code>
@@ -112,6 +112,19 @@ mapData.dataGroupCode.findAllRoot();            //모든 root code
 mapData.dataGroupCode.findChild('A1');          //직계 자식 code
 mapData.dataGroupCode.findParent('A1');         //직계 parent code
 mapData.dataGroupCode.findRootParent("A1-1");   //최상단 root parent code
+`}</code>
+            </pre>
+            <div className={styles.texts}><br />여러 개의 오브젝트에 대한 중심 좌표값을 구합니다.</div>
+            <pre>
+              <code className={styles.code}>{`
+  // 여러 개의 오브젝트에 대한 중심 좌표값을 반환한다. 
+  const objectCenter = mapData.dataObject.getObjectsCenter([
+    'OB-3Uf1pIZXd2409', // 여자화장실
+    'OB-mxanpdYA1T2410', // 남자화장실
+    'OB-mKv9s-1jA41961', // 회의실1
+]);
+console.log('mapData.dataObject.getObjectsCenter() 에 대한 결과값', objectCenter);
+if (objectCenter) await map.markers.set({ marker: [{ x: objectCenter.x, y: objectCenter.y },] });
 `}</code>
             </pre>
             <div className={styles.texts}><br /><br /><br /><br /><br /><br /></div>
