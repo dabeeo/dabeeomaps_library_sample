@@ -24,8 +24,8 @@ const MyLocationText = () => {
     
     return (
         <div className={styles.myLocationText}>
-            <div className={styles.title}>내 위치 마커 표시하기</div>
-            <div className={styles.miniTitle}>map.mylocation으로 내 위치를 표시하거나 지울 수 있습니다.</div>
+            <div className={styles.title}>내 위치 마커(GPS) 표시하기</div>
+            <div className={styles.miniTitle}>map.mylocation으로 내 위치를 표시하거나 지울 수 있습니다. GPS신호에 연동할 수도 있습니다.</div>
             <p>
                 내 위치 마커의 위치를 지정하고 마커 아이콘의 속성과 애니메이션 효과를 설정할 수 있습니다.<br />
                 내 위치 마커 아이콘의 속성을 지정하지 않는 경우 디폴트 값으로 표시되며 애니메이션 효과는 활성화되지 않습니다.<br />
@@ -65,7 +65,7 @@ map.mylocation.set(locationOption);
 
             <div className={styles.texts}>길찾기 경로가 그려져 있는 경우 GPS tracking을 start했을 때 목적지에 도달한 경우 tracking-complete 이벤트가 발생합니다.</div>
             <div className={styles.texts}>위치가 변경될 때마다 경로에 대한 정보를 이벤트로 전달합니다. .</div>
-            <div> <br />경로에 대한 정보는 아래와 같습니다.<br />
+            <p> <br />경로에 대한 정보는 아래와 같습니다.
             <div class="stats"> <br />현재 사용자 위치: <span id="current_position"></span></div>
             <div class="stats"> 가장 가까운 지점: <span id="closestPoint"></span></div>
             <div class="stats"> 출발지로부터의 거리: <span id="distance_from_origin"></span></div>
@@ -75,11 +75,11 @@ map.mylocation.set(locationOption);
             <div class="stats"> 현재 속한 path: <span id="current_path"></span></div>
             <div class="stats"> 현재 path 각도: <span id="current_angle"></span></div>
             <div class="stats"> 현재 상태: <span id="current_state"></span><br /><br /></div>
-            <div> gps tracking에 대한 예제 : https://dabeeo.github.io/dabeeomaps_library_sample/Examples/myLocation/index.html<br /><br /></div>
+            <div> gps tracking에 대한 예제 : https://dabeeo.github.io/dabeeomaps_library_sample/Examples/myLocation/index.html<br /></div>
             <div> 코드 확인 : https://github.com/dabeeo/dabeeomaps_library_sample/blob/master/Examples/myLocation/index.html<br /> <br /> </div>
+            </p>
 
-
-            </div>
+   
             <pre>
                 <code className={styles.code}>
                 {`                  

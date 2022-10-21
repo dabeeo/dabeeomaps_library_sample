@@ -42,9 +42,9 @@ const Menu = ({ lang }) => {
                 <li className={styles.listItem} data-link='Pois' onClick={onLink}>Pois</li>
                 <li className={styles.listItem} data-link='Objects' onClick={onLink}>Objects</li>
                 <li className={styles.listItem} data-link='Controls' onClick={onLink}>Controls</li>
-                <li className={styles.listItem} data-link='navigation' onClick={onLink}>{ lang === 'ko' ? '길찾기' : 'Navigation'}</li>
+                <li className={styles.listItem} data-link='navigation' onClick={onLink}>{ lang === 'ko' ? '길찾기와 경로 텍스트로 안내' : 'Navigation'}</li>
                 <li className={styles.listItem} data-link='marker' onClick={onLink}>{ lang === 'ko' ? '마커 표시하기' : 'setMarker'}</li>
-                <li className={styles.listItem} data-link='mylocation' onClick={onLink}>{ lang === 'ko' ? '내 위치마커 표시하기' : 'myLocationOn'}</li>
+                <li className={styles.listItem} data-link='mylocation' onClick={onLink}>{ lang === 'ko' ? '내 위치(GPS) 표시하기' : 'myLocationOn'}</li>
                 <li className={styles.listItem} data-link='domTag' onClick={onLink}>{ lang === 'ko' ? 'HTML Element 표시하기' : 'make HTML Element'}</li>
                 <li className={styles.listItem} data-link='events' onClick={onLink}>Events</li>
             </ul>

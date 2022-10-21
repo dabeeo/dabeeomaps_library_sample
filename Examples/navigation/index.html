@@ -157,8 +157,9 @@
             }
             const button = document.createElement('button');
             button.onclick = move;
-            button.textContent = item.title;
-            console.log(item.title);
+            // button.textContent = item.title;
+            button.textContent = `${item.nextDirection} 방향으로 ${item.distance} m 만큼 ${item.transportation}(으)로 ${item.poiTitle}까지 이동`;
+            console.log(item);
             // button.style.cssText = 'width: 100%; height: 2rem;';
 
             element.appendChild(button);
