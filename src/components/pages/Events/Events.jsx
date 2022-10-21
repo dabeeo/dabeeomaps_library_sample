@@ -103,6 +103,13 @@ const Events = () => {
             <div className={styles.texts}>마우스가 poi 를 떠날 때 poi 정보를 반환합니다. </div>
             <code className={styles.code}>{`mapContainer.addEventListener("poi-mouse-leave", (e) => console.log(e.detail));`}</code>
 
+            <div className={styles.miniTitle}>tracking-complete</div>
+            <div className={styles.texts}>길찾기를 활성화한 후 gps로 위치를 tracking하는 중에 도착지에 도달할 때 이벤트가 발생합니다. </div>
+            <code className={styles.code}>{`mapContainer.addEventListener("tracking-complete", (e) => console.log(e.detail));`}</code>
+
+            <div className={styles.miniTitle}>tracking-move</div>
+            <div className={styles.texts}>길찾기를 활성화한 후 gps로 위치를 tracking하는 중에 위치가 변경됨에 따라 현재의 경로에 대한 정보를 반환합니다. </div>
+            <code className={styles.code}>{`mapContainer.addEventListener("tracking-move", (e) => console.log(e.detail));`}</code>
         </div>
     )
 }

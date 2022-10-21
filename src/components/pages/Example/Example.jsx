@@ -33,6 +33,7 @@ const Example = () => {
           <li onClick={onClick}>mapContext</li>
           <li onClick={onClick}>marker</li>
           <li onClick={onClick}>myLocation</li>
+          <li onClick={onClick}>gpsTracking</li>
           <li onClick={onClick}>navigation</li>
           <li onClick={onClick}>tag</li>
         </ul>

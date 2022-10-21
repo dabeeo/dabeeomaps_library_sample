@@ -61,9 +61,22 @@ map.mylocation.set(locationOption);
                     map.mylocation.clear();
                 </code>
             </pre>
+            <div className={styles.miniTitle}>gps를 기준으로 현재 위치, 목적지 도달, 경로에 대한 정보를 받을 수 있습니다.</div>
 
-            <div className={styles.texts}>GPS tracking을 활성화/비활성화 예제는 다음과 같습니다.</div>
-            <div className={styles.texts}>GPS tracking을 길찾기 경로가 그려져 있는 경우 목적지에 도달한 경우 tracking-complete 이벤트가 발생합니다.</div>
+            <div className={styles.texts}>길찾기 경로가 그려져 있는 경우 GPS tracking을 start했을 때 목적지에 도달한 경우 tracking-complete 이벤트가 발생합니다.</div>
+            <div className={styles.texts}>길찾기 경로가 그려져 있는 경우 GPS tracking을 start했을 때 위치가 변경될 때마다 경로에 대한 정보를 이벤트로 전달합니다. .</div>
+            <div> <br />경로에 대한 정보는 아래와 같습니다.<br />
+            <div class="stats"> <br />현재 사용자 위치: <span id="current_position"></span></div>
+            <div class="stats"> 가장 가까운 지점: <span id="closestPoint"></span></div>
+            <div class="stats"> 출발지로부터의 거리: <span id="distance_from_origin"></span></div>
+            <div class="stats"> 도착지까지 남은 거리: <span id="distance_to_destination"></span></div>
+            <div class="stats"> 가장 가까운 path 와의 거리: <span id="distance_to_closest_path"></span></div>
+            <div class="stats"> 다음 방향: <span id="next_step"></span></div>
+            <div class="stats"> 현재 속한 path: <span id="current_path"></span></div>
+            <div class="stats"> 현재 path 각도: <span id="current_angle"></span></div>
+            <div class="stats"> 현재 상태: <span id="current_state"></span></div>
+
+            </div>
             <pre>
                 <code className={styles.code}>
                 {`                  
@@ -75,6 +88,12 @@ mapContainer.addEventListener('tracking-complete', (e) => {
   console.log('tracking-complete에 대한 결과값: ', e.detail);
   map.mylocation.stop(); // geolocation 중단
   map.mylocation.clear(); // myLocation 제거
+});
+
+// tracking-move
+mapContainer?.addEventListener('tracking-move', (e) => {
+  console.log('tracking-move에 대한 결과값: ', e.detail);
+  updateStats(e);
 });
 
                 `}
