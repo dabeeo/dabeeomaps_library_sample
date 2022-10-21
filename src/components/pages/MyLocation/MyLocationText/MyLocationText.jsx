@@ -64,7 +64,7 @@ map.mylocation.set(locationOption);
             <div className={styles.miniTitle}>gps를 기준으로 현재 위치, 목적지 도달, 경로에 대한 정보를 받을 수 있습니다.</div>
 
             <div className={styles.texts}>길찾기 경로가 그려져 있는 경우 GPS tracking을 start했을 때 목적지에 도달한 경우 tracking-complete 이벤트가 발생합니다.</div>
-            <div className={styles.texts}>길찾기 경로가 그려져 있는 경우 GPS tracking을 start했을 때 위치가 변경될 때마다 경로에 대한 정보를 이벤트로 전달합니다. .</div>
+            <div className={styles.texts}>위치가 변경될 때마다 경로에 대한 정보를 이벤트로 전달합니다. .</div>
             <div> <br />경로에 대한 정보는 아래와 같습니다.<br />
             <div class="stats"> <br />현재 사용자 위치: <span id="current_position"></span></div>
             <div class="stats"> 가장 가까운 지점: <span id="closestPoint"></span></div>
@@ -74,7 +74,10 @@ map.mylocation.set(locationOption);
             <div class="stats"> 다음 방향: <span id="next_step"></span></div>
             <div class="stats"> 현재 속한 path: <span id="current_path"></span></div>
             <div class="stats"> 현재 path 각도: <span id="current_angle"></span></div>
-            <div class="stats"> 현재 상태: <span id="current_state"></span></div>
+            <div class="stats"> 현재 상태: <span id="current_state"></span><br /><br /></div>
+            <div> gps tracking에 대한 예제 : https://dabeeo.github.io/dabeeomaps_library_sample/Examples/myLocation/index.html<br /><br /></div>
+            <div> 코드 확인 : https://github.com/dabeeo/dabeeomaps_library_sample/blob/master/Examples/myLocation/index.html<br /> <br /> </div>
+
 
             </div>
             <pre>
