@@ -6,6 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>geolocation</title>
+    <link rel="stylesheet" href="style.css">
     <style>
       body {
             margin: 0;
@@ -20,7 +21,22 @@
         gap: 0.3rem;
         position: absolute; 
         left: 0;
-        bottom: 20px;
+        bottom: 0;
+        margin: 1rem; 
+        padding: 1rem; 
+        width: 100%; 
+        height: fit-content; 
+        z-index: 999; 
+        background-color: rgba(255, 255, 255, 0.9);
+      }
+
+      #container {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        position: absolute; 
+        left: 0;
+        top: 0;
         margin: 1rem; 
         padding: 1rem; 
         width: 100%; 
@@ -42,6 +58,10 @@
 
 <body>
     <div id='map' class="map"></div>
+    <div id="container">
+      <div class="stats">내 위치 상태: <span id="myloc-state"></span></div>
+      <button id="focus">focus</button>
+    </div>
     <div id="tracking-info">
       <div class="stats">현재 사용자 위치: <span id="current_position"></span></div>
       <div class="stats">가장 가까운 지점: <span id="closestPoint"></span></div>
@@ -82,8 +102,11 @@
       ///////////////////////////////// API 샘플 및 사용 예제 요약 
       await routeSimulationSetTest();                         // map.routeSimulation.set() 테스트
       GPSTrackingTest();                                      // GPS Tracking 테스트
+      GPSFocusTest();                                         // GPS Focus 테스트
       trackingCompleteTest();                                 // tracking-complete 이벤트 및 GPS Tracking 종료 테스트
       trackingMoveTest();                                     // tracking-move 이벤트 테스트
+      mylocationMapOut();                                     // mylocation-map-out 이벤트 테스트
+      mylocationMapIn();                                      // mylocation-map-in 이벤트 테스트
 
       ///////////////////////////////////////
 
@@ -114,15 +137,23 @@
 	          color: "#00ff00",
 	          opacity: 0.4,
 	          desireScale: 4,
+            duration: 1500,
 	        },
 	      };
 	      map.mylocation.set(locationOption); // myLocation 생성
-	      map.mylocation.start(); // geolocation 시작
+	      // map.mylocation.start(); // geolocation 시작
+      }
+
+      function GPSFocusTest() {
+        const button = document.getElementById("focus");
+        button.addEventListener('click', (e) => {
+          map.mylocation.focus(); // mylocation 을 현재 GPS 수신 좌표로 이동
+        })
       }
 
       function trackingCompleteTest() {
 	      // tracking-complete
-	      mapContainer.addEventListener('tracking-complete', (e) => {
+	      mapContainer?.addEventListener('tracking-complete', (e) => {
 		      console.log('tracking-complete에 대한 결과값: ', e.detail);
 		      map.mylocation.stop(); // geolocation 중단
 		      map.mylocation.clear(); // myLocation 제거
@@ -131,9 +162,27 @@
 
       function trackingMoveTest() {
         // tracking-move
-        mapContainer.addEventListener('tracking-move', (e) => {
+        mapContainer?.addEventListener('tracking-move', (e) => {
           console.log('tracking-move에 대한 결과값: ', e.detail);
           updateStats(e);
+        });
+      }
+
+      function mylocationMapOut() {
+        // mylocation-map-out
+        mapContainer?.addEventListener('mylocation-map-out', (e) => {
+          console.log('mylocation-map-out에 대한 결과값: ', e.detail);
+          const mylocationState = document.getElementById("myloc-state")
+          mylocationState.textContent = e.detail;
+        });
+      }
+
+      function mylocationMapIn() {
+        // mylocation-map-in
+        mapContainer?.addEventListener('mylocation-map-in', (e) => {
+          console.log('mylocation-map-in에 대한 결과값: ', e.detail);
+          const mylocationState = document.getElementById("myloc-state")
+          mylocationState.textContent = e.detail;
         });
       }
 
@@ -158,13 +207,15 @@
 	            `;
 	          }
 	          if (key === 'closestPoint' || key === 'current_position') {
-	            content = `
-	              x: ${content.x.toFixed(2)}, 
-	              y: ${content.y.toFixed(2)},
-	              z: ${content.z.toFixed(2)}
-	            `;
+	            if (content instanceof Object) {
+                content = `
+	                x: ${content.x.toFixed(2)}, 
+	                y: ${content.y.toFixed(2)},
+	                z: ${content.z.toFixed(2)}
+	              `;
+              }
 	          }
-	          if (typeof content === 'number') {
+            if (typeof content === 'number') {
 	            content = content.toFixed(2);
 	          }
 	          stat.textContent = content;
@@ -191,6 +242,7 @@
       //         color: "#ff00ff",                               // 내 위치 마커의 색상
       //         opacity: number,                                // 내 위치 마커의 투명도(0~100)
       //         desireScale: number                             // 내 위치 마커의 최대 크기
+      //         duration: number                                // 내 위치 마커 애니메이션 지속시간 (밀리세컨드 단위)
       //     }
       // }
 
