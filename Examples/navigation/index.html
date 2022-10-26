@@ -155,14 +155,22 @@
 
         // navigation list 버튼 추가
         console.log('NavigationResponse.navigationList 에 대한 결과값', naviResponse.recommendation.navigationList);
-            naviResponse.recommendation.navigationList?.forEach((item) => {
-              const { poiTitle, floorName, move, direction, distance, transportation } = getNavigationListData(item);
+            naviResponse.recommendation.navigationList?.forEach((item, index, arr) => {
+              let { poiTitle, floorName, move, direction, distance, transportation } = getNavigationListData(item);
               const button = document.createElement('button');
     			    button.className = 'navi-path';
               button.style.display = "block";
 
               if (move) button.onclick = move;
-              button.textContent = `${poiTitle}(${floorName})에서 ${direction}하여 ${distance}m 만큼 ${transportation}(으)로 이동`;
+              if (poiTitle === undefined ) poiTitle = '';
+              if (transportation === "걷기") {
+                button.textContent = `${poiTitle}(${floorName})에서 ${direction}하여 ${distance}m 만큼 ${transportation}(으)로 이동`;
+              } else {
+                button.textContent = `${poiTitle}(${floorName})에서 ${transportation}(으)로 이동`
+              }
+              if (index === arr.length-1)
+              button.textContent = `${poiTitle}(${floorName}) 도착 `
+
               // button.style.cssText = 'width: 150px; height: 2rem;';
 
               element.appendChild(button);
