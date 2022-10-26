@@ -18,6 +18,9 @@
             width: 1000px;
             height: 500px;
         }
+        .navi-path {
+          position: relative;
+        }
     </style>
 </head>
 
@@ -151,21 +154,48 @@
         element.style.display = "block";
 
         // navigation list 버튼 추가
-        naviResponse.recommendation.navigationList.forEach((item) => {
-            const move = () => {
-                item.move(map); // 해당 navigation 경로로 이동하는 함수 호출
-            }
-            const button = document.createElement('button');
-            button.onclick = move;
-            // button.textContent = item.title;
-            button.textContent = `${item.nextDirection} 방향으로 ${item.distance} m 만큼 ${item.transportation}(으)로 ${item.poiTitle}까지 이동`;
-            console.log(item);
-            // button.style.cssText = 'width: 100%; height: 2rem;';
+        console.log('NavigationResponse.navigationList 에 대한 결과값', naviResponse.recommendation.navigationList);
+            naviResponse.recommendation.navigationList?.forEach((item) => {
+              const { poiTitle, floorName, move, direction, distance, transportation } = getNavigationListData(item);
+              const button = document.createElement('button');
+    			    button.className = 'navi-path';
+              button.style.display = "block";
 
-            element.appendChild(button);
+              if (move) button.onclick = move;
+              button.textContent = `${poiTitle}(${floorName})에서 ${direction}하여 ${distance}m 만큼 ${transportation}(으)로 이동`;
+              // button.style.cssText = 'width: 150px; height: 2rem;';
+
+              element.appendChild(button);
         });
     }
 
+    function getNavigationListData(item) {
+          let poiTitle, 
+              direction,
+              distance,
+              transportation,
+              floorName,
+              move;
+        
+          if (item.poi) poiTitle = item.poi.title;
+          if (item.direction) direction = item.direction;
+          if (item.distance) distance = item.distance;
+          if (item.transportation) transportation = item.transportation;
+          if (item.floorId) {
+            const floorData = mapData.dataFloor.getFloors().find((floor) => floor.id === item.floorId);
+            floorName = floorData?.name[0].text;
+          }
+          if (item.move) move = () => { item.move(map); } // 해당 navigation 경로로 이동하는 함수 저장
+
+          return {
+            poiTitle, 
+            floorName,
+            move,
+            direction,
+            distance,
+            transportation,
+          };
+        }
     function setRoute (naviResponse) {
         const naviOption = {
             defaultLineOption: {
