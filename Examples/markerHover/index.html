@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>[tag]</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+      #map {
+    width: 100vw;
+    height: 100vh;
+    border: 1px solid black;
+}
+
+        .tag-container {
+            z-index: 2;
+            border-radius: 15px;
+            outline: 1px solid gray;
+            padding: 10px;
+            text-align: center;
+            background-color: rgba(250, 250, 250, 0.8);
+            height: 30px;
+        }
+        .tag-container:hover {
+          z-index:200 !important;
+        }
+        
+    </style>
+
+</head>
+
+<body>
+    <div id='map' class="map"></div>
+</body>
+<script type="text/javascript" src='https://assets.dabeeomaps.com/upload/library/dabeeomaps-4.0-pre-release.js'></script>
+
+<script>
+
+    let mapData = null;
+    let map = null;
+
+    async function init () {
+        ////////////////////////////////// 지도데이터 가져오기 및 그리기 
+        const dabeeoMaps = new dabeeo.Maps();
+        //mapDataOption
+        const mapDataOption = {
+            clientId: "75hb8YSnAokb-sZ04aDR91",
+            clientSecret: "0f7ad84f160c7b3fd1849a7920af718b",
+        }
+        //mapContainer
+        const mapContainer = document.getElementById('map');
+        //mapOption 정의 
+        const mapOption = Object.assign({
+        });
+        //mapOption으로 mapContainer에 map 그리기 
+        mapData = await dabeeoMaps.getMapData(mapDataOption);
+        map = await dabeeoMaps.showMap(mapContainer, mapOption, mapData);
+        console.log(map);
+
+
+        ///////////////////////////////// API 샘플 및 사용 예제 요약 
+        //제공하는 api에 대한 리스트 
+        //각 function은 서로 독립적임
+        markerTag();        // map.tag.setMarkerTag(option)로 생성 및 map.tag.clear(id)로 삭제 
+        positionTag();      // map.tag.set(option)로 생성 및 map.tag.clear(id)로 삭제 
+        findTag();          // map.tag.find(item.id)로 tag 정보 확인 
+        poiTag();           // map.tag.setPOITag(option)로 생성 및 map.tag.clear(id)로 삭제 
+        clearAllTag();      // map.tag.clearAll()로 모든 tag 삭제 
+
+        ///////////////////////////////////////////////////
+
+        //map.tag.setPOITag(option)로 생성 및 map.tag.clear(id)로 삭제 
+        function poiTag () {
+            let poiTag2 = null;
+
+            //poi에 tag 생성 
+            const tag = document.createElement( 'div' );
+    				tag.className = 'tag-container';
+		    		tag.textContent = 'POI EVENT Created at beggining';
+            const poi = mapData.dataPoi.getPois()[3];
+            const poiTag = map.tag.setPOITag({ parentId: poi.id, pos: 'TOP', tag: tag });
+            // tag.parentElement.style.zIndex = 100; 
+
+            //poi클릭시 tag 생성 
+            mapContainer?.addEventListener('poi-click', (e) => {
+                if (e.detail[0]) {
+                    const tag = document.createElement('div');
+                    tag.className = 'tag-container';
+		    		        tag.textContent = 'POI EVENT Created at beggining';
+                    poiTag2 = map.tag.setPOITag({ parentId: e.detail[0].id, pos: 'TOP', tag: tag });
+
+                }
+            });
+
+            //생성된 tag 삭제  
+            // setTimeout(() => {
+            //     map.tag.clear(poiTag.id);
+            //     if (poiTag2) map.tag.clear(poiTag2.id);
+            // }, 5000);
+        }
+
+        // map.tag.setMarkerTag(option)로 생성 및 map.tag.clear(id)로 삭제 
+        async function markerTag () {
+            let markerTag3 = null;
+
+            // marker1 생성 
+            const markers1 = await map.markers.set({ marker: [{ x: 2000, y: 1000 }] });
+            // 이미 만들어진 마커에 tag 생성 
+            const tag = document.createElement('div');
+    				tag.className = 'tag-container';
+		    		tag.textContent = 'Marker1 TAG';
+            const markerTag = map.tag.setMarkerTag({ parentId: markers1[0], pos: 'TOP', tag: tag });
+
+            // marker2 생성 
+            const markers2 = await map.markers.set({ marker: [{ x: 2500, y: 1000 }] });
+            // 이미 만들어진 마커에 클릭시 tag 생성 
+            const tag2 = document.createElement('div');
+    				tag2.className = 'tag-container';
+		    		tag2.textContent = 'Marker2 TAG';
+            const markerTag2 = map.tag.setMarkerTag({ parentId: markers2[0], pos: 'BOTTOM', tag: tag2 });
+
+            const markers3 = await map.markers.set({ marker: [{ x: 2500, y: 1000 }] });
+
+
+            mapContainer?.addEventListener('marker-click', (e) => {
+                if (e.detail[0]) {
+                    const tag = document.createElement('div');
+                    tag.className = 'tag-container';
+		    		        tag.textContent = 'Marger Click TAG';
+                    markerTag3 = map.tag.setMarkerTag({ parentId: e.detail[0].userData.id, pos: 'TOP', tag: tag })
+                }
+            });
+            // tag 삭제
+            // setTimeout(() => {
+            //     // map.tag.clear(markerTag.id); //tag 삭제 
+            //     // map.markers.clear(markers2); //마커 삭제 
+            //     // if (markerTag3) map.tag.clear(markerTag3.id);
+            // }, 5000);
+        }
+
+        // map.tag.set(option)로 생성 및 map.tag.clear(id)로 삭제 
+        function positionTag () {
+            let positionTag = null;
+            //마우스 클릭시 위치에 tag 생성 
+            mapContainer?.addEventListener('on-mouse-click', (e) => {
+                const tag = document.createElement('div');
+                tag.className = 'tag-container';
+    		    		tag.textContent = 'POSITION TAG created at mouse click';
+                const option = {
+                    position: { x: e.detail.x, y: e.detail.y, z: 400 },
+                    tag: tag,
+                    floorId: 'FL-t4vqgyek3jnb8146',
+                }
+                positionTag = map.tag.set(option);
+            });
+            // marker삭제  (연동된 tag도 같이 삭제되는지 테스트용)
+            // setTimeout(() => {
+            //     if (positionTag) map.tag.clear(positionTag.id);  //하나만 삭제 
+            // }, 5000);
+        }
+
+        function findTag () {
+            const tag = document.createElement('div');
+                tag.className = 'tag-container';
+    		    		tag.textContent = 'find Tag';
+            const option = {
+                position: { x: 3000, y: 1000, z: 400 },
+                tag: tag,
+                floorId: 'FL-t4vqgyek3jnb8146',
+            }
+            const positionTag = map.tag.set(option);
+            console.log(map.tag.find(positionTag.id));       // id에 해당하는 태그 찾기 메소드
+        }
+
+        function clearAllTag () {
+            const tag = document.createElement('div');
+                tag.className = 'tag-container';
+    		    		tag.textContent = 'clear All Tag';
+            const option = {
+                position: { x: 3000, y: 3000, z: 400 },
+                tag: tag,
+                floorId: 'FL-t4vqgyek3jnb8146',
+            }
+            const positionTag = map.tag.set(option);
+            const tag2 = document.createElement('div');
+                tag2.className = 'tag-container';
+    		    		tag2.textContent = 'clear all tag2';
+            const option2 = {
+                position: { x: 2000, y: 1000, z: 400 },
+                tag: tag2,
+                floorId: 'FL-t4vqgyek3jnb8146',
+            }
+            const positionTag2 = map.tag.set(option2);
+
+
+            // setTimeout(() => {
+            //     map.tag.clearAll();          // 모든 태그 삭제 메소드
+            // }, 5000);
+
+        }
+
+        console.log('test: [tag sample]');
+    }
+    init(); 
+</script>
+
+</html>

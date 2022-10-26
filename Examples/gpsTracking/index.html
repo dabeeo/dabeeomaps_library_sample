@@ -6,14 +6,14 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>geolocation</title>
-    <link rel="stylesheet" href="style.css">
     <style>
       body {
             margin: 0;
       }
-      .map {
-            width: 100vw;
-            height: 100vh;
+      #map {
+        width: 100vw;
+        height: 100vh;
+        /* border: 1px solid black; */
       }
       #tracking-info {
         display: flex;
@@ -24,7 +24,7 @@
         bottom: 0;
         margin: 1rem; 
         padding: 1rem; 
-        width: 100%; 
+        width: 90%; 
         height: fit-content; 
         z-index: 999; 
         background-color: rgba(255, 255, 255, 0.9);
@@ -39,7 +39,7 @@
         top: 0;
         margin: 1rem; 
         padding: 1rem; 
-        width: 100%; 
+        width: 90%; 
         height: fit-content; 
         z-index: 999; 
         background-color: rgba(255, 255, 255, 0.9);
@@ -52,6 +52,12 @@
 
       .stats span {
         color: red;
+      }
+      #focus {
+        position: absolute; 
+        right: 0px;
+        top: 0px;
+
       }
     </style>
 </head>
@@ -107,7 +113,7 @@
       GPSTrackingTest();                                      // GPS Tracking 테스트
       GPSTrackingOnTest();                                    // map.mylocation.trackingOn() 테스트
       // GPSTrackingOffTest();                                // map.mylocation.trackingOff() 테스트
-      GPSFocusTest();                                         // map.mylocation.focus() 테스트
+      GPSGetCurrentPositionTest();                            // map.mylocation.getCurrentPosition() 테스트
       trackingCompleteTest();                                 // tracking-complete 이벤트 및 GPS Tracking 종료 테스트
       trackingMoveTest();                                     // tracking-move 이벤트 테스트
       mylocationMapOut();                                     // mylocation-map-out 이벤트 테스트
@@ -155,11 +161,12 @@
         map.mylocation.trackingOff(); // tracking-move, tracking-complete 이벤트 비활성화
       }
 
-      function GPSFocusTest() {
+      function GPSGetCurrentPositionTest() {
         const button = document.getElementById("focus");
-        button.addEventListener('click', (e) => {
-          map.mylocation.focus(); // mylocation 을 현재 GPS 수신 좌표로 이동
-        })
+        button.addEventListener('click', async (e) => {
+          const currentPosition = await map.mylocation.getCurrentPosition(); // 현재 GPS 수신 좌표를 반환
+          console.log('map.mylocation.getCurrentPosition()에 대한 결과값: ', currentPosition);
+        });
       }
 
       function trackingCompleteTest() {
