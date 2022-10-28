@@ -16,6 +16,9 @@
             text-align: center;
             background-color: rgba(250, 250, 250, 0.8);
         }
+        .tag-container:hover {
+            z-index: 200 !important;
+        }
     </style>
 </head>
 
@@ -46,10 +49,8 @@
 
                 //지정한 좌표로 tag생성 
                 const tag = document.createElement('div');
-                tag.innerHTML = `<div class="tag-container">
-                        <div class="tag-body">재직 506</div>
-                        <div class="tag-body">근무 149 </div>
-                        </div>`;
+                tag.className = 'tag-container';
+  		    		  tag.textContent = 'TAG';
 
                 const option = {
                     position: { x: 2000, y: 1000, z: 100 },
@@ -80,10 +81,8 @@
 
                 // marker와 연동되는 tag 생성 메소드 실행 구문입니다.
                 const tag3 = document.createElement('div');
-                tag3.innerHTML = `<div class="tag-container">
-                        <div class="tag-body">재직 506</div>
-                        <div class="tag-body">근무 149 </div>
-                        </div>`;
+                tag3.className = 'tag-container';
+  		    		  tag3.textContent = 'TAG associated with Marker';
 
                 console.log(lists);
 
@@ -92,10 +91,8 @@
 
                 //poi에 tag생성
                 const tag2 = document.createElement('div');
-                tag2.innerHTML = `<div class="tag-container">
-                        <div class="tag-body">재직 506</div>
-                        <div class="tag-body">근무 149 </div>
-                        </div>`;
+                tag2.className = 'tag-container';
+		    		    tag2.textContent = 'TAG associated with POI';
                 const poi = mapData.dataPoi.getPois()[0];
                 const poiTag = map.tag.setPOITag({ parentId: poi.id, pos: 'BOTTOM', tag: tag2 });
 

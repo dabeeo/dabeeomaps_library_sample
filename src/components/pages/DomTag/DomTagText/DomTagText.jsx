@@ -28,13 +28,29 @@ const DomTagText = () => {
             <div className={styles.miniTitle}>tag를 생성 또는 삭제할 수 있습니다.</div>
             <p>
                 원하는 css 속성을 갖는 HTML Element를 특정 poi, marker, 또는 위치에 지정할 수 있습니다. <br />
-                marker 삭제시 함께 삭제, 생성된 태그의 id를 통해 삭제, 또는  모든 태그를 한번에 삭제할 수 있습니다.
+                marker 삭제시 함께 삭제, 생성된 태그의 id를 통해 삭제, 또는  모든 태그를 한번에 삭제할 수 있습니다.<br />
+                tag끼리 겹치는 경우 마우스 hover시 상위로 오게하려면 CSS의 z-index를 이용하면 됩니다. 예제를 참고하세요.
             </p>
             <div className={styles.texts}>위치를 지정하여 tag를 생성하는 예제는 다음과 같습니다.</div>
             <pre>
                 <code className={styles.code}>
 {`
+<style>
+    .tag-container {
+        z-index: 2;
+        border-radius: 15px;
+        outline: 1px solid gray;
+        padding: 10px;
+        text-align: center;
+        background-color: rgba(250, 250, 250, 0.8);
+        height: 30px;
+    }
+    .tag-container:hover {
+      z-index:200 !important;
+    }
+</style>
     const tag = document.createElement('div'); // 지도상에 표시할 태그
+    tag.className = 'tag-container';
     tag.style.width = '100%';
     tag.style.height = '100%';
     tag.textContent = 'test';

@@ -25,7 +25,7 @@ const PoisText = () => {
     return (
         <div className={styles.poisText}>
             <div className={styles.title}>Pois</div>
-            <div className={styles.miniTitle}>Poi를 개별적으로 또는 전체를 한번에 컨트롤할 수 있습니다. </div>
+            <div className={styles.miniTitle}>지도에 그려진 Poi를 개별적으로 또는 전체를 한번에 컨트롤할 수 있습니다. </div>
             <p>
             <p>
                 pois의 메소드의 기능은 다음과 같습니다. <br />

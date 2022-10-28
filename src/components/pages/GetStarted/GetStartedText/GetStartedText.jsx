@@ -26,9 +26,16 @@ const GetStartedText = () => {
         <div className={styles.getStartedText}>
             <div className={styles.title}>Getting Started</div>
             <div className={styles.miniTitle}>1. 다비오맵스 API를 불러옵니다.</div>
-            <div className={styles.texts}>* 다비오맵스 JS API의 공식 api 링크는 <a href="https://dabeeomaps.com/" target='_blank'>[다비오맵스 실내지도 플랫폼]</a>에서 확인할 수 있습니다.</div>
+            <div className={styles.miniTitle}>1.1 링크를 통하여 다비오맵스 API를 불러옵니다.</div>
+            <div className={styles.texts}>* 다비오맵스 JS API의 공식 api 링크는 <a href="https://dabeeomaps.com/" target='_blank'>[다비오맵스 실내지도 플랫폼]</a>에서 확인할 수 있습니다.<br/><br/></div>
             <code className={styles.code}>  
                 {`<script type="text/javascript" src="[다비오맵스 공식 api 링크]" ></script>`}
+            </code>
+            <div className={styles.miniTitle}>1.2 npm install을 통하여 다비오맵스 API를 불러옵니다.</div>
+            
+            <div className={styles.texts}>* 다비오맵스 npm install example은 JS API의 공식 api 링크는 <a href="https://github.com/dabeeo/dabeeomaps_library_boilerplate" target='_blank'>[다비오맵스 실내지도 플랫폼 npm install boilerplate]</a>에서 확인할 수 있습니다.<br/><br/></div>
+            <code className={styles.code}>  
+                {`import {Maps} from 'dabeeomaps';`}
             </code>
             <div className={styles.miniTitle}>2. 다비오맵스 플랫폼 서버에서 지도인증정보를 획득합니다.</div>
             <div className={styles.texts}>* API에서 지도를 불러오기 위해서는 해당 지도의 Client ID / Secret code를 알아야 합니다. 아래의 절차에 따라 정보를 확인하세요.</div>

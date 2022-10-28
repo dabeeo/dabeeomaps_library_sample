@@ -148,6 +148,11 @@
 	          desireScale: 4,
             duration: 1500,
 	        },
+          gpsOption: {
+            leftCourseDistance: 50, // 경로이탈 여부 (ON_PATH 와 OUT_OF_PATH) 를 판단하는 기준 거리
+            willArriveRadius: 100, // 도착 예정 범위 반경
+            arrivedRadius: 50, // 도착 범위 반경
+          }
 	      };
 	      map.mylocation.set(locationOption); // myLocation 생성
 	      map.mylocation.start(); // geolocation 시작
@@ -163,8 +168,8 @@
 
       function GPSGetCurrentPositionTest() {
         const button = document.getElementById("focus");
-        button.addEventListener('click', async (e) => {
-          const currentPosition = await map.mylocation.getCurrentPosition(); // 현재 GPS 수신 좌표를 반환
+        button.addEventListener('click', (e) => {
+          const currentPosition = map.mylocation.getCurrentPosition(); // 현재 GPS 수신 좌표를 반환
           console.log('map.mylocation.getCurrentPosition()에 대한 결과값: ', currentPosition);
         });
       }
@@ -192,6 +197,7 @@
           console.log('mylocation-map-out에 대한 결과값: ', e.detail);
           const mylocationState = document.getElementById("myloc-state")
           mylocationState.textContent = e.detail;
+          map.mylocation.hide(); // 지도영역을 벗어나면 내 위치 마커를 감춤.
         });
       }
 
@@ -201,6 +207,7 @@
           console.log('mylocation-map-in에 대한 결과값: ', e.detail);
           const mylocationState = document.getElementById("myloc-state")
           mylocationState.textContent = e.detail;
+          map.mylocation.show(); // 지도영역으로 돌아오면 내 위치 마커를 보여줌.
         });
       }
 
@@ -261,7 +268,12 @@
       //         opacity: number,                                // 내 위치 마커의 투명도(0~100)
       //         desireScale: number                             // 내 위치 마커의 최대 크기
       //         duration: number                                // 내 위치 마커 애니메이션 지속시간 (밀리세컨드 단위)
-      //     }
+      //     },
+      //     gpsOption: {                                        // 내 위치 마커의 GPS 옵션
+      //       leftCourseDistance: 50,                           // GPS Tracking 시 경로이탈 여부 (ON_PATH 와 OUT_OF_PATH) 를 판단하는 기준 거리. 기본값은 25m. 단위는 m(미터)
+      //       willArriveRadius: 100,                            // GPS Tracking 시 도착 예정 범위 반경. 기본값은 50m -> 도착 예정 범위 반경은 도착 범위 반경보다 더 커야합니다. 작거나 같을 경우, 에러를 출력하면서 전달된 값이 무시되고, 기본값을 적용합니다.
+      //       arrivedRadius: 50,                                // GPS Tracking 시 도착 범위 반경. 기본값은 25m -> 해당 범위내로 도착 시, tracking-complete 이벤트가 발생합니다.
+      //     },
       // }
 
       // location 적용

@@ -25,7 +25,7 @@ const ObjectsText = () => {
     return (
         <div className={styles.objectsText}>
             <div className={styles.title}>오브젝트</div>
-            <div className={styles.miniTitle}>오브젝트를 개별적으로 또는 전체를 한번에 컨트롤할 수 있습니다. </div>
+            <div className={styles.miniTitle}>지도에 그려진 오브젝트를 개별적으로 또는 전체를 한번에 컨트롤할 수 있습니다. </div>
             <p>
                 objects의 메소드의 기능은 다음과 같습니다. <br />
                 특정 오브젝트를 숨기거나 보이게 할 수 있습니다. 숨기거나 보이는 기능은 단순히 visibility를 수정하므로 성능에는 영향이 없습니다. <br />

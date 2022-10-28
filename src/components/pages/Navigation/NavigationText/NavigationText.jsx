@@ -31,10 +31,9 @@ const NavigationText = () => {
                 1. 경로를 먼저 구합니다. <br />
                 1.1 출발지와 목적지는 poi Id로 주거나 좌표로 입력하여도 됩니다. <br />
                 1.2 경유지는 옵션으로 설정할 수 있습니다. <br />
-                1.3 층 이동수단을 복수개로 지정할 수 있으며 지정하지 않는 경우 추천경로(가장 짧은 경로)로 설정됩니다. <br />
-                2. 경로요청에 대한 응답을 받습니다. 
-                2.1 이동수단에 따른 복수개의 경로가 응답으로 오므로 사용하고자 하는 이동수단의 정보를 이용하세요.
-                2.2 경로요청에 대한 응답중에 경로를 텍스트로 설명한 정보가 있습니다. 이를 이용하여 경로에 대한 설명을 표시할 수 있습니다. (예: 10m 후 좌회전) <br/>
+                1.3 층 이동수단(엘리베이터, 계단등)을 복수개로 지정할 수 있으며 지정하지 않는 경우 추천경로(가장 짧은 경로)로 설정됩니다. <br />
+                2. 경로요청에 대한 응답을 받습니다. <br />
+                2.1 경로요청에 대한 응답중에 경로를 텍스트로 설명한 정보가 있습니다. 이를 이용하여 경로에 대한 설명을 표시할 수 있습니다. (예: 10m 후 좌회전) <br/>
                 3. 응답에서 원하는 층이동수단을 선택하여 경로를 지도에 그립니다. <br/>
                 3.1 이 때 주행선에 대한 옵션을 지정할 수 있습니다. <br />
                 4. 경로가 그려진 후 모의주행을 실행할 수 있으며 모의주행에 대한 옵션을 함께 지정할 수 있습니다. <br />
@@ -42,7 +41,7 @@ const NavigationText = () => {
                 옵션에 대한 자세한 사항은 Document를 참조바랍니다.
             </p>
             
-            <div className={styles.texts}>해당 목적지까지의 경로를 받은 후에 경로를 지도에 그리는 방법은 간단히 설명하자면 아래와 같습니다. 경로를 구하는 위해 서버에 접속하게 되므로 비동기방식으로 호출됩니다. </div>
+            <div className={styles.texts}>해당 목적지까지의 경로를 받은 후에 경로를 지도에 그리는 예제는 간단히 아래와 같습니다. 경로를 구하는 위해 서버에 접속하게 되므로 비동기방식으로 호출됩니다. </div>
             <pre>
               <code className={styles.code}>
 {`
@@ -52,23 +51,22 @@ map.routeSimulation.start(animOption);                      //모의주행 시�
 map.routeSimulation.stop();                                 //모의주행 멈춤
 map.routeSimulation.clear()                                 //경로 지우기
 `}
-              </code>
-            </pre>
+              </code></pre>
 
             <div className={styles.texts}><br/> 해당 목적지까지의 경로를 받은 후에 경로에 대한 정보(예: 10m 걷기 후 좌회전) 는 아래 속성에 저장되어 있습니다. 이를 이용하여 경로에 대한 설명을 안내할 수 있습니다.</div>
-            <p> naviResponse.recommendation.navigationList내에 아래와 같은 정보가 있습니다. 사용방법은 예제를 참조하세요<br/>
-            <br/>distance: 0
-            <br/>floorName: "11F"
-            <br/>move: async function
-            <br/>nextDirection : "직진"
-            <br/>poi: poi 정보
-            <br/>poiTitle: "사업전략부"
-            <br/>title: "직진 방향으로 0 m 만큼 걷기(으)로 사업전략부까지 이동"
-            <br/>transportation: "걷기"
-            </p>
+            <p> naviResponse.recommendation.navigationList내에 아래와 같은 정보가 있습니다. 사용방법은 예제를 참조하세요<br/></p>
             <pre>
-              <code className={styles.code}>{`naviResponse.recommendation.navigationList`}</code>
-            </pre>
+              <code className={styles.code}>
+{`
+naviResponse.recommendation.navigationList :
+distance: 0
+floorId: "FL-t4vqgyek3jnb8146"
+move: async function
+direction : "직진"
+poi: poi 정보
+transportation: "걷기"
+`}
+</code></pre>
             <div className={styles.texts}>아래 메소드를 사용해 해당 목적지까지의 경로에 대한 정보를 반환 받을 수 있습니다.</div>
             <pre>
               <code className={styles.code}>
