@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>heatmap</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+    }
+
+    #map {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      width: 100vw;
+      height: 100vh;
+      border: 1px solid black;
+    }
+  </style>
+</head>
+
+<body>
+  <div id='map' class="map"></div>
+</body>
+
+<script type="text/javascript" src='https://assets.dabeeomaps.com/upload/library/dabeeomaps-4.0-pre-release.js'></script>
+<script>
+
+
+  async function init () {
+
+    const dabeeoMaps = new dabeeo.Maps();
+
+    //mapDataOption 정의
+    const mapDataOption = {
+      clientId: "75hb8YSnAokb-sZ04aDR91",
+      clientSecret: "0f7ad84f160c7b3fd1849a7920af718b",
+      // serverType : 'SERVER_STAGE'
+    }
+
+    //mapData 가져오기 
+    const mapData = await dabeeoMaps.getMapData(mapDataOption);
+    console.log(mapData);
+
+    //mapContainer
+    const mapContainer = document.getElementById('map');
+
+    //mapOption 정의 
+    const mapOption = Object.assign({
+      // camera: '2d',
+    });
+
+    //mapOption으로 mapContainer에 map 그리기 
+    const map = await dabeeoMaps.showMap(mapContainer, mapOption, mapData);
+    console.log(map);
+
+    ///////////////////////////////// API 샘플 및 사용 예제 요약 
+    await overlayAddSourceTest();                               // map.overlay.addSource() 테스트
+    overlayAddLayerTest();                                      // map.overlay.addLayer() 테스트
+
+    ///////////////////////////////////////
+
+    console.log('test: heatmap.ts');
+
+    async function overlayAddSourceTest (params) {
+      const overlaySourceOption = {
+        type: 'geojson',
+        data: 'https://assets.dabeeomaps.com/upload/geojson/heatmap.geojson',
+      };
+      await map.overlay.addSource('heatmap-test', overlaySourceOption); // Overlay 데이터 저장
+    }
+
+    function overlayAddLayerTest (params) {
+      const overlayLayerOption = {
+        type: 'heatmap',
+        source: 'heatmap-test',
+        paint: {
+          heatmapRadius: 12,
+          heatmapOpacity: 0.8,
+          heatmapColor: [
+            { density: 0.8, color: { r: 206, g: 0, b: 24 } },
+            { density: 0.6, color: { r: 240, g: 154, b: 119 } },
+            { density: 0.4, color: { r: 215, g: 226, b: 229 } },
+            { density: 0.0, color: { r: 103, g: 182, b: 228 } },
+          ],
+        },
+      };
+      map.overlay.addLayer(overlayLayerOption); // Overlay 지도에 그리기
+    }
+
+    // const overlaySourceOption = {
+    //   type: 'geojson',                                                             // 데이터 형식
+    //   data: 'https://assets.dabeeomaps.com/upload/geojson/heatmap.geojson',        // 로드할 데이터 url
+    // };
+
+    // overlay 데이터 저장 
+    // await map.overlay.addSource('heatmap-test', overlaySourceOption);  
+
+    // const overlayLayerOption = {
+    //   type: 'heatmap',                                             // Overlay 타입
+    //   source: 'heatmap-test',                                      // Overlay 를 지도에 그릴 때 사용할 데이터의 별칭
+    //   paint: {                                                     // Overlay 렌더링 옵션
+    //     heatmapRadius: 12,                                         // heatmap 의 각 point 들의 반경
+    //     heatmapOpacity: 0.8,                                       // heatmap layer 전체에 적용되는 투명도
+    //     heatmapColor: [                                            // heatmap 밀도에 따라 적용할 색상데이터. rgb 형식으로 4단계의 색상만 지정 가능. 지정된 색상이 4개가 아닐 경우, 경고 메시지를 출력하면서 기본 색상값이 적용됩니다. 
+    //       { density: 0.8, color: { r: 206, g: 0, b: 24 } },
+    //       { density: 0.6, color: { r: 240, g: 154, b: 119 } },
+    //       { density: 0.4, color: { r: 215, g: 226, b: 229 } },
+    //       { density: 0.0, color: { r: 103, g: 182, b: 228 } },
+    //     ],
+    //   },
+    // };
+
+    // overlay 지도에 그리기
+    // map.overlay.addLayer(overlayLayerOption);
+  }
+  init(); 
+</script>
+
+</html>
