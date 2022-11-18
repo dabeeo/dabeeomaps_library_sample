@@ -1,450 +1,446 @@
 <!DOCTYPE html>
 <html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>models</title>
+        <style>
+            .map {
+                width: 100vw;
+                height: 100vh;
+            }
+        </style>
+    </head>
 
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>models</title>
-    <style>
-        .map {
-            width: 100vw;
-            height: 100vh;
+    <body>
+        <div id="map" class="map"></div>
+    </body>
+    <script type="text/javascript" src="https://assets.dabeeomaps.com/upload/library/dabeeomaps-4.0-pre-release.js"></script>
+    <script>
+        async function init() {
+            const dabeeoMaps = new dabeeo.Maps();
+
+            //mapDataOption 정의
+            const mapDataOption = {
+                clientId: '6OBDkUecQrfag0XNMP6h85',
+                clientSecret: '7e69e7da6caed5d91958206346eef5f4',
+            };
+
+            //mapData 가져오기
+            const mapData = await dabeeoMaps.getMapData(mapDataOption);
+            console.log(mapData);
+
+            //mapContainer
+            const mapContainer = document.getElementById('map');
+
+            //mapOption 정의
+            const mapOption = Object.assign({});
+
+            //mapOption으로 mapContainer에 map 그리기
+            const map = await dabeeoMaps.showMap(mapContainer, mapOption, mapData);
+            map.objects.setModel({
+                filename: 'https://assets.dabeeomaps.com/upload/models/blender/답동성당',
+                transform: {
+                    translate: {
+                        x: 1770.3902363146,
+                        y: 2047.74181666039,
+                        z: 2,
+                    },
+                    rotate: {
+                        x: 90,
+                        y: -125,
+                        z: 0,
+                    },
+                    scale: {
+                        x: 1.1,
+                        y: 1.1,
+                        z: 1.1,
+                    },
+                },
+            });
+            map.objects.setModel({
+                filename: 'https://assets.dabeeomaps.com/upload/models/blender/한국근대박물관',
+                transform: {
+                    translate: {
+                        x: 2062.36410864165,
+                        y: 1909.84267101424,
+                        z: 2,
+                    },
+                    rotate: {
+                        x: 90,
+                        y: -125,
+                        z: 0,
+                    },
+                    scale: {
+                        x: 1.3,
+                        y: 1.3,
+                        z: 1.3,
+                    },
+                },
+            });
+            map.objects.setModel({
+                filename: 'https://assets.dabeeomaps.com/upload/models/blender/개항박물관',
+                transform: {
+                    translate: {
+                        x: 1728.77533565834,
+                        y: 1853.22427223652,
+                        z: 2,
+                    },
+                    rotate: {
+                        x: 90,
+                        y: -125,
+                        z: 0,
+                    },
+                    scale: {
+                        x: 1.2,
+                        y: 1.2,
+                        z: 1.2,
+                    },
+                },
+            });
+            map.objects.setModel({
+                filename: 'https://assets.dabeeomaps.com/upload/models/blender/짜장면박물관',
+                transform: {
+                    translate: {
+                        x: 1545.08548273132,
+                        y: 1900.89447114092,
+                        z: 2,
+                    },
+                    rotate: {
+                        x: 90,
+                        y: -35,
+                        z: 0,
+                    },
+                    scale: {
+                        x: 1.5,
+                        y: 1.5,
+                        z: 1.5,
+                    },
+                },
+            });
+            map.objects.setModel({
+                filename: 'https://assets.dabeeomaps.com/upload/models/blender/일본제18은행',
+                transform: {
+                    translate: {
+                        x: 1990.53689395758,
+                        y: 2033.19650707523,
+                        z: 2,
+                    },
+                    rotate: {
+                        x: 90,
+                        y: -125,
+                        z: 0,
+                    },
+                    scale: {
+                        x: 1.65,
+                        y: 1.65,
+                        z: 1.65,
+                    },
+                },
+            });
+            map.objects.setModel({
+                filename: 'https://assets.dabeeomaps.com/upload/models/blender/일본우선주식회사',
+                transform: {
+                    translate: {
+                        x: 1532.58557725694,
+                        y: 1722.49242678027,
+                        z: 2,
+                    },
+                    rotate: {
+                        x: 90,
+                        y: -125,
+                        z: 0,
+                    },
+                    scale: {
+                        x: 1.4,
+                        y: 1.4,
+                        z: 1.4,
+                    },
+                },
+            });
+            map.objects.setModel({
+                filename: 'https://assets.dabeeomaps.com/upload/models/blender/일본58은행',
+                transform: {
+                    translate: {
+                        x: 2119.06567692562,
+                        y: 2122.275687254,
+                        z: 2,
+                    },
+                    rotate: {
+                        x: 90,
+                        y: -125,
+                        z: 0,
+                    },
+                    scale: {
+                        x: 1.65,
+                        y: 1.65,
+                        z: 1.65,
+                    },
+                },
+            });
+            map.objects.setModel({
+                filename: 'https://assets.dabeeomaps.com/upload/models/blender/인천중구청',
+                transform: {
+                    translate: {
+                        x: 2122.93336027119,
+                        y: 1714.16447526261,
+                        z: 2,
+                    },
+                    rotate: {
+                        x: 90,
+                        y: -122,
+                        z: 0,
+                    },
+                    scale: {
+                        x: 1.9,
+                        y: 1.9,
+                        z: 1.9,
+                    },
+                },
+            });
+            map.objects.setModel({
+                filename: 'https://assets.dabeeomaps.com/upload/models/blender/대불호텔전시관',
+                transform: {
+                    translate: {
+                        x: 1829.44841636851,
+                        y: 1570.61332101424,
+                        z: 2,
+                    },
+                    rotate: {
+                        x: 90,
+                        y: -125,
+                        z: 0,
+                    },
+                    scale: {
+                        x: 1.65,
+                        y: 1.65,
+                        z: 1.65,
+                    },
+                },
+            });
+            map.objects.setModel({
+                filename: 'https://assets.dabeeomaps.com/upload/models/blender/구락부',
+                transform: {
+                    translate: {
+                        x: 1917.38474535597,
+                        y: 1810.88552878787,
+                        z: 2,
+                    },
+                    rotate: {
+                        x: 90,
+                        y: -124,
+                        z: 0,
+                    },
+                    scale: {
+                        x: 1.4,
+                        y: 1.4,
+                        z: 1.4,
+                    },
+                },
+            });
+            map.objects.setModel({
+                filename: 'https://assets.dabeeomaps.com/upload/models/blender/맥아더장군동상_수정',
+                transform: {
+                    translate: {
+                        x: 3051.55115008686,
+                        y: 1135.94815110364,
+                        z: 2,
+                    },
+                    rotate: {
+                        x: 90,
+                        y: -115,
+                        z: 0,
+                    },
+                    scale: {
+                        x: 0.7,
+                        y: 0.7,
+                        z: 0.7,
+                    },
+                },
+            });
+            map.objects.setModel({
+                filename: 'https://assets.dabeeomaps.com/upload/models/blender/선린문',
+                transform: {
+                    translate: {
+                        x: 2135.45713433015,
+                        y: 1252.12774277721,
+                        z: 2,
+                    },
+                    rotate: {
+                        x: 90,
+                        y: -125,
+                        z: 0,
+                    },
+                    scale: {
+                        x: 0.7,
+                        y: 0.7,
+                        z: 0.7,
+                    },
+                },
+            });
+            map.objects.setModel({
+                filename: 'https://assets.dabeeomaps.com/upload/models/blender/중화가',
+                transform: {
+                    translate: {
+                        x: 1772.63324266714,
+                        y: 2183.74447234148,
+                        z: 2,
+                    },
+                    rotate: {
+                        x: 90,
+                        y: -125,
+                        z: 0,
+                    },
+                    scale: {
+                        x: 1.0,
+                        y: 1.0,
+                        z: 1.0,
+                    },
+                },
+            });
+            map.objects.setModel({
+                filename: 'https://assets.dabeeomaps.com/upload/models/blender/인천누들플랫폼',
+                transform: {
+                    translate: {
+                        x: 2367.3145502001,
+                        y: 2113.94941083963,
+                        z: 2,
+                    },
+                    rotate: {
+                        x: 90,
+                        y: -125,
+                        z: 0,
+                    },
+                    scale: {
+                        x: 1.1,
+                        y: 1.1,
+                        z: 1.1,
+                    },
+                },
+            });
+            map.objects.setModel({
+                filename: 'https://assets.dabeeomaps.com/upload/models/blender/인천아트플랫폼',
+                transform: {
+                    translate: {
+                        x: 1642.41274085329,
+                        y: 1629.27866929222,
+                        z: 2,
+                    },
+                    rotate: {
+                        x: 90,
+                        y: -125,
+                        z: 0,
+                    },
+                    scale: {
+                        x: 1.1,
+                        y: 1.1,
+                        z: 1.1,
+                    },
+                },
+            });
+            map.objects.setModel({
+                filename: 'https://assets.dabeeomaps.com/upload/models/blender/인천인화문',
+                transform: {
+                    translate: {
+                        x: 2369.69709283794,
+                        y: 2211.71901574241,
+                        z: 2,
+                    },
+                    rotate: {
+                        x: 90,
+                        y: -35,
+                        z: 0,
+                    },
+                    scale: {
+                        x: 1.0,
+                        y: 1.0,
+                        z: 1.0,
+                    },
+                },
+            });
+            map.objects.setModel({
+                filename: 'https://assets.dabeeomaps.com/upload/models/blender/인천하버파크호텔',
+                transform: {
+                    translate: {
+                        x: 1925.57501096494,
+                        y: 1438.84585577117,
+                        z: 2,
+                    },
+                    rotate: {
+                        x: 90,
+                        y: -125,
+                        z: 0,
+                    },
+                    scale: {
+                        x: 1.8,
+                        y: 1.8,
+                        z: 1.8,
+                    },
+                },
+            });
+            map.objects.setModel({
+                filename: 'https://assets.dabeeomaps.com/upload/models/blender/청계지계단',
+                transform: {
+                    translate: {
+                        x: 1727.28487326399,
+                        y: 1340.09349402445,
+                        z: 2,
+                    },
+                    rotate: {
+                        x: 90,
+                        y: -120,
+                        z: 0,
+                    },
+                    scale: {
+                        x: 0.7,
+                        y: 0.7,
+                        z: 0.7,
+                    },
+                },
+            });
+            map.objects.setModel({
+                filename: 'https://assets.dabeeomaps.com/upload/models/blender/한미수교100주년기념탑',
+                transform: {
+                    translate: {
+                        x: 2106.05860378162,
+                        y: 611.89309715625,
+                        z: 2,
+                    },
+                    rotate: {
+                        x: 90,
+                        y: -125,
+                        z: 0,
+                    },
+                    scale: {
+                        x: 1.3,
+                        y: 1.3,
+                        z: 1.3,
+                    },
+                },
+            });
+            map.objects.setModel({
+                filename: 'https://assets.dabeeomaps.com/upload/models/blender/한중문화관',
+                transform: {
+                    translate: {
+                        x: 1986.90835722181,
+                        y: 2192.1840225601,
+                        z: 2,
+                    },
+                    rotate: {
+                        x: 90,
+                        y: -125,
+                        z: 0,
+                    },
+                    scale: {
+                        x: 1.5,
+                        y: 1.5,
+                        z: 1.5,
+                    },
+                },
+            });
+            console.log('test: models.ts');
         }
-    </style>
-</head>
-
-<body>
-    <div id='map' class="map"></div>
-</body>
-<script type="text/javascript" src='https://assets.dabeeomaps.com/upload/library/dabeeomaps-4.0-pre-release.js'></script>
-<script>
-    async function init() {
-    
-    const dabeeoMaps = new dabeeo.Maps();
-    
-    //mapDataOption 정의
-    const mapDataOption = {
-        clientId: "6OBDkUecQrfag0XNMP6h85",
-        clientSecret: "7e69e7da6caed5d91958206346eef5f4",
-    }
-
-    //mapData 가져오기 
-    const mapData = await dabeeoMaps.getMapData(mapDataOption);
-    console.log(mapData);
-
-    //mapContainer
-    const mapContainer = document.getElementById('map');
-
-    //mapOption 정의 
-    const mapOption = Object.assign({
-    });
-
-    //mapOption으로 mapContainer에 map 그리기 
-    const map = await dabeeoMaps.showMap(mapContainer, mapOption, mapData);
-    map.objects.setModel({
-        filename: 'https://assets.dabeeomaps.com/upload/models/blender/답동성당',
-        transform: {
-            translate: {
-                x: 1770.3902363146,
-                y: 2047.74181666039,
-                z: 2,
-            },
-            rotate: {
-                x: 90,
-                y: -125,
-                z: 0,
-            },
-            scale: {
-                x: 1.1,
-                y: 1.1,
-                z: 1.1,
-            },
-        },
-    });
-    map.objects.setModel({
-        filename: 'https://assets.dabeeomaps.com/upload/models/blender/한국근대박물관',
-        transform: {
-            translate: {
-                x: 2062.36410864165,
-                y: 1909.84267101424,
-                z: 2,
-            },
-            rotate: {
-                x: 90,
-                y: -125,
-                z: 0,
-            },
-            scale: {
-                x: 1.3,
-                y: 1.3,
-                z: 1.3,
-            },
-        },
-    });
-    map.objects.setModel({
-        filename: 'https://assets.dabeeomaps.com/upload/models/blender/개항박물관',
-        transform: {
-            translate: {
-                x: 1728.77533565834,
-                y: 1853.22427223652,
-                z: 2,
-            },
-            rotate: {
-                x: 90,
-                y: -125,
-                z: 0,
-            },
-            scale: {
-                x: 1.2,
-                y: 1.2,
-                z: 1.2,
-            },
-        },
-    });
-    map.objects.setModel({
-        filename: 'https://assets.dabeeomaps.com/upload/models/blender/짜장면박물관',
-        transform: {
-            translate: {
-                x: 1545.08548273132,
-                y: 1900.89447114092,
-                z: 2,
-            },
-            rotate: {
-                x: 90,
-                y: -35,
-                z: 0,
-            },
-            scale: {
-                x: 1.5,
-                y: 1.5,
-                z: 1.5,
-            },
-        },
-    });
-    map.objects.setModel({
-        filename: 'https://assets.dabeeomaps.com/upload/models/blender/일본제18은행',
-        transform: {
-            translate: {
-                x: 1990.53689395758,
-                y: 2033.19650707523,
-                z: 2,
-            },
-            rotate: {
-                x: 90,
-                y: -125,
-                z: 0,
-            },
-            scale: {
-                x: 1.65,
-                y: 1.65,
-                z: 1.65,
-            },
-        },
-    });
-    map.objects.setModel({
-        filename: 'https://assets.dabeeomaps.com/upload/models/blender/일본우선주식회사',
-        transform: {
-            translate: {
-                x: 1532.58557725694,
-                y: 1722.49242678027,
-                z: 2,
-            },
-            rotate: {
-                x: 90,
-                y: -125,
-                z: 0,
-            },
-            scale: {
-                x: 1.4,
-                y: 1.4,
-                z: 1.4,
-            },
-        },
-    });
-    map.objects.setModel({
-        filename: 'https://assets.dabeeomaps.com/upload/models/blender/일본58은행',
-        transform: {
-            translate: {
-                x: 2119.06567692562,
-                y: 2122.275687254,
-                z: 2,
-            },
-            rotate: {
-                x: 90,
-                y: -125,
-                z: 0,
-            },
-            scale: {
-                x: 1.65,
-                y: 1.65,
-                z: 1.65,
-            },
-        },
-    });
-    map.objects.setModel({
-        filename: 'https://assets.dabeeomaps.com/upload/models/blender/인천중구청',
-        transform: {
-            translate: {
-                x: 2122.93336027119,
-                y: 1714.16447526261,
-                z: 2,
-            },
-            rotate: {
-                x: 90,
-                y: -122,
-                z: 0,
-            },
-            scale: {
-                x: 1.9,
-                y: 1.9,
-                z: 1.9,
-            },
-        },
-    });
-    map.objects.setModel({
-        filename: 'https://assets.dabeeomaps.com/upload/models/blender/대불호텔전시관',
-        transform: {
-            translate: {
-                x: 1829.44841636851,
-                y: 1570.61332101424,
-                z: 2,
-            },
-            rotate: {
-                x: 90,
-                y: -125,
-                z: 0,
-            },
-            scale: {
-                x: 1.65,
-                y: 1.65,
-                z: 1.65,
-            },
-        },
-    });
-    map.objects.setModel({
-        filename: 'https://assets.dabeeomaps.com/upload/models/blender/구락부',
-        transform: {
-            translate: {
-                x: 1917.38474535597,
-                y: 1810.88552878787,
-                z: 2,
-            },
-            rotate: {
-                x: 90,
-                y: -124,
-                z: 0,
-            },
-            scale: {
-                x: 1.4,
-                y: 1.4,
-                z: 1.4,
-            },
-        },
-    });
-    map.objects.setModel({
-        filename: 'https://assets.dabeeomaps.com/upload/models/blender/맥아더장군동상_수정',
-        transform: {
-            translate: {
-                x: 3051.55115008686,
-                y: 1135.94815110364,
-                z: 2,
-            },
-            rotate: {
-                x: 90,
-                y: -115,
-                z: 0,
-            },
-            scale: {
-                x: 0.7,
-                y: 0.7,
-                z: 0.7,
-            },
-        },
-    });
-    map.objects.setModel({
-        filename: 'https://assets.dabeeomaps.com/upload/models/blender/선린문',
-        transform: {
-            translate: {
-                x: 2135.45713433015,
-                y: 1252.12774277721,
-                z: 2,
-            },
-            rotate: {
-                x: 90,
-                y: -125,
-                z: 0,
-            },
-            scale: {
-                x: 0.7,
-                y: 0.7,
-                z: 0.7,
-            },
-        },
-    });
-    map.objects.setModel({
-        filename: 'https://assets.dabeeomaps.com/upload/models/blender/중화가',
-        transform: {
-            translate: {
-                x: 1772.63324266714,
-                y: 2183.74447234148,
-                z: 2,
-            },
-            rotate: {
-                x: 90,
-                y: -125,
-                z: 0,
-            },
-            scale: {
-                x: 1.0,
-                y: 1.0,
-                z: 1.0,
-            },
-        },
-    });
-    map.objects.setModel({
-        filename: 'https://assets.dabeeomaps.com/upload/models/blender/인천누들플랫폼',
-        transform: {
-            translate: {
-                x: 2367.3145502001,
-                y: 2113.94941083963,
-                z: 2,
-            },
-            rotate: {
-                x: 90,
-                y: -125,
-                z: 0,
-            },
-            scale: {
-                x: 1.1,
-                y: 1.1,
-                z: 1.1,
-            },
-        },
-    });
-    map.objects.setModel({
-        filename: 'https://assets.dabeeomaps.com/upload/models/blender/인천아트플랫폼',
-        transform: {
-            translate: {
-                x: 1642.41274085329,
-                y: 1629.27866929222,
-                z: 2,
-            },
-            rotate: {
-                x: 90,
-                y: -125,
-                z: 0,
-            },
-            scale: {
-                x: 1.1,
-                y: 1.1,
-                z: 1.1,
-            },
-        },
-    });
-    map.objects.setModel({
-        filename: 'https://assets.dabeeomaps.com/upload/models/blender/인천인화문',
-        transform: {
-            translate: {
-                x: 2369.69709283794,
-                y: 2211.71901574241,
-                z: 2,
-            },
-            rotate: {
-                x: 90,
-                y: -35,
-                z: 0,
-            },
-            scale: {
-                x: 1.0,
-                y: 1.0,
-                z: 1.0,
-            },
-        },
-    });
-    map.objects.setModel({
-        filename: 'https://assets.dabeeomaps.com/upload/models/blender/인천하버파크호텔',
-        transform: {
-            translate: {
-                x: 1925.57501096494,
-                y: 1438.84585577117,
-                z: 2,
-            },
-            rotate: {
-                x: 90,
-                y: -125,
-                z: 0,
-            },
-            scale: {
-                x: 1.8,
-                y: 1.8,
-                z: 1.8,
-            },
-        },
-    });
-    map.objects.setModel({
-        filename: 'https://assets.dabeeomaps.com/upload/models/blender/청계지계단',
-        transform: {
-            translate: {
-                x: 1727.28487326399,
-                y: 1340.09349402445,
-                z: 2,
-            },
-            rotate: {
-                x: 90,
-                y: -120,
-                z: 0,
-            },
-            scale: {
-                x: 0.7,
-                y: 0.7,
-                z: 0.7,
-            },
-        },
-    });
-    map.objects.setModel({
-        filename: 'https://assets.dabeeomaps.com/upload/models/blender/한미수교100주년기념탑',
-        transform: {
-            translate: {
-                x: 2106.05860378162,
-                y: 611.89309715625,
-                z: 2,
-            },
-            rotate: {
-                x: 90,
-                y: -125,
-                z: 0,
-            },
-            scale: {
-                x: 1.3,
-                y: 1.3,
-                z: 1.3,
-            },
-        },
-    });
-    map.objects.setModel({
-        filename: 'https://assets.dabeeomaps.com/upload/models/blender/한중문화관',
-        transform: {
-            translate: {
-                x: 1986.90835722181,
-                y: 2192.1840225601,
-                z: 2,
-            },
-            rotate: {
-                x: 90,
-                y: -125,
-                z: 0,
-            },
-            scale: {
-                x: 1.5,
-                y: 1.5,
-                z: 1.5,
-            },
-        },
-    });
-    console.log('test: models.ts');
-    }
-    init();
-</script>
-
+        init();
+    </script>
 </html>

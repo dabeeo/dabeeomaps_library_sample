@@ -1,132 +1,121 @@
 <!DOCTYPE html>
 <html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+        <!-- <link rel="stylesheet" href="style.css"> -->
+        <style>
+            body {
+                margin: 0;
+            }
 
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <!-- <link rel="stylesheet" href="style.css"> -->
-    <style>
-        body {
-            margin: 0;
-        }
+            .viewport {
+                width: 100vw;
+                height: 100vh;
+            }
+        </style>
+    </head>
 
-        .viewport {
-            width: 100vw;
-            height: 100vh;
-        }
-    </style>
+    <body>
+        <div class="inputContainer">
+            <button type="button" class="button-menu">floor</button>
+            <select type="text" class="inline-input" name="floor"></select>
 
-</head>
+            <input type="text" placeholder="x" class="pointX" />
+            <input type="text" placeholder="y" class="pointY" />
+            <button type="button" class="inline-input" name="set">set</button>
+            <button type="button" class="inline-input" name="clear">clear</button>
+        </div>
+        <div id="viewport" class="viewport"></div>
+    </body>
+    <script type="text/javascript" src="https://assets.dabeeomaps.com/upload/library/dabeeomaps-4.0-pre-release.js"></script>
+    <script>
+        const dabeeoMaps = new dabeeo.Maps();
+        let mapData = null;
+        let map = null;
 
-<body>
-    <div class="inputContainer">
-        <button type="button" class="button-menu">floor</button>
-        <select type="text" class="inline-input" name="floor"></select>
-
-        <input type="text" placeholder="x" class="pointX" />
-        <input type='text' placeholder="y" class="pointY" />
-        <button type="button" class="inline-input" name="set">set</button>
-        <button type="button" class="inline-input" name="clear">clear</button>
-
-    </div>
-    <div id='viewport' class="viewport">
-    </div>
-</body>
-<script type="text/javascript" src='https://assets.dabeeomaps.com/upload/library/dabeeomaps-4.0-pre-release.js'></script>
-<script>
-    const dabeeoMaps = new dabeeo.Maps();
-    let mapData = null;
-    let map = null;
-
-    window.onload = function () {
-        dabeeoMaps.getMapData({
-            clientId: "75hb8YSnAokb-sZ04aDR91",
-            clientSecret: "0f7ad84f160c7b3fd1849a7920af718b",
-        }).then(async (mapData) => {
-            const mapOption = Object.assign({
-                // camera: "2d"
-            });
-            initFloorMenu();
-
-            const mapContainer = document.getElementById('viewport');
-            map = await dabeeoMaps.showMap(mapContainer, mapOption, mapData);
-            initFloorEvent();
-
-            markerId = await map.markers.set({
-                marker: [
-                    {
-                        x: 3000,
-                        y: 2000,
-                    },
-                ],
-            })
-
-
-            document.querySelector("[name='set']").addEventListener('click', function () {
-                const x = document.querySelector('.pointX').value ? Number(document.querySelector('.pointX').value) : 1000;
-                const y = document.querySelector('.pointY').value ? Number(document.querySelector('.pointY').value) : 1000;
-                const iconOpts = {
-                    iconUrl: 'icon_mylocation.svg',
-                    width: 40,
-                    height: 40,
-                    positionZ: 400,
-                    anchor: {
-                        x: 0.5,
-                        y: 0
-                    }
-                };
-                map.markers.set({
-                    marker: [
-                        {
-                            x: x,
-                            y: y,
-                            iconOption: iconOpts
-                        },
-                    ],
+        window.onload = function () {
+            dabeeoMaps
+                .getMapData({
+                    clientId: '75hb8YSnAokb-sZ04aDR91',
+                    clientSecret: '0f7ad84f160c7b3fd1849a7920af718b',
                 })
-            });
+                .then(async (mapData) => {
+                    const mapOption = Object.assign({
+                        // camera: "2d"
+                    });
+                    initFloorMenu();
 
-            document.querySelector("[name='clear']").addEventListener('click', function () {
-                map.markers.clear(markerId);
-                // map.markers.clearAll();
-            });
+                    const mapContainer = document.getElementById('viewport');
+                    map = await dabeeoMaps.showMap(mapContainer, mapOption, mapData);
+                    initFloorEvent();
 
+                    markerId = await map.markers.set({
+                        marker: [
+                            {
+                                x: 3000,
+                                y: 2000,
+                            },
+                        ],
+                    });
 
-            function initFloorMenu () {
-                //floor data 
-                const dataFloor = mapData.dataFloor;
-                const floorInfo = dataFloor.getFloors();
-                const mapDefaultFloor = dataFloor.getDefaultFloor();
-                let element = document.querySelector("[name='floor']");
+                    document.querySelector("[name='set']").addEventListener('click', function () {
+                        const x = document.querySelector('.pointX').value ? Number(document.querySelector('.pointX').value) : 1000;
+                        const y = document.querySelector('.pointY').value ? Number(document.querySelector('.pointY').value) : 1000;
+                        const iconOpts = {
+                            iconUrl: 'icon_mylocation.svg',
+                            width: 40,
+                            height: 40,
+                            positionZ: 400,
+                            anchor: {
+                                x: 0.5,
+                                y: 0,
+                            },
+                        };
+                        map.markers.set({
+                            marker: [
+                                {
+                                    x: x,
+                                    y: y,
+                                    iconOption: iconOpts,
+                                },
+                            ],
+                        });
+                    });
 
-                for (const floor of floorInfo) {
-                    let newOption = document.createElement("option");
-                    newOption.value = floor.id;
-                    newOption.appendChild(document.createTextNode(floor.name[0].text));
-                    element.appendChild(newOption);
-                }
-                element.value = mapDefaultFloor.id;
-            }
+                    document.querySelector("[name='clear']").addEventListener('click', function () {
+                        map.markers.clear(markerId);
+                        // map.markers.clearAll();
+                    });
 
-            function initFloorEvent () {
-                const optionDefaultFloor = map.context.getMapOptions().floor
-                let element = document.querySelector("[name='floor']");
-                element.value = optionDefaultFloor;
-                element.addEventListener("change", async function (e) {
-                    const floor = e.target.value
-                    await map.context.changeFloor(floor);
+                    function initFloorMenu() {
+                        //floor data
+                        const dataFloor = mapData.dataFloor;
+                        const floorInfo = dataFloor.getFloors();
+                        const mapDefaultFloor = dataFloor.getDefaultFloor();
+                        let element = document.querySelector("[name='floor']");
+
+                        for (const floor of floorInfo) {
+                            let newOption = document.createElement('option');
+                            newOption.value = floor.id;
+                            newOption.appendChild(document.createTextNode(floor.name[0].text));
+                            element.appendChild(newOption);
+                        }
+                        element.value = mapDefaultFloor.id;
+                    }
+
+                    function initFloorEvent() {
+                        const optionDefaultFloor = map.context.getMapOptions().floor;
+                        let element = document.querySelector("[name='floor']");
+                        element.value = optionDefaultFloor;
+                        element.addEventListener('change', async function (e) {
+                            const floor = e.target.value;
+                            await map.context.changeFloor(floor);
+                        });
+                    }
                 });
-            }
-
-
-
-
-
-
-        });
-    }
-</script>
-
+        };
+    </script>
 </html>

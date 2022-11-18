@@ -6,10 +6,10 @@ import DomTagTextEn from './DomTagText/DomTagTextEn';
 const DomTag = ({ lang, dabeeoMaps, mapData }) => {
     return (
         <div className={styles.domTag}>
-            { lang === 'ko' ? <DomTagText /> : <DomTagTextEn />}
+            {lang === 'ko' ? <DomTagText /> : <DomTagTextEn />}
             <DomTagMap dabeeoMaps={dabeeoMaps} mapData={mapData} />
         </div>
-    )
-}
+    );
+};
 
 export default DomTag;

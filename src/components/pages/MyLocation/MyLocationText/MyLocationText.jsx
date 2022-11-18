@@ -2,39 +2,38 @@ import { useEffect } from 'react';
 import styles from './MyLocationText.module.scss';
 
 const MyLocationText = () => {
-
     useEffect(() => {
-        let codeElement = document.querySelectorAll("code");
-            if (!codeElement) return;
-            codeElement.forEach((data) => {
-                let text = data.innerHTML;
-                let text1 = text.replace(/&lt;/gi, "<");
-                let text2 = text1.replace(/&gt;/gi, ">");
-                let text3 = text2.replace(/[<>]/g, `<span>$&</span>`);
-                let text4 = text3.replace(/['"]([^'"]*)["']/g, `<span class=${styles.value}>$&</span>`);
-                let text5 = text4.replace(
-                    / var | if | return| let | const | function | new | window| document| for /g,
-                    `<span class=${styles.reserved}>$&</span>`,
-                );
-                let text6 = text5.replace(/[{}()]/g, `<span class=${styles.special}>$&</span>`);
-                let text7 = text6.replace(/\/\/.+/g, `<span class=${styles.comment}>$&</span>`);
-                data.innerHTML = text7;
-            });
+        let codeElement = document.querySelectorAll('code');
+        if (!codeElement) return;
+        codeElement.forEach((data) => {
+            let text = data.innerHTML;
+            let text1 = text.replace(/&lt;/gi, '<');
+            let text2 = text1.replace(/&gt;/gi, '>');
+            let text3 = text2.replace(/[<>]/g, `<span>$&</span>`);
+            let text4 = text3.replace(/['"]([^'"]*)["']/g, `<span class=${styles.value}>$&</span>`);
+            let text5 = text4.replace(/ var | if | return| let | const | function | new | window| document| for /g, `<span class=${styles.reserved}>$&</span>`);
+            let text6 = text5.replace(/[{}()]/g, `<span class=${styles.special}>$&</span>`);
+            let text7 = text6.replace(/\/\/.+/g, `<span class=${styles.comment}>$&</span>`);
+            data.innerHTML = text7;
+        });
     }, []);
-    
+
     return (
         <div className={styles.myLocationText}>
             <div className={styles.title}>내 위치 마커(GPS) 표시하기</div>
             <div className={styles.miniTitle}>map.mylocation으로 내 위치를 표시하거나 지울 수 있습니다. GPS신호에 연동할 수도 있습니다.</div>
             <p>
-                내 위치 마커의 위치를 지정하고 마커 아이콘의 속성과 애니메이션 효과를 설정할 수 있습니다.<br />
-                내 위치 마커 아이콘의 속성을 지정하지 않는 경우 디폴트 값으로 표시되며 애니메이션 효과는 활성화되지 않습니다.<br />
-                GPS를 활성화하여 내 위치 마커가 gps로 수신한 위치에 따라 움직이게 할 수 있습니다.<br />
-            </p> 
+                내 위치 마커의 위치를 지정하고 마커 아이콘의 속성과 애니메이션 효과를 설정할 수 있습니다.
+                <br />
+                내 위치 마커 아이콘의 속성을 지정하지 않는 경우 디폴트 값으로 표시되며 애니메이션 효과는 활성화되지 않습니다.
+                <br />
+                GPS를 활성화하여 내 위치 마커가 gps로 수신한 위치에 따라 움직이게 할 수 있습니다.
+                <br />
+            </p>
             <div className={styles.texts}>내 위치 마커의 속성과 그리는 예제는 아래와 같습니다.</div>
             <pre>
                 <code className={styles.code}>
-{`const locationOption = {
+                    {`const locationOption = {
     x: 2500,                                        // 내 위치 x 좌표
     y: 1000,                                        // 내 위치 y 좌표
     iconOption: {                                   // 내 위치 z 좌표
@@ -62,14 +61,12 @@ map.mylocation.set(locationOption);
             </pre>
             <div className={styles.texts}>내 위치 마커 삭제 예제는 다음과 같습니다.</div>
             <pre>
-                <code className={styles.code}>
-                    map.mylocation.clear();
-                </code>
+                <code className={styles.code}>map.mylocation.clear();</code>
             </pre>
             <div className={styles.texts}>잠시 내 위치 마커를 hide/show하기 위해서 아래와 같이 사용하면 됩니다.</div>
             <pre>
                 <code className={styles.code}>
-{`map.mylocation.hide(); //내 위치 마커를 감춤.
+                    {`map.mylocation.hide(); //내 위치 마커를 감춤.
 map.mylocation.show(); // 지도영역으로 돌아오면 내 위치 마커를 보여줌.`}
                 </code>
             </pre>
@@ -77,36 +74,34 @@ map.mylocation.show(); // 지도영역으로 돌아오면 내 위치 마커를 �
             <div className={styles.texts}>GPS에 따라 내위치 마커를 연동시키기 위해서는 아래와 같이 활성화/비활성화를 하면 됩니다.</div>
             <pre>
                 <code className={styles.code}>
-{`map.mylocation.start();
+                    {`map.mylocation.start();
 map.mylocation.stop();`}
                 </code>
             </pre>
             <div className={styles.texts}>현재의 GPS에 따른 좌표(지도)를 얻기 위해서는 아래 메소드를 호출하십시오.</div>
             <pre>
-                <code className={styles.code}>
-{`const currentPosition = map.mylocation.getCurrentPosition(); // 현재 GPS 수신 좌표를 반환`}
-                </code>
+                <code className={styles.code}>{`const currentPosition = map.mylocation.getCurrentPosition(); // 현재 GPS 수신 좌표를 반환`}</code>
             </pre>
 
-            <div className={styles.miniTitle}>gps를 기준으로 현재 위치, 목적지 도달, 경로에 대한 정보를 받을 수 있습니다.</div>            
+            <div className={styles.miniTitle}>gps를 기준으로 현재 위치, 목적지 도달, 경로에 대한 정보를 받을 수 있습니다.</div>
             <div className={styles.texts}>길찾기 경로에 대하여 연동시키기 위하여는 아래와 같이 tracking을 활성화/비활성화를 하면 됩니다. </div>
             <pre>
                 <code className={styles.code}>
-{`const naviResponse = await mapData.getRoute(routeOptions.gongdeok); // 경로데이터 가져오기
+                    {`const naviResponse = await mapData.getRoute(routeOptions.gongdeok); // 경로데이터 가져오기
 map.mylocation.trackingOn(naviResponse.recommendation); // tracking-move, tracking-complete 이벤트 활성화
 map.mylocation.trackingOff(); // tracking-move, tracking-complete 이벤트 비활성화
 `}
                 </code>
             </pre>
-            <div className={styles.miniTitle}>gps와 관련하여 아래와 같은 이벤트가 발생됩니다.</div>            
-            <div className={styles.texts}>지도 영역을 벗어난 경우  mylocation-map-out 이벤트가 발생합니다.</div>
-            <div className={styles.texts}>지도 영역으로 들어온 경우  mylocation-map-in 이벤트가 발생합니다.</div>
+            <div className={styles.miniTitle}>gps와 관련하여 아래와 같은 이벤트가 발생됩니다.</div>
+            <div className={styles.texts}>지도 영역을 벗어난 경우 mylocation-map-out 이벤트가 발생합니다.</div>
+            <div className={styles.texts}>지도 영역으로 들어온 경우 mylocation-map-in 이벤트가 발생합니다.</div>
             <div className={styles.texts}>GPS tracking을 start했을 때 목적지에 도달한 경우 tracking-complete 이벤트가 발생합니다.</div>
             <div className={styles.texts}>위치가 변경될 때마다 경로에 대한 정보를 tracking-move 이벤트로 전달합니다.</div>
-   
+
             <pre>
                 <code className={styles.code}>
-                {`                  
+                    {`                  
 // 길찾기경로의 목적지 부근에 내위치 마커가 도달한 경우 이벤트 발생 
 mapContainer.addEventListener('tracking-complete', (e) => {
   console.log('tracking-complete에 대한 결과값: ', e.detail);
@@ -141,7 +136,7 @@ mapContainer.addEventListener('mylocation-map-in', (e) => {
             <p> tracking-move 이벤트의 경로에 대한 정보는 아래와 같습니다. </p>
             <pre>
                 <code className={styles.code}>
-{`
+                    {`
  current_position:            // 현재 사용자 위치 (경로 이탈 시, 경로 재탐색 목적)
  current_path: [],            // 현재 진행중인 path의 node 정보 
  next_step: null,             // null이었다가 STRAIGHT, RIGHT, LEFT, DESTNATION 로 변경된다
@@ -154,12 +149,12 @@ mapContainer.addEventListener('mylocation-map-in', (e) => {
     };
   }
 `}
-  </code>
-</pre>
+                </code>
+            </pre>
 
             <div className={styles.texts}>실행 예제는 다음과 같습니다.gps tracking에 대한 실행 예제는 Example을 참고하세요.</div>
         </div>
-    )
-}
+    );
+};
 
 export default MyLocationText;

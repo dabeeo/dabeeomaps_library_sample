@@ -6,10 +6,10 @@ import MapOptionTextEn from './MapOptionText/MapOptionTextEn';
 const MapOption = ({ lang, dabeeoMaps, mapData }) => {
     return (
         <div className={styles.mapOption}>
-            { lang === 'ko' ? <MapOptionText /> : <MapOptionTextEn />}
-            <MapOptionMap dabeeoMaps={dabeeoMaps} mapData={mapData}/>
+            {lang === 'ko' ? <MapOptionText /> : <MapOptionTextEn />}
+            <MapOptionMap dabeeoMaps={dabeeoMaps} mapData={mapData} />
         </div>
-    )
-}
+    );
+};
 
 export default MapOption;

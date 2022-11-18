@@ -6,12 +6,10 @@
     left: 0;
     font-size: 24px;
 
-
     .title {
         margin: 1rem 0 0 1rem;
         font-weight: bold;
         color: brown;
-
     }
 
     .lists {
@@ -22,7 +20,7 @@
             font-size: 20px;
             font-weight: bold;
             list-style: none;
-            margin : 1rem 0;
+            margin: 1rem 0;
 
             &:hover {
                 cursor: pointer;

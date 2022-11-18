@@ -7,12 +7,10 @@ import GetStartedTextEn from './GetStartedText/GetStartedTextEn';
 const GetStarted = ({ lang, dabeeoMaps, mapData }) => {
     return (
         <div className={styles.getStarted}>
-            { lang === 'ko' 
-            ? <GetStartedText />
-            : <GetStartedTextEn />}
-            <GetStartedMap dabeeoMaps={dabeeoMaps} mapData={mapData}/>
+            {lang === 'ko' ? <GetStartedText /> : <GetStartedTextEn />}
+            <GetStartedMap dabeeoMaps={dabeeoMaps} mapData={mapData} />
         </div>
-    )
-}
+    );
+};
 
 export default GetStarted;

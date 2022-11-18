@@ -14,26 +14,24 @@ import Navigation from '../pages/Navigation/Navigation';
 import styles from './Section.module.scss';
 
 const Section = ({ lang, dabeeoMaps, mapData }) => {
-
-
     return (
         <div className={styles.section}>
             <Routes>
-                <Route path='/' element={<GetStarted lang={lang} dabeeoMaps={dabeeoMaps} mapData={mapData} />} />
-                <Route path='/mapOption' element={<MapOption lang={lang}/>} />
-                <Route path='/mapData' element={<MapData lang={lang} dabeeoMaps={dabeeoMaps} mapData={mapData}/>} />
-                <Route path='/mapContext' element={<MapContext lang={lang} dabeeoMaps={dabeeoMaps} mapData={mapData}/>} />
-                <Route path='/Pois' element={<Pois lang={lang} dabeeoMaps={dabeeoMaps} mapData={mapData}/>} />
-                <Route path='/Objects' element={<Objects lang={lang} dabeeoMaps={dabeeoMaps} mapData={mapData}/>} />
-                <Route path='/Controls' element={<Controls lang={lang} dabeeoMaps={dabeeoMaps} mapData={mapData} />} />
-                <Route path='/navigation' element={<Navigation lang={lang} dabeeoMaps={dabeeoMaps} mapData={mapData}/>} />
-                <Route path='/marker' element={<Marker lang={lang} dabeeoMaps={dabeeoMaps} mapData={mapData}/>} />
-                <Route path='/mylocation' element={<MyLocation lang={lang} dabeeoMaps={dabeeoMaps} mapData={mapData}/>} />
-                <Route path='/domTag' element={<DomTag lang={lang} dabeeoMaps={dabeeoMaps} mapData={mapData}/>} />
-                <Route path='/events' element={<Events lang={lang}/>} />
+                <Route path="/" element={<GetStarted lang={lang} dabeeoMaps={dabeeoMaps} mapData={mapData} />} />
+                <Route path="/mapOption" element={<MapOption lang={lang} />} />
+                <Route path="/mapData" element={<MapData lang={lang} dabeeoMaps={dabeeoMaps} mapData={mapData} />} />
+                <Route path="/mapContext" element={<MapContext lang={lang} dabeeoMaps={dabeeoMaps} mapData={mapData} />} />
+                <Route path="/Pois" element={<Pois lang={lang} dabeeoMaps={dabeeoMaps} mapData={mapData} />} />
+                <Route path="/Objects" element={<Objects lang={lang} dabeeoMaps={dabeeoMaps} mapData={mapData} />} />
+                <Route path="/Controls" element={<Controls lang={lang} dabeeoMaps={dabeeoMaps} mapData={mapData} />} />
+                <Route path="/navigation" element={<Navigation lang={lang} dabeeoMaps={dabeeoMaps} mapData={mapData} />} />
+                <Route path="/marker" element={<Marker lang={lang} dabeeoMaps={dabeeoMaps} mapData={mapData} />} />
+                <Route path="/mylocation" element={<MyLocation lang={lang} dabeeoMaps={dabeeoMaps} mapData={mapData} />} />
+                <Route path="/domTag" element={<DomTag lang={lang} dabeeoMaps={dabeeoMaps} mapData={mapData} />} />
+                <Route path="/events" element={<Events lang={lang} />} />
             </Routes>
         </div>
-    )
-}
+    );
+};
 
 export default Section;

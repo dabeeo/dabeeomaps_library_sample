@@ -2,24 +2,20 @@ import { useEffect } from 'react';
 import styles from './DomTagText.module.scss';
 
 const DomTagTextEn = () => {
-
     useEffect(() => {
-        let codeElement = document.querySelectorAll("code");
-            if (!codeElement) return;
-            codeElement.forEach((data) => {
-                let text = data.innerHTML;
-                let text1 = text.replace(/&lt;/gi, "<");
-                let text2 = text1.replace(/&gt;/gi, ">");
-                let text3 = text2.replace(/[<>]/g, `<span>$&</span>`);
-                let text4 = text3.replace(/['"]([^'"]*)["']/g, `<span class=${styles.value}>$&</span>`);
-                let text5 = text4.replace(
-                    / var | if | return| let | const | function | new | window| document| for /g,
-                    `<span class=${styles.reserved}>$&</span>`,
-                );
-                let text6 = text5.replace(/[{}()]/g, `<span class=${styles.special}>$&</span>`);
-                let text7 = text6.replace(/\/\/.+/g, `<span class=${styles.comment}>$&</span>`);
-                data.innerHTML = text7;
-            });
+        let codeElement = document.querySelectorAll('code');
+        if (!codeElement) return;
+        codeElement.forEach((data) => {
+            let text = data.innerHTML;
+            let text1 = text.replace(/&lt;/gi, '<');
+            let text2 = text1.replace(/&gt;/gi, '>');
+            let text3 = text2.replace(/[<>]/g, `<span>$&</span>`);
+            let text4 = text3.replace(/['"]([^'"]*)["']/g, `<span class=${styles.value}>$&</span>`);
+            let text5 = text4.replace(/ var | if | return| let | const | function | new | window| document| for /g, `<span class=${styles.reserved}>$&</span>`);
+            let text6 = text5.replace(/[{}()]/g, `<span class=${styles.special}>$&</span>`);
+            let text7 = text6.replace(/\/\/.+/g, `<span class=${styles.comment}>$&</span>`);
+            data.innerHTML = text7;
+        });
     }, []);
 
     return (
@@ -27,9 +23,12 @@ const DomTagTextEn = () => {
             <div className={styles.title}>HTML Tag(Dom Element)</div>
             <div className={styles.miniTitle}>You can create or delete tags at markers or POI positions.</div>
             <p>
-                You can create an HTML tag on the desired POI location when creating a marker or by calling a method.<br />
-                If you want to create a tag along with creating a marker, you can specify additional options when creating it.<br />
-                If you want to create a marker or POI location that has already been created, you can create an HTML Tag on the object by calling the method.<br />
+                You can create an HTML tag on the desired POI location when creating a marker or by calling a method.
+                <br />
+                If you want to create a tag along with creating a marker, you can specify additional options when creating it.
+                <br />
+                If you want to create a marker or POI location that has already been created, you can create an HTML Tag on the object by calling the method.
+                <br />
                 To delete a created tag, you can delete it through the ID of the created tag.
             </p>
             <div className={styles.texts}>The options required when creating at the marker location are as follows.</div>
@@ -44,7 +43,7 @@ const DomTagTextEn = () => {
             <div className={styles.texts}>Here's an example of creating a marker position.</div>
             <pre>
                 <code className={styles.code}>
-{`
+                    {`
     const tag = document.createElement('div');          // tags to be displayed on the map
     tag.style.width = '100%';
     tag.style.height = '100%';
@@ -63,10 +62,13 @@ const DomTagTextEn = () => {
     })`}
                 </code>
             </pre>
-            <div className={styles.texts}>If you want to create a marker at the POI location after already creating a marker, the example is as follows. The id of the marker can be obtained through the userData of the corresponding marker.</div>
+            <div className={styles.texts}>
+                If you want to create a marker at the POI location after already creating a marker, the example is as follows. The id of the marker can be
+                obtained through the userData of the corresponding marker.
+            </div>
             <pre>
                 <code className={styles.code}>
-{`
+                    {`
     const tag = document.createElement('div');                          // tags to be displayed on the map
     tag.style.width = '100%';
     tag.style.height = '100%';
@@ -78,7 +80,9 @@ const DomTagTextEn = () => {
                 </code>
             </pre>
             <p>
-                If you want to delete it, you can input the poi ID in the case of a poi, but in the case of a marker, you must use the position value of the marker to get an ID created by itself.<br />
+                If you want to delete it, you can input the poi ID in the case of a poi, but in the case of a marker, you must use the position value of the
+                marker to get an ID created by itself.
+                <br />
                 You can proceed with deletion with that ID.
             </p>
             <div className={styles.texts}>If you want to find a tag linked to a marker or POI, call the following method.</div>
@@ -89,7 +93,7 @@ const DomTagTextEn = () => {
             <code className={styles.code}>map.tag.removeAllTag()</code>
             <div className={styles.texts}>An example of how these methods work is as follows.</div>
         </div>
-    )
-}
+    );
+};
 
 export default DomTagTextEn;

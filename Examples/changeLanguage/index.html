@@ -1,77 +1,74 @@
 <!DOCTYPE html>
 <html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <link rel="icon" href="../dabeeo_ci_symbol.png" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>change language</title>
+        <style>
+            .map {
+                width: 100vw;
+                height: 100vh;
+            }
+        </style>
+    </head>
 
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <link rel="icon" href="../dabeeo_ci_symbol.png" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>change language</title>
-    <style>
-        .map {
-            width: 100vw;
-            height: 100vh;
+    <body>
+        <button type="button" class="button-menu">language</button>
+        <select type="text" class="inline-input" name="lang"></select>
+        <div id="map" class="map"></div>
+    </body>
+    <script type="text/javascript" src="https://assets.dabeeomaps.com/upload/library/dabeeomaps-4.0-pre-release.js"></script>
+
+    <script>
+        async function init() {
+            const dabeeoMaps = new dabeeo.Maps();
+
+            //fetch a map
+            const mapData = await dabeeoMaps.getMapData({
+                clientId: '75hb8YSnAokb-sZ04aDR91',
+                clientSecret: '0f7ad84f160c7b3fd1849a7920af718b',
+            });
+
+            //language data
+            const dataLang = mapData.dataLanguage;
+            // default language is defined in dabeeomap editor
+            initLanguageMenu(dataLang.getLanguage(), dataLang.getDefaultLanguage());
+
+            // render a map
+            const mapOption = Object.assign({
+                // language: "en" // you can change language when rendering a map
+            });
+            const mapContainer = document.getElementById('map');
+            const map = await dabeeoMaps.showMap(mapContainer, mapOption, mapData);
+
+            //menu initialization
+            //read language option and set language value
+            initLanguageEvent(map, map.context.getMapOptions().language);
         }
-    </style>
-</head>
 
-<body>
-    <button type="button" class="button-menu">language</button>
-    <select type="text" class="inline-input" name="lang"> </select>
-    <div id='map' class="map"></div>
-</body>
-<script type="text/javascript" src='https://assets.dabeeomaps.com/upload/library/dabeeomaps-4.0-pre-release.js'></script>
+        function initLanguageMenu(langInfo, mapDataDefaultLang) {
+            let element = document.querySelector("[name='lang']");
+            // 옵션창에 층 추가하기
 
-<script>
-    async function init () {
-        const dabeeoMaps = new dabeeo.Maps();
-
-        //fetch a map
-        const mapData = await dabeeoMaps.getMapData({
-            clientId: "75hb8YSnAokb-sZ04aDR91",
-            clientSecret: "0f7ad84f160c7b3fd1849a7920af718b"
-        });
-
-        //language data 
-        const dataLang = mapData.dataLanguage;
-        // default language is defined in dabeeomap editor
-        initLanguageMenu(dataLang.getLanguage(), dataLang.getDefaultLanguage());
-
-        // render a map
-        const mapOption = Object.assign({
-            // language: "en" // you can change language when rendering a map 
-        });
-        const mapContainer = document.getElementById('map');
-        const map = await dabeeoMaps.showMap(mapContainer, mapOption, mapData);
-
-        //menu initialization
-        //read language option and set language value
-        initLanguageEvent(map, map.context.getMapOptions().language);
-    }
-
-    function initLanguageMenu (langInfo, mapDataDefaultLang) {
-        let element = document.querySelector("[name='lang']");
-        // 옵션창에 층 추가하기
-
-        for (const lang of langInfo) {
-            let newOption = document.createElement("option");
-            newOption.value = lang.lang;
-            newOption.appendChild(document.createTextNode(lang.name));
-            element.appendChild(newOption);
+            for (const lang of langInfo) {
+                let newOption = document.createElement('option');
+                newOption.value = lang.lang;
+                newOption.appendChild(document.createTextNode(lang.name));
+                element.appendChild(newOption);
+            }
+            element.value = mapDataDefaultLang.id;
         }
-        element.value = mapDataDefaultLang.id;
+        function initLanguageEvent(map, optionDefaultLang) {
+            let element = document.querySelector("[name='lang']");
+            element.value = optionDefaultLang;
+            element.addEventListener('change', function (e) {
+                const lang = e.target.value;
+                map.context.changeLanguage(lang);
+            });
+        }
 
-    }
-    function initLanguageEvent (map, optionDefaultLang) {
-        let element = document.querySelector("[name='lang']");
-        element.value = optionDefaultLang;
-        element.addEventListener("change", function (e) {
-            const lang = e.target.value;
-            map.context.changeLanguage(lang);
-        });
-    }
-
-    init();
-</script>
-
+        init();
+    </script>
 </html>

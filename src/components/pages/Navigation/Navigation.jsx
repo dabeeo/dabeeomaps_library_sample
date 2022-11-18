@@ -5,13 +5,12 @@ import NavigationTextEn from './NavigationText/NavgationTextEn';
 import NavigationText from './NavigationText/NavigationText';
 
 const Navigation = ({ lang, dabeeoMaps, mapData }) => {
-
-    return(
+    return (
         <div className={styles.navigation}>
-            { lang === 'ko' ? <NavigationText /> : <NavigationTextEn /> }
+            {lang === 'ko' ? <NavigationText /> : <NavigationTextEn />}
             <NavigationMap dabeeoMaps={dabeeoMaps} mapData={mapData} />
         </div>
-    )
-}
+    );
+};
 
 export default Navigation;

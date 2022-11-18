@@ -8,7 +8,7 @@ const MapOptionTextEn = () => {
             <div className={styles.texts}>mapOption can receive the following values.</div>
             <pre>
                 <code className={styles.code}>
-{`
+                    {`
 let mapOptions = {
     camera: '2d' | '3d',                        // Initial camera mode 3d
     floor: string,                              // Floor information to be applied
@@ -33,7 +33,7 @@ let mapOptions = {
             </pre>
             <div className={styles.texts}>You can try adjusting the map options in the map below.</div>
         </div>
-    )
-}
+    );
+};
 
 export default MapOptionTextEn;

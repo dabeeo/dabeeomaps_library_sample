@@ -1,249 +1,236 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <link rel="icon" href="../dabeeo_ci_symbol.png" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Navigation</title>
-    <style>
-        body {
-            margin: 0;
-        }
-
-        .map {
-            top: 0px;
-            left: 0px;
-            width: 1000px;
-            height: 500px;
-        }
-        .navi-path {
-          position: relative;
-        }
-    </style>
-</head>
-
-<body>
-    <button type="button" class="button-menu">floor</button>
-    <select type="text" class="inline-input" name="floor"></select>
-
-    <button type="button" class="button-menu" name="set">draw route</button>
-    <button type="button" class="button-menu" name="clear">clear route</button>
-    <button type="button" class="button-menu" name="start">start animation</button>
-    <button type="button" class="button-menu" name="stop">stop animation</button>
-    <div name="naviList" style="display:none;"></div>
-    <div id='map' class="map"></div>
-</body>
-<script type="text/javascript" src='https://assets.dabeeomaps.com/upload/library/dabeeomaps-4.0-pre-release.js'></script>
-<script>
-    const dabeeoMaps = new dabeeo.Maps();
-    let mapData = null;
-    let map = null;
-
-    async function init () {
-        //fetch a map
-            mapData = await dabeeoMaps.getMapData({
-            clientId: "75hb8YSnAokb-sZ04aDR91",
-            clientSecret: "0f7ad84f160c7b3fd1849a7920af718b"
-        });
-
-        //get route information 
-        const naviResponse = await getRoute();
-        console.log(mapData);
-        initFloorMenu();
-
-        console.log(naviResponse);
-
-        // render a map
-        const mapOption = Object.assign({
-            // camera: "2d"
-
-        });
-        const mapContainer = document.getElementById('map');
-        map = await dabeeoMaps.showMap(mapContainer, mapOption, mapData);
-
-        const controlOption = {
-            mouseOption: {
-                enableZoom: true,
-                enableRotate: false,
-                enablePan: true,
-                enableTilt: false,
-                buttonOption: {
-                    left: 'PAN',
-                    middle: 'ZOOM',
-                    right: 'ROTATE'
-                }
-            },
-            touchOption: {
-                enableZoom: true,
-                enableRotate: false,
-                enablePan: true,
-                enableTilt: false,
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <link rel="icon" href="../dabeeo_ci_symbol.png" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Navigation</title>
+        <style>
+            body {
+                margin: 0;
             }
+
+            .map {
+                top: 0px;
+                left: 0px;
+                width: 1000px;
+                height: 500px;
+            }
+            .navi-path {
+                position: relative;
+            }
+        </style>
+    </head>
+
+    <body>
+        <button type="button" class="button-menu">floor</button>
+        <select type="text" class="inline-input" name="floor"></select>
+
+        <button type="button" class="button-menu" name="set">draw route</button>
+        <button type="button" class="button-menu" name="clear">clear route</button>
+        <button type="button" class="button-menu" name="start">start animation</button>
+        <button type="button" class="button-menu" name="stop">stop animation</button>
+        <div name="naviList" style="display: none"></div>
+        <div id="map" class="map"></div>
+    </body>
+    <script type="text/javascript" src="https://assets.dabeeomaps.com/upload/library/dabeeomaps-4.0-pre-release.js"></script>
+    <script>
+        const dabeeoMaps = new dabeeo.Maps();
+        let mapData = null;
+        let map = null;
+
+        async function init() {
+            //fetch a map
+            mapData = await dabeeoMaps.getMapData({
+                clientId: '75hb8YSnAokb-sZ04aDR91',
+                clientSecret: '0f7ad84f160c7b3fd1849a7920af718b',
+            });
+
+            //get route information
+            const naviResponse = await getRoute();
+            console.log(mapData);
+            initFloorMenu();
+
+            console.log(naviResponse);
+
+            // render a map
+            const mapOption = Object.assign({
+                // camera: "2d"
+            });
+            const mapContainer = document.getElementById('map');
+            map = await dabeeoMaps.showMap(mapContainer, mapOption, mapData);
+
+            const controlOption = {
+                mouseOption: {
+                    enableZoom: true,
+                    enableRotate: false,
+                    enablePan: true,
+                    enableTilt: false,
+                    buttonOption: {
+                        left: 'PAN',
+                        middle: 'ZOOM',
+                        right: 'ROTATE',
+                    },
+                },
+                touchOption: {
+                    enableZoom: true,
+                    enableRotate: false,
+                    enablePan: true,
+                    enableTilt: false,
+                },
+            };
+
+            //disable camera rotation with mouse
+            // map.control.setOption(controlOption);
+
+            //initialize events
+            initFloorEvent();
+
+            initRouteEvent(naviResponse);
         }
 
-        //disable camera rotation with mouse
-        // map.control.setOption(controlOption);
-
-        //initialize events
-        initFloorEvent();
-
-        initRouteEvent(naviResponse);
-    }
-
-    async function getRoute () {
-        const routeOption = {
-            origin: {
-                poiId: "PO-WgCv1-qBo8094", // 사업전략부 (11 floor)
-                floorId: "FL-t4vqgyek3jnb8146",
-            },
-            // destination: {
-            //     poiId: "PO-NMvw3E0pe1690", // 플랫폼사업부 회의실 (11 floor )
-            //     floorId: "FL-t4vqgyek3jnb8146"
-            // },
-            destination: {
-                poiId: "PO-9InVzIGv20417", // 남자화장실 (2 floor )
-                floorId: "FL-vf3q07spbmsw8132",
-            },
-            type: ['recommendation', 'elevator']
+        async function getRoute() {
+            const routeOption = {
+                origin: {
+                    poiId: 'PO-WgCv1-qBo8094', // 사업전략부 (11 floor)
+                    floorId: 'FL-t4vqgyek3jnb8146',
+                },
+                // destination: {
+                //     poiId: "PO-NMvw3E0pe1690", // 플랫폼사업부 회의실 (11 floor )
+                //     floorId: "FL-t4vqgyek3jnb8146"
+                // },
+                destination: {
+                    poiId: 'PO-9InVzIGv20417', // 남자화장실 (2 floor )
+                    floorId: 'FL-vf3q07spbmsw8132',
+                },
+                type: ['recommendation', 'elevator'],
+            };
+            const routeOption2 = {
+                origin: {
+                    position: { x: 1000, y: 1000 },
+                    floorId: 'FL-t4vqgyek3jnb8146',
+                },
+                destination: {
+                    position: { x: 1000, y: 1000 },
+                    floorId: 'FL-vf3q07spbmsw8132',
+                },
+                type: ['recommendation', 'elevator'],
+            };
+            const naviResponse = await mapData.getRoute(routeOption);
+            return naviResponse;
         }
-        const routeOption2 = {
-            origin: {
-                position: { x: 1000, y: 1000 },
-                floorId: "FL-t4vqgyek3jnb8146",
-            },
-            destination: {
-                position: { x: 1000, y: 1000 },
-                floorId: "FL-vf3q07spbmsw8132",
-            },
-            type: ['recommendation', 'elevator']
 
+        function initRouteEvent(naviResponse) {
+            document.querySelector("[name='set']").addEventListener('click', function () {
+                setRoute(naviResponse);
+                showRouteInfo(naviResponse);
+            });
+
+            document.querySelector("[name='clear']").addEventListener('click', function () {
+                map.routeSimulation.clear();
+                const element = document.querySelector("[name='naviList']");
+                element.style.display = 'none';
+                element.innerHTML = '';
+            });
+
+            document.querySelector("[name='start']").addEventListener('click', function () {
+                map.routeSimulation.start();
+            });
+
+            document.querySelector("[name='stop']").addEventListener('click', function () {
+                map.routeSimulation.stop();
+            });
         }
-        const naviResponse = await mapData.getRoute(routeOption)
-        return (naviResponse);
-    }
-
-
-    function initRouteEvent (naviResponse) {
-
-        document.querySelector("[name='set']").addEventListener('click', function () {
-            setRoute(naviResponse);
-            showRouteInfo(naviResponse);
-        });
-
-        document.querySelector("[name='clear']").addEventListener('click', function () {
-            map.routeSimulation.clear();
+        function showRouteInfo(naviResponse) {
             const element = document.querySelector("[name='naviList']");
-            element.style.display = "none";
-            element.innerHTML = "";
+            element.style.display = 'block';
 
-
-        })
-
-        document.querySelector("[name='start']").addEventListener('click', function () {
-            map.routeSimulation.start();
-        });
-
-        document.querySelector("[name='stop']").addEventListener('click', function () {
-            map.routeSimulation.stop();
-        })
-    }
-    function showRouteInfo (naviResponse) {
-        const element = document.querySelector("[name='naviList']");
-        element.style.display = "block";
-
-        // navigation list 버튼 추가
-        console.log('NavigationResponse.navigationList 에 대한 결과값', naviResponse.recommendation.navigationList);
+            // navigation list 버튼 추가
+            console.log('NavigationResponse.navigationList 에 대한 결과값', naviResponse.recommendation.navigationList);
             naviResponse.recommendation.navigationList?.forEach((item, index, arr) => {
-              let { poiTitle, floorName, move, direction, distance, transportation } = getNavigationListData(item);
-              const button = document.createElement('button');
-    			    button.className = 'navi-path';
-              button.style.display = "block";
+                let { poiTitle, floorName, move, direction, distance, transportation } = getNavigationListData(item);
+                const button = document.createElement('button');
+                button.className = 'navi-path';
+                button.style.display = 'block';
 
-              if (move) button.onclick = move;
-              if (poiTitle === undefined ) poiTitle = '';
-              if (transportation === "걷기") {
-                button.textContent = `${poiTitle}(${floorName})에서 ${direction}하여 ${distance}m 만큼 ${transportation}(으)로 이동`;
-              } else {
-                button.textContent = `${poiTitle}(${floorName})에서 ${transportation}(으)로 이동`
-              }
-              if (index === arr.length-1)
-              button.textContent = `${poiTitle}(${floorName}) 도착 `
+                if (move) button.onclick = move;
+                if (poiTitle === undefined) poiTitle = '';
+                if (transportation === '걷기') {
+                    button.textContent = `${poiTitle}(${floorName})에서 ${direction}하여 ${distance}m 만큼 ${transportation}(으)로 이동`;
+                } else {
+                    button.textContent = `${poiTitle}(${floorName})에서 ${transportation}(으)로 이동`;
+                }
+                if (index === arr.length - 1) button.textContent = `${poiTitle}(${floorName}) 도착 `;
 
-              // button.style.cssText = 'width: 150px; height: 2rem;';
+                // button.style.cssText = 'width: 150px; height: 2rem;';
 
-              element.appendChild(button);
-        });
-    }
-
-    function getNavigationListData(item) {
-          let poiTitle, 
-              direction,
-              distance,
-              transportation,
-              floorName,
-              move;
-        
-          if (item.poi) poiTitle = item.poi.title;
-          if (item.direction) direction = item.direction;
-          if (item.distance) distance = item.distance;
-          if (item.transportation) transportation = item.transportation;
-          if (item.floorId) {
-            const floorData = mapData.dataFloor.getFloors().find((floor) => floor.id === item.floorId);
-            floorName = floorData?.name[0].text;
-          }
-          if (item.move) move = () => { item.move(map); } // 해당 navigation 경로로 이동하는 함수 저장
-
-          return {
-            poiTitle, 
-            floorName,
-            move,
-            direction,
-            distance,
-            transportation,
-          };
+                element.appendChild(button);
+            });
         }
-    function setRoute (naviResponse) {
-        const naviOption = {
-            defaultLineOption: {
-                lineColor: "#0000ff",
-                solidLineEnabled: true,
-                solidLineWidth: 10,
-            }, // 기본 주행선 옵션
+
+        function getNavigationListData(item) {
+            let poiTitle, direction, distance, transportation, floorName, move;
+
+            if (item.poi) poiTitle = item.poi.title;
+            if (item.direction) direction = item.direction;
+            if (item.distance) distance = item.distance;
+            if (item.transportation) transportation = item.transportation;
+            if (item.floorId) {
+                const floorData = mapData.dataFloor.getFloors().find((floor) => floor.id === item.floorId);
+                floorName = floorData?.name[0].text;
+            }
+            if (item.move)
+                move = () => {
+                    item.move(map);
+                }; // 해당 navigation 경로로 이동하는 함수 저장
+
+            return {
+                poiTitle,
+                floorName,
+                move,
+                direction,
+                distance,
+                transportation,
+            };
         }
-        map.routeSimulation.set(naviResponse.recommendation, naviOption);
-    }
-
-    function initFloorMenu () {
-        //floor data 
-        const dataFloor = mapData.dataFloor;
-        const floorInfo = dataFloor.getFloors();
-        const mapDefaultFloor = dataFloor.getDefaultFloor();
-        let element = document.querySelector("[name='floor']");
-
-        for (const floor of floorInfo) {
-            let newOption = document.createElement("option");
-            newOption.value = floor.id;
-            newOption.appendChild(document.createTextNode(floor.name[0].text));
-            element.appendChild(newOption);
+        function setRoute(naviResponse) {
+            const naviOption = {
+                defaultLineOption: {
+                    lineColor: '#0000ff',
+                    solidLineEnabled: true,
+                    solidLineWidth: 10,
+                }, // 기본 주행선 옵션
+            };
+            map.routeSimulation.set(naviResponse.recommendation, naviOption);
         }
-        element.value = mapDefaultFloor.id;
-    }
 
-    function initFloorEvent () {
-        const optionDefaultFloor = map.context.getMapOptions().floor
-        let element = document.querySelector("[name='floor']");
-        element.value = optionDefaultFloor;
-        element.addEventListener("change", async function (e) {
-            const floor = e.target.value
-            await map.context.changeFloor(floor);
-        });
-    }
+        function initFloorMenu() {
+            //floor data
+            const dataFloor = mapData.dataFloor;
+            const floorInfo = dataFloor.getFloors();
+            const mapDefaultFloor = dataFloor.getDefaultFloor();
+            let element = document.querySelector("[name='floor']");
 
-    init();
+            for (const floor of floorInfo) {
+                let newOption = document.createElement('option');
+                newOption.value = floor.id;
+                newOption.appendChild(document.createTextNode(floor.name[0].text));
+                element.appendChild(newOption);
+            }
+            element.value = mapDefaultFloor.id;
+        }
 
+        function initFloorEvent() {
+            const optionDefaultFloor = map.context.getMapOptions().floor;
+            let element = document.querySelector("[name='floor']");
+            element.value = optionDefaultFloor;
+            element.addEventListener('change', async function (e) {
+                const floor = e.target.value;
+                await map.context.changeFloor(floor);
+            });
+        }
 
-</script>
-
+        init();
+    </script>
 </html>

@@ -1,224 +1,221 @@
 <!DOCTYPE html>
 <html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>geolocation</title>
+        <style>
+            body {
+                margin: 0;
+            }
+            #map {
+                width: 100vw;
+                height: 100vh;
+                /* border: 1px solid black; */
+            }
+            #tracking-info {
+                display: flex;
+                flex-direction: column;
+                gap: 0.3rem;
+                position: absolute;
+                left: 0;
+                bottom: 0;
+                margin: 1rem;
+                padding: 1rem;
+                width: 90%;
+                height: fit-content;
+                z-index: 999;
+                background-color: rgba(255, 255, 255, 0.9);
+            }
 
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>geolocation</title>
-    <style>
-      body {
-            margin: 0;
-      }
-      #map {
-        width: 100vw;
-        height: 100vh;
-        /* border: 1px solid black; */
-      }
-      #tracking-info {
-        display: flex;
-        flex-direction: column;
-        gap: 0.3rem;
-        position: absolute; 
-        left: 0;
-        bottom: 0;
-        margin: 1rem; 
-        padding: 1rem; 
-        width: 90%; 
-        height: fit-content; 
-        z-index: 999; 
-        background-color: rgba(255, 255, 255, 0.9);
-      }
+            #container {
+                display: flex;
+                flex-direction: row;
+                justify-content: space-between;
+                position: absolute;
+                left: 0;
+                top: 0;
+                margin: 1rem;
+                padding: 1rem;
+                width: 90%;
+                height: fit-content;
+                z-index: 999;
+                background-color: rgba(255, 255, 255, 0.9);
+            }
 
-      #container {
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-        position: absolute; 
-        left: 0;
-        top: 0;
-        margin: 1rem; 
-        padding: 1rem; 
-        width: 90%; 
-        height: fit-content; 
-        z-index: 999; 
-        background-color: rgba(255, 255, 255, 0.9);
-      }
+            .stats {
+                font-size: 0.8rem;
+                font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue',
+                    sans-serif;
+            }
 
-      .stats {
-        font-size: 0.8rem;
-        font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-      }
+            .stats span {
+                color: red;
+            }
+            #focus {
+                position: absolute;
+                right: 0px;
+                top: 0px;
+            }
+        </style>
+    </head>
 
-      .stats span {
-        color: red;
-      }
-      #focus {
-        position: absolute; 
-        right: 0px;
-        top: 0px;
+    <body>
+        <div id="map" class="map"></div>
+        <div id="container">
+            <div class="stats">내 위치 상태: <span id="myloc-state"></span></div>
+            <button id="focus">focus</button>
+        </div>
+        <div id="tracking-info">
+            <div class="stats">현재 사용자 위치: <span id="current_position"></span></div>
+            <div class="stats">가장 가까운 지점: <span id="closestPoint"></span></div>
+            <div class="stats">출발지로부터의 거리: <span id="distance_from_origin"></span></div>
+            <div class="stats">도착지까지 남은 거리: <span id="distance_to_destination"></span></div>
+            <div class="stats">가장 가까운 path 와의 거리: <span id="distance_to_closest_path"></span></div>
+            <div class="stats">다음 방향: <span id="next_step"></span></div>
+            <div class="stats">현재 속한 path: <span id="current_path"></span></div>
+            <div class="stats">현재 path 각도: <span id="current_angle"></span></div>
+            <div class="stats">현재 상태: <span id="current_state"></span></div>
+        </div>
+    </body>
+    <script type="text/javascript" src="https://assets.dabeeomaps.com/upload/library/dabeeomaps-4.0-pre-release.js"></script>
+    <script type="module">
+        import { routeOptions } from './routeOptions.js';
 
-      }
-    </style>
-</head>
+        let mapData = null;
+        let map = null;
 
-<body>
-    <div id='map' class="map"></div>
-    <div id="container">
-      <div class="stats">내 위치 상태: <span id="myloc-state"></span></div>
-      <button id="focus">focus</button>
-    </div>
-    <div id="tracking-info">
-      <div class="stats">현재 사용자 위치: <span id="current_position"></span></div>
-      <div class="stats">가장 가까운 지점: <span id="closestPoint"></span></div>
-      <div class="stats">출발지로부터의 거리: <span id="distance_from_origin"></span></div>
-      <div class="stats">도착지까지 남은 거리: <span id="distance_to_destination"></span></div>
-      <div class="stats">가장 가까운 path 와의 거리: <span id="distance_to_closest_path"></span></div>
-      <div class="stats">다음 방향: <span id="next_step"></span></div>
-      <div class="stats">현재 속한 path: <span id="current_path"></span></div>
-      <div class="stats">현재 path 각도: <span id="current_angle"></span></div>
-      <div class="stats">현재 상태: <span id="current_state"></span></div>
-    </div>
-</body>
-<script type="text/javascript" src='https://assets.dabeeomaps.com/upload/library/dabeeomaps-4.0-pre-release.js'></script>
-<script type="module">
+        async function init() {
+            const dabeeoMaps = new dabeeo.Maps();
+            mapData = await dabeeoMaps.getMapData({
+                // 공덕역 주변지도
+                clientId: 'fji1sdUNkOz91XEtqArQT8',
+                clientSecret: 'b3badc99266da98c4ed55f98ecafb237',
+            });
+            const mapContainer = document.getElementById('map');
 
-  import { routeOptions } from './routeOptions.js';
+            const mapOption = Object.assign({
+                camera: '2d',
+                mergeMesh: true,
+            });
+            map = await dabeeoMaps.showMap(mapContainer, mapOption, mapData);
+            console.log('geolocation');
 
-  let mapData = null;
-  let map = null;
+            const naviResponse = await mapData.getRoute(routeOptions.gongdeok); // 경로데이터 가져오기
+            console.log(naviResponse);
 
-  async function init() {
+            ///////////////////////////////// API 샘플 및 사용 예제 요약
+            routeSimulationSetTest(); // map.routeSimulation.set() 테스트
+            GPSTrackingTest(); // GPS Tracking 테스트
+            GPSTrackingOnTest(); // map.mylocation.trackingOn() 테스트
+            // GPSTrackingOffTest();                                // map.mylocation.trackingOff() 테스트
+            GPSGetCurrentPositionTest(); // map.mylocation.getCurrentPosition() 테스트
+            trackingCompleteTest(); // tracking-complete 이벤트 및 GPS Tracking 종료 테스트
+            trackingMoveTest(); // tracking-move 이벤트 테스트
+            mylocationMapOut(); // mylocation-map-out 이벤트 테스트
+            mylocationMapIn(); // mylocation-map-in 이벤트 테스트
 
-      const dabeeoMaps = new dabeeo.Maps();
-      mapData = await dabeeoMaps.getMapData({
-          // 공덕역 주변지도
-          clientId: "fji1sdUNkOz91XEtqArQT8",
-          clientSecret: "b3badc99266da98c4ed55f98ecafb237",
-      });
-      const mapContainer = document.getElementById('map');
+            ///////////////////////////////////////
 
-      const mapOption = Object.assign({
-        camera: '2d',
-        mergeMesh: true,
-      });
-      map = await dabeeoMaps.showMap(mapContainer, mapOption, mapData);
-      console.log('geolocation');
+            function routeSimulationSetTest() {
+                // 경로 그리기
+                map.routeSimulation.set(naviResponse?.recommendation);
+            }
 
-      const naviResponse = await mapData.getRoute(routeOptions.gongdeok); // 경로데이터 가져오기
-      console.log(naviResponse);
+            function GPSTrackingTest() {
+                const locationOption = {
+                    x: 2500,
+                    y: 1000,
+                    iconOption: {
+                        // positionZ: 400,
+                        iconUrl: 'https://assets.dabeeomaps.com/image/ico/img_person-3x.png',
+                        // width: 200,
+                        // height: 200,
+                        anchor: {
+                            x: 0.5,
+                            y: 0.5,
+                        },
+                    },
+                    onActive: true,
+                    // isKeep: true,
+                    animate: {
+                        color: '#00ff00',
+                        opacity: 0.4,
+                        desireScale: 4,
+                        duration: 1500,
+                    },
+                    gpsOption: {
+                        leftCourseDistance: 50, // 경로이탈 여부 (ON_PATH 와 OUT_OF_PATH) 를 판단하는 기준 거리
+                        willArriveRadius: 100, // 도착 예정 범위 반경
+                        arrivedRadius: 50, // 도착 범위 반경
+                    },
+                };
+                map.mylocation.set(locationOption); // myLocation 생성
+                map.mylocation.start(); // geolocation 시작
+            }
 
-      ///////////////////////////////// API 샘플 및 사용 예제 요약 
-      routeSimulationSetTest();                               // map.routeSimulation.set() 테스트
-      GPSTrackingTest();                                      // GPS Tracking 테스트
-      GPSTrackingOnTest();                                    // map.mylocation.trackingOn() 테스트
-      // GPSTrackingOffTest();                                // map.mylocation.trackingOff() 테스트
-      GPSGetCurrentPositionTest();                            // map.mylocation.getCurrentPosition() 테스트
-      trackingCompleteTest();                                 // tracking-complete 이벤트 및 GPS Tracking 종료 테스트
-      trackingMoveTest();                                     // tracking-move 이벤트 테스트
-      mylocationMapOut();                                     // mylocation-map-out 이벤트 테스트
-      mylocationMapIn();                                      // mylocation-map-in 이벤트 테스트
+            function GPSTrackingOnTest() {
+                map.mylocation.trackingOn(naviResponse?.recommendation); // tracking-move, tracking-complete 이벤트 활성화
+            }
 
-      ///////////////////////////////////////
+            function GPSTrackingOffTest() {
+                map.mylocation.trackingOff(); // tracking-move, tracking-complete 이벤트 비활성화
+            }
 
-      function routeSimulationSetTest() {
-      	// 경로 그리기
-      	map.routeSimulation.set(naviResponse?.recommendation);
-      }
+            function GPSGetCurrentPositionTest() {
+                const button = document.getElementById('focus');
+                button.addEventListener('click', (e) => {
+                    const currentPosition = map.mylocation.getCurrentPosition(); // 현재 GPS 수신 좌표를 반환
+                    console.log('map.mylocation.getCurrentPosition()에 대한 결과값: ', currentPosition);
+                });
+            }
 
-      function GPSTrackingTest() {
-	      const locationOption = {
-	        x: 2500,
-	        y: 1000,
-	        iconOption: {
-	          // positionZ: 400,
-	          iconUrl: "https://assets.dabeeomaps.com/image/ico/img_person-3x.png",
-	          // width: 200,
-	          // height: 200,
-	          anchor: {
-	            x: 0.5,
-	            y: 0.5,
-	          }
-	        },
-	        onActive: true,
-	        // isKeep: true,
-	        animate: {
-	          color: "#00ff00",
-	          opacity: 0.4,
-	          desireScale: 4,
-            duration: 1500,
-	        },
-          gpsOption: {
-            leftCourseDistance: 50, // 경로이탈 여부 (ON_PATH 와 OUT_OF_PATH) 를 판단하는 기준 거리
-            willArriveRadius: 100, // 도착 예정 범위 반경
-            arrivedRadius: 50, // 도착 범위 반경
-          }
-	      };
-	      map.mylocation.set(locationOption); // myLocation 생성
-	      map.mylocation.start(); // geolocation 시작
-      }
+            function trackingCompleteTest() {
+                // tracking-complete
+                mapContainer?.addEventListener('tracking-complete', (e) => {
+                    console.log('tracking-complete에 대한 결과값: ', e.detail);
+                    map.mylocation.stop(); // geolocation 중단
+                    map.mylocation.clear(); // myLocation 제거
+                });
+            }
 
-      function GPSTrackingOnTest() {
-        map.mylocation.trackingOn(naviResponse?.recommendation); // tracking-move, tracking-complete 이벤트 활성화
-      }
+            function trackingMoveTest() {
+                // tracking-move
+                mapContainer?.addEventListener('tracking-move', (e) => {
+                    console.log('tracking-move에 대한 결과값: ', e.detail);
+                    updateStats(e);
+                });
+            }
 
-      function GPSTrackingOffTest() {
-        map.mylocation.trackingOff(); // tracking-move, tracking-complete 이벤트 비활성화
-      }
+            function mylocationMapOut() {
+                // mylocation-map-out
+                mapContainer?.addEventListener('mylocation-map-out', (e) => {
+                    console.log('mylocation-map-out에 대한 결과값: ', e.detail);
+                    const mylocationState = document.getElementById('myloc-state');
+                    mylocationState.textContent = e.detail;
+                    map.mylocation.hide(); // 지도영역을 벗어나면 내 위치 마커를 감춤.
+                });
+            }
 
-      function GPSGetCurrentPositionTest() {
-        const button = document.getElementById("focus");
-        button.addEventListener('click', (e) => {
-          const currentPosition = map.mylocation.getCurrentPosition(); // 현재 GPS 수신 좌표를 반환
-          console.log('map.mylocation.getCurrentPosition()에 대한 결과값: ', currentPosition);
-        });
-      }
+            function mylocationMapIn() {
+                // mylocation-map-in
+                mapContainer?.addEventListener('mylocation-map-in', (e) => {
+                    console.log('mylocation-map-in에 대한 결과값: ', e.detail);
+                    const mylocationState = document.getElementById('myloc-state');
+                    mylocationState.textContent = e.detail;
+                    map.mylocation.show(); // 지도영역으로 돌아오면 내 위치 마커를 보여줌.
+                });
+            }
 
-      function trackingCompleteTest() {
-	      // tracking-complete
-	      mapContainer?.addEventListener('tracking-complete', (e) => {
-		      console.log('tracking-complete에 대한 결과값: ', e.detail);
-		      map.mylocation.stop(); // geolocation 중단
-		      map.mylocation.clear(); // myLocation 제거
-		    });
-      }
-
-      function trackingMoveTest() {
-        // tracking-move
-        mapContainer?.addEventListener('tracking-move', (e) => {
-          console.log('tracking-move에 대한 결과값: ', e.detail);
-          updateStats(e);
-        });
-      }
-
-      function mylocationMapOut() {
-        // mylocation-map-out
-        mapContainer?.addEventListener('mylocation-map-out', (e) => {
-          console.log('mylocation-map-out에 대한 결과값: ', e.detail);
-          const mylocationState = document.getElementById("myloc-state")
-          mylocationState.textContent = e.detail;
-          map.mylocation.hide(); // 지도영역을 벗어나면 내 위치 마커를 감춤.
-        });
-      }
-
-      function mylocationMapIn() {
-        // mylocation-map-in
-        mapContainer?.addEventListener('mylocation-map-in', (e) => {
-          console.log('mylocation-map-in에 대한 결과값: ', e.detail);
-          const mylocationState = document.getElementById("myloc-state")
-          mylocationState.textContent = e.detail;
-          map.mylocation.show(); // 지도영역으로 돌아오면 내 위치 마커를 보여줌.
-        });
-      }
-
-      function updateStats(e) {
-	      const trackingInfo = e.detail;
-	      for (const key in trackingInfo) {
-	        const stat = document.getElementById(key);
-	        if (stat) {
-	          let content = trackingInfo[key];
-	          if (Array.isArray(content)) {
-	            content = `
+            function updateStats(e) {
+                const trackingInfo = e.detail;
+                for (const key in trackingInfo) {
+                    const stat = document.getElementById(key);
+                    if (stat) {
+                        let content = trackingInfo[key];
+                        if (Array.isArray(content)) {
+                            content = `
 	              시작점 {
 	                x: ${content[0].position.x.toFixed(2)}, 
 	                y: ${content[0].position.y.toFixed(2)},
@@ -230,61 +227,58 @@
 	                z: ${content[1].position.z.toFixed(2)}
 	              }
 	            `;
-	          }
-	          if (key === 'closestPoint' || key === 'current_position') {
-	            if (content instanceof Object) {
-                content = `
+                        }
+                        if (key === 'closestPoint' || key === 'current_position') {
+                            if (content instanceof Object) {
+                                content = `
 	                x: ${content.x.toFixed(2)}, 
 	                y: ${content.y.toFixed(2)},
 	                z: ${content.z.toFixed(2)}
 	              `;
-              }
-	          }
-            if (typeof content === 'number') {
-	            content = content.toFixed(2);
-	          }
-	          stat.textContent = content;
-	        };
-	      }
-      }
+                            }
+                        }
+                        if (typeof content === 'number') {
+                            content = content.toFixed(2);
+                        }
+                        stat.textContent = content;
+                    }
+                }
+            }
 
-      // x, y, z값만 넣어도 location 표시는 됩니다.
-      // const locationOption = {
-      //     x: number,                                          // 내 위치 x 좌표
-      //     y: number,                                          // 내 위치 y 좌표
-      //     onActive: boolean,                                  // 타층 이동후 다시 돌아왔을 때 표시 여부
-      //     iconOption: {                                       // 내 위치 마커의 아이콘 속성
-      //         iconUrl: "이미지 Url",                            // 내 위치 마커의 이미지
-      //         width: number,                                  // 내 위치 마커 아이콘의 가로 사이즈
-      //         height: number,                                 // 내 위치 마커 아이콘의 세로 사이즈
-      //         positionZ: number,                              // 내 위치 마커 아이콘의 z 좌표값
-      //         anchor: {                                       // 내 위치 마커 아이콘의 중심점 (left/bottom이 0,0이고 right/top이 1,1)
-      //           x: number,
-      //           y: number,
-      //         },
-      //     },
-      //     animate: boolean | {                                // 내 위치 마커 애니메이션 효과 속성
-      //         color: "#ff00ff",                               // 내 위치 마커의 색상
-      //         opacity: number,                                // 내 위치 마커의 투명도(0~100)
-      //         desireScale: number                             // 내 위치 마커의 최대 크기
-      //         duration: number                                // 내 위치 마커 애니메이션 지속시간 (밀리세컨드 단위)
-      //     },
-      //     gpsOption: {                                        // 내 위치 마커의 GPS 옵션
-      //       leftCourseDistance: 50,                           // GPS Tracking 시 경로이탈 여부 (ON_PATH 와 OUT_OF_PATH) 를 판단하는 기준 거리. 기본값은 25m. 단위는 m(미터)
-      //       willArriveRadius: 100,                            // GPS Tracking 시 도착 예정 범위 반경. 기본값은 50m -> 도착 예정 범위 반경은 도착 범위 반경보다 더 커야합니다. 작거나 같을 경우, 에러를 출력하면서 전달된 값이 무시되고, 기본값을 적용합니다.
-      //       arrivedRadius: 50,                                // GPS Tracking 시 도착 범위 반경. 기본값은 25m -> 해당 범위내로 도착 시, tracking-complete 이벤트가 발생합니다.
-      //     },
-      // }
+            // x, y, z값만 넣어도 location 표시는 됩니다.
+            // const locationOption = {
+            //     x: number,                                          // 내 위치 x 좌표
+            //     y: number,                                          // 내 위치 y 좌표
+            //     onActive: boolean,                                  // 타층 이동후 다시 돌아왔을 때 표시 여부
+            //     iconOption: {                                       // 내 위치 마커의 아이콘 속성
+            //         iconUrl: "이미지 Url",                            // 내 위치 마커의 이미지
+            //         width: number,                                  // 내 위치 마커 아이콘의 가로 사이즈
+            //         height: number,                                 // 내 위치 마커 아이콘의 세로 사이즈
+            //         positionZ: number,                              // 내 위치 마커 아이콘의 z 좌표값
+            //         anchor: {                                       // 내 위치 마커 아이콘의 중심점 (left/bottom이 0,0이고 right/top이 1,1)
+            //           x: number,
+            //           y: number,
+            //         },
+            //     },
+            //     animate: boolean | {                                // 내 위치 마커 애니메이션 효과 속성
+            //         color: "#ff00ff",                               // 내 위치 마커의 색상
+            //         opacity: number,                                // 내 위치 마커의 투명도(0~100)
+            //         desireScale: number                             // 내 위치 마커의 최대 크기
+            //         duration: number                                // 내 위치 마커 애니메이션 지속시간 (밀리세컨드 단위)
+            //     },
+            //     gpsOption: {                                        // 내 위치 마커의 GPS 옵션
+            //       leftCourseDistance: 50,                           // GPS Tracking 시 경로이탈 여부 (ON_PATH 와 OUT_OF_PATH) 를 판단하는 기준 거리. 기본값은 25m. 단위는 m(미터)
+            //       willArriveRadius: 100,                            // GPS Tracking 시 도착 예정 범위 반경. 기본값은 50m -> 도착 예정 범위 반경은 도착 범위 반경보다 더 커야합니다. 작거나 같을 경우, 에러를 출력하면서 전달된 값이 무시되고, 기본값을 적용합니다.
+            //       arrivedRadius: 50,                                // GPS Tracking 시 도착 범위 반경. 기본값은 25m -> 해당 범위내로 도착 시, tracking-complete 이벤트가 발생합니다.
+            //     },
+            // }
 
-      // location 적용
-      // map.mylocation.set(locationOption);
+            // location 적용
+            // map.mylocation.set(locationOption);
 
-      // location 삭제
-      // map.mylocation.clear();
-
-  }
-  init();
-
-</script>
-
+            // location 삭제
+            // map.mylocation.clear();
+        }
+        init();
+    </script>
 </html>

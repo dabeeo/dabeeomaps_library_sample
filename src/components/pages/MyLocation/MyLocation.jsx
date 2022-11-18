@@ -6,10 +6,10 @@ import MyLocationTextEn from './MyLocationText/MyLocationTextEn';
 const MyLocation = ({ lang, dabeeoMaps, mapData }) => {
     return (
         <div className={styles.myLocation}>
-            { lang === 'ko' ? <MyLocationText /> : <MyLocationTextEn /> }
+            {lang === 'ko' ? <MyLocationText /> : <MyLocationTextEn />}
             <MyLocationMap dabeeoMaps={dabeeoMaps} mapData={mapData} />
         </div>
-    )
-}
+    );
+};
 
 export default MyLocation;

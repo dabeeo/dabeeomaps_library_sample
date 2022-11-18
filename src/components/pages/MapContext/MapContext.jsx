@@ -6,10 +6,10 @@ import MapContextTextEn from './MapContextText/MapContextTextEn';
 const MapContext = ({ lang, dabeeoMaps, mapData }) => {
     return (
         <div className={styles.MapContext}>
-            { lang === 'ko' ? <MapContextText /> : <MapContextTextEn /> }
-            <MapContextMap dabeeoMaps={dabeeoMaps} mapData={mapData}/>
+            {lang === 'ko' ? <MapContextText /> : <MapContextTextEn />}
+            <MapContextMap dabeeoMaps={dabeeoMaps} mapData={mapData} />
         </div>
-    )
-}
+    );
+};
 
 export default MapContext;

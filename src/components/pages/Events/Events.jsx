@@ -5,7 +5,8 @@ const Events = () => {
         <div className={styles.events}>
             <div className={styles.title}>Events</div>
             <p>
-                Dabeeo JS API에서 사용가능한 Event 목록입니다.<br />
+                Dabeeo JS API에서 사용가능한 Event 목록입니다.
+                <br />
                 event는 map이 종속된 태그에 등록하셔서 사용하시면 됩니다.
             </p>
             <code className={styles.code}>const mapContainer = document.getElementById('viewport');</code>
@@ -111,7 +112,7 @@ const Events = () => {
             <div className={styles.texts}>길찾기를 활성화한 후 gps로 위치를 tracking하는 중에 위치가 변경됨에 따라 현재의 경로에 대한 정보를 반환합니다. </div>
             <code className={styles.code}>{`mapContainer.addEventListener("tracking-move", (e) => console.log(e.detail));`}</code>
         </div>
-    )
-}
+    );
+};
 
 export default Events;

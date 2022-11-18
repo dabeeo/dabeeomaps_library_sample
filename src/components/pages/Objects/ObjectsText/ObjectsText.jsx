@@ -2,24 +2,20 @@ import { useEffect } from 'react';
 import styles from './ObjectsText.module.scss';
 
 const ObjectsText = () => {
-
     useEffect(() => {
-        let codeElement = document.querySelectorAll("code");
-            if (!codeElement) return;
-            codeElement.forEach((data) => {
-                let text = data.innerHTML;
-                let text1 = text.replace(/&lt;/gi, "<");
-                let text2 = text1.replace(/&gt;/gi, ">");
-                let text3 = text2.replace(/[<>]/g, `<span>$&</span>`);
-                let text4 = text3.replace(/['"]([^'"]*)["']/g, `<span class=${styles.value}>$&</span>`);
-                let text5 = text4.replace(
-                    / var | if | return| let | const | function | new | window| document| for /g,
-                    `<span class=${styles.reserved}>$&</span>`,
-                );
-                let text6 = text5.replace(/[{}()]/g, `<span class=${styles.special}>$&</span>`);
-                let text7 = text6.replace(/\/\/.+/g, `<span class=${styles.comment}>$&</span>`);
-                data.innerHTML = text7;
-            });
+        let codeElement = document.querySelectorAll('code');
+        if (!codeElement) return;
+        codeElement.forEach((data) => {
+            let text = data.innerHTML;
+            let text1 = text.replace(/&lt;/gi, '<');
+            let text2 = text1.replace(/&gt;/gi, '>');
+            let text3 = text2.replace(/[<>]/g, `<span>$&</span>`);
+            let text4 = text3.replace(/['"]([^'"]*)["']/g, `<span class=${styles.value}>$&</span>`);
+            let text5 = text4.replace(/ var | if | return| let | const | function | new | window| document| for /g, `<span class=${styles.reserved}>$&</span>`);
+            let text6 = text5.replace(/[{}()]/g, `<span class=${styles.special}>$&</span>`);
+            let text7 = text6.replace(/\/\/.+/g, `<span class=${styles.comment}>$&</span>`);
+            data.innerHTML = text7;
+        });
     }, []);
 
     return (
@@ -31,31 +27,36 @@ const ObjectsText = () => {
                 특정 오브젝트를 숨기거나 보이게 할 수 있습니다. 숨기거나 보이는 기능은 단순히 visibility를 수정하므로 성능에는 영향이 없습니다. <br />
                 특정 오브젝트의 스타일을 바꾸거나 다시 되돌릴 수 있습니다. <br />
             </p>
-            
+
             <div className={styles.texts}>지도의 모든 오브젝트, 또는 특정 오브젝트를 숨깁니다.</div>
             <pre>
-              <code className={styles.code}>{`
+                <code className={styles.code}>{`
 map.objects.hide(); // 모든 object 를 지도에서 숨김.
 map.objects.hide('OB-aN7fGeVoze1959'); // 단일 object 를 지도에서 숨김.
 map.objects.hide(['OB-aN7fGeVoze1959', 'OB-mxanpdYA1T2410']); // 여러 object 를 지도에서 숨김.
 
 `}</code>
             </pre>
-            
-            <div className={styles.texts}><br />지도의 모든 오브젝트 또는 특정 오브젝트를 표출합니다.</div>
+
+            <div className={styles.texts}>
+                <br />
+                지도의 모든 오브젝트 또는 특정 오브젝트를 표출합니다.
+            </div>
             <pre>
-              <code className={styles.code}>{`
+                <code className={styles.code}>{`
 map.objects.show(); // 모든 object 를 지도에서 보여줌.
 map.objects.show('OB-aN7fGeVoze1959'); // 단일 object 를 지도에서 보여줌.
 map.objects.show(['OB-aN7fGeVoze1959', 'OB-mxanpdYA1T2410']); // 여러 object 를 지도에서 보여줌.
 `}</code>
             </pre>
-            
 
-            <div className={styles.texts}><br />특정 또는 모든 오브젝트의 스타일을 변경합니다.</div>
+            <div className={styles.texts}>
+                <br />
+                특정 또는 모든 오브젝트의 스타일을 변경합니다.
+            </div>
             <pre>
                 <code className={styles.code}>
-{`
+                    {`
  const updateOption = {
     activeDest: true,
     color: "#00ffff",
@@ -75,10 +76,13 @@ map.objects.set(updateOption);
 `}
                 </code>
             </pre>
-            <div className={styles.texts}><br />변경된 특정 또는 모든 오브젝트의 스타일을 되돌립니다.</div>
+            <div className={styles.texts}>
+                <br />
+                변경된 특정 또는 모든 오브젝트의 스타일을 되돌립니다.
+            </div>
             <pre>
                 <code className={styles.code}>
-{`
+                    {`
 map.objects.reset('OB-mxanpdYA1T2410'); // 단일 오브젝트의 속성 해제
 map.objects.reset(['OB-mxanpdYA1T2410', 'PO-JQ4mw4YeT4536']); // 여러 오브젝트의 속성 해제
 map.objects.reset(); // 모든 오브젝트의 속성 해제 
@@ -86,11 +90,16 @@ map.objects.reset(); // 모든 오브젝트의 속성 해제
                 </code>
             </pre>
 
-
-            <div className={styles.texts}><br /><br /><br /><br /><br /><br /></div>
-            
+            <div className={styles.texts}>
+                <br />
+                <br />
+                <br />
+                <br />
+                <br />
+                <br />
+            </div>
         </div>
-    )
-}
+    );
+};
 
 export default ObjectsText;

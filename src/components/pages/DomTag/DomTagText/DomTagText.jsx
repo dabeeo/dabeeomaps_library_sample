@@ -2,24 +2,20 @@ import { useEffect } from 'react';
 import styles from './DomTagText.module.scss';
 
 const DomTagText = () => {
-
     useEffect(() => {
-        let codeElement = document.querySelectorAll("code");
-            if (!codeElement) return;
-            codeElement.forEach((data) => {
-                let text = data.innerHTML;
-                let text1 = text.replace(/&lt;/gi, "<");
-                let text2 = text1.replace(/&gt;/gi, ">");
-                let text3 = text2.replace(/[<>]/g, `<span>$&</span>`);
-                let text4 = text3.replace(/['"]([^'"]*)["']/g, `<span class=${styles.value}>$&</span>`);
-                let text5 = text4.replace(
-                    / var | if | return| let | const | function | new | window| document| for /g,
-                    `<span class=${styles.reserved}>$&</span>`,
-                );
-                let text6 = text5.replace(/[{}()]/g, `<span class=${styles.special}>$&</span>`);
-                let text7 = text6.replace(/\/\/.+/g, `<span class=${styles.comment}>$&</span>`);
-                data.innerHTML = text7;
-            });
+        let codeElement = document.querySelectorAll('code');
+        if (!codeElement) return;
+        codeElement.forEach((data) => {
+            let text = data.innerHTML;
+            let text1 = text.replace(/&lt;/gi, '<');
+            let text2 = text1.replace(/&gt;/gi, '>');
+            let text3 = text2.replace(/[<>]/g, `<span>$&</span>`);
+            let text4 = text3.replace(/['"]([^'"]*)["']/g, `<span class=${styles.value}>$&</span>`);
+            let text5 = text4.replace(/ var | if | return| let | const | function | new | window| document| for /g, `<span class=${styles.reserved}>$&</span>`);
+            let text6 = text5.replace(/[{}()]/g, `<span class=${styles.special}>$&</span>`);
+            let text7 = text6.replace(/\/\/.+/g, `<span class=${styles.comment}>$&</span>`);
+            data.innerHTML = text7;
+        });
     }, []);
 
     return (
@@ -28,13 +24,14 @@ const DomTagText = () => {
             <div className={styles.miniTitle}>tag를 생성 또는 삭제할 수 있습니다.</div>
             <p>
                 원하는 css 속성을 갖는 HTML Element를 특정 poi, marker, 또는 위치에 지정할 수 있습니다. <br />
-                marker 삭제시 함께 삭제, 생성된 태그의 id를 통해 삭제, 또는  모든 태그를 한번에 삭제할 수 있습니다.<br />
+                marker 삭제시 함께 삭제, 생성된 태그의 id를 통해 삭제, 또는 모든 태그를 한번에 삭제할 수 있습니다.
+                <br />
                 tag끼리 겹치는 경우 마우스 hover시 상위로 오게하려면 CSS의 z-index를 이용하면 됩니다. 예제를 참고하세요.
             </p>
             <div className={styles.texts}>위치를 지정하여 tag를 생성하는 예제는 다음과 같습니다.</div>
             <pre>
                 <code className={styles.code}>
-{`
+                    {`
 <style>
     .tag-container {
         z-index: 2;
@@ -67,11 +64,11 @@ const DomTagText = () => {
             </pre>
             <div className={styles.texts}>아래 메소드를 호출하시면 해당 tag를 삭제합니다.</div>
             <pre>
-                <code className={styles.code}>map.tag.clear(tagItem.id);  </code>
+                <code className={styles.code}>map.tag.clear(tagItem.id); </code>
             </pre>
             <div className={styles.texts}>아래 메소드를 호출하시면 해당 tag의 정보를 반환합니다</div>
             <pre>
-                <code className={styles.code}>map.tag.find(tagItem.id);    // 해당 tag의 ID를 넣으시면 됩니다.</code>
+                <code className={styles.code}>map.tag.find(tagItem.id); // 해당 tag의 ID를 넣으시면 됩니다.</code>
             </pre>
             <div className={styles.texts}>아래 메소드를 호출하시면 모든 tag를 삭제합니다.</div>
             <pre>
@@ -81,7 +78,7 @@ const DomTagText = () => {
             <div className={styles.texts}>poi를 지정하여 tag를 생성하는 예제는 다음과 같습니다.</div>
             <pre>
                 <code className={styles.code}>
-{`
+                    {`
 const tagItem = map.tag.setPOITag({ parentId: poi.id, pos: 'BOTTOM', tag: tag2});
 `}
                 </code>
@@ -89,7 +86,7 @@ const tagItem = map.tag.setPOITag({ parentId: poi.id, pos: 'BOTTOM', tag: tag2})
             <div className={styles.texts}>marker를 지정하여 tag를 생성하는 예제는 다음과 같습니다.</div>
             <pre>
                 <code className={styles.code}>
-{`
+                    {`
         const lists = await map.markers.set({      // 생성된 marker들의 ID List를 저장합니다.
             marker: [
                 {
@@ -124,7 +121,7 @@ const tagItem = map.tag.setPOITag({ parentId: poi.id, pos: 'BOTTOM', tag: tag2})
             <div className={styles.texts}>marker에 생성한 태그는 아래와 같이 삭제할 수 있습니다. </div>
             <pre>
                 <code className={styles.code}>
-{`
+                    {`
 
         map.tag.clear(tagItem.id); //tag만 삭제됩니다. 
         map.markers.clear(lists[0]) //마커를 삭제시 tag도 삭제됩니다. 
@@ -132,9 +129,8 @@ const tagItem = map.tag.setPOITag({ parentId: poi.id, pos: 'BOTTOM', tag: tag2})
 `}
                 </code>
             </pre>
-
         </div>
-    )
-}
+    );
+};
 
 export default DomTagText;

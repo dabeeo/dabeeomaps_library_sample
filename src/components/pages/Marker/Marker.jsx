@@ -6,10 +6,10 @@ import MarkerTextEn from './MarkerText/MarkerTextEn';
 const Marker = ({ lang, dabeeoMaps, mapData }) => {
     return (
         <div className={styles.marker}>
-            { lang === 'ko' ? <MarkerText /> : <MarkerTextEn />}
+            {lang === 'ko' ? <MarkerText /> : <MarkerTextEn />}
             <MarkerMap dabeeoMaps={dabeeoMaps} mapData={mapData} />
         </div>
-    )
-}
+    );
+};
 
 export default Marker;

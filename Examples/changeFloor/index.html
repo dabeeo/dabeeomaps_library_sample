@@ -1,81 +1,78 @@
 <!DOCTYPE html>
 <html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <link rel="icon" href="../dabeeo_ci_symbol.png" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>change floor sample</title>
+        <style>
+            .map {
+                width: 100vw;
+                height: 100vh;
+            }
+        </style>
+    </head>
 
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <link rel="icon" href="../dabeeo_ci_symbol.png" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>change floor sample</title>
-    <style>
-        .map {
-            width: 100vw;
-            height: 100vh;
+    <body>
+        <button type="button" class="button-menu">floor</button>
+        <select type="text" class="inline-input" name="floor"></select>
+        <div id="map" class="map"></div>
+    </body>
+    <script type="text/javascript" src="https://assets.dabeeomaps.com/upload/library/dabeeomaps-4.0-pre-release.js"></script>
+
+    <script>
+        const dabeeoMaps = new dabeeo.Maps();
+        let mapData = null;
+        let map = null;
+        async function init() {
+            ////fetch a map
+            mapData = await dabeeoMaps.getMapData({
+                clientId: '75hb8YSnAokb-sZ04aDR91',
+                clientSecret: '0f7ad84f160c7b3fd1849a7920af718b',
+            });
+
+            // default value is defined in DabeeoMap Editor
+            initFloorMenu();
+
+            //// render a map
+            const mapOption = Object.assign({
+                // floor: "FL-vf3q07spbmsw8132" // you can change floor when rendering a map
+            });
+            const mapContainer = document.getElementById('map');
+            map = await dabeeoMaps.showMap(mapContainer, mapOption, mapData);
+
+            ////menu initialization
+            //read floor option and set floor value
+            initFloorEvent();
         }
-    </style>
-</head>
 
-<body>
-    <button type="button" class="button-menu">floor</button>
-    <select type="text" class="inline-input" name="floor"></select>
-    <div id='map' class="map"></div>
-</body>
-<script type="text/javascript" src='https://assets.dabeeomaps.com/upload/library/dabeeomaps-4.0-pre-release.js'></script>
+        function initFloorMenu() {
+            //floor data
+            const dataFloor = mapData.dataFloor;
+            const floorInfo = dataFloor.getFloors();
+            const mapDefaultFloor = dataFloor.getDefaultFloor();
+            let element = document.querySelector("[name='floor']");
 
-<script>
-    const dabeeoMaps = new dabeeo.Maps();
-    let mapData = null;
-    let map = null;
-    async function init () {
-
-        ////fetch a map
-        mapData = await dabeeoMaps.getMapData({
-            clientId: "75hb8YSnAokb-sZ04aDR91",
-            clientSecret: "0f7ad84f160c7b3fd1849a7920af718b"
-        });
-
-        // default value is defined in DabeeoMap Editor 
-        initFloorMenu();
-
-        //// render a map
-        const mapOption = Object.assign({
-            // floor: "FL-vf3q07spbmsw8132" // you can change floor when rendering a map 
-        });
-        const mapContainer = document.getElementById('map');
-        map = await dabeeoMaps.showMap(mapContainer, mapOption, mapData);
-
-        ////menu initialization
-        //read floor option and set floor value
-        initFloorEvent();
-    }
-
-    function initFloorMenu () {
-        //floor data 
-        const dataFloor = mapData.dataFloor;
-        const floorInfo = dataFloor.getFloors();
-        const mapDefaultFloor = dataFloor.getDefaultFloor();
-        let element = document.querySelector("[name='floor']");
-
-        for (const floor of floorInfo) {
-            let newOption = document.createElement("option");
-            newOption.value = floor.id;
-            newOption.appendChild(document.createTextNode(floor.name[0].text));
-            element.appendChild(newOption);
+            for (const floor of floorInfo) {
+                let newOption = document.createElement('option');
+                newOption.value = floor.id;
+                newOption.appendChild(document.createTextNode(floor.name[0].text));
+                element.appendChild(newOption);
+            }
+            element.value = mapDefaultFloor.id;
         }
-        element.value = mapDefaultFloor.id;
-    }
 
-    function initFloorEvent () {
-        const optionDefaultFloor = map.context.getMapOptions().floor
-        let element = document.querySelector("[name='floor']");
-        element.value = optionDefaultFloor;
-        element.addEventListener("change", async function (e) {
-            const floor = e.target.value
-            await map.context.changeFloor(floor);
-        });
-    }
+        function initFloorEvent() {
+            const optionDefaultFloor = map.context.getMapOptions().floor;
+            let element = document.querySelector("[name='floor']");
+            element.value = optionDefaultFloor;
+            element.addEventListener('change', async function (e) {
+                const floor = e.target.value;
+                await map.context.changeFloor(floor);
+            });
+        }
 
-    init();
-</script>
-
+        init();
+    </script>
 </html>

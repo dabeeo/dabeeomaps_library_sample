@@ -1,98 +1,97 @@
 <!DOCTYPE html>
 <html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>control camera sample</title>
+        <!-- <link rel="stylesheet" href="style.css"> -->
+        <style>
+            .viewport {
+                width: 1000px;
+                height: 500px;
+                position: relative;
+            }
+        </style>
+    </head>
 
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>control camera sample</title>
-    <!-- <link rel="stylesheet" href="style.css"> -->
-    <style>
-        .viewport {
-            width: 1000px;
-            height: 500px;
-            position: relative;
-        }
-    </style>
-</head>
+    <body>
+        <button type="button" class="button-menu">camera</button>
+        <select class="dimensionSelect">
+            <option value="2D">2D</option>
+            <option value="3D" selected>3D</option>
+        </select>
+        <button type="button" class="resetBtn">reset</button>
 
-<body>
-    <button type="button" class="button-menu">camera</button>
-    <select class="dimensionSelect">
-        <option value="2D">2D</option>
-        <option value="3D" selected>3D</option>
-    </select>
-    <button type="button" class="resetBtn">reset</button>
+        <div class="moveToContainer">
+            <input type="text" placeholder="x" class="moveToX" />
+            <input type="text" placeholder="y" class="moveToY" />
+            <button type="button" class="moveTo">moveTo</button>
+        </div>
+        <div class="setContainer">
+            <input type="text" placeholder="rotation" class="rotation" />
+            <input type="text" placeholder="tilt" class="tilt" />
+            <input type="text" placeholder="zoom" class="zoom" />
+            <button type="button" class="set">set</button>
+        </div>
+        <div class="changeZoomContainer">
+            <input type="text" placeholder="zoom" class="changeZoom" />
+            <button type="button" class="changeZoomBtn">changeZoom</button>
+            <button type="button" class="zoomIn">zoomIn</button>
+            <button type="button" class="zoomOut">zoomOut</button>
+        </div>
+        <div id="viewport" class="viewport"></div>
+    </body>
+    <script type="text/javascript" src="https://assets.dabeeomaps.com/upload/library/dabeeomaps-4.1.0.js"></script>
+    <script>
+        window.onload = function () {
+            const dabeeoMaps = new dabeeo.Maps();
+            dabeeoMaps
+                .getMapData({
+                    clientId: '75hb8YSnAokb-sZ04aDR91',
+                    clientSecret: '0f7ad84f160c7b3fd1849a7920af718b',
+                })
+                .then(async (mapData) => {
+                    const mapOption = Object.assign({});
+                    const mapContainer = document.getElementById('viewport');
+                    const map = await dabeeoMaps.showMap(mapContainer, mapOption, mapData);
 
-    <div class="moveToContainer">
-        <input type='text' placeholder="x" class="moveToX" />
-        <input type='text' placeholder="y" class="moveToY" />
-        <button type="button" class="moveTo">moveTo</button>
-    </div>
-    <div class="setContainer">
-        <input type="text" placeholder="rotation" class="rotation" />
-        <input type='text' placeholder="tilt" class="tilt" />
-        <input type="text" placeholder="zoom" class="zoom" />
-        <button type="button" class="set">set</button>
-    </div>
-    <div class="changeZoomContainer">
-        <input type='text' placeholder="zoom" class="changeZoom" />
-        <button type="button" class="changeZoomBtn">changeZoom</button>
-        <button type="button" class="zoomIn">zoomIn</button>
-        <button type="button" class="zoomOut">zoomOut</button>
-    </div>
-    <div id='viewport' class="viewport"></div>
+                    document.querySelector('.dimensionSelect').addEventListener('change', function (e) {
+                        map.control.changeCamera(e.target.value);
+                    });
 
-</body>
-<script type="text/javascript" src='https://assets.dabeeomaps.com/upload/library/dabeeomaps-4.1.0.js'></script>
-<script>
-    window.onload = function () {
-        const dabeeoMaps = new dabeeo.Maps();
-        dabeeoMaps.getMapData({
-            clientId: "75hb8YSnAokb-sZ04aDR91",
-            clientSecret: "0f7ad84f160c7b3fd1849a7920af718b",
-        }).then(async (mapData) => {
-            const mapOption = Object.assign({});
-            const mapContainer = document.getElementById('viewport');
-            const map = await dabeeoMaps.showMap(mapContainer, mapOption, mapData);
+                    document.querySelector('.moveTo').addEventListener('click', function () {
+                        const x = document.querySelector('.moveToX').value ? document.querySelector('.moveToX').value : 0;
+                        const y = document.querySelector('.moveToY').value ? document.querySelector('.moveToY').value : 0;
 
-            document.querySelector('.dimensionSelect').addEventListener('change', function (e) {
-                map.control.changeCamera(e.target.value);
-            });
+                        map.control.moveTo({ position: { x: Number(x), y: Number(y) } });
+                    });
 
-            document.querySelector('.moveTo').addEventListener('click', function () {
-                const x = document.querySelector('.moveToX').value ? document.querySelector('.moveToX').value : 0;
-                const y = document.querySelector('.moveToY').value ? document.querySelector('.moveToY').value : 0;
+                    document.querySelector('.resetBtn').addEventListener('click', function () {
+                        map.control.reset();
+                    });
 
-                map.control.moveTo({ position: { x: Number(x), y: Number(y) } });
-            });
+                    document.querySelector('.set').addEventListener('click', function () {
+                        const rotation = document.querySelector('.rotation').value ? document.querySelector('.rotation').value : 0;
+                        const tilt = document.querySelector('.tilt').value ? document.querySelector('.tilt').value : 0;
+                        const zoom = document.querySelector('.zoom').value ? document.querySelector('.zoom').value : 0;
 
-            document.querySelector('.resetBtn').addEventListener('click', function () {
-                map.control.reset();
-            });
+                        map.control.set({ rotation: rotation, tilt: tilt, zoom: zoom });
+                    });
 
-            document.querySelector('.set').addEventListener('click', function () {
-                const rotation = document.querySelector('.rotation').value ? document.querySelector('.rotation').value : 0;
-                const tilt = document.querySelector('.tilt').value ? document.querySelector('.tilt').value : 0;
-                const zoom = document.querySelector('.zoom').value ? document.querySelector('.zoom').value : 0;
+                    document.querySelector('.changeZoomBtn').addEventListener('click', function () {
+                        const zoom = document.querySelector('.changeZoom').value ? document.querySelector('.changeZoom').value : 0;
+                        map.control.changeZoom({ zoom: zoom });
+                    });
 
-                map.control.set({ rotation: rotation, tilt: tilt, zoom: zoom });
-            });
+                    document.querySelector('.zoomIn').addEventListener('click', function () {
+                        map.control.zoomIn();
+                    });
 
-            document.querySelector('.changeZoomBtn').addEventListener('click', function () {
-                const zoom = document.querySelector('.changeZoom').value ? document.querySelector('.changeZoom').value : 0;
-                map.control.changeZoom({ zoom: zoom });
-            });
-
-            document.querySelector('.zoomIn').addEventListener('click', function () {
-                map.control.zoomIn();
-            });
-
-            document.querySelector('.zoomOut').addEventListener('click', function () {
-                map.control.zoomOut();
-            })
-        });
-    }
-</script>
-
+                    document.querySelector('.zoomOut').addEventListener('click', function () {
+                        map.control.zoomOut();
+                    });
+                });
+        };
+    </script>
 </html>

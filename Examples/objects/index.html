@@ -1,138 +1,134 @@
 <!DOCTYPE html>
 <html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>[object]</title>
+        <style>
+            body {
+                margin: 0;
+                padding: 0;
+            }
+            #map {
+                box-sizing: border-box;
+                margin: 0;
+                padding: 0;
+                width: 100vw;
+                height: 100vh;
+                border: 1px solid black;
+            }
+        </style>
+    </head>
 
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>[object]</title>
-    <style>
-      body {
-       margin: 0;
-        padding: 0;
-      }
-      #map {
-        box-sizing:border-box;
-        margin: 0;
-        padding: 0;
-        width: 100vw;
-        height: 100vh;
-        border: 1px solid black;
-      }
-    </style>
-</head>
+    <body>
+        <div id="map" class="map"></div>
+    </body>
+    <script type="text/javascript" src="https://assets.dabeeomaps.com/upload/library/dabeeomaps-4.0-pre-release.js"></script>
+    <script>
+        let mapData = null;
+        let map = null;
 
-<body>
-    <div id='map' class="map"></div>
-</body>
-<script type="text/javascript" src='https://assets.dabeeomaps.com/upload/library/dabeeomaps-4.0-pre-release.js'></script>
-<script>
-    let mapData = null;
-    let map = null;
-
-    async function init () {
-
-        const dabeeoMaps = new dabeeo.Maps();
-        //mapDataOption
-        const mapDataOption = {
-            clientId: "75hb8YSnAokb-sZ04aDR91",
-            clientSecret: "0f7ad84f160c7b3fd1849a7920af718b",
-        }
-        //mapData 가져오기 
-        mapData = await dabeeoMaps.getMapData(mapDataOption);
-        console.log(mapData);
-
-        //mapContainer
-        const mapContainer = document.getElementById('map');
-        //mapOption 정의 
-        const mapOption = Object.assign({
-        });
-        //mapOption으로 mapContainer에 map 그리기 
-        map = await dabeeoMaps.showMap(mapContainer, mapOption, mapData);
-        console.log(map);
-
-        ///////////////////////////////// API 샘플 및 사용 예제 요약 
-        objectSetTest();                                // map.object.set() 테스트
-        objectHideTest();                             // map.object.hide() 테스트
-        objectShowTest();                             // map.object.show() 테스트
-        objectResetTest();                            // map.object.reset() 테스트
-        objectCenterPosition();                       // object-click center position 테스트
-
-        ///////////////////////////////////////
-        //test code ends
-
-        function objectSetTest () {
-            // 오브젝트의 속성을 변경한다.
-            const updateOption = {
-                activeDest: true,                                           // active 여부
-                color: "#00ffff",                                           // 변경하고자 하는 색상값
-                opacity: 0.3,                                               // 변경하고자하는 투명도 값
-                isAnimate: true,                                            // 색상 애니메이션 효과 적용 여부
-                duration: 1200,                                             // 애니메이션 complete까지의 시간 ms단위로 default는 1000입니다
-                isRepeat: true,                                             // 애니메이션 반복 여부 true는 반복, false는 반복 x입니다. default는 false
-                isYoyo: false,                                              // 애니메이션이 complete됬을때 isRepeat 옵션이 true인 경우 반복 방법, true인 경우 역순징행되며 default는 false입니다.
-                ids: [                                                   // 오브젝트의 ID 또는 오브젝트가 연결된 poi ID 배열. poi ID의 경우 연결된 오브젝트가 없을 경우 건너뛰고 진행합니다. ID 를 지정하지 않으면 모든 오브젝트 속성을 변경합니다.
-                  'OB-aN7fGeVoze1959', // 플랫폼사업부 회의실
-                  'OB-mxanpdYA1T2410', // 남자화장실
-                  'PO-JQ4mw4YeT4536', // 여자화장실
-                ],
+        async function init() {
+            const dabeeoMaps = new dabeeo.Maps();
+            //mapDataOption
+            const mapDataOption = {
+                clientId: '75hb8YSnAokb-sZ04aDR91',
+                clientSecret: '0f7ad84f160c7b3fd1849a7920af718b',
             };
-            map.objects.set(updateOption);
-        }
+            //mapData 가져오기
+            mapData = await dabeeoMaps.getMapData(mapDataOption);
+            console.log(mapData);
 
-        function objectHideTest () {
-            setTimeout(() => {
-                // 해당 object를 지도에서 숨깁니다.
-                // map.objects.hide();                                            // 모든 object 를 지도에서 숨김.
-                // map.objects.hide('OB-aN7fGeVoze1959');                         // 단일 object 를 지도에서 숨김.
-                map.objects.hide(['OB-aN7fGeVoze1959', 'OB-mxanpdYA1T2410']);     // 여러 object 를 지도에서 숨김.
-            }, 1500);
+            //mapContainer
+            const mapContainer = document.getElementById('map');
+            //mapOption 정의
+            const mapOption = Object.assign({});
+            //mapOption으로 mapContainer에 map 그리기
+            map = await dabeeoMaps.showMap(mapContainer, mapOption, mapData);
+            console.log(map);
 
-        }
+            ///////////////////////////////// API 샘플 및 사용 예제 요약
+            objectSetTest(); // map.object.set() 테스트
+            objectHideTest(); // map.object.hide() 테스트
+            objectShowTest(); // map.object.show() 테스트
+            objectResetTest(); // map.object.reset() 테스트
+            objectCenterPosition(); // object-click center position 테스트
 
-        function objectShowTest () {
-            setTimeout(() => {
-                // 해당 object를 지도에서 보여줍니다.
-                // map.objects.show();                                            // 모든 object 를 지도에서 보여줌.
-                // map.objects.show('OB-aN7fGeVoze1959');                         // 단일 object 를 지도에서 보여줌.
-                map.objects.show(['OB-aN7fGeVoze1959', 'OB-mxanpdYA1T2410']);     // 여러 object 를 지도에서 보여줌.
-            }, 5000);
+            ///////////////////////////////////////
+            //test code ends
 
-        }
+            function objectSetTest() {
+                // 오브젝트의 속성을 변경한다.
+                const updateOption = {
+                    activeDest: true, // active 여부
+                    color: '#00ffff', // 변경하고자 하는 색상값
+                    opacity: 0.3, // 변경하고자하는 투명도 값
+                    isAnimate: true, // 색상 애니메이션 효과 적용 여부
+                    duration: 1200, // 애니메이션 complete까지의 시간 ms단위로 default는 1000입니다
+                    isRepeat: true, // 애니메이션 반복 여부 true는 반복, false는 반복 x입니다. default는 false
+                    isYoyo: false, // 애니메이션이 complete됬을때 isRepeat 옵션이 true인 경우 반복 방법, true인 경우 역순징행되며 default는 false입니다.
+                    ids: [
+                        // 오브젝트의 ID 또는 오브젝트가 연결된 poi ID 배열. poi ID의 경우 연결된 오브젝트가 없을 경우 건너뛰고 진행합니다. ID 를 지정하지 않으면 모든 오브젝트 속성을 변경합니다.
+                        'OB-aN7fGeVoze1959', // 플랫폼사업부 회의실
+                        'OB-mxanpdYA1T2410', // 남자화장실
+                        'PO-JQ4mw4YeT4536', // 여자화장실
+                    ],
+                };
+                map.objects.set(updateOption);
+            }
 
-        function objectResetTest () {
-            setTimeout(() => {
-                // 오브젝트의 변경된 속성을 해제한다.
-                map.objects.reset('OB-mxanpdYA1T2410');                           // 단일 오브젝트의 속성 해제
-                // map.objects.reset(['OB-mxanpdYA1T2410', 'PO-JQ4mw4YeT4536']);  // 여러 오브젝트의 속성 해제
-                // map.objects.reset();                                           // 모든 오브젝트의 속성 해제
-            }, 6000);
-        }
+            function objectHideTest() {
+                setTimeout(() => {
+                    // 해당 object를 지도에서 숨깁니다.
+                    // map.objects.hide();                                            // 모든 object 를 지도에서 숨김.
+                    // map.objects.hide('OB-aN7fGeVoze1959');                         // 단일 object 를 지도에서 숨김.
+                    map.objects.hide(['OB-aN7fGeVoze1959', 'OB-mxanpdYA1T2410']); // 여러 object 를 지도에서 숨김.
+                }, 1500);
+            }
 
-        function objectCenterPosition () {
-            mapContainer?.addEventListener('object-click', (e) => {
-            console.log('object click 에 대한 결과값', e.detail[0]);
-            map.markers.set({      // 생성된 marker들의 ID List를 저장합니다.
-                marker: [
-                    {
-                        x: e.detail[0].position.x,
-                        y: e.detail[0].position.y,
-                        iconOption: {
-                            positionZ: 400,
-                            anchor:{
-                                x: 0.5,
-                                y: 0.5
-                            },    
-                        },
-                    },
-                ]
+            function objectShowTest() {
+                setTimeout(() => {
+                    // 해당 object를 지도에서 보여줍니다.
+                    // map.objects.show();                                            // 모든 object 를 지도에서 보여줌.
+                    // map.objects.show('OB-aN7fGeVoze1959');                         // 단일 object 를 지도에서 보여줌.
+                    map.objects.show(['OB-aN7fGeVoze1959', 'OB-mxanpdYA1T2410']); // 여러 object 를 지도에서 보여줌.
+                }, 5000);
+            }
+
+            function objectResetTest() {
+                setTimeout(() => {
+                    // 오브젝트의 변경된 속성을 해제한다.
+                    map.objects.reset('OB-mxanpdYA1T2410'); // 단일 오브젝트의 속성 해제
+                    // map.objects.reset(['OB-mxanpdYA1T2410', 'PO-JQ4mw4YeT4536']);  // 여러 오브젝트의 속성 해제
+                    // map.objects.reset();                                           // 모든 오브젝트의 속성 해제
+                }, 6000);
+            }
+
+            function objectCenterPosition() {
+                mapContainer?.addEventListener('object-click', (e) => {
+                    console.log('object click 에 대한 결과값', e.detail[0]);
+                    map.markers.set({
+                        // 생성된 marker들의 ID List를 저장합니다.
+                        marker: [
+                            {
+                                x: e.detail[0].position.x,
+                                y: e.detail[0].position.y,
+                                iconOption: {
+                                    positionZ: 400,
+                                    anchor: {
+                                        x: 0.5,
+                                        y: 0.5,
+                                    },
+                                },
+                            },
+                        ],
+                    });
                 });
-            });
+            }
+            console.log('test: [object]');
         }
-        console.log('test: [object]');
-    }
 
-    init();
-</script>
-
+        init();
+    </script>
 </html>
