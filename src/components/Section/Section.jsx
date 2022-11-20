@@ -14,6 +14,7 @@ import Navigation from '../pages/Navigation/Navigation';
 import styles from './Section.module.scss';
 
 const Section = ({ lang, dabeeoMaps, mapData }) => {
+    console.log('section');
     return (
         <div className={styles.section}>
             <Routes>

@@ -16,8 +16,8 @@ const Header = ({ setLang }) => {
                 {/* <a className={styles.link} href='https://developers.dabeeomaps.com/jsdocs/index.html' target='_blank'>API Reference</a> */}
                 {/* <a className={styles.link} href='https://developers.dabeeomaps.com/example/#index' target='_blank'>Examples</a> */}
                 {/* <span className={styles.link} onClick={onLink}>Example</span> */}
-                <a className={styles.link} href="./example" target="_blank">
-                    Example
+                <a className={styles.link} href="./examples" target="_blank">
+                    Examples
                 </a>
                 <a className={styles.link} href="http://api-doc.dabeeomaps.com/" target="_blank">
                     Documents

@@ -5,6 +5,7 @@ import styles from './Main.module.scss';
 
 const Main = ({ lang, dabeeoMaps }) => {
     const [mapData, setMapData] = useState();
+    console.log('main');
 
     useEffect(() => {
         async function fetchData() {

@@ -22,7 +22,7 @@ function App() {
                         </div>
                     }
                 />
-                <Route path="/example" element={<Example />} />
+                <Route path="/examples/*" element={<Example />} />
             </Routes>
         </div>
     );
