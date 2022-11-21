@@ -1,72 +1,21 @@
 # DABEEO API 4.0 SAMPLE PAGE
 
-# Getting Started with Create React App
+이 공간은 dabeeo api library 4를 사용하기 위한 가이드와 샘플 페이지를 제공하는 곳입니다. \
+Examples 폴더에 다양한 예제가 있어서 이를 활용하면 쉽게 지도 서비스 페이지를 구성할 수 있습니다.
+자세한 사항은 아래 링크를 참고하세요.
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+다비오 지도 라이브러리는 npm으로 배포되므로 npm을 이용하여 사용할 수 있습니다.
 
-## Available Scripts
+-   npm : [https://www.npmjs.com/package/dabeeomaps](https://www.npmjs.com/package/dabeeomaps)
 
-In the project directory, you can run:
+또한 직접 링크를 이용하여 사용할 수도 있습니다. 링크는 배포될 때마다 변경됩니다. 릴리즈 노트를 참고하세요.
 
-### `npm start`
+-   API 링크 : [https://assets.dabeeomaps.com/upload/library/dabeeomaps-04.04.01.js](https://assets.dabeeomaps.com/upload/library/dabeeomaps-04.04.01.js)
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+가이드와 예제를 모아놓은 사이트입니다. 사용방법에 대해서는 아래 링크를 참고하세요.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+-   가이드 링크 :[https://api-sample.dabeeomaps.com/](https://api-sample.dabeeomaps.com/)
 
-### `npm test`
+API Reference는 아래 링크를 참고하세요.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+-   Reference : [http://api-doc.dabeeomaps.com/](http://api-doc.dabeeomaps.com/)
