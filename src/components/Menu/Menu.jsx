@@ -1,6 +1,6 @@
 import { NavLink } from 'react-router-dom';
 import styles from './Menu.module.scss';
-import menuList from './menuList.json';
+import menuList from './menuList';
 
 const Menu = ({ lang }) => {
     return (

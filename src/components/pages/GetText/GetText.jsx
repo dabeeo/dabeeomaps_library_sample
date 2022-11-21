@@ -1,7 +1,8 @@
 import styles from './GetText.module.scss';
 import { useEffect } from 'react';
+import Code from '../../Code/Code';
 
-const GetText = ({ text }) => {
+const GetText = ({ code, context }) => {
     useEffect(() => {
         let codeElement = document.querySelectorAll('code');
         if (!codeElement) return;
@@ -16,8 +17,17 @@ const GetText = ({ text }) => {
             let text7 = text6.replace(/\/\/.+/g, `<span class=${styles.comment}>$&</span>`);
             data.innerHTML = text7;
         });
-    }, []);
+    }, [context]);
 
-    return text;
+    return (
+        <div className={styles.getStarted}>
+            {context}
+            {code && (
+                <div className={styles.viewport}>
+                    <Code id={code} />
+                </div>
+            )}
+        </div>
+    );
 };
 export default GetText;
