@@ -1,10 +1,15 @@
-import styles from './Pois.module.scss';
-import PoisMap from './PoisMap/PoisMap';
-import PoisText from './PoisText/PoisText';
-import PoisTextEn from './PoisText/PoisTextEn';
+import Code from '../../Code/Code';
+import styles from '../GetText/GetText.module.scss';
+import GetText from '../GetText/GetText';
+import PoisText from './PoisText';
+import PoisTextEn from './PoisTextEn';
 
 const Pois = ({ lang, dabeeoMaps, mapData }) => {
-    return <div className={styles.Pois}>{lang === 'ko' ? <PoisText /> : <PoisTextEn />}</div>;
+    return (
+        <div className={styles.getStarted}>
+            <GetText text={lang === 'ko' ? PoisText : PoisTextEn} />
+        </div>
+    );
 };
 
 export default Pois;

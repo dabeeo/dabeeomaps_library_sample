@@ -1,13 +1,16 @@
-import styles from './Marker.module.scss';
-import MarkerMap from './MarkerMap/MarkerMap';
-import MarkerText from './MarkerText/MarkerText';
-import MarkerTextEn from './MarkerText/MarkerTextEn';
+import Code from '../../Code/Code';
+import styles from '../GetText/GetText.module.scss';
+import GetText from '../GetText/GetText';
+import MarkerText from './MarkerText';
+import MarkerTextEn from './MarkerTextEn';
 
 const Marker = ({ lang, dabeeoMaps, mapData }) => {
     return (
-        <div className={styles.marker}>
-            {lang === 'ko' ? <MarkerText /> : <MarkerTextEn />}
-            <MarkerMap dabeeoMaps={dabeeoMaps} mapData={mapData} />
+        <div className={styles.getStarted}>
+            <GetText text={lang === 'ko' ? MarkerText : MarkerTextEn} />
+            <div className={styles.viewport}>
+                <Code id="marker" />
+            </div>
         </div>
     );
 };

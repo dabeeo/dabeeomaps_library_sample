@@ -1,8 +1,8 @@
-import styles from './Events.module.scss';
+import styles from '../GetText/GetText.module.scss';
 
 const Events = () => {
     return (
-        <div className={styles.events}>
+        <div className={styles.getStartedText}>
             <div className={styles.title}>Events</div>
             <p>
                 Dabeeo JS API에서 사용가능한 Event 목록입니다.

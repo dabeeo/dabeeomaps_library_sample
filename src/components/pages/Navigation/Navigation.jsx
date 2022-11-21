@@ -1,14 +1,16 @@
-import { useEffect } from 'react';
-import styles from './Navigation.module.scss';
-import NavigationMap from './NavigationMap/NavigationMap';
-import NavigationTextEn from './NavigationText/NavgationTextEn';
-import NavigationText from './NavigationText/NavigationText';
+import Code from '../../Code/Code';
+import styles from '../GetText/GetText.module.scss';
+import GetText from '../GetText/GetText';
+import NavigationTextEn from './NavgationTextEn';
+import NavigationText from './NavigationText';
 
-const Navigation = ({ lang, dabeeoMaps, mapData }) => {
+const Navigation = ({ lang }) => {
     return (
-        <div className={styles.navigation}>
-            {lang === 'ko' ? <NavigationText /> : <NavigationTextEn />}
-            <NavigationMap dabeeoMaps={dabeeoMaps} mapData={mapData} />
+        <div className={styles.getStarted}>
+            <GetText text={lang === 'ko' ? NavigationText : NavigationTextEn} />
+            <div className={styles.viewport}>
+                <Code id="navigation" />
+            </div>
         </div>
     );
 };

@@ -1,13 +1,16 @@
-import styles from './MyLocation.module.scss';
-import MyLocationMap from './MyLocationMap/MyLocationMap';
-import MyLocationText from './MyLocationText/MyLocationText';
-import MyLocationTextEn from './MyLocationText/MyLocationTextEn';
+import Code from '../../Code/Code';
+import styles from '../GetText/GetText.module.scss';
+import GetText from '../GetText/GetText';
+import MyLocationText from './MyLocationText';
+import MyLocationTextEn from './MyLocationTextEn';
 
-const MyLocation = ({ lang, dabeeoMaps, mapData }) => {
+const MyLocation = ({ lang }) => {
     return (
-        <div className={styles.myLocation}>
-            {lang === 'ko' ? <MyLocationText /> : <MyLocationTextEn />}
-            <MyLocationMap dabeeoMaps={dabeeoMaps} mapData={mapData} />
+        <div className={styles.getStarted}>
+            <GetText text={lang === 'ko' ? MyLocationText : MyLocationTextEn} />
+            <div className={styles.viewport}>
+                <Code id="myLocation" />
+            </div>
         </div>
     );
 };

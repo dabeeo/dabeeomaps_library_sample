@@ -1,10 +1,15 @@
-import styles from './Objects.module.scss';
-import ObjectsMap from './ObjectsMap/ObjectsMap';
-import ObjectsText from './ObjectsText/ObjectsText';
-import ObjectsTextEn from './ObjectsText/ObjectsTextEn';
+import Code from '../../Code/Code';
+import styles from '../GetText/GetText.module.scss';
+import GetText from '../GetText/GetText';
+import ObjectsText from './ObjectsText';
+import ObjectsTextEn from './ObjectsTextEn';
 
-const Objects = ({ lang, dabeeoMaps, mapData }) => {
-    return <div className={styles.Objects}>{lang === 'ko' ? <ObjectsText /> : <ObjectsTextEn />}</div>;
+const Objects = ({ lang }) => {
+    return (
+        <div className={styles.getStarted}>
+            <GetText text={lang === 'ko' ? ObjectsText : ObjectsTextEn} />
+        </div>
+    );
 };
 
 export default Objects;

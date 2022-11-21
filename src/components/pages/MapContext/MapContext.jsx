@@ -1,13 +1,16 @@
-import styles from './MapContext.module.scss';
-import MapContextMap from './MapContextMap/MapContextMap';
-import MapContextText from './MapContextText/MapContextText';
-import MapContextTextEn from './MapContextText/MapContextTextEn';
+import Code from '../../Code/Code';
+import styles from '../GetText/GetText.module.scss';
+import GetText from '../GetText/GetText';
+import MapContextText from './MapContextText';
+import MapContextTextEn from './MapContextTextEn';
 
-const MapContext = ({ lang, dabeeoMaps, mapData }) => {
+const MapContext = ({ lang }) => {
     return (
-        <div className={styles.MapContext}>
-            {lang === 'ko' ? <MapContextText /> : <MapContextTextEn />}
-            <MapContextMap dabeeoMaps={dabeeoMaps} mapData={mapData} />
+        <div className={styles.getStarted}>
+            <GetText text={lang === 'ko' ? MapContextText : MapContextTextEn} />
+            <div className={styles.viewport}>
+                <Code id="mapContext" />
+            </div>
         </div>
     );
 };

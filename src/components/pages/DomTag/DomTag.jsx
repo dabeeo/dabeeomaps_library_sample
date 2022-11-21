@@ -1,13 +1,16 @@
-import styles from './DomTag.module.scss';
-import DomTagMap from './DomTagMap/DomTagMap';
-import DomTagText from './DomTagText/DomTagText';
-import DomTagTextEn from './DomTagText/DomTagTextEn';
+import Code from '../../Code/Code';
+import styles from '../GetText/GetText.module.scss';
+import GetText from '../GetText/GetText';
+import DomTagText from './DomTagText';
+import DomTagTextEn from './DomTagTextEn';
 
-const DomTag = ({ lang, dabeeoMaps, mapData }) => {
+const DomTag = ({ lang }) => {
     return (
-        <div className={styles.domTag}>
-            {lang === 'ko' ? <DomTagText /> : <DomTagTextEn />}
-            <DomTagMap dabeeoMaps={dabeeoMaps} mapData={mapData} />
+        <div className={styles.getStarted}>
+            <GetText text={lang === 'ko' ? DomTagText : DomTagTextEn} />
+            <div className={styles.viewport}>
+                <Code id="tag" />
+            </div>
         </div>
     );
 };
