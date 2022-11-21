@@ -13,9 +13,6 @@ const Header = ({ setLang }) => {
         <div className={styles.header}>
             <img src={LOGOIMG} className={styles.logo}></img>
             <div className={styles.documents}>
-                {/* <a className={styles.link} href='https://developers.dabeeomaps.com/jsdocs/index.html' target='_blank'>API Reference</a> */}
-                {/* <a className={styles.link} href='https://developers.dabeeomaps.com/example/#index' target='_blank'>Examples</a> */}
-                {/* <span className={styles.link} onClick={onLink}>Example</span> */}
                 <a className={styles.link} href="./examples" target="_blank">
                     Examples
                 </a>

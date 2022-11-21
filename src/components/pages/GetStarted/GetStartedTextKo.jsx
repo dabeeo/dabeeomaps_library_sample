@@ -1,5 +1,6 @@
-import styles from './GetStartedText.module.scss';
-const text = (
+import styles from '../GetText/GetText.module.scss';
+
+const textKo = (
     <div className={styles.getStartedText}>
         <div className={styles.title}>Getting Started</div>
         <div className={styles.miniTitle}>1. 다비오맵스 API를 불러옵니다.</div>
@@ -65,4 +66,4 @@ const map = await dabeeoMaps.showMap(mapContainer, mapOption, mapData);     // �
         <div className={styles.texts}>맵 예제 다음과 같습니다.</div>
     </div>
 );
-export default text;
+export default textKo;

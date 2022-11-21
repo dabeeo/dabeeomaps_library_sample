@@ -1,8 +1,7 @@
-import styles from './GetStartedText.module.scss';
+import styles from './GetText.module.scss';
 import { useEffect } from 'react';
-import text from './GetStartedText copy';
 
-const GetStartedText = () => {
+const GetText = ({ text }) => {
     useEffect(() => {
         let codeElement = document.querySelectorAll('code');
         if (!codeElement) return;
@@ -21,4 +20,4 @@ const GetStartedText = () => {
 
     return text;
 };
-export default GetStartedText;
+export default GetText;

@@ -1,12 +1,16 @@
-import ControlsMap from './ControlsMap/ControlsMap';
-import ControlsText from './ControlsText/ControlsText';
-import ControlsTextEn from './ControlsText/ControlsTextEn';
+import Code from '../../Code/Code';
+import styles from '../GetText/GetText.module.scss';
+import GetText from '../GetText/GetText';
+import ControlsText from './ControlsText';
+import ControlsTextEn from './ControlsTextEn';
 
-const Controls = ({ lang, dabeeoMaps, mapData }) => {
+const Controls = ({ lang }) => {
     return (
-        <div>
-            {lang === 'ko' ? <ControlsText /> : <ControlsTextEn />}
-            <ControlsMap dabeeoMaps={dabeeoMaps} mapData={mapData} />
+        <div className={styles.getStarted}>
+            <GetText text={lang === 'ko' ? ControlsText : ControlsTextEn} />
+            <div className={styles.viewport}>
+                <Code id="controls" />
+            </div>
         </div>
     );
 };

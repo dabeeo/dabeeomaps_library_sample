@@ -19,7 +19,7 @@ const Example = () => {
         'tag',
     ];
     const [id, setId] = useState('getStarted');
-    console.log(id);
+    console.log('Example ', id);
 
     return (
         <div className={styles.example}>
@@ -33,7 +33,7 @@ const Example = () => {
                                 to={`/examples/${example}`}
                                 onClick={(e) => {
                                     setId(example);
-                                    console.log(e.target.value);
+                                    console.log('click ', e.target.value);
                                 }}
                             >
                                 {example}
@@ -41,10 +41,12 @@ const Example = () => {
                         </li>
                     ))}
                 </ul>
-                <Routes>
-                    <Route path="/" element={<Code id={id}></Code>} />
-                    <Route path="/:id" element={<Code id={id}></Code>} />
-                </Routes>
+                <div className={styles.code}>
+                    <Routes>
+                        <Route path="/" element={<Code id={id}></Code>} />
+                        <Route path="/:id" element={<Code id={id}></Code>} />
+                    </Routes>
+                </div>
             </div>
         </div>
     );

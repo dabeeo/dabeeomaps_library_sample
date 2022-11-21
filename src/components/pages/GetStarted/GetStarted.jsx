@@ -1,14 +1,16 @@
-import { useEffect } from 'react';
-import styles from './GetStarted.module.scss';
-import GetStartedMap from './GetStartedMap/GetStartedMap';
-import GetStartedText from './GetStartedText/GetStartedText';
-import GetStartedTextEn from './GetStartedText/GetStartedTextEn';
+import Code from '../../Code/Code';
+import styles from '../GetText/GetText.module.scss';
+import GetText from '../GetText/GetText';
+import textKo from './GetStartedTextKo';
+import textEn from './GetStartedTextEn';
 
-const GetStarted = ({ lang, dabeeoMaps, mapData }) => {
+const GetStarted = ({ lang }) => {
     return (
         <div className={styles.getStarted}>
-            {lang === 'ko' ? <GetStartedText /> : <GetStartedTextEn />}
-            <GetStartedMap dabeeoMaps={dabeeoMaps} mapData={mapData} />
+            <GetText text={lang === 'ko' ? textKo : textEn} />
+            <div className={styles.viewport}>
+                <Code id="getStarted" />
+            </div>
         </div>
     );
 };

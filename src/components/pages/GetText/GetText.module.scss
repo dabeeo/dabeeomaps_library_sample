@@ -1,0 +1,13 @@
+@import '../../../styles/texts';
+
+.getStartedText {
+    @include texts;
+}
+.getStarted {
+    padding-bottom: 50px;
+}
+.viewport {
+    width: 1000px;
+    height: 500px;
+    position: relative;
+}
