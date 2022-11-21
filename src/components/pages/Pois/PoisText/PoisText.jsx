@@ -23,11 +23,9 @@ const PoisText = () => {
             <div className={styles.title}>Pois</div>
             <div className={styles.miniTitle}>지도에 그려진 Poi를 개별적으로 또는 전체를 한번에 컨트롤할 수 있습니다. </div>
             <p>
-                <p>
-                    pois의 메소드의 기능은 다음과 같습니다. <br />
-                    특정 poi를 숨기거나 보이게 할 수 있습니다. 숨기거나 보이는 기능은 단순히 visibility를 수정하므로 성능에는 영향이 없습니다. <br />
-                    특정 poi의 스타일을 바꾸거나 다시 되돌릴 수 있습니다. <br />
-                </p>
+                pois의 메소드의 기능은 다음과 같습니다. <br />
+                특정 poi를 숨기거나 보이게 할 수 있습니다. 숨기거나 보이는 기능은 단순히 visibility를 수정하므로 성능에는 영향이 없습니다. <br />
+                특정 poi의 스타일을 바꾸거나 다시 되돌릴 수 있습니다. <br />
             </p>
 
             <div className={styles.texts}>지도의 모든 poi, 또는 특정 poi를 숨깁니다.</div>

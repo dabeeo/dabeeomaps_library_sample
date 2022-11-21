@@ -59,40 +59,5 @@ a:active {
                 }
             }
         }
-
-        .iframe-container {
-            margin: 0;
-            width: 90%;
-            height: 100vh;
-            border: none;
-            iframe {
-                margin: 0;
-                width: 100%;
-                height: 100vh;
-                border: none;
-            }
-        }
-    }
-
-    .viewCode {
-        width: 100px;
-        height: 50px;
-        background-color: black;
-        border-radius: 20px;
-        color: white;
-        position: absolute;
-        bottom: 50px;
-        right: 50px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        z-index: 100;
-        font-weight: bold;
-        text-decoration: none;
-
-        &:hover {
-            background-color: rgba(0, 0, 0, 0.7);
-            cursor: pointer;
-        }
     }
 }

@@ -3,7 +3,7 @@ import { Route, Routes } from 'react-router';
 import styles from './app.module.scss';
 import Header from './components/Header/Header';
 import Main from './components/Main/Main';
-import Example from './components/pages/Example/Example';
+import Example from './components/Example/Example';
 
 function App() {
     const [lang, setLang] = useState('ko');

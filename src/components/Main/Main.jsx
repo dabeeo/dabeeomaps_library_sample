@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { NavLink, Route, Routes } from 'react-router-dom';
 import Menu from '../Menu/Menu';
 import Section from '../Section/Section';
 import styles from './Main.module.scss';

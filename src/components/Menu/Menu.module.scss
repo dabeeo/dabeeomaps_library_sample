@@ -1,5 +1,5 @@
 .menu {
-    width: 300px;
+    width: 400px;
     height: 100%;
     position: fixed;
     top: 70px;
@@ -13,15 +13,34 @@
     }
 
     .lists {
-        .listItem {
-            border-radius: 8px;
-            width: 200px;
-            padding: 5px;
-            font-size: 20px;
-            font-weight: bold;
-            list-style: none;
-            margin: 1rem 0;
+        margin: 4px;
+        margin-top: 10px;
+        list-style: none;
+        min-width: 300px;
+        width: 10%;
+        background-color: whitesmoke;
+        height: 100vh;
+        font-size: 20px;
 
+        .item {
+            width: 130px;
+            height: 100px;
+            padding: 7px;
+
+            text-align: center;
+            line-height: 40px;
+            border-radius: 8px;
+            margin: 5px;
+            margin-top: 1.5rem;
+            background-color: whitesmoke;
+            color: black;
+            font-weight: normal;
+
+            &[class~='active'] {
+                background-color: black;
+                color: white;
+                font-weight: bold;
+            }
             &:hover {
                 cursor: pointer;
             }

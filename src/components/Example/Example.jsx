@@ -1,21 +1,7 @@
 import { NavLink, Route, Routes } from 'react-router-dom';
 import { useState } from 'react';
 import styles from './Example.module.scss';
-import { useParams } from 'react-router';
-const Code = () => {
-    let { id } = useParams();
-    id = id === undefined ? 'getStarted' : id;
-
-    return (
-        <div className={styles['iframe-container']}>
-            <iframe src={`https://dabeeo.github.io/dabeeomaps_library_sample/Examples/${id}/index.html`}></iframe>
-            <a className={styles.viewCode} href={`https://github.com/dabeeo/dabeeomaps_library_sample/blob/master/Examples/${id}/index.html`} target="_blank">
-                코드로 보기
-            </a>
-        </div>
-    );
-};
-
+import Code from '../Code/Code';
 const Example = () => {
     const exampleList = [
         'getStarted',
@@ -32,9 +18,8 @@ const Example = () => {
         'navigation',
         'tag',
     ];
-
-    const [link, setLink] = useState('getStarted');
-    console.log('example');
+    const [id, setId] = useState('getStarted');
+    console.log(id);
 
     return (
         <div className={styles.example}>
@@ -47,7 +32,7 @@ const Example = () => {
                                 className={styles.item}
                                 to={`/examples/${example}`}
                                 onClick={(e) => {
-                                    setLink(e.target.value);
+                                    setId(example);
                                     console.log(e.target.value);
                                 }}
                             >
@@ -57,8 +42,8 @@ const Example = () => {
                     ))}
                 </ul>
                 <Routes>
-                    <Route path="/" element={<Code></Code>} />
-                    <Route path="/:id" element={<Code></Code>} />
+                    <Route path="/" element={<Code id={id}></Code>} />
+                    <Route path="/:id" element={<Code id={id}></Code>} />
                 </Routes>
             </div>
         </div>
