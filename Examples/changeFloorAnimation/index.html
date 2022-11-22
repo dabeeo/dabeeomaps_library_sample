@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>[floor animation]</title>
+        <style>
+            body {
+                margin: 0;
+                padding: 0;
+            }
+            #map {
+                box-sizing: border-box;
+                margin: 0;
+                padding: 0;
+                width: 100vw;
+                height: 100vh;
+                border: 1px solid black;
+            }
+            .menu {
+                z-index: 10;
+                position: absolute;
+            }
+        </style>
+    </head>
+
+    <body>
+        <div class="menu">
+            <button type="button" id="changeFloorAnimation" class="button-menu">층변경시 층변경 애니메이션</button>
+            <button type="button" id="simulationAnimation" class="button-menu">모의주행시 층변경 애니메이션</button>
+        </div>
+        <div id="map" class="map"></div>
+    </body>
+
+    <script type="text/javascript" src="https://assets.dabeeomaps.com/upload/library/dabeeomaps-4.0-pre-release.js"></script>
+    <script type="module">
+        import { routeOptions, naviOption } from './routeOptions.js';
+
+        async function init() {
+            const dabeeoMaps = new dabeeo.Maps();
+
+            //mapDataOption 정의
+            const mapDataOption = {
+                clientId: '75hb8YSnAokb-sZ04aDR91',
+                clientSecret: '0f7ad84f160c7b3fd1849a7920af718b',
+                // serverType : 'SERVER_STAGE'
+            };
+
+            //mapData 가져오기
+            const mapData = await dabeeoMaps.getMapData(mapDataOption);
+            console.log(mapData);
+
+            //mapContainer
+            const mapContainer = document.getElementById('map');
+
+            //mapOption 정의
+            const mapOption = Object.assign({
+                // camera: '2d',
+                enableFloorMotion: true,
+            });
+
+            // 11F - FL-t4vqgyek3jnb8146
+
+            //mapOption으로 mapContainer에 map 그리기
+            const map = await dabeeoMaps.showMap(mapContainer, mapOption, mapData);
+
+            document.body.addEventListener('keydown', async (e) => {
+                if (e.key === 'a') await changeFloorAnimationTest(); // 층 변경 애니메이션 테스트
+                if (e.key === 'd') await routeSimulationChangeFloorAnimationTest(); // 모의주행 중 층 변경 애니메이션 테스트
+            });
+
+            document.body.querySelector('#changeFloorAnimation').addEventListener('click', async (e) => {
+                console.log('change');
+                await changeFloorAnimationTest(); // 층 변경 애니메이션 테스트
+            });
+
+            document.body.querySelector('#simulationAnimation').addEventListener('click', async (e) => {
+                await routeSimulationChangeFloorAnimationTest(); // 층 변경 애니메이션 테스트
+            });
+
+            async function changeFloorAnimationTest() {
+                let currentFloorId = map.context.getCurrentFloor().id;
+                if (currentFloorId === 'FL-t4vqgyek3jnb8146') await map.context.changeFloor('FL-vf3q07spbmsw8132');
+                if (currentFloorId === 'FL-vf3q07spbmsw8132') await map.context.changeFloor('FL-t4vqgyek3jnb8146');
+            }
+
+            async function routeSimulationChangeFloorAnimationTest() {
+                const animOption = {
+                    changeFloorDelay: 1000,
+                    speedRate: 50,
+                    removeIcon: false,
+                    markerOptions: {
+                        width: 30,
+                        height: 30,
+                        positionZ: 120,
+                    },
+                };
+                const naviResponse = await mapData.getRoute(routeOptions.downUp);
+                await map.routeSimulation.set(naviResponse?.recommendation, naviOption);
+                await map.routeSimulation.start(animOption);
+            }
+
+            console.log(map);
+            console.log('test: floorAnimation.ts');
+        }
+        init();
+    </script>
+</html>

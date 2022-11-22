@@ -7,6 +7,7 @@ const Example = () => {
         'getStarted',
         'changeCamera',
         'changeFloor',
+        'changeFloorAnimation',
         'changeLanguage',
         'groupCode',
         'mapOption',
