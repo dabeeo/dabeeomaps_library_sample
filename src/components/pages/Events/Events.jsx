@@ -273,32 +273,75 @@ const Events = (
             </table>
             <p></p>
         </div>
-        <p>
-            event는 map이 종속된 태그에 등록하셔서 사용하시면 됩니다. <br />
-        </p>
+        <p>event는 map이 종속된 태그에 등록하셔서 사용하시면 됩니다.</p>
 
         <code className={styles.code}>const mapContainer = document.getElementById('viewport');</code>
+        <br />
+        <div className={styles.middleTitle}>click event</div>
+
         <div className={styles.miniTitle}>poi-click</div>
         <div className={styles.texts}>클릭한 poi의 정보를 return합니다.</div>
         <code className={styles.code}>{`mapContainer.addEventListener("poi-click", (e) => console.log(e.detail));`}</code>
+
         <div className={styles.miniTitle}>object-click</div>
         <div className={styles.texts}>클릭한 object의 정보를 return합니다.</div>
         <code className={styles.code}>{`mapContainer.addEventListener("object-click", (e) => console.log(e.detail));`}</code>
-        <div className={styles.miniTitle}>marker-click</div>
+
+        <div className={styles.middleTitle}>marker-click</div>
+
         <div className={styles.texts}>클릭한 marker의 정보를 return합니다.</div>
         <code className={styles.code}>{`mapContainer.addEventListener("marker-click", (e) => console.log(e.detail));`}</code>
-        <div className={styles.miniTitle}>floor-changed</div>
-        <div className={styles.texts}>층이 변경된 경우 변경된 층의 ID값을 반환합니다.</div>
-        <code className={styles.code}>{`mapContainer.addEventListener("floor-changed", (e) => console.log(e.detail));`}</code>
-        <div className={styles.miniTitle}>floor-changing</div>
-        <div className={styles.texts}>층이 변경되기 전 현재 층의 정보와 다음 층의 정보를 반환합니다.</div>
-        <code className={styles.code}>{`mapContainer.addEventListener("floor-changing", (e) => console.log(e.detail));`}</code>
-        <div className={styles.miniTitle}>navi-complete</div>
-        <div className={styles.texts}>모의주행 애니메이션이 완료되었음을 알립니다.</div>
-        <code className={styles.code}>{`mapContainer.addEventListener("navi-complete", (e) => console.log(e.detail));`}</code>
-        <div className={styles.miniTitle}>render-complete</div>
-        <div className={styles.texts}>층이 다시 그려졌을 때 실행됩니다. 다시 그려진 층의 정보를 반환합니다.</div>
-        <code className={styles.code}>{`mapContainer.addEventListener("render-complete", (e) => console.log(e.detail));`}</code>
+
+        <div className={styles.miniTitle}>void-click</div>
+        <div className={styles.texts}>mouse가 오브젝트나 poi가 아닌 빈공간을 클릭시 반환합니다. </div>
+        <code className={styles.code}>{`mapContainer.addEventListener("void-click", (e) => console.log(e.detail));`}</code>
+
+        <div className={styles.miniTitle}>on-mouse-click</div>
+        <div className={styles.texts}>mouse가 click될 때 좌표값을 반환합니다. </div>
+        <code className={styles.code}>{`mapContainer.addEventListener("on-mouse-click", (e) => console.log(e.detail));`}</code>
+
+        <br />
+        <div className={styles.middleTitle}>mouse - enter event</div>
+
+        <div className={styles.miniTitle}>poi-mouse-enter</div>
+        <div className={styles.texts}>마우스가 poi 위로 들어갈 때 poi 정보를 반환합니다. </div>
+        <code className={styles.code}>{`mapContainer.addEventListener("poi-mouse-enter", (e) => console.log(e.detail));`}</code>
+
+        <div className={styles.miniTitle}>object-mouse-enter</div>
+        <div className={styles.texts}>마우스가 object 위로 들어갈 때 object 정보를 반환합니다. </div>
+        <code className={styles.code}>{`mapContainer.addEventListener("object-mouse-enter", (e) => console.log(e.detail));`}</code>
+
+        <br />
+        <div className={styles.middleTitle}>mouse - leave event</div>
+
+        <div className={styles.miniTitle}>poi-mouse-leave</div>
+        <div className={styles.texts}>마우스가 poi 를 떠날 때 poi 정보를 반환합니다. </div>
+        <code className={styles.code}>{`mapContainer.addEventListener("poi-mouse-leave", (e) => console.log(e.detail));`}</code>
+
+        <div className={styles.miniTitle}>object-mouse-leave</div>
+        <div className={styles.texts}>마우스가 object를 떠날 때 object 정보를 반환합니다. </div>
+        <code className={styles.code}>{`mapContainer.addEventListener("object-mouse-leave", (e) => console.log(e.detail));`}</code>
+
+        <br />
+        <div className={styles.middleTitle}>mouse - over </div>
+
+        <div className={styles.miniTitle}>poi-mouse-over</div>
+        <div className={styles.texts}>마우스가 poi 위를 움직일 때 poi 정보를 반환합니다. </div>
+        <code className={styles.code}>{`mapContainer.addEventListener("poi-mouse-over", (e) => console.log(e.detail));`}</code>
+
+        <div className={styles.miniTitle}>object-mouse-over</div>
+        <div className={styles.texts}>mouse가 오브젝트 위를 움직일 때 오브젝트 정보를 반환합니다. </div>
+        <code className={styles.code}>{`mapContainer.addEventListener("object-mouse-over", (e) => console.log(e.detail));`}</code>
+
+        <br />
+        <div className={styles.middleTitle}>mouse - move event</div>
+
+        <div className={styles.miniTitle}>on-mouse-move</div>
+        <div className={styles.texts}>mouse가 움직일 때 좌표값을 반환합니다. </div>
+        <code className={styles.code}>{`mapContainer.addEventListener("on-mouse-move", (e) => console.log(e.detail));`}</code>
+
+        <br />
+        <div className={styles.middleTitle}>camera event</div>
 
         <div className={styles.miniTitle}>zoom-changed</div>
         <div className={styles.texts}>줌이 변경될 때 변경된 값을 반환합니다.</div>
@@ -320,25 +363,8 @@ const Events = (
         <div className={styles.texts}>사용자가 지도를 움직이는 종료시점을 알립니다.</div>
         <code className={styles.code}>{`mapContainer.addEventListener("control-end", (e) => console.log(e.detail));`}</code>
 
-        <div className={styles.miniTitle}>zoom-possible</div>
-        <div className={styles.texts}>zoomIn, zoomOut의 상태값을 받아올 수 있습니다.</div>
-        <code className={styles.code}>{`mapContainer.addEventListener("zoom-possible", (e) => console.log(e.detail));`}</code>
-
-        <div className={styles.miniTitle}>on-mouse-move</div>
-        <div className={styles.texts}>mouse가 움직일 때 좌표값을 반환합니다. </div>
-        <code className={styles.code}>{`mapContainer.addEventListener("on-mouse-move", (e) => console.log(e.detail));`}</code>
-
-        <div className={styles.miniTitle}>on-mouse-click</div>
-        <div className={styles.texts}>mouse가 click될 때 좌표값을 반환합니다. </div>
-        <code className={styles.code}>{`mapContainer.addEventListener("on-mouse-click", (e) => console.log(e.detail));`}</code>
-
-        <div className={styles.miniTitle}>object-mouse-over</div>
-        <div className={styles.texts}>mouse가 오브젝트 위를 움직일 때 오브젝트 정보를 반환합니다. </div>
-        <code className={styles.code}>{`mapContainer.addEventListener("object-mouse-over", (e) => console.log(e.detail));`}</code>
-
-        <div className={styles.miniTitle}>void-click</div>
-        <div className={styles.texts}>mouse가 오브젝트나 poi가 아닌 빈공간을 클릭시 반환합니다. </div>
-        <code className={styles.code}>{`mapContainer.addEventListener("void-click", (e) => console.log(e.detail));`}</code>
+        <br />
+        <div className={styles.middleTitle}>drag event</div>
 
         <div className={styles.miniTitle}>drag-start</div>
         <div className={styles.texts}>사용자가 지도를 drag시 움직이는 시작시점을 알립니다.</div>
@@ -352,33 +378,46 @@ const Events = (
         <div className={styles.texts}>사용자가 지도를 drag하는 동안 발생합니다.</div>
         <code className={styles.code}>{`mapContainer.addEventListener("drag-move", (e) => console.log(e.detail));`}</code>
 
-        <div className={styles.miniTitle}>poi-mouse-over</div>
-        <div className={styles.texts}>마우스가 poi 위를 움직일 때 poi 정보를 반환합니다. </div>
-        <code className={styles.code}>{`mapContainer.addEventListener("poi-mouse-over", (e) => console.log(e.detail));`}</code>
+        <br />
+        <div className={styles.middleTitle}>모의주행 관련</div>
 
-        <div className={styles.miniTitle}>object-mouse-enter</div>
-        <div className={styles.texts}>마우스가 object 위로 들어갈 때 object 정보를 반환합니다. </div>
-        <code className={styles.code}>{`mapContainer.addEventListener("object-mouse-enter", (e) => console.log(e.detail));`}</code>
+        <div className={styles.miniTitle}>navi-complete</div>
+        <div className={styles.texts}>모의주행 애니메이션이 완료되었음을 알립니다.</div>
+        <code className={styles.code}>{`mapContainer.addEventListener("navi-complete", (e) => console.log(e.detail));`}</code>
 
-        <div className={styles.miniTitle}>object-mouse-leave</div>
-        <div className={styles.texts}>마우스가 object를 떠날 때 object 정보를 반환합니다. </div>
-        <code className={styles.code}>{`mapContainer.addEventListener("object-mouse-leave", (e) => console.log(e.detail));`}</code>
+        <div className={styles.miniTitle}>floor-changing</div>
+        <div className={styles.texts}>층이 변경되기 전 현재 층의 정보와 다음 층의 정보를 반환합니다.</div>
+        <code className={styles.code}>{`mapContainer.addEventListener("floor-changing", (e) => console.log(e.detail));`}</code>
 
-        <div className={styles.miniTitle}>poi-mouse-enter</div>
-        <div className={styles.texts}>마우스가 poi 위로 들어갈 때 poi 정보를 반환합니다. </div>
-        <code className={styles.code}>{`mapContainer.addEventListener("poi-mouse-enter", (e) => console.log(e.detail));`}</code>
+        <br />
+        <div className={styles.middleTitle}>내위치 마커 (GPS)</div>
 
-        <div className={styles.miniTitle}>poi-mouse-leave</div>
-        <div className={styles.texts}>마우스가 poi 를 떠날 때 poi 정보를 반환합니다. </div>
-        <code className={styles.code}>{`mapContainer.addEventListener("poi-mouse-leave", (e) => console.log(e.detail));`}</code>
+        <div className={styles.miniTitle}>tracking-move</div>
+        <div className={styles.texts}>길찾기를 활성화한 후 gps로 위치를 tracking하는 중에 위치가 변경됨에 따라 현재의 경로에 대한 정보를 반환합니다. </div>
+        <code className={styles.code}>{`mapContainer.addEventListener("tracking-move", (e) => console.log(e.detail));`}</code>
 
         <div className={styles.miniTitle}>tracking-complete</div>
         <div className={styles.texts}>길찾기를 활성화한 후 gps로 위치를 tracking하는 중에 도착지에 도달할 때 이벤트가 발생합니다. </div>
         <code className={styles.code}>{`mapContainer.addEventListener("tracking-complete", (e) => console.log(e.detail));`}</code>
 
-        <div className={styles.miniTitle}>tracking-move</div>
-        <div className={styles.texts}>길찾기를 활성화한 후 gps로 위치를 tracking하는 중에 위치가 변경됨에 따라 현재의 경로에 대한 정보를 반환합니다. </div>
-        <code className={styles.code}>{`mapContainer.addEventListener("tracking-move", (e) => console.log(e.detail));`}</code>
+        <div className={styles.miniTitle}>mylocation-map-out</div>
+        <div className={styles.texts}>내 위치 마커가 지도 영역을 벗어난 경우 이벤트가 발생합니다. </div>
+        <code className={styles.code}>{`mapContainer.addEventListener("mylocation-map-out", (e) => console.log(e.detail));`}</code>
+
+        <div className={styles.miniTitle}>mylocation-map-in</div>
+        <div className={styles.texts}>내 위치 마커가 지도 영역으로 진입한 경우 이벤트가 발생합니다. </div>
+        <code className={styles.code}>{`mapContainer.addEventListener("mylocation-map-in", (e) => console.log(e.detail));`}</code>
+
+        <br />
+        <div className={styles.middleTitle}>floor 관련 </div>
+
+        <div className={styles.miniTitle}>floor-changed</div>
+        <div className={styles.texts}>층이 변경된 경우 변경된 층의 ID값을 반환합니다.</div>
+        <code className={styles.code}>{`mapContainer.addEventListener("floor-changed", (e) => console.log(e.detail));`}</code>
+
+        <div className={styles.miniTitle}>render-complete</div>
+        <div className={styles.texts}>층이 다시 그려졌을 때 실행됩니다. 다시 그려진 층의 정보를 반환합니다.</div>
+        <code className={styles.code}>{`mapContainer.addEventListener("render-complete", (e) => console.log(e.detail));`}</code>
     </div>
 );
 

@@ -60,7 +60,7 @@ map.mylocation.show(); // 지도영역으로 돌아오면 내 위치 마커를 �
 map.mylocation.stop();`}
             </code>
         </pre>
-        <div className={styles.texts}>현재의 GPS에 따른 좌표(지도)를 얻기 위해서는 아래 메소드를 호출하십시오. 좌표는 지도 좌표로 변환되어 반환됩니다.</div>
+        <div className={styles.texts}>현재의 GPS에 따른 좌표(지도)를 얻기 위해서는 아래 메소드를 호출하십시오. 좌표는 지도 좌표로 변환되어 반환됩니다</div>
         <pre>
             <code className={styles.code}>{`const currentPosition = map.mylocation.getCurrentPosition(); // 현재 GPS 수신 좌표를 반환`}</code>
         </pre>
