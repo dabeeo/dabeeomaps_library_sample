@@ -17,7 +17,7 @@ const Header = ({ setLang }) => {
                     Examples
                 </a>
                 <a className={styles.link} href="http://api-doc.dabeeomaps.com/" target="_blank">
-                    Documents
+                    API Reference
                 </a>
                 <span className={styles.btn} onClick={() => setLang('en')}>
                     ENG

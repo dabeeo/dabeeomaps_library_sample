@@ -2,29 +2,25 @@ import styles from '../GetText/GetText.module.scss';
 
 const MapDataText = (
     <div className={styles.getStartedText}>
-        <div className={styles.title}>MapData</div>
-        <div className={styles.miniTitle}>dabeeoMaps.getMapData()를 호출하여 지도를 그릴 수 있습니다. </div>
-
-        <div className={styles.texts}>지도데이터 호출시 객체가 반환됩니다. 반환된 객체를 이용하여 지도를 그립니다.</div>
+        <div className={styles.title}>지도데이터</div>
+        <div className={styles.miniTitle}>지도를 이용한 서비스를 하기 위해서는 먼저 지도를 서버에서 불러와야 합니다.</div>
+        <p>
+            dabeeoMaps.getMapData()를 호출하여 지도를 가져올 수 있습니다. <br />
+            지도데이터 호출시 객체가 반환됩니다. 반환된 객체를 이용하여 지도를 그립니다.
+        </p>
         <pre>
             <code className={styles.code}>
-                {`
-const mapData = await dabeeoMaps.getMapData(mapDataOption);
+                {`const mapData = await dabeeoMaps.getMapData(mapDataOption);
 const map = await dabeeoMaps.showMap(mapContainer, mapOption, mapData);
 `}
             </code>
         </pre>
-        <div className={styles.miniTitle}>
-            <br />
-            dabeeoMaps.getMapData()를 호출하여 반환된 객체를 이용하여 지도데이터에 대한 각종 검색 등 여러 기능을 이용할 수 있습니다.{' '}
-        </div>
         <p>
-            지도에 포함된 층과 언어, 오브젝트, POI, 그룹에 대한 정보를 알 수 있습니다. <br />
-            아이디와 타이틀로 층을 검색할 수 있습니다. <br />
-            그룹코드의 트리구조를 이용한 부모와 자식에 대한 검색이 가능합니다.
-            <br />
-            오브젝트와 poi에 대하여 타이틀, 층, 아이디, 그룹코드로 검색이 가능합니다
-            <br />
+            반환된 객체를 이용하여 지도데이터에 대한 각종 검색 등 여러 기능을 이용할 수 있습니다. <br />
+            - 지도 속성 정보 <br />
+            - 지도에 포함된 층 정보 <br />
+            - 지도에 포함된 언어 <br />
+            - 오브젝트, POI, 그룹 <br />
         </p>
 
         <div className={styles.texts}>
@@ -34,10 +30,8 @@ const map = await dabeeoMaps.showMap(mapContainer, mapOption, mapData);
         <pre>
             <code className={styles.code}>mapData.mapInfo.address</code>
         </pre>
-        <div className={styles.texts}>
-            <br />
-            층에 대한 정보를 가져오거나, 디폴트층을 가져오거나, 옵션을 이용하여 층에 대한 검색을 합니다 .
-        </div>
+        <br />
+        <div className={styles.texts}>층에 대한 정보를 가져오거나, 디폴트층을 가져오거나, 옵션을 이용하여 층에 대한 검색을 할 수 있습니다 .</div>
         <pre>
             <code className={styles.code}>
                 {`mapData.dataFloor.getFloors()
@@ -50,7 +44,7 @@ mapData.dataFloor.find({ id: 'FL-t4vqgyek3jnb8146' })//id로 찾기
 
         <div className={styles.texts}>
             <br />
-            언어에 대한 정보를 가져오거나, 디폴트 언어를 가져옵니다.
+            언어에 대한 정보를 가져오거나, 디폴트 언어를 가져올 수 있습니다.
         </div>
         <pre>
             <code className={styles.code}>
@@ -61,7 +55,7 @@ mapData.dataLanguage.getDefaultLanguage() //지도에 디폴트로 지정된 언
 
         <div className={styles.texts}>
             <br />
-            POI에 대한 정보를 가져옵니다. 옵션을 이용하여 타이틀, 아이디, 그룹, 특정한 층에 포함된 POI를 찾을 수 있습니다.{' '}
+            POI에 대한 정보를 가져옵니다. 옵션을 이용하여 타이틀, 아이디, 그룹, 특정한 층에 포함된 POI를 찾을 수 있습니다.
         </div>
         <pre>
             <code className={styles.code}>{`
@@ -72,24 +66,23 @@ mapData.dataPoi.find({ floorId: 'FL-t4vqgyek3jnb8146' }) // 특정층에 있는 
 mapData.dataPoi.find({ groupCode: 'A1-12' }) //  해당하는 groupCode를 가진 모든 POI를 찾습니다.
 `}</code>
         </pre>
-        <div className={styles.miniTitle}>
-            dabeeoMaps.getMapData() 호출시 층에 포함된 object 데이터를 별도로 가지고 오지 않습니다. <br />
+        <p>
+            dabeeoMaps.getMapData() 호출시 모든 층의 object 데이터를 가지고 오지는 않습니다. <br />
             층에 포함된 Object 데이터는 해당층을 그릴 때 자동으로 가지고 옵니다. <br />
-            아직 한번도 그리지 않은 층의 object의 정보를 얻기 위해서는 해당층을 서버에서 불러와야 합니다.{' '}
-        </div>
+            아직 한번도 그리지 않은 층의 object의 정보를 얻기 위해서는 해당층을 서버에서 불러와야 합니다.
+        </p>
         <div className={styles.texts}>
             <br />
-            층데이터를 서버에서 불러오는 경우 복수개의 층아이디를 설정하거나, 한개의 층아이디를 설정하여 가져올 수 있습니다.{' '}
+            층데이터를 서버에서 불러오는 경우 복수개의 층아이디를 설정하거나, 한개의 층아이디를 설정하여 가져올 수 있습니다.
         </div>
         <pre>
-            <code className={styles.code}>{`
-await mapData.getFloorData(['FL-t4vqgyek3jnb8146', 'FL-vf3q07spbmsw8132'] ); 
+            <code className={styles.code}>{`await mapData.getFloorData(['FL-t4vqgyek3jnb8146', 'FL-vf3q07spbmsw8132'] ); 
 await mapData.getFloorData('FL-t4vqgyek3jnb8146');   // 입력한 floor data 정보 load
         `}</code>
         </pre>
         <div className={styles.texts}>
             <br />
-            오브젝트에 대한 정보를 가져옵니다. 해당층 아이디를 명시하지 않으면 서버에서 불러온 모든 층에 대한 오브젝트 정보가 반환됩니다. 검색도 가능합니다.{' '}
+            오브젝트에 대한 정보를 가져옵니다. 해당층 아이디를 명시하지 않으면 서버에서 가지고 온 모든 층에 대한 오브젝트 정보가 반환됩니다. 검색도 가능합니다.
         </div>
         <pre>
             <code className={styles.code}>{`mapData.dataObject.getObjects('FL-03vEsKnBNz5665')
@@ -102,7 +95,7 @@ mapData.dataObject.find({ groupCode: 'A1-1' }) // 4. groupCode로 찾을 경우
         </pre>
         <div className={styles.texts}>
             <br />
-            그룹에 대한 정보를 가져옵니다. 특정 그룹의 코드를 찾을 수 있습니다.{' '}
+            그룹에 대한 정보를 가져옵니다. 특정 그룹의 코드를 찾을 수 있습니다.
         </div>
         <pre>
             <code className={styles.code}>{`

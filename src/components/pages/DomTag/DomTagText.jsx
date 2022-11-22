@@ -5,8 +5,8 @@ const DomTagText = (
         <div className={styles.title}>HTML Tag(Dom Element)</div>
         <div className={styles.miniTitle}>tag를 생성 또는 삭제할 수 있습니다.</div>
         <p>
-            원하는 css 속성을 갖는 HTML Element를 특정 poi, marker, 또는 위치에 지정할 수 있습니다. <br />
-            marker 삭제시 함께 삭제, 생성된 태그의 id를 통해 삭제, 또는 모든 태그를 한번에 삭제할 수 있습니다.
+            원하는 css 속성을 갖는 HTML Element를 특정 poi, marker, 또는 지정한 위치에 생성할 수 있습니다. <br />
+            marker에 연동된 경우는 마커 삭제시 함께 삭제되며, 또는 생성된 태그의 id를 통해 개별 삭제, 모든 태그를 한번에 삭제할 수 있습니다.
             <br />
             tag끼리 겹치는 경우 마우스 hover시 상위로 오게하려면 CSS의 z-index를 이용하면 됩니다. 예제를 참고하세요.
         </p>
@@ -44,15 +44,15 @@ const DomTagText = (
 `}
             </code>
         </pre>
-        <div className={styles.texts}>아래 메소드를 호출하시면 해당 tag를 삭제합니다.</div>
+        <div className={styles.texts}>해당 tag를 삭제합니다.</div>
         <pre>
             <code className={styles.code}>map.tag.clear(tagItem.id); </code>
         </pre>
-        <div className={styles.texts}>아래 메소드를 호출하시면 해당 tag의 정보를 반환합니다</div>
+        <div className={styles.texts}>해당 tag의 정보를 반환합니다</div>
         <pre>
             <code className={styles.code}>map.tag.find(tagItem.id); // 해당 tag의 ID를 넣으시면 됩니다.</code>
         </pre>
-        <div className={styles.texts}>아래 메소드를 호출하시면 모든 tag를 삭제합니다.</div>
+        <div className={styles.texts}>모든 tag를 삭제합니다.</div>
         <pre>
             <code className={styles.code}>map.tag.clearAll();</code>
         </pre>
@@ -65,7 +65,7 @@ const tagItem = map.tag.setPOITag({ parentId: poi.id, pos: 'BOTTOM', tag: tag2})
 `}
             </code>
         </pre>
-        <div className={styles.texts}>marker를 지정하여 tag를 생성하는 예제는 다음과 같습니다.</div>
+        <div className={styles.texts}>marker에 연계하여 tag를 생성하는 예제는 다음과 같습니다.</div>
         <pre>
             <code className={styles.code}>
                 {`
@@ -106,7 +106,7 @@ const tagItem = map.tag.setPOITag({ parentId: poi.id, pos: 'BOTTOM', tag: tag2})
                 {`
 
         map.tag.clear(tagItem.id); //tag만 삭제됩니다. 
-        map.markers.clear(lists[0]) //마커를 삭제시 tag도 삭제됩니다. 
+        map.markers.clear(lists[0]) //마커 삭제시 tag도 삭제됩니다. 
 
 `}
             </code>

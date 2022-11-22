@@ -2,7 +2,7 @@ import PoisText from '../pages/Pois/PoisText';
 import PoisTextEn from '../pages/Pois/PoisTextEn';
 import ObjectsText from '../pages/Objects/ObjectsText';
 import ObjectsTextEn from '../pages/Objects/ObjectsTextEn';
-import NavigationTextEn from '../pages/Navigation/NavgationTextEn';
+import NavigationTextEn from '../pages/Navigation/NavigationTextEn';
 import NavigationText from '../pages/Navigation/NavigationText';
 import MyLocationText from '../pages/MyLocation/MyLocationText';
 import MyLocationTextEn from '../pages/MyLocation/MyLocationTextEn';
@@ -24,8 +24,8 @@ import Events from '../pages/Events/Events';
 
 const menuList = [
     { id: 'getStarted', ko: '시작하기', en: 'Get Started', code: 'getStarted', koPage: textKo, enPage: textEn },
-    { id: 'mapOption', ko: '지도 옵션', en: 'mapOptions', code: 'mapOption', koPage: MapOptionText, enPage: MapOptionTextEn },
     { id: 'mapData', ko: '지도 데이터', en: 'mapData', code: 'getStarted', koPage: MapDataText, enPage: MapDataTextEn },
+    { id: 'mapOption', ko: '지도 옵션', en: 'mapOptions', code: 'mapOption', koPage: MapOptionText, enPage: MapOptionTextEn },
     { id: 'mapContext', ko: '지도 컨텍스트 ', en: 'mapContext', code: 'mapContext', koPage: MapContextText, enPage: MapContextTextEn },
     { id: 'pois', ko: 'Pois', en: 'Pois', code: '', koPage: PoisText, enPage: PoisTextEn },
     { id: 'objects', ko: 'Objects', en: 'Objects', code: '', koPage: ObjectsText, enPage: ObjectsTextEn },

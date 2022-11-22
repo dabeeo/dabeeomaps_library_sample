@@ -9,25 +9,23 @@ const MapContextText = (
         <pre>
             <code className={styles.code}>map.context.getCurrentFloor();</code>
         </pre>
-        <div className={styles.texts}>
-            층 전환은 다음 메소드를 호출하시면 됩니다. 필요한 층데이터가 로딩안된 경우 서버로부터 가져오게 되므로 비동기방식으로 호출됩니다.{' '}
-        </div>
+        <div className={styles.texts}>층 전환을 합니다. 필요한 층데이터가 로딩안 된 경우 서버로부터 가져오게 되므로 비동기방식으로 동작합니다.</div>
         <pre>
             <code className={styles.code}>await map.context.changeFloor([변경할 층 ID]);</code>
         </pre>
-        <div className={styles.texts}>다음 메소드를 호출하시면 map을 지우실 수 있습니다.</div>
+        <div className={styles.texts}>map을 지우고 map에 할당된 모든 메모리를 해제합니다. </div>
         <pre>
             <code className={styles.code}>map.context.cleanup();</code>
         </pre>
-        <div className={styles.texts}>다음 메소드를 호출하시면 설정한 mapOption을 반환받으실 수 있습니다.</div>
+        <div className={styles.texts}>현재 설정한 mapOption을 반환받습니다.</div>
         <pre>
             <code className={styles.code}>map.context.getMapOptions();</code>
         </pre>
-        <div className={styles.texts}>입력받은 code의 groupCode를 가지는 object와 그 모든 하위 요소들을 map에 표시합니다.</div>
+        <div className={styles.texts}>입력받은 code의 groupCode를 가지는 모든 지도 요소와 하위 요소들을 map에 표시합니다.</div>
         <pre>
             <code className={styles.code}>map.context.showByCode([GroupCode]);</code>
         </pre>
-        <div className={styles.texts}>입력받은 code의 groupCode를 가지는 object와 그 모든 하위 요소들을 map에서 숨깁니다.</div>
+        <div className={styles.texts}>입력받은 code의 groupCode를 가지는 모든 지도 요소와 하위 요소들을 map에서 숨깁니다.</div>
         <pre>
             <code className={styles.code}>map.context.hideByCode([GroupCode]);</code>
         </pre>
@@ -36,7 +34,9 @@ const MapContextText = (
             <code className={styles.code}>map.context.changeLanguage([지도가 가지고 있는 언어 타입]);</code>
         </pre>
 
-        <div className={styles.texts}>지도화면을 이미지로 다운받습니다.</div>
+        <div className={styles.texts}>
+            지도화면을 이미지로 다운받습니다. 해상도를 높게 설정한 경우 메모리가 부족하여 이미지가 제대로 다운받지 못할 수 있습니다. 알맞은 해상도를 설정하세요{' '}
+        </div>
         <pre>
             <code className={styles.code}>
                 {`map.context.convertToImg({ ratio: number})  //ratio는 지도의 해상도. 1~5, 숫자가 클수록 높은 해상도를 갖습니다. `}

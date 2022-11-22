@@ -1,5 +1,40 @@
 @import '../../../styles/texts';
 
+.simpleTable {
+    table {
+        border-collapse: collapse;
+    }
+    td,
+    th {
+        border: 1px solid #ddd;
+        padding: 8px;
+    }
+    td:nth-child(1) {
+        width: 150px;
+    }
+
+    tr:nth-child(even) {
+        background-color: #f2f2f2;
+    }
+    tr:nth-child(1) {
+        background-color: #020215;
+        color: white;
+        font-weight: bold;
+    }
+
+    tr:hover {
+        background-color: #ddd;
+    }
+
+    th {
+        padding-top: 12px;
+        padding-bottom: 12px;
+        text-align: left;
+        background-color: #04aa6d;
+        color: white;
+    }
+}
+
 .getStartedText {
     @include texts;
 }

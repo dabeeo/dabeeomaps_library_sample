@@ -2,10 +2,10 @@ import styles from '../GetText/GetText.module.scss';
 
 const MarkerText = (
     <div className={styles.getStartedText}>
-        <div className={styles.title}>Marker</div>
-        <div className={styles.miniTitle}>원하는 좌표에 marker를 생성, 삭제할 수 있습니다.</div>
+        <div className={styles.title}>마커</div>
+        <div className={styles.miniTitle}>원하는 좌표에 마커를 생성하거나 삭제할 수 있습니다.</div>
         <p>
-            각 마커의 위치를 지정하고 각 마커에 원하는 아이콘을 지정할 수 있습니다.
+            각 마커의 위치를 지정하고 각 원하는 아이콘을 마커로 지정할 수 있습니다.
             <br />
             position을 제외한 나머지 값들을 입력하지 않을 경우 디폴트로 제공되는 값을 사용합니다.
             <br />
@@ -30,14 +30,14 @@ const MarkerText = (
         width: number,                      // 마커의 넓이
         height: number,                     // 마커의 높이
         positionZ: number,                  // 마커의 Z좌표
-        visibleIcon: boolean                // 마커를 보여줄지 말지 여부. default = true, true일 경우 보여줌.
+        visibleIcon: boolean                // 마커를 보여줄지 말지 여부. default는 true
     },
-    floorId: string,                        // 각 마커의 층을 지정. 지정하지않을 경우 현재 보이는 층에만 표시,
+    floorId: string,                        // 각 마커의 층을 지정. 미지정시 default는  현재층,
     data: any,                              // 마커를 클릭했을 때 반환할 정보
 `}
             </code>
         </pre>
-        <div className={styles.texts}>marker 그리는 메소드는 다음과 같습니다. 개별삭제를 위해서는 id가 필요하니, id를 받아두어야 합니다.</div>
+        <div className={styles.texts}>marker 그리는 메소드는 다음과 같습니다. 동기방식으로 사용하고 id를 받아야 합니다.</div>
         <pre>
             <code className={styles.code}>
                 {`
@@ -55,11 +55,11 @@ const MarkerText = (
 `}
             </code>
         </pre>
-        <div className={styles.texts}>아래 메소드를 호출하시면 해당 marker를 삭제할수 있습니다.</div>
+        <div className={styles.texts}>marker를 삭제할수 있습니다.</div>
         <pre>
             <code className={styles.code}>{`map.markers.clear(id | id[]);       // marker의 userData에 있는 id값 참조`}</code>
         </pre>
-        <div className={styles.texts}>marker 삭제 관련 메소드는 다음과 같습니다. map상에 존재하는 모든 marker를 삭제합니다.</div>
+        <div className={styles.texts}>map상에 존재하는 모든 marker를 삭제합니다.</div>
         <pre>
             <code className={styles.code}>map.markers.clearAll();</code>
         </pre>

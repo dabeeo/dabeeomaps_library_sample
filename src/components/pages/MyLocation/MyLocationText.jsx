@@ -3,13 +3,13 @@ import styles from '../GetText/GetText.module.scss';
 const MyLocationText = (
     <div className={styles.getStartedText}>
         <div className={styles.title}>내 위치 마커(GPS) 표시하기</div>
-        <div className={styles.miniTitle}>map.mylocation으로 내 위치를 표시하거나 지울 수 있습니다. GPS신호에 연동할 수도 있습니다.</div>
+        <div className={styles.miniTitle}>map.mylocation으로 내 위치를 표시하거나 지울 수 있습니다. GPS에 연동할 수도 있습니다.</div>
         <p>
             내 위치 마커의 위치를 지정하고 마커 아이콘의 속성과 애니메이션 효과를 설정할 수 있습니다.
             <br />
             내 위치 마커 아이콘의 속성을 지정하지 않는 경우 디폴트 값으로 표시되며 애니메이션 효과는 활성화되지 않습니다.
             <br />
-            GPS를 활성화하여 내 위치 마커가 gps로 수신한 위치에 따라 움직이게 할 수 있습니다.
+            GPS를 활성화하면 내 위치 마커가 gps로 수신한 위치에 연동됩니다.
             <br />
         </p>
         <div className={styles.texts}>내 위치 마커의 속성과 그리는 예제는 아래와 같습니다.</div>
@@ -41,7 +41,7 @@ map.mylocation.set(locationOption);
 `}
             </code>
         </pre>
-        <div className={styles.texts}>내 위치 마커 삭제 예제는 다음과 같습니다.</div>
+        <div className={styles.texts}>내 위치 마커를 삭제합니다.</div>
         <pre>
             <code className={styles.code}>map.mylocation.clear();</code>
         </pre>
@@ -53,14 +53,14 @@ map.mylocation.show(); // 지도영역으로 돌아오면 내 위치 마커를 �
             </code>
         </pre>
         <div className={styles.miniTitle}>gps를 기준으로 내위치 마커를 연동시킬 수 있습니다.</div>
-        <div className={styles.texts}>GPS에 따라 내위치 마커를 연동시키기 위해서는 아래와 같이 활성화/비활성화를 하면 됩니다.</div>
+        <div className={styles.texts}>GPS에 따라 내위치 마커를 연동시키기 위해서는 아래와 같이 활성화/비활성화합니다.</div>
         <pre>
             <code className={styles.code}>
                 {`map.mylocation.start();
 map.mylocation.stop();`}
             </code>
         </pre>
-        <div className={styles.texts}>현재의 GPS에 따른 좌표(지도)를 얻기 위해서는 아래 메소드를 호출하십시오.</div>
+        <div className={styles.texts}>현재의 GPS에 따른 좌표(지도)를 얻기 위해서는 아래 메소드를 호출하십시오. 좌표는 지도 좌표로 변환되어 반환됩니다.</div>
         <pre>
             <code className={styles.code}>{`const currentPosition = map.mylocation.getCurrentPosition(); // 현재 GPS 수신 좌표를 반환`}</code>
         </pre>

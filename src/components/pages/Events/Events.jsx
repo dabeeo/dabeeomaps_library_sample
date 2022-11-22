@@ -2,12 +2,281 @@ import styles from '../GetText/GetText.module.scss';
 
 const Events = (
     <div className={styles.getStartedText}>
-        <div className={styles.title}>Events</div>
+        <div className={styles.title}>이벤트</div>
         <p>
-            Dabeeo JS API에서 사용가능한 Event 목록입니다.
+            Dabeeomaps API에서 사용가능한 Event 목록입니다.
             <br />
-            event는 map이 종속된 태그에 등록하셔서 사용하시면 됩니다.
+            전체 event중 마우스와 연관된 event는 아래 표와 같습니다
         </p>
+
+        <div className={styles.simpleTable}>
+            <table>
+                <tbody>
+                    <tr id="7b04c324-1043-4b1a-9760-9beca94dc4ff">
+                        <td className=""></td>
+                        <td className="">click</td>
+                        <td className="">mouse-enter</td>
+                        <td id="T`MY" className="">
+                            mouse-leave
+                        </td>
+                        <td id="\i]R" className="">
+                            mouse-over
+                        </td>
+                        <td id="oII^" className="">
+                            mouse-move
+                        </td>
+                    </tr>
+                    <tr id="7de2b9cf-8682-4eed-82bc-755cb9a1afb5">
+                        <td id="eg&gt;Q" className="">
+                            poi
+                        </td>
+                        <td id="_:mS" className="">
+                            poi-click
+                        </td>
+                        <td id="zFKA" className="">
+                            poi-mouse-enter
+                        </td>
+                        <td id="T`MY" className="">
+                            poi-mouse-leave
+                        </td>
+                        <td id="\i]R" className="">
+                            poi-mouse-over
+                        </td>
+                        <td id="oII^" className=""></td>
+                    </tr>
+                    <tr id="dc57ae2c-75e7-4084-8c65-e3b0e9568a8a">
+                        <td id="eg&gt;Q" className="">
+                            object
+                        </td>
+                        <td id="_:mS" className="">
+                            object-click
+                        </td>
+                        <td id="zFKA" className="">
+                            object-mouse-enter
+                        </td>
+                        <td id="T`MY" className="">
+                            object-mouse-leave
+                        </td>
+                        <td id="\i]R" className="">
+                            object-mouse-over
+                        </td>
+                        <td id="oII^" className=""></td>
+                    </tr>
+                    <tr>
+                        <td id="eg&gt;Q" className="">
+                            marker
+                        </td>
+                        <td id="_:mS" className="">
+                            marker-click
+                        </td>
+                        <td id="zFKA" className=""></td>
+                        <td id="T`MY" className=""></td>
+                        <td id="\i]R" className=""></td>
+                        <td id="oII^" className=""></td>
+                    </tr>
+                    <tr>
+                        <td id="eg&gt;Q" className="">
+                            void
+                        </td>
+                        <td id="_:mS" className="">
+                            void-click
+                        </td>
+                        <td id="zFKA" className=""></td>
+                        <td id="T`MY" className=""></td>
+                        <td id="\i]R" className=""></td>
+                        <td id="oII^" className=""></td>
+                    </tr>
+                    <tr>
+                        <td id="eg&gt;Q" className="">
+                            mouse
+                        </td>
+                        <td id="_:mS" className="">
+                            on-mouse-click
+                        </td>
+                        <td id="zFKA" className=""></td>
+                        <td id="T`MY" className=""></td>
+                        <td id="\i]R" className=""></td>
+                        <td id="oII^" className="">
+                            on-mouse-move
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <br />
+            <p>event중 카메라 및 기타 기능과 관련된 이벤트는 아래 표와 같습니다</p>
+            <table>
+                <tbody>
+                    <tr>
+                        <td id="eg&gt;Q" className=""></td>
+                        <td id="W{]o" className="">
+                            changed
+                        </td>
+                        <td id="mCub" className="">
+                            start
+                        </td>
+                        <td id="Ea|y" className="">
+                            end
+                        </td>
+                        <td id="oII^" className="">
+                            move
+                        </td>
+                        <td id="OaIN" className="">
+                            complete
+                        </td>
+                        <td id="Dz=j" className="">
+                            changing
+                        </td>
+                        <td id="rTT|" className="">
+                            map-out
+                        </td>
+                        <td id="DcYr" className="">
+                            map-in
+                        </td>
+                    </tr>
+                    <tr>
+                        <td id="eg&gt;Q" className="">
+                            zoom
+                        </td>
+                        <td id="W{]o" className="">
+                            zoom-changed
+                        </td>
+                        <td id="mCub" className=""></td>
+                        <td id="Ea|y" className=""></td>
+                        <td id="oII^" className=""></td>
+                        <td id="OaIN" className=""></td>
+                        <td id="Dz=j" className=""></td>
+                        <td id="rTT|" className=""></td>
+                        <td id="DcYr" className=""></td>
+                    </tr>
+                    <tr>
+                        <td id="eg&gt;Q" className="">
+                            tilt
+                        </td>
+                        <td id="W{]o" className="">
+                            tilt-changed
+                        </td>
+                        <td id="mCub" className=""></td>
+                        <td id="Ea|y" className=""></td>
+                        <td id="oII^" className=""></td>
+                        <td id="OaIN" className=""></td>
+                        <td id="Dz=j" className=""></td>
+                        <td id="rTT|" className=""></td>
+                        <td id="DcYr" className=""></td>
+                    </tr>
+                    <tr>
+                        <td id="eg&gt;Q" className="">
+                            rotation
+                        </td>
+                        <td id="W{]o" className="">
+                            rotation-changed
+                        </td>
+                        <td id="mCub" className=""></td>
+                        <td id="Ea|y" className=""></td>
+                        <td id="oII^" className=""></td>
+                        <td id="OaIN" className=""></td>
+                        <td id="Dz=j" className=""></td>
+                        <td id="rTT|" className=""></td>
+                        <td id="DcYr" className=""></td>
+                    </tr>
+                    <tr>
+                        <td id="eg&gt;Q" className="">
+                            drag
+                        </td>
+                        <td id="W{]o" className=""></td>
+                        <td id="mCub" className="">
+                            drag-start
+                        </td>
+                        <td id="Ea|y" className="">
+                            drag-end
+                        </td>
+                        <td id="oII^" className="">
+                            drag-move
+                        </td>
+                        <td id="OaIN" className=""></td>
+                        <td id="Dz=j" className=""></td>
+                        <td id="rTT|" className=""></td>
+                        <td id="DcYr" className=""></td>
+                    </tr>
+                    <tr>
+                        <td id="eg&gt;Q" className="">
+                            control
+                        </td>
+                        <td id="W{]o" className=""></td>
+                        <td id="mCub" className="">
+                            control-start
+                        </td>
+                        <td id="Ea|y" className="">
+                            control-end
+                        </td>
+                        <td id="oII^" className=""></td>
+                        <td id="OaIN" className=""></td>
+                        <td id="Dz=j" className=""></td>
+                        <td id="rTT|" className=""></td>
+                        <td id="DcYr" className=""></td>
+                    </tr>
+                    <tr>
+                        <td id="eg&gt;Q" className="">
+                            모의주행 관련
+                        </td>
+                        <td id="W{]o" className=""></td>
+                        <td id="mCub" className=""></td>
+                        <td id="Ea|y" className=""></td>
+                        <td id="oII^" className=""></td>
+                        <td id="OaIN" className="">
+                            navi-complete
+                        </td>
+                        <td id="Dz=j" className="">
+                            floor-changing
+                        </td>
+                        <td id="rTT|" className=""></td>
+                        <td id="DcYr" className=""></td>
+                    </tr>
+                    <tr>
+                        <td id="eg&gt;Q" className="">
+                            mylocation(gps 관련)
+                        </td>
+                        <td id="W{]o" className=""></td>
+                        <td id="mCub" className=""></td>
+                        <td id="Ea|y" className=""></td>
+                        <td id="oII^" className="">
+                            tracking-move
+                        </td>
+                        <td id="OaIN" className="">
+                            tracking-complete
+                        </td>
+                        <td id="Dz=j" className=""></td>
+                        <td id="rTT|" className="">
+                            mylocation-map-out
+                        </td>
+                        <td id="DcYr" className="">
+                            mylocation-map-in
+                        </td>
+                    </tr>
+                    <tr>
+                        <td id="eg&gt;Q" className="">
+                            floor 관련
+                        </td>
+                        <td id="W{]o" className="">
+                            floor-changed
+                        </td>
+                        <td id="mCub" className=""></td>
+                        <td id="Ea|y" className=""></td>
+                        <td id="oII^" className=""></td>
+                        <td id="OaIN" className="">
+                            render-complete
+                        </td>
+                        <td id="Dz=j" className=""></td>
+                        <td id="rTT|" className=""></td>
+                        <td id="DcYr" className=""></td>
+                    </tr>
+                </tbody>
+            </table>
+            <p></p>
+        </div>
+        <p>
+            event는 map이 종속된 태그에 등록하셔서 사용하시면 됩니다. <br />
+        </p>
+
         <code className={styles.code}>const mapContainer = document.getElementById('viewport');</code>
         <div className={styles.miniTitle}>poi-click</div>
         <div className={styles.texts}>클릭한 poi의 정보를 return합니다.</div>
