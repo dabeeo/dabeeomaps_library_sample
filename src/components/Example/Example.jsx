@@ -11,12 +11,16 @@ const Example = () => {
         'groupCode',
         'mapOption',
         'controls',
+        'focus',
         'mapContext',
         'marker',
         'myLocation',
         'gpsTracking',
         'navigation',
         'tag',
+        'heatmap',
+        'models',
+        'models_video_ver',
     ];
     const [id, setId] = useState('getStarted');
     console.log('Example ', id);

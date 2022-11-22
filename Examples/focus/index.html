@@ -58,7 +58,6 @@
                 initFloorMenu();
                 initFloorEvent();
                 initFocus();
-                initControlEvent();
                 initObjectClickEvent();
             }
 
@@ -124,7 +123,7 @@
                 const focusToMenu = gui.addFolder('Focus To');
                 focusToMenu.open();
                 focusToMenu.add(settingFocusTo, 'transition');
-                focusToMenu.add(settingFocusTo, 'type', ['OBJECT_ALL', 'OBJECT', 'NAVIGATION']);
+                focusToMenu.add(settingFocusTo, 'type', ['OBJECT_ALL', 'OBJECT']);
                 focusToMenu.add(settingFocusTo, 'top', 0, 2000);
                 focusToMenu.add(settingFocusTo, 'left', 0, 2000);
                 focusToMenu.add(settingFocusTo, 'bottom', 0, 2000);
@@ -162,29 +161,6 @@
             }
 
             //event
-            function initControlEvent() {
-                mapContainer.addEventListener('zoom-changed', (e) => {
-                    console.log('zoom-changed 에 대한 결과값', e.detail);
-                });
-                // camera tilt changed
-                mapContainer.addEventListener('tilt-changed', (e) => {
-                    console.log('tilt-changed 에 대한 결과값', e.detail);
-                });
-                // camera rotation changed
-                mapContainer.addEventListener('rotation-changed', (e) => {
-                    console.log('rotation-changed 에 대한 결과값', e.detail);
-                });
-
-                // camera rotation changed
-                mapContainer.addEventListener('control-start', (e) => {
-                    console.log('control start 에 대한 결과값', e.detail);
-                });
-
-                // camera rotation changed
-                mapContainer.addEventListener('control-end', (e) => {
-                    console.log('control end 에 대한 결과값', e.detail);
-                });
-            }
             init();
         </script>
     </body>
