@@ -10,7 +10,7 @@ const Menu = ({ lang }) => {
                 {menuList.map((menu, i) => (
                     <NavLink className={styles.item} to={`${menu.id}`} key={i}>
                         <div key={menu.id} className={styles.list}>
-                        {lang === 'ko' ? menu.ko : menu.en}
+                            {lang === 'ko' ? menu.ko : menu.en}
                         </div>
                     </NavLink>
                 ))}
