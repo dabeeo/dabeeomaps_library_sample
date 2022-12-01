@@ -6,15 +6,15 @@ const Menu = ({ lang }) => {
     return (
         <div className={styles.menu}>
             <div className={styles.title}>4.0 Tutorial</div>
-            <ul className={styles.lists} id="lists">
-                {menuList.map((menu) => (
-                    <li key={menu.id}>
-                        <NavLink className={styles.item} to={`${menu.id}`}>
-                            {lang === 'ko' ? menu.ko : menu.en}
-                        </NavLink>
-                    </li>
+            <div className={styles.lists} id="lists">
+                {menuList.map((menu, i) => (
+                    <NavLink className={styles.item} to={`${menu.id}`} key={i}>
+                        <div key={menu.id} className={styles.list}>
+                        {lang === 'ko' ? menu.ko : menu.en}
+                        </div>
+                    </NavLink>
                 ))}
-            </ul>
+            </div>
         </div>
     );
 };

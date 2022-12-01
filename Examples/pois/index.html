@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>[pois]</title>
+        <link rel="stylesheet" href="style.css" />
+    </head>
+
+    <body>
+        <div id="map" class="map"></div>
+    </body>
+    <!-- <script type="text/javascript" src='../../build/dabeeomaps-4.0.0.js'></script> -->
+    <script type="text/javascript" src="https://assets.dabeeomaps.com/upload/library/dabeeomaps-4.0-pre-release.js"></script>
+    <script>
+        let mapData = null;
+        let map = null;
+
+        const poi = 'PO-M02DvTVjp8449';
+        const poiArray = ['PO-M02DvTVjp8449', 'PO-JQ4mw4YeT4536', 'PO-gy5U7uRVH9908'];
+
+        async function init() {
+            const dabeeoMaps = new dabeeo.Maps();
+            //mapDataOption
+            const mapDataOption = {
+                clientId: '75hb8YSnAokb-sZ04aDR91',
+                clientSecret: '0f7ad84f160c7b3fd1849a7920af718b',
+            };
+            //mapData 가져오기
+            mapData = await dabeeoMaps.getMapData(mapDataOption);
+            console.log(mapData);
+
+            //mapContainer
+            const mapContainer = document.getElementById('map');
+            //mapOption 정의
+            const mapOption = Object.assign({});
+            //mapOption으로 mapContainer에 map 그리기
+            map = await dabeeoMaps.showMap(mapContainer, mapOption, mapData);
+            console.log(map);
+
+            //test code begins
+            /************************ API 샘플 및 사용 예제 요약  *****************************/
+            updatePoi(map); // poi update method           map.pois.set(option);
+            await resetPOI(map); // poi reset method             map.pois.reset();
+            hidePOI(map); // poi hide method              map.pois.hide();
+            showPOI(map); // poi show method              map.pois.show();
+            currentPOI(map); // current poi method         map.pois.getCurrentPois(option);
+            /************************ API 샘플 및 사용 예제 요약  *****************************/
+            //test code ends
+
+            console.log('test: [pois]');
+        }
+
+        // poi update 관련 메소드
+        function updatePoi(map) {
+            const option = {
+                // ids: 'PO-JQ4mw4YeT4536',
+                outerColor: 'black',
+                innerColor: 'white',
+                scale: 3,
+            };
+
+            const option2 = {
+                ids: ['PO-M02DvTVjp8449', 'PO-JQ4mw4YeT4536'],
+                outerColor: 'green',
+                scale: 3,
+            };
+
+            // option에 넣은 ID에 해당하는 POI option이 변경됩니다. 없을 경우 전체 POI에 적용됩니댜.
+            map.pois.set(option);
+        }
+
+        // poi show 관련 메소드
+        function showPOI(map) {
+            // 입력받은 매개변수의 아이디들을 전부 보여줍니다. 입력값은 단일 ID or 배열 ID입니다. 매개변수가 없을경우 전체 poi를 보여줍니다.
+            map.pois.show('PO-M02DvTVjp8449');
+            // map.pois.show(poiArray);
+            // map.pois.show();
+        }
+
+        // poi hide 관련 메소드
+        function hidePOI(map) {
+            // 입력받은 매개변수의 아이디들을 전부 숩깁니다. 입력값은 단일 ID or 배열 ID입니다. 매개변수가 없을경우 전체 poi를 숩깁니다.
+            map.pois.hide('PO-M02DvTVjp8449');
+            // map.pois.hide(poiArray);
+            // map.pois.hide();
+        }
+
+        // poi reset 관련 메소드
+        async function resetPOI(map) {
+            // 입력받은 매개변수의 아이디들을 전부 초기화합니다. 입력값은 단일 ID or 배열 ID입니다. 매개변수가 없을경우 전체 poi를 초기화합니다.
+            await map.pois.reset('PO-M02DvTVjp8449');
+            // map.pois.reset(poiArray);
+            // map.pois.reset();
+        }
+
+        // 현재 보여지는 POI 추출
+        // 지도가 그려진후에 호출해야 정보가 반환됩니다. ex) use setTimeOut
+        function currentPOI(map) {
+            const option = {
+                isVisible: true,
+                sortOption: {
+                    center: { x: 1500, y: 1000, z: 0 },
+                    byAsc: true,
+                },
+            };
+            const pois = map.pois.getCurrentPois(option);
+            console.log('현재 화면 안에서 보여지고 있는 pois : ', pois);
+            pois?.forEach((poi) => {
+                console.log('poi title : ', poi.title);
+            });
+        }
+
+        init();
+    </script>
+</html>

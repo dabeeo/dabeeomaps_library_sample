@@ -17,7 +17,7 @@ function App() {
                     path="*"
                     element={
                         <div>
-                            <Header setLang={setLang} />
+                            <Header lang={lang} setLang={setLang} />
                             <Main lang={lang} dabeeoMaps={dabeeoMaps} />
                         </div>
                     }

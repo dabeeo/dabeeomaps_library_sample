@@ -1,44 +1,42 @@
 .menu {
-    width: 400px;
+    width: 30%;
     height: 100%;
-    position: fixed;
-    top: 70px;
     left: 0;
-    font-size: 24px;
+    background-color: white;
 
     .title {
-        margin: 1rem 0 0 1rem;
+        margin-top: 50px;
+        margin-left: 50%;
         font-weight: bold;
-        color: brown;
+        font-size: 20px;
     }
 
     .lists {
-        margin: 4px;
         margin-top: 10px;
-        list-style: none;
-        min-width: 300px;
-        width: 10%;
-        background-color: whitesmoke;
-        height: 100vh;
-        font-size: 20px;
-
+        margin-left: 50%;
+        width: 50%;
+        height: 100%;
+        font-size: 15px;
+        display: flex;
+        flex-direction: column;
+        
         .item {
-            width: 130px;
-            height: 100px;
-            padding: 7px;
-
+            .list {
+                width: 100%;
+                margin-left: 30px;
+                display: flex;
+                align-items: center;
+                justify-content: flex-start;
+            }
+            
             text-align: center;
             line-height: 40px;
-            border-radius: 8px;
-            margin: 5px;
-            margin-top: 1.5rem;
-            background-color: whitesmoke;
-            color: black;
+            color: #707070;
             font-weight: normal;
 
             &[class~='active'] {
-                background-color: black;
-                color: white;
+                background-color: #EEF0F7;
+                color: #111111;
                 font-weight: bold;
             }
             &:hover {

@@ -7,6 +7,7 @@ import styles from './Section.module.scss';
 
 const Section = ({ lang }) => {
     console.log('section');
+    console.log(menuList);
     return (
         <div className={styles.section}>
             <Routes>

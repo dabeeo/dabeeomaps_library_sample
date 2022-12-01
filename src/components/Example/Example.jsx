@@ -30,9 +30,9 @@ const Example = () => {
         <div className={styles.example}>
             <div className={styles.header}>DabeeoMaps Example</div>
             <div className={styles.body}>
-                <ul id="lists" className={styles.lists}>
+                <div id="lists" className={styles.lists}>
                     {exampleList.map((example) => (
-                        <li key={example}>
+                        <div key={example}>
                             <NavLink
                                 className={styles.item}
                                 to={`/examples/${example}`}
@@ -43,9 +43,9 @@ const Example = () => {
                             >
                                 {example}
                             </NavLink>
-                        </li>
+                        </div>
                     ))}
-                </ul>
+                </div>
                 <div className={styles.code}>
                     <Routes>
                         <Route path="/" element={<Code id={id}></Code>} />

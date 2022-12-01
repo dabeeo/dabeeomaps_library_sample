@@ -1,5 +1,5 @@
 $fontSize: 1rem;
-$color: #fff;
+$color: #000;
 
 @mixin texts {
     padding-top: 1rem;
@@ -13,50 +13,50 @@ $color: #fff;
 
     .title {
         font-weight: bold;
-        font-size: 32px;
+        font-size: 24px;
+        margin: 20px 0;
     }
 
     .middleTitle {
         font-weight: bold;
-        font-size: 25px;
+        font-size: 20px;
     }
 
     .miniTitle {
-        font-weight: bold;
-        margin-top: 1rem;
-        font-size: 18px;
+        font-weight: 500;
+        margin-top: 30px;
+        font-size: 20px;
     }
 
     .texts {
         margin-top: 10px;
-        font-size: 16px;
+        font-size: 15px;
     }
 
     .code {
-        width: 100%;
+        width: 90%;
         overflow: auto;
         overflow-wrap: break-word;
         font-family: monospace;
         font-size: 1 * $fontSize;
-        max-width: 900px;
         display: block;
         border-radius: 10px;
-        background-color: #333333;
+        background-color: #F6F8FA;
         color: $color;
         padding: 20px;
         line-height: 1.15 * $fontSize;
 
         span {
-            color: #ff5100;
+            color: #00f2ff;
             font-weight: bold;
             &.value {
                 font-family: monospace;
-                color: #00ff00;
+                color: #ff66f5;
                 font-weight: normal;
             }
             &.reserved {
                 font-weight: normal;
-                color: #00ffff;
+                color: #ff0000;
             }
             &.special {
                 font-weight: normal;
@@ -64,7 +64,7 @@ $color: #fff;
             }
             &.comment {
                 font-weight: normal;
-                color: #cceecc;
+                color: #550074;
             }
         }
     }

@@ -12,10 +12,9 @@
 }
 
 .viewCode {
-    width: 100px;
-    height: 50px;
-    background-color: black;
-    border-radius: 20px;
+    width: 180px;
+    height: 39px;
+    background-color: #192A67;
     color: white;
     position: absolute;
     bottom: 50px;
@@ -28,7 +27,6 @@
     text-decoration: none;
 
     &:hover {
-        background-color: rgba(0, 0, 0, 0.7);
         cursor: pointer;
     }
 }

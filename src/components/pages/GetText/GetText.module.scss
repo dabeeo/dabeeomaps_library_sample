@@ -3,22 +3,20 @@
 .simpleTable {
     table {
         border-collapse: collapse;
+        font-size: 15px;
     }
     td,
     th {
         border: 1px solid #ddd;
-        padding: 8px;
+        padding: 12px;
     }
     td:nth-child(1) {
         width: 150px;
     }
 
-    tr:nth-child(even) {
-        background-color: #f2f2f2;
-    }
     tr:nth-child(1) {
-        background-color: #020215;
-        color: white;
+        background-color: #E4E6EE;
+        color: black;
         font-weight: bold;
     }
 
@@ -42,7 +40,7 @@
     padding-bottom: 50px;
 }
 .viewport {
-    width: 1000px;
-    height: 500px;
+    width: 95%;
+    height: 550px;
     position: relative;
 }
