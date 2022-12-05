@@ -4,11 +4,19 @@
     left: 0;
     background-color: white;
 
-    .title {
-        margin-top: 50px;
+    .title,
+    .releaseNote {
+        margin-top: 40px;
         margin-left: 50%;
         font-weight: bold;
         font-size: 20px;
+    }
+
+    .releaseNote {
+        &:hover {
+            cursor: pointer;
+            text-decoration: underline;
+        }
     }
 
     .lists {

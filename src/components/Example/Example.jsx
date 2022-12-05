@@ -31,7 +31,7 @@ const Example = () => {
             <div className={styles.header}>DabeeoMaps Example</div>
             <div className={styles.body}>
                 <div id="lists" className={styles.lists}>
-                    {exampleList.map((example) => (
+                    {exampleList.map((example, i) => (
                         <div key={example}>
                             <NavLink
                                 className={styles.item}

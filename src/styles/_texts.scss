@@ -18,13 +18,13 @@ $color: #000;
     }
 
     .middleTitle {
+        margin-bottom: 20px;
         font-weight: bold;
         font-size: 20px;
     }
 
     .miniTitle {
         font-weight: 500;
-        margin-top: 30px;
         font-size: 20px;
     }
 
@@ -34,6 +34,7 @@ $color: #000;
     }
 
     .code {
+        margin-bottom: 20px;
         width: 90%;
         overflow: auto;
         overflow-wrap: break-word;

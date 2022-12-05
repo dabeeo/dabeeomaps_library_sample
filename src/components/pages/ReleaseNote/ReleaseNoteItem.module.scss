@@ -1,0 +1,25 @@
+.releaseNoteItem {
+    font-size: 20px;
+    margin-top: 10px;
+
+    .title {
+        margin-top: 30px;
+        display: flex;
+        align-items: center;
+
+        .img {
+            height: 20px;
+            object-fit: contain;
+            margin-right: 5px;
+
+            &:hover {
+                cursor: pointer;
+            }
+        }
+    }
+
+    .content {
+        margin-top: 10px;
+        line-height: 30px;
+    }
+}

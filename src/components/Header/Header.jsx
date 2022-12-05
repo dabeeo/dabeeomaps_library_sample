@@ -1,12 +1,11 @@
 import styles from './Header.module.scss';
 import LOGOIMG from '../../imgs/logo.png';
 import UNIONIMG from '../../imgs/Union.png';
-import { useNavigate } from 'react-router';
+import TOGGLEBTN from '../../imgs/toggleImg.png';
 import { useState } from 'react';
 
 
 const Header = ({ lang, setLang }) => {
-    const nav = useNavigate();
     const [toggle, setToggle] = useState(false);
 
     // function onLink() {
@@ -37,10 +36,10 @@ const Header = ({ lang, setLang }) => {
                         <div className={styles.toggle}>
                             <div className={styles.toggleItem}>{ lang === 'ko' ? 'KOR' : 'ENG'}</div>
                             { toggle && 
-                            <div className={styles.toggleBtn}>
-                                <div className={styles.toggleItem} onClick={(e) => onToggleBtn(e)}>KOR</div>
-                                <div className={styles.toggleItem} onClick={(e) => onToggleBtn(e)}>ENG</div>
-                            </div>}
+                            <img src={TOGGLEBTN} alt='toggleBtn' className={styles.toggleBtn}>
+                            </img>}
+                            { toggle && <div className={styles.toggleImgItem} onClick={(e) => onToggleBtn(e)}>KOR</div>}
+                            { toggle && <div className={styles.toggleImgItem} onClick={(e) => onToggleBtn(e)}>ENG</div>}
                         </div>
                     <img src={UNIONIMG} className={styles.union} alt='arrow' onClick={() => setToggle(!toggle)} />
                 </div>

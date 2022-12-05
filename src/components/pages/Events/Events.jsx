@@ -287,7 +287,7 @@ const Events = (
         <div className={styles.texts}>클릭한 object의 정보를 return합니다.</div>
         <code className={styles.code}>{`mapContainer.addEventListener("object-click", (e) => console.log(e.detail));`}</code>
 
-        <div className={styles.middleTitle}>marker-click</div>
+        <div className={styles.miniTitle}>marker-click</div>
 
         <div className={styles.texts}>클릭한 marker의 정보를 return합니다.</div>
         <code className={styles.code}>{`mapContainer.addEventListener("marker-click", (e) => console.log(e.detail));`}</code>

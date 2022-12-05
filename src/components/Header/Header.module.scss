@@ -9,9 +9,9 @@
     justify-content: space-between;
 
     .logo {
-        height: 15px;
+        height: 20px;
         object-fit: contain;
-        margin-left: 302px;
+        margin-left: 15%;
     }
 
     .documents {
@@ -20,7 +20,7 @@
         align-items: center;
 
         .link {
-            font-size: 15px;
+            font-size: 18px;
             margin-right: 50px;
             font-weight: 500;
             text-decoration: none;
@@ -58,6 +58,7 @@
             
             .toggle {
                 position: relative;
+                font-size: 15px;
 
                 .toggleItem {
                     display: flex;
@@ -65,32 +66,44 @@
                     justify-content: center;
                     width: 40px;
                     height: 20px;
-                    background-color: white;
                 }
 
                 .toggleBtn {
-                    width: 60px;
-                    height: 60px;
+                    width: 74px;
+                    height: 81px;
                     z-index: 10;
                     position: absolute;
-                    background-color: white;
                     color: #707070;
-                    border: 1px solid #EEF0F7;
                     top: 25px;
-                    left: -10px;
+                    left: -25px;
                     display: flex;
                     flex-direction: column;
                     align-items: center;
                     justify-content: center;
+                }
 
-                    div {
-                        width: 100%;
-                        padding: 2px 0;
-                        &:hover {
-                            background-color: #EEF0F7;
-                            color: black;
-                            cursor: pointer;
-                        }
+                .toggleImgItem {
+                    position: absolute;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    top: 45px;
+                    left: -15px;
+                    width: 74px;
+                    height: 25px;
+                    z-index: 10;
+
+                    &:first-child {
+                        top: 45px;
+                    }
+
+                    &:last-child {
+                        top: 70px;
+                    }
+
+                    &:hover {
+                        background-color: #EEF0F7;
+                        cursor: pointer;
                     }
                 }
             }

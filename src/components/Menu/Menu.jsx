@@ -5,6 +5,9 @@ import menuList from './menuList';
 const Menu = ({ lang }) => {
     return (
         <div className={styles.menu}>
+            <NavLink to='releaseNote'>
+                <div className={styles.releaseNote}>ReleaseNote</div>
+            </NavLink>
             <div className={styles.title}>4.0 Tutorial</div>
             <div className={styles.lists} id="lists">
                 {menuList.map((menu, i) => (

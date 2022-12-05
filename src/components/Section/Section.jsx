@@ -4,6 +4,7 @@ import textKo from '../pages/GetStarted/GetStartedTextKo';
 import textEn from '../pages/GetStarted/GetStartedTextEn';
 import menuList from '../Menu/menuList';
 import styles from './Section.module.scss';
+import ReleaseNote from '../pages/ReleaseNote/ReleaseNote';
 
 const Section = ({ lang }) => {
     console.log('section');
@@ -15,6 +16,7 @@ const Section = ({ lang }) => {
                 {menuList.map((menu) => (
                     <Route key={menu.id} path={`/${menu.id}`} element={<GetText code={menu.code} context={lang === 'ko' ? menu.koPage : menu.enPage} />} />
                 ))}
+                <Route path='/releaseNote' element={<ReleaseNote />} />
             </Routes>
         </div>
     );
