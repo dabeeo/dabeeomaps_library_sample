@@ -10,6 +10,29 @@
             body {
                 margin: 0;
             }
+            .container {
+                top: 20px;
+                right: 20px;
+                position: absolute;
+                display: flex;
+                flex-direction: column;
+            }
+            .button-menu {
+                width: 201px;
+                height: 24px;
+                background-color: #F5F6F9;;
+                text-align: center;
+                line-height: 16px;
+                border: 1px solid #ddd;
+                outline: none;
+                font-weight: bold;
+            }
+            .inline-input {
+                margin-top: 5px;
+                outline: none;
+                border: 1px solid #ddd;
+                height: 24px;
+            }
             .map {
                 width: 100vw;
                 height: 100vh;
@@ -18,11 +41,13 @@
     </head>
 
     <body>
-        <button type="button" class="button-menu">camera</button>
-        <select type="text" class="inline-input" name="camera">
-            <option value="3d">3D</option>
-            <option value="2d">2D</option>
-        </select>
+        <div class='container'>
+            <button type="button" class="button-menu">camera</button>
+            <select type="text" class="inline-input" name="camera">
+                <option value="3d">3D</option>
+                <option value="2d">2D</option>
+            </select>
+        </div>
         <div id="map" class="map"></div>
     </body>
     <script type="text/javascript" src="https://assets.dabeeomaps.com/upload/library/dabeeomaps-4.0-pre-release.js"></script>

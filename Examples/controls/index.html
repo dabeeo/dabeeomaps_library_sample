@@ -7,15 +7,6 @@
         <title>control camera sample</title>
         <!-- <link rel="stylesheet" href="style.css"> -->
         <style>
-            body {
-                margin: 0;
-            }
-            .map {
-                width: 100vw;
-                height: 100vh;
-                /* position: relative; */
-            }
-
             .function {
                 text-align: center;
             }
@@ -25,10 +16,12 @@
             }
         </style>
     </head>
-
+    <link rel="stylesheet" href="../styles/left.css">
     <body>
-        <button type="button" class="button-menu">floor</button>
-        <select type="text" class="inline-input" name="floor"></select>
+        <div class='container'>
+            <button type="button" class="button-menu">floor</button>
+            <select type="text" class="inline-input" name="floor"></select>
+        </div>
         <div id="map" class="map"></div>
     </body>
 

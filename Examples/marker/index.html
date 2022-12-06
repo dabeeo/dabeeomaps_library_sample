@@ -6,29 +6,23 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Document</title>
         <!-- <link rel="stylesheet" href="style.css"> -->
-        <style>
-            body {
-                margin: 0;
-            }
-
-            .viewport {
-                width: 100vw;
-                height: 100vh;
-            }
-        </style>
     </head>
-
+    <link rel="stylesheet" href="../styles/styles.css">
     <body>
         <div class="inputContainer">
-            <button type="button" class="button-menu">floor</button>
-            <select type="text" class="inline-input" name="floor"></select>
+            <div class="container2">
+                <button type="button" class="button-menu">floor</button>
+                <select type="text" class="inline-input" name="floor"></select>
+            </div>
 
-            <input type="text" placeholder="x" class="pointX" />
-            <input type="text" placeholder="y" class="pointY" />
-            <button type="button" class="inline-input" name="set">set</button>
-            <button type="button" class="inline-input" name="clear">clear</button>
+            <div class="container">
+                <input type="text" placeholder="x" class="pointX" />
+                <input type="text" placeholder="y" class="pointY" />
+                <button type="button" class="inline-input" name="set">set</button>
+                <button type="button" class="inline-input" name="clear">clear</button>
+            </div>
         </div>
-        <div id="viewport" class="viewport"></div>
+        <div id="viewport" class="map"></div>
     </body>
     <script type="text/javascript" src="https://assets.dabeeomaps.com/upload/library/dabeeomaps-4.0-pre-release.js"></script>
     <script>

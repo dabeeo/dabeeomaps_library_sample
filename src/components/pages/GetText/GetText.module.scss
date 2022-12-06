@@ -2,6 +2,7 @@
 
 .simpleTable {
     table {
+        width: 95%;
         border-collapse: collapse;
         font-size: 15px;
     }
@@ -15,7 +16,7 @@
     }
 
     tr:nth-child(1) {
-        background-color: #E4E6EE;
+        background-color: #F5F6F9;
         color: black;
         font-weight: bold;
     }

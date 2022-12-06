@@ -5,30 +5,14 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>[floor animation]</title>
-        <style>
-            body {
-                margin: 0;
-                padding: 0;
-            }
-            #map {
-                box-sizing: border-box;
-                margin: 0;
-                padding: 0;
-                width: 100vw;
-                height: 100vh;
-                border: 1px solid black;
-            }
-            .menu {
-                z-index: 10;
-                position: absolute;
-            }
-        </style>
     </head>
-
+    <link rel="stylesheet" href="../styles/styles.css">
     <body>
         <div class="menu">
-            <button type="button" id="changeFloorAnimation" class="button-menu">층변경시 층변경 애니메이션</button>
-            <button type="button" id="simulationAnimation" class="button-menu">모의주행시 층변경 애니메이션</button>
+            <div class="container">
+                <button type="button" id="changeFloorAnimation" class="button-menu">층변경시 층변경 애니메이션</button>
+                <button type="button" id="simulationAnimation" class="button-menu" style="margin-top: 5px;">모의주행시 층변경 애니메이션</button>
+            </div>
         </div>
         <div id="map" class="map"></div>
     </body>

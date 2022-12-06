@@ -6,32 +6,21 @@
         <link rel="icon" href="../dabeeo_ci_symbol.png" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Navigation</title>
-        <style>
-            body {
-                margin: 0;
-            }
-
-            .map {
-                top: 0px;
-                left: 0px;
-                width: 1000px;
-                height: 500px;
-            }
-            .navi-path {
-                position: relative;
-            }
-        </style>
     </head>
-
+    <link rel="stylesheet" href="../styles/styles.css">
     <body>
-        <button type="button" class="button-menu">floor</button>
-        <select type="text" class="inline-input" name="floor"></select>
+        <div class="container">
+            <button type="button" class="button-menu">floor</button>
+            <select type="text" class="inline-input" name="floor"></select>
+        </div>
 
-        <button type="button" class="button-menu" name="set">draw route</button>
-        <button type="button" class="button-menu" name="clear">clear route</button>
-        <button type="button" class="button-menu" name="start">start animation</button>
-        <button type="button" class="button-menu" name="stop">stop animation</button>
-        <div name="naviList" style="display: none"></div>
+        <div class="container2">
+            <button type="button" class="button-menu" name="set">draw route</button>
+            <button type="button" class="button-menu" name="clear">clear route</button>
+            <button type="button" class="button-menu" name="start">start animation</button>
+            <button type="button" class="button-menu" name="stop">stop animation</button>
+            <div name="naviList" style="display: none" class="naviList"></div>
+        </div>
         <div id="map" class="map"></div>
     </body>
     <script type="text/javascript" src="https://assets.dabeeomaps.com/upload/library/dabeeomaps-4.0-pre-release.js"></script>

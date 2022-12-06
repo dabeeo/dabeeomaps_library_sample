@@ -1,0 +1,56 @@
+body {
+    margin: 0;
+}
+.container,
+.container2,
+.container3,
+.container4 {
+    top: 20px;
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    z-index: 100;
+}
+
+.container {
+    right: 20px;
+}
+
+.container2 {
+    right: 230px;
+}
+
+.container3 {
+    right: 442px;
+}
+
+.container4 {
+    right: 655px;
+}
+
+.button-menu {
+    width: 201px;
+    height: 24px;
+    background-color: #F5F6F9;;
+    text-align: center;
+    line-height: 16px;
+    border: 1px solid #ddd;
+    outline: none;
+    font-weight: bold;
+}
+
+.inline-input {
+    margin-top: 5px;
+    outline: none;
+    border: 1px solid #ddd;
+    height: 24px;
+}
+
+.map {
+    width: 100vw;
+    height: 100vh;
+}
+
+.navi-path {
+    position: relative;
+}
