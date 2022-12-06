@@ -3,6 +3,7 @@ import { useEffect } from 'react';
 import Code from '../../Code/Code';
 
 const GetText = ({ code, context }) => {
+    
     useEffect(() => {
         let codeElement = document.querySelectorAll('code');
         if (!codeElement) return;
@@ -33,4 +34,5 @@ const GetText = ({ code, context }) => {
         </div>
     );
 };
+
 export default GetText;

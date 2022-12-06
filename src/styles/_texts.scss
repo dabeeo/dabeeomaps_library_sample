@@ -6,15 +6,15 @@ $color: #000;
 
     p {
         max-width: 1000px;
-        margin: 2rem 0;
         font-size: 16px;
         line-height: 30px;
+        margin: 20px;
     }
 
     .title {
         font-weight: bold;
         font-size: 24px;
-        margin: 20px 0;
+        margin: 50px 0;
     }
 
     .middleTitle {
@@ -24,6 +24,7 @@ $color: #000;
     }
 
     .miniTitle {
+        margin-top: 30px;
         font-weight: 500;
         font-size: 20px;
     }
@@ -34,18 +35,16 @@ $color: #000;
     }
 
     .code {
-        margin-bottom: 20px;
         width: 90%;
         overflow: auto;
         overflow-wrap: break-word;
-        font-family: monospace;
         font-size: 1 * $fontSize;
         display: block;
-        border-radius: 10px;
         background-color: #F6F8FA;
         color: $color;
         padding: 20px;
         line-height: 1.15 * $fontSize;
+        margin-bottom: 20px;
 
         span {
             color: #00f2ff;
