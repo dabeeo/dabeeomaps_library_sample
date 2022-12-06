@@ -32,9 +32,9 @@ body {
     width: 201px;
     height: 24px;
     background-color: #F5F6F9;;
+    border: 1px solid #ddd;
     text-align: center;
     line-height: 16px;
-    border: 1px solid #ddd;
     outline: none;
     font-weight: bold;
 }
@@ -53,4 +53,13 @@ body {
 
 .navi-path {
     position: relative;
+}
+
+.pointX,
+.pointY {
+    border: 1px solid #ddd;
+}
+
+.pointY {
+    margin-top: 5px;
 }
