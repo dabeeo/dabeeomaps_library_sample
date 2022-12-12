@@ -21,6 +21,7 @@ const Example = () => {
         'tag',
         'heatmap',
         'models',
+        'geojson',
         'models_video_ver',
     ];
     const [id, setId] = useState('getStarted');
