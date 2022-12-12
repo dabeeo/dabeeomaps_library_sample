@@ -20,12 +20,15 @@ import textKo from '../pages/GetStarted/GetStartedTextKo';
 import textEn from '../pages/GetStarted/GetStartedTextEn';
 import MarkerText from '../pages/Marker/MarkerText';
 import MarkerTextEn from '../pages/Marker/MarkerTextEn';
+import HeatMapText from '../pages/HeatMap/HeatMapText';
+import { GeoJsonText } from '../pages/GeoJson/GeoJsonText';
+import { ModelText } from '../pages/Model/ModelText';
 import Events from '../pages/Events/Events';
 
 const menuList = [
     { id: 'getStarted', ko: '시작하기', en: 'Get Started', code: 'getStarted', koPage: textKo, enPage: textEn },
-    { id: 'mapData', ko: '지도 데이터', en: 'mapData', code: 'getStarted', koPage: MapDataText, enPage: MapDataTextEn },
-    { id: 'mapOption', ko: '지도 옵션', en: 'mapOptions', code: 'mapOption', koPage: MapOptionText, enPage: MapOptionTextEn },
+    { id: 'mapData', ko: '지도 데이터', en: 'mapData', code: 'mapData', koPage: MapDataText, enPage: MapDataTextEn },
+    { id: 'mapOption', ko: '지도 그리기', en: 'mapOptions', code: 'mapOption', koPage: MapOptionText, enPage: MapOptionTextEn },
     { id: 'mapContext', ko: '지도 컨텍스트 ', en: 'mapContext', code: 'mapContext', koPage: MapContextText, enPage: MapContextTextEn },
     { id: 'pois', ko: 'Pois', en: 'Pois', code: 'pois', koPage: PoisText, enPage: PoisTextEn },
     { id: 'objects', ko: 'Objects', en: 'Objects', code: 'objects', koPage: ObjectsText, enPage: ObjectsTextEn },
@@ -34,6 +37,9 @@ const menuList = [
     { id: 'markers', ko: '마커', en: 'markers', code: 'marker', koPage: MarkerText, enPage: MarkerTextEn },
     { id: 'myLocation', ko: '내위치 마커(GPS)', en: 'myLocation', code: 'myLocation', koPage: MyLocationText, enPage: MyLocationTextEn },
     { id: 'domTag', ko: 'HTML Element', en: 'HTML Element', code: 'tag', koPage: DomTagText, enPage: DomTagTextEn },
+    { id: 'heatmap', ko: 'Heatmap 올리기', en: 'Heatmap', code: 'heatmap', koPage: HeatMapText, enPage: HeatMapText },
+    { id: 'geoJson', ko: 'GeoJson 올리기', en: 'Geojson', code: 'geojson', koPage: GeoJsonText, enPage: GeoJsonText },
+    { id: 'model', ko: '3dModel 올리기', en: '3d model', code: 'models', koPage: ModelText, enPage: ModelText },
     { id: 'events', ko: '이벤트', en: 'Event', code: '', koPage: Events, enPage: Events },
 ];
 

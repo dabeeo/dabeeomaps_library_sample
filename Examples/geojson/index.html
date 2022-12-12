@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>heatmap</title>
+    </head>
+    <link rel="stylesheet" href="../styles/styles.css" />
+    <body>
+        <div id="map" class="map"></div>
+    </body>
+
+    <script type="text/javascript" src="https://assets.dabeeomaps.com/upload/library/dabeeomaps-4.0-pre-release.js"></script>
+    <script>
+        async function init() {
+            const dabeeoMaps = new dabeeo.Maps();
+
+            //mapDataOption 정의
+            const mapDataOption = {
+                clientId: '75hb8YSnAokb-sZ04aDR91',
+                clientSecret: '0f7ad84f160c7b3fd1849a7920af718b',
+                // serverType : 'SERVER_STAGE'
+            };
+
+            //mapData 가져오기
+            const mapData = await dabeeoMaps.getMapData(mapDataOption);
+            console.log(mapData);
+
+            //mapContainer
+            const mapContainer = document.getElementById('map');
+
+            //mapOption 정의
+            const mapOption = Object.assign({
+                // camera: '2d',
+            });
+
+            //mapOption으로 mapContainer에 map 그리기
+            const map = await dabeeoMaps.showMap(mapContainer, mapOption, mapData);
+
+            console.log('test: polygon');
+            ///////////////////////////////// API 샘플 및 사용 예제 요약
+            await overlayAddSourceTest(); // map.overlay.addSource() 테스트
+            await overlayAddLayerTest(); // map.overlay.addLayer() 테스트
+            // overlayRemoveSourceTest(); // map.overlay.removeSource() 테스트
+            // overlayRemoveLayerTest(); // map.overlay.removeLayer() 테스트
+            ///////////////////////////////////////
+
+            console.log('test: polygon.ts');
+
+            async function overlayAddSourceTest() {
+                const overlaySourceOption = {
+                    type: 'geojson',
+                    data: './alltype.geojson',
+                };
+                await map.overlay.addSource('polygon-test', overlaySourceOption); // Overlay 데이터 저장
+            }
+
+            async function overlayAddLayerTest() {
+                const overlayLayerOption = {
+                    type: 'polygon',
+                    source: 'polygon-test',
+                    paint: {
+                        polygonPositionZ: 500,
+                    },
+                };
+                await map.overlay.addLayer(overlayLayerOption); // Overlay 지도에 그리기
+            }
+
+            function overlayRemoveSourceTest() {
+                setTimeout(() => {
+                    map.overlay.removeSource('polygon-test');
+                }, 3000);
+            }
+
+            function overlayRemoveLayerTest() {
+                setTimeout(() => {
+                    map.overlay.removeLayer('polygon-test');
+                }, 2000);
+            }
+        }
+        init();
+    </script>
+</html>

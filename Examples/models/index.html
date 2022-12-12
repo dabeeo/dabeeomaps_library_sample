@@ -42,11 +42,11 @@
 
             //mapOption으로 mapContainer에 map 그리기
             const map = await dabeeoMaps.showMap(mapContainer, mapOption, mapData);
-            
+
             // Model Layer 데이터 저장
             await map.overlay.addSource('model-test', {
                 type: 'json',
-                data: 'https://assets.dabeeomaps.com/upload/models/json/qrModels.json',
+                data: './qrModels.json',
             });
 
             // Model Layer 지도에 그리기
@@ -55,7 +55,7 @@
                 source: 'model-test',
                 paint: {},
             });
-            
+
             console.log('test: models.ts');
         }
         init();

@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <link rel="icon" href="../dabeeo_ci_symbol.png" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>map option</title>
+    </head>
+    <link rel="stylesheet" href="../styles/styles.css" />
+    <body>
+        <div id="map" class="map"></div>
+    </body>
+    <script type="text/javascript" src="https://assets.dabeeomaps.com/upload/library/dabeeomaps-4.0-pre-release.js"></script>
+    <script>
+        async function init() {
+            const dabeeoMaps = new dabeeo.Maps();
+            //mapDataOption
+            const mapDataOption = {
+                clientId: '75hb8YSnAokb-sZ04aDR91',
+                clientSecret: '0f7ad84f160c7b3fd1849a7920af718b',
+            };
+            //mapData 가져오기
+            mapData = await dabeeoMaps.getMapData(mapDataOption);
+            const mapContainer = document.getElementById('map');
+            map = await dabeeoMaps.showMap(mapContainer, {}, mapData);
+
+            //test code begins
+            /************************ API 샘플 및 사용 예제 요약  *****************************/
+
+            dataMapInfoTest(mapData);
+            dataFloorTest(mapData); // floor 관련 코드
+            dataLanguageTest(mapData); // language 관련 코드
+            dataPoiTest(mapData); // poi 관련 코드
+            dataObjectTest(mapData, map); // object 관련 코드
+            dataGroupTest(mapData); // groupCode 관련 코드
+            dataMapFloorDataLoad(mapData); // floorData load 관련 코드
+
+            //test code ends
+            console.log(`test: [dabeeoMapData]`);
+        }
+        function dataMapInfoTest(mapData) {
+            //mapData의 지도 속성 정보 가져오기
+            console.log(`지도 속성 정보: ${mapData.mapInfo.address}`);
+        }
+
+        async function dataMapFloorDataLoad(mapData) {
+            const lists = mapData.mapInfo.floors.map((v) => {
+                return v.id;
+            });
+            console.log('층 id 리스트:', lists);
+
+            await mapData.getFloorData('FL-t4vqgyek3jnb8146'); // 입력한 floor data 정보 load
+            console.log('FL-t4vqgyek3jnb8146 층의 object data ', mapData.dataObject.getObjects());
+
+            //전체 층 데이터 가져오기
+            await mapData.getFloorData(lists); // floorData array data load
+            console.log('모든 층의 object data ', mapData.dataObject.getObjects());
+        }
+
+        // floor 관련 메소드
+        function dataFloorTest(mapData) {
+            console.log('Floor Info: ', mapData.dataFloor.getFloors()); // 현재 지도의 모든 floor 정보 반환
+            console.log('default Floor: ', mapData.dataFloor.getDefaultFloor()); // 현재 지도 디폴트 층의 정보 반환
+            console.log('입력받은 층이름이 title에 포함된 모든 층 정보: ', mapData.dataFloor.find({ title: '11F' })); // title을 포함하고 있는 모든 층 정보 반환.
+            console.log('입력받은 floorId의 정보를 가진 층 정보: ', mapData.dataFloor.find({ id: 'FL-t4vqgyek3jnb8146' })); // Id의 floor data를 반환.
+        }
+
+        // language 관련 메소드
+        function dataLanguageTest(mapData) {
+            console.log('Language Info: ', mapData.dataLanguage.getLanguage()); // 현재 지도의 모든 language 정보 반환
+            console.log('default language: ', mapData.dataLanguage.getDefaultLanguage()); // 현재 지도에 적용된 language 정보 반환
+        }
+
+        // poi 관련 메소드
+        function dataPoiTest(mapData) {
+            console.log('poi data: ', mapData.dataPoi.getPois()); // poi data 가져오기
+            // option을 입력하지 않을 경우 default : title
+            console.log('find poi by title: ', mapData.dataPoi.find({ title: '실' })); // 1. title로 찾을 경우
+            console.log('find poi by id: ', mapData.dataPoi.find({ id: 'PO-9InVzIGv20417' })); // 2. id로 찾을 경우
+            console.log('find poi by floorId: ', mapData.dataPoi.find({ floorId: 'FL-t4vqgyek3jnb8146' })); // 3. floorId로 찾을 경우
+            console.log('find poi by groupCode: ', mapData.dataPoi.find({ groupCode: 'A1-12' })); // 4. groupCode로 찾을 경우
+        }
+
+        // object 관련 메소드
+        async function dataObjectTest(mapData, map) {
+            // 확인할 object가 존재하는 층의 ID를 넣어 object list를 초기화.
+            console.log('object data ', mapData.dataObject.getObjects('FL-t4vqgyek3jnb8146'));
+            // option을 입력하지 않을 경우 default : title로 지정
+            console.log('find object by title: ', mapData.dataObject.find({ title: '실' })); // 1. title로 찾을 경우
+            console.log('find object by id: ', mapData.dataObject.find({ id: 'OB-aN7fGeVoze1959' })); // 2. id로 찾을 경우
+            console.log('find object by floorId: ', mapData.dataObject.find({ floorId: 'FL-t4vqgyek3jnb8146' })); // 3. floorId로 찾을 경우
+            console.log('find object by GroupCode: ', mapData.dataObject.find({ groupCode: 'A1-1' })); // 4. groupCode로 찾을 경우
+
+            // 여러 개의 오브젝트에 대한 중심 좌표값을 반환한다.
+            const objectCenter = mapData.dataObject.getObjectsCenter([
+                'OB-3Uf1pIZXd2409', // 여자화장실
+                'OB-mxanpdYA1T2410', // 남자화장실
+                'OB-mKv9s-1jA41961', // 회의실1
+            ]);
+            console.log('mapData.dataObject.getObjectsCenter() 에 대한 결과값', objectCenter);
+            if (objectCenter) await map.markers.set({ marker: [{ x: objectCenter.x, y: objectCenter.y }] });
+        }
+
+        // groupCode 관련 메소드
+        function dataGroupTest(mapData) {
+            console.log('groupcode data: ', mapData.dataGroupCode.getCodes()); // 현재 맵의 group code data를 반환합니다.
+            console.log('하위 group code: ', mapData.dataGroupCode.findChild('A1')); // 1. 입력받은 code의 하위 group code들 반환
+            console.log('모든 하위 group code: ', mapData.dataGroupCode.findAllChild('A1')); // 2. 입력받은 code의 모든 하위 group code들 반환
+            console.log('부모 group code: ', mapData.dataGroupCode.findParent('A1-1')); // 3. 입력받은 code의 부모 group code 반환
+            console.log('최상위 group code: ', mapData.dataGroupCode.findRootParent('A1-1')); // 4. 입력받은 code의 최상위 부모 group code 반환
+            console.log('모든 root code: ', mapData.dataGroupCode.findAllRoot()); // 5. 현재 맵의 모든 root parent들을 반환합니다.
+            console.log('현재 지도의 모든 group code list: ', mapData.dataGroupCode.findAll()); // 6. 현재 맵의 모든 code를 반환합니다.
+        }
+        init();
+    </script>
+</html>

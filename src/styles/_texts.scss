@@ -33,18 +33,19 @@ $color: #000;
     .texts {
         margin-top: 10px;
         font-size: 15px;
+        line-height: 1.5 * $fontSize;
     }
 
     .code {
         width: 90%;
         overflow: auto;
         overflow-wrap: break-word;
-        font-size: 1 * $fontSize;
+        font-size: 0.9 * $fontSize;
         display: block;
-        background-color: #F6F8FA;
+        background-color: #f6f8fa;
         color: $color;
         padding: 20px;
-        line-height: 1.15 * $fontSize;
+        line-height: 1.2 * $fontSize;
         margin-bottom: 20px;
 
         span {

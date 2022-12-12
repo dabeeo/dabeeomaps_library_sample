@@ -6,7 +6,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>heatmap</title>
     </head>
-    <link rel="stylesheet" href="../styles/styles.css">
+    <link rel="stylesheet" href="../styles/styles.css" />
     <body>
         <div id="map" class="map"></div>
     </body>
@@ -50,7 +50,7 @@
             async function overlayAddSourceTest(params) {
                 const overlaySourceOption = {
                     type: 'geojson',
-                    data: 'https://assets.dabeeomaps.com/upload/geojson/heatmap.geojson',
+                    data: './heatmap.geojson',
                 };
                 await map.overlay.addSource('heatmap-test', overlaySourceOption); // Overlay 데이터 저장
             }

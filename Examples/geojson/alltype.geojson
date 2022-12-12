@@ -1,0 +1,136 @@
+{
+    "type": "FeatureCollection",
+    "features": [
+        {
+            "type": "Feature",
+            "properties": {
+                "color": "#21fffb"
+            },
+            "geometry": {
+                "type": "MultiPolygon",
+                "coordinates": [
+                    [
+                        [
+                            [1000, 1000],
+                            [2000, 1000],
+                            [2000, 500],
+                            [1000, 500]
+                        ]
+                    ],
+                    [
+                        [
+                            [4000, 2000],
+                            [4000, 700],
+                            [5400, 700],
+                            [5400, 2000]
+                        ],
+                        [
+                            [5000, 1000],
+                            [4500, 1000],
+                            [4500, 1500],
+                            [5000, 1500]
+                        ]
+                    ]
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "color": "#dd01ff"
+            },
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [
+                    [
+                        [3500, 1000],
+                        [3500, 2500],
+                        [2000, 2500],
+                        [2000, 2000],
+                        [3500, 2000]
+                    ],
+                    [
+                        [2500, 2100],
+                        [3000, 2400],
+                        [3000, 2100],
+                        [2500, 2100]
+                    ]
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "size": 20,
+                "color": "#ff0000"
+            },
+            "geometry": {
+                "coordinates": [1000, 1000],
+                "type": "Point"
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "size": 15,
+                "color": "#ffff00"
+            },
+            "geometry": {
+                "coordinates": [2000, 1000],
+                "type": "Point"
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "size": 25,
+                "color": "#0000ff"
+            },
+            "geometry": {
+                "type": "MultiPoint",
+                "coordinates": [
+                    [3000, 1000],
+                    [3000, 1500]
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "color": "#ff8271",
+                "lineWidth": 40
+            },
+            "geometry": {
+                "type": "MultiLineString",
+                "coordinates": [
+                    [
+                        [2000, 1000],
+                        [2000, 2000],
+                        [3000, 2000]
+                    ],
+                    [
+                        [5000, 2000],
+                        [4000, 2000],
+                        [4000, 1000],
+                        [3000, 1000]
+                    ]
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "color": "#00ff00",
+                "lineWidth": 30
+            },
+            "geometry": {
+                "type": "LineString",
+                "coordinates": [
+                    [3000, 800],
+                    [1000, 800],
+                    [1000, 2000]
+                ]
+            }
+        }
+    ]
+}

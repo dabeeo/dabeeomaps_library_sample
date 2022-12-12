@@ -2,10 +2,10 @@ import styles from '../GetText/GetText.module.scss';
 
 const MapContextText = (
     <div className={styles.getStartedText}>
-        <div className={styles.title}>MapContext</div>
+        <div className={styles.title}>지도 컨텍스트</div>
         <div className={styles.miniTitle}>그려진 맵에 대한 각종 정보를 가져오거나 제어를 할 수 있습니다.</div>
         <p></p>
-        <div className={styles.texts}>현재 표출되고 있는 층에 대한 정보를 얻을 수 있습니다.</div>
+        <div className={styles.texts}>현재 표출되고 있는 층에 대한 정보를 가져옵니다.</div>
         <pre>
             <code className={styles.code}>map.context.getCurrentFloor();</code>
         </pre>
@@ -35,7 +35,8 @@ const MapContextText = (
         </pre>
 
         <div className={styles.texts}>
-            지도화면을 이미지로 다운받습니다. 해상도를 높게 설정한 경우 메모리가 부족하여 이미지가 제대로 다운받지 못할 수 있습니다. 알맞은 해상도를 설정하세요{' '}
+            지도화면을 이미지로 다운받습니다. 해상도를 옵션으로 설정해줄 수 있습니다. <br />
+            해상도를 높게 설정한 경우 메모리가 부족하여 이미지가 제대로 다운받지 못할 수 있습니다. 알맞은 해상도를 설정하세요.
         </div>
         <pre>
             <code className={styles.code}>
