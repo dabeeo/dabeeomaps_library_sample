@@ -11,4 +11,8 @@ export const releaseNoteData = [
         title: '04.08.01',
         content: ['2022.12.20', 'model-load-complete 커스텀 이벤트 추가'],
     },
+    {
+        title: '04.08.02',
+        content: ['2022.12.22', 'showByCode, hideByCode 오류 수정'],
+    },
 ];
