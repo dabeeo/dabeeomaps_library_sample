@@ -7,7 +7,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Navigation</title>
     </head>
-    <link rel="stylesheet" href="../styles/styles.css">
+    <link rel="stylesheet" href="../styles/styles.css" />
     <body>
         <div class="container">
             <button type="button" class="button-menu">floor</button>
@@ -19,8 +19,8 @@
             <button type="button" class="button-menu" name="clear">clear route</button>
             <button type="button" class="button-menu" name="start">start animation</button>
             <button type="button" class="button-menu" name="stop">stop animation</button>
-            <div name="naviList" style="display: none" class="naviList"></div>
         </div>
+        <div class="container5" name="naviList"></div>
         <div id="map" class="map"></div>
     </body>
     <script type="text/javascript" src="https://assets.dabeeomaps.com/upload/library/dabeeomaps-4.0-pre-release.js"></script>
@@ -112,6 +112,9 @@
 
         function initRouteEvent(naviResponse) {
             document.querySelector("[name='set']").addEventListener('click', function () {
+                map.routeSimulation.clear();
+                const element = document.querySelector("[name='naviList']");
+                element.innerHTML = '';
                 setRoute(naviResponse);
                 showRouteInfo(naviResponse);
             });
@@ -119,7 +122,6 @@
             document.querySelector("[name='clear']").addEventListener('click', function () {
                 map.routeSimulation.clear();
                 const element = document.querySelector("[name='naviList']");
-                element.style.display = 'none';
                 element.innerHTML = '';
             });
 
@@ -133,15 +135,15 @@
         }
         function showRouteInfo(naviResponse) {
             const element = document.querySelector("[name='naviList']");
-            element.style.display = 'block';
 
             // navigation list 버튼 추가
             console.log('NavigationResponse.navigationList 에 대한 결과값', naviResponse.recommendation.navigationList);
             naviResponse.recommendation.navigationList?.forEach((item, index, arr) => {
                 let { poiTitle, floorName, move, direction, distance, transportation } = getNavigationListData(item);
                 const button = document.createElement('button');
-                button.className = 'navi-path';
-                button.style.display = 'block';
+                button.type = 'button';
+                button.className = 'button-menu';
+                button.style.width = '400px';
 
                 if (move) button.onclick = move;
                 if (poiTitle === undefined) poiTitle = '';
@@ -151,8 +153,6 @@
                     button.textContent = `${poiTitle}(${floorName})에서 ${transportation}(으)로 이동`;
                 }
                 if (index === arr.length - 1) button.textContent = `${poiTitle}(${floorName}) 도착 `;
-
-                // button.style.cssText = 'width: 150px; height: 2rem;';
 
                 element.appendChild(button);
             });

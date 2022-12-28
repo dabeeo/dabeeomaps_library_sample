@@ -4,7 +4,8 @@ body {
 .container,
 .container2,
 .container3,
-.container4 {
+.container4,
+.container5 {
     top: 20px;
     position: absolute;
     display: flex;
@@ -28,10 +29,14 @@ body {
     right: 655px;
 }
 
+.container5 {
+    left: 10px;
+}
+
 .button-menu {
     width: 201px;
     height: 24px;
-    background-color: #F5F6F9;;
+    background-color: #f5f6f9;
     border: 1px solid #ddd;
     text-align: center;
     line-height: 16px;
