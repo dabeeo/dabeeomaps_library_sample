@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>tag sample</title>
+        <link rel="stylesheet" href="styles.css" />
+        <style>
+            .tag-container {
+                z-index: 10;
+                border-radius: 10px;
+                outline: 1px solid gray;
+                padding: 10px;
+                text-align: center;
+                background-color: rgba(250, 250, 250, 0.8);
+            }
+            .tag-container:hover {
+                z-index: 200 !important;
+            }
+            .tag-container div {
+                color: red;
+            }
+        </style>
+    </head>
+
+    <body>
+        <div class="inputContainer">
+            <div class="delete">delete</div>
+        </div>
+        <div id="viewport" class="viewport"></div>
+    </body>
+    <script type="text/javascript" src="https://assets.dabeeomaps.com/upload/library/dabeeomaps-4.0-pre-release.js"></script>
+
+    <script>
+        window.onload = function () {
+            const dabeeoMaps = new dabeeo.Maps();
+            dabeeoMaps
+                .getMapData({
+                    // name: '이케아',
+                    // id: 'MP-1iepzl36f94xl2305',
+                    clientId: '6cHpIJoJknv9ZbsaLRN2Dj',
+                    clientSecret: 'ad980b99be38dbd033aac1c757115064',
+                })
+                .then(async (mapData) => {
+                    const mapOption = Object.assign({});
+                    const mapContainer = document.getElementById('viewport');
+                    const map = await dabeeoMaps.showMap(mapContainer, mapOption, mapData);
+                    let item = null;
+
+                    mapContainer?.addEventListener('on-mouse-click', (e) => {
+                        console.log('click');
+                        createTag(e.detail.x, e.detail.y);
+                    });
+                    document.querySelector('.delete').addEventListener('click', function () {
+                        map.tag.clearAll();
+                        // if (item)  map.tag.clear(item.id);
+                        item = null;
+                    });
+
+                    function createTag(x, y) {
+                        const tag = document.createElement('div');
+                        tag.className = 'tag-container';
+
+                        createChildTag(tag, '침구류 ', '#187975');
+                        createChildTag(tag, '욕실용품', '#bf1f71');
+                        createChildTag(tag, '벽장식', '#121347');
+
+                        const option = {
+                            position: { x: x, y: y, z: 100 },
+                            tag: tag,
+                            pos: 'LEFT',
+                            floorId: 'FL-1hbm0ydiamtkg2411',
+                        };
+
+                        item = map.tag.set(option);
+                        tag.id = item.id;
+                        console.log(item);
+
+                        tag.addEventListener('click', (e) => {
+                            console.log('clicked tag');
+                            map.tag.clear(tag.id);
+                        });
+                    }
+                    function createChildTag(tag, text, color) {
+                        const childTag = document.createElement('div');
+                        childTag.style.color = color;
+                        childTag.innerHTML = text;
+                        tag.appendChild(childTag);
+                    }
+                });
+        };
+    </script>
+</html>
