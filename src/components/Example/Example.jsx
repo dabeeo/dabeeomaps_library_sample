@@ -23,6 +23,7 @@ const Example = () => {
         'models',
         'geojson',
         'models_video_ver',
+        'modelKbg',
     ];
     const [id, setId] = useState('getStarted');
     console.log('Example ', id);

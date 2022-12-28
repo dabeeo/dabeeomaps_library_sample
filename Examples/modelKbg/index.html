@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>models</title>
+        <style>
+            body {
+                margin: 0;
+            }
+            .map {
+                width: 100vw;
+                height: 100vh;
+            }
+        </style>
+    </head>
+
+    <body>
+        <div id="map" class="map"></div>
+    </body>
+    <script type="text/javascript" src="https://assets.dabeeomaps.com/upload/library/dabeeomaps-4.0-pre-release.js"></script>
+    <script>
+        async function init() {
+            const dabeeoMaps = new dabeeo.Maps();
+
+            //mapDataOption 정의
+            const mapDataOption = {
+                // 지도명 : [GPS]서촌,경복궁,북촌
+                // mapId : MP-1jecp9y2less02323
+                clientId: 'fB7UpLmXkdeaI65Fwmz786',
+                clientSecret: '26322b6cf77edd20afbd01e7b61ab10d',
+            };
+
+            //mapData 가져오기
+            const mapData = await dabeeoMaps.getMapData(mapDataOption);
+            console.log(mapData);
+
+            //mapContainer
+            const mapContainer = document.getElementById('map');
+
+            //mapOption 정의
+            const mapOption = Object.assign({
+                // mergeMesh: true,
+            });
+
+            //mapOption으로 mapContainer에 map 그리기
+            const map = await dabeeoMaps.showMap(mapContainer, mapOption, mapData);
+
+            // Model Layer 데이터 저장
+            await map.overlay.addSource('model-test', {
+                type: 'json',
+                // data: './models/kbg/kbg_models2.json',
+                data: 'https://assets.dabeeomaps.com/upload/models/kbg/kbg_models.json',
+            });
+
+            // Model Layer 지도에 그리기
+            await map.overlay.addLayer({
+                type: 'model',
+                source: 'model-test',
+                paint: {},
+            });
+
+            console.log('test: models.ts');
+        }
+        init();
+    </script>
+</html>
