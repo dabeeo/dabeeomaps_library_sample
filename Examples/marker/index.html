@@ -7,7 +7,7 @@
         <title>Document</title>
         <!-- <link rel="stylesheet" href="style.css"> -->
     </head>
-    <link rel="stylesheet" href="../styles/styles.css">
+    <link rel="stylesheet" href="../styles/styles.css" />
     <body>
         <div class="inputContainer">
             <div class="container2">
@@ -16,10 +16,10 @@
             </div>
 
             <div class="container">
-                <input type="text" placeholder="x" class="pointX" />
-                <input type="text" placeholder="y" class="pointY" />
-                <button type="button" class="inline-input" name="set">set</button>
-                <button type="button" class="inline-input" name="clear">clear</button>
+                <input type="text" class="inline-input" name="pointX" placeholder="x좌표 (예: 2000)" />
+                <input type="text" class="inline-input" name="pointY" placeholder="y좌표 (예: 1000)" />
+                <button type="button" class="button-menu" name="set">Set</button>
+                <button type="button" class="button-menu" name="clear">Clear</button>
             </div>
         </div>
         <div id="viewport" class="map"></div>
@@ -56,10 +56,10 @@
                     });
 
                     document.querySelector("[name='set']").addEventListener('click', function () {
-                        const x = document.querySelector('.pointX').value ? Number(document.querySelector('.pointX').value) : 1000;
-                        const y = document.querySelector('.pointY').value ? Number(document.querySelector('.pointY').value) : 1000;
+                        const x = document.querySelector("[name='pointX']").value ? Number(document.querySelector("[name='pointX']").value) : 1000;
+                        const y = document.querySelector("[name='pointY']").value ? Number(document.querySelector("[name='pointY']").value) : 1000;
                         const iconOpts = {
-                            iconUrl: 'icon_mylocation.svg',
+                            // iconUrl: 'icon_mylocation.svg',
                             width: 40,
                             height: 40,
                             positionZ: 400,
@@ -80,8 +80,8 @@
                     });
 
                     document.querySelector("[name='clear']").addEventListener('click', function () {
-                        map.markers.clear(markerId);
-                        // map.markers.clearAll();
+                        // map.markers.clear(markerId);
+                        map.markers.clearAll();
                     });
 
                     function initFloorMenu() {

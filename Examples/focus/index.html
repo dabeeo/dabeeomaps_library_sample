@@ -5,159 +5,128 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>focus camera sample</title>
-        <!-- <link rel="stylesheet" href="style.css"> -->
-        <style>
-            .function {
-                text-align: center;
-            }
-
-            .function:hover {
-                background-color: gold;
-            }
-        </style>
+        <link rel="stylesheet" href="../styles/styles.css" />
     </head>
-    <link rel="stylesheet" href="../styles/left.css">
     <body>
         <div class="container">
-            <button type="button" class="button-menu">floor</button>
-            <select type="text" class="inline-input" name="floor"></select>
+            <button type="button" class="button-menu" name="focusToObjects">Focus to Objects</button>
+            <button type="button" class="button-menu" name="focusToAllObjects">Focus to All Objects</button>
+            <button type="button" class="button-menu" name="focusToPois">Focus to Pois</button>
+            <button type="button" class="button-menu" name="focusToAllPois">Focus to All Pois</button>
+            <button type="button" class="button-menu" name="focusToNavigation">Focus to navigation</button>
         </div>
         <div id="map" class="map"></div>
-
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/dat-gui/0.7.9/dat.gui.min.js"></script>
-        <script type="text/javascript" src="https://assets.dabeeomaps.com/upload/library/dabeeomaps-4.0-pre-release.js"></script>
-
-        <script>
-            const dabeeoMaps = new dabeeo.Maps();
-            let mapData = null;
-            let map = null;
-            let mapContainer = null;
-            let objectIds = [];
-
-            const gui = new dat.GUI();
-
-            const mapOptionDefault = {
-                camera: '3d',
-                controlOption: {
-                    zoom: 20, //초기줌
-                },
-            };
-            async function init() {
-                mapData = await dabeeoMaps.getMapData({
-                    clientId: '75hb8YSnAokb-sZ04aDR91',
-                    clientSecret: '0f7ad84f160c7b3fd1849a7920af718b',
-                });
-
-                mapContainer = document.getElementById('map');
-                map = await dabeeoMaps.showMap(mapContainer, mapOptionDefault, mapData);
-
-                initFloorMenu();
-                initFloorEvent();
-                initFocus();
-                initObjectClickEvent();
-            }
-
-            function initFloorMenu() {
-                //floor data
-                const dataFloor = mapData.dataFloor;
-                const floorInfo = dataFloor.getFloors();
-                const mapDefaultFloor = dataFloor.getDefaultFloor();
-                let element = document.querySelector("[name='floor']");
-
-                for (const floor of floorInfo) {
-                    let newOption = document.createElement('option');
-                    newOption.value = floor.id;
-                    newOption.appendChild(document.createTextNode(floor.name[0].text));
-                    element.appendChild(newOption);
-                }
-                element.value = mapDefaultFloor.id;
-            }
-
-            function initFloorEvent() {
-                const optionDefaultFloor = map.context.getMapOptions().floor;
-                let element = document.querySelector("[name='floor']");
-                element.value = optionDefaultFloor;
-                element.addEventListener('change', async function (e) {
-                    const floor = e.target.value;
-                    await map.context.changeFloor(floor);
-                    objectIds = [];
-                });
-            }
-
-            function initFocus() {
-                const focusTo = (value) => {
-                    if (settingFocusTo.type === 'OBJECT' && objectIds.length == 0) {
-                        alert('click one or multiple objects to focus ');
-                        return;
-                    }
-                    const focusToOption = {
-                        focus: {
-                            type: settingFocusTo.type,
-                            ids: objectIds,
-                        },
-                        transition: settingFocusTo.transition,
-                        padding: {
-                            top: settingFocusTo.top,
-                            left: settingFocusTo.left,
-                            bottom: settingFocusTo.bottom,
-                            right: settingFocusTo.right,
-                        },
-                    };
-                    console.log(focusToOption);
-                    map.control.focusTo(focusToOption);
-                };
-                const settingFocusTo = {
-                    transition: false,
-                    type: 'OBJECT_ALL',
-                    top: 0,
-                    left: 0,
-                    bottom: 0,
-                    right: 0,
-                    focusTo: focusTo,
-                    // 'clearObjects' :clearObejcts
-                };
-                const focusToMenu = gui.addFolder('Focus To');
-                focusToMenu.open();
-                focusToMenu.add(settingFocusTo, 'transition');
-                focusToMenu.add(settingFocusTo, 'type', ['OBJECT_ALL', 'OBJECT']);
-                focusToMenu.add(settingFocusTo, 'top', 0, 2000);
-                focusToMenu.add(settingFocusTo, 'left', 0, 2000);
-                focusToMenu.add(settingFocusTo, 'bottom', 0, 2000);
-                focusToMenu.add(settingFocusTo, 'right', 0, 2000);
-                focusToMenu.add(settingFocusTo, 'focusTo');
-            }
-
-            function initObjectClickEvent() {
-                const updateOption = {
-                    activeDest: true,
-                    color: '#00ffff',
-                    opacity: 0.3,
-                    isAnimate: true,
-                    duration: 1200,
-                    isRepeat: true,
-                    isYoyo: false,
-                    // ids: [
-                    //     'OB-aN7fGeVoze1959', // 플랫폼사업부 회의실
-                    //     'OB-mxanpdYA1T2410', // 남자화장실
-                    //     'PO-JQ4mw4YeT4536', // 여자화장실
-                    // ],
-                };
-
-                mapContainer?.addEventListener('object-click', function (e) {
-                    console.log('object click ', e.detail);
-                    let id = e.detail[0].id;
-                    console.log('id : ', id);
-
-                    objectIds.push(id);
-                    console.log(objectIds);
-                    const option = { ...updateOption, ids: [id] };
-                    console.log(option);
-                    map.objects.set(option);
-                });
-            }
-
-            //event
-            init();
-        </script>
     </body>
+
+    <script type="text/javascript" src="https://assets.dabeeomaps.com/upload/library/dabeeomaps-4.0-pre-release.js"></script>
+
+    <script>
+        const dabeeoMaps = new dabeeo.Maps();
+        let mapData = null;
+        let map = null;
+        let mapContainer = null;
+
+        const mapOptionDefault = {
+            camera: '3d',
+            controlOption: {
+                zoom: 20, //초기줌
+            },
+        };
+        async function init() {
+            mapData = await dabeeoMaps.getMapData({
+                clientId: '75hb8YSnAokb-sZ04aDR91',
+                clientSecret: '0f7ad84f160c7b3fd1849a7920af718b',
+            });
+
+            mapContainer = document.getElementById('map');
+            map = await dabeeoMaps.showMap(mapContainer, mapOptionDefault, mapData);
+
+            initFocus(map);
+        }
+
+        function initFocus(map) {
+            document.querySelector("[name='focusToObjects']").addEventListener('click', function () {
+                focusToObjects(map);
+            });
+            document.querySelector("[name='focusToAllObjects']").addEventListener('click', function () {
+                focusToAllObjects(map);
+            });
+            document.querySelector("[name='focusToPois']").addEventListener('click', function () {
+                focusToPois(map);
+            });
+            document.querySelector("[name='focusToAllPois']").addEventListener('click', function () {
+                focusToAllPois(map);
+            });
+            document.querySelector("[name='focusToNavigation']").addEventListener('click', function () {
+                focusToNavigation(map);
+            });
+        }
+
+        function focusToObjects(map) {
+            map.control.focusTo({
+                focus: {
+                    type: 'OBJECT',
+                    ids: [
+                        'OB-aN7fGeVoze1959', // 플랫폼사업부 회의실
+                        'OB-mxanpdYA1T2410', // 남자화장실
+                        'PO-JQ4mw4YeT4536', // 여자화장실
+                    ],
+                },
+                transition: true,
+                padding: { top: 100, left: 100, bottom: 100, right: 100 },
+            });
+        }
+        function focusToAllObjects(map) {
+            map.control.focusTo({
+                focus: {
+                    type: 'OBJECT_ALL',
+                },
+                transition: true,
+                padding: { top: 100, left: 100, bottom: 100, right: 100 },
+            });
+        }
+        function focusToPois(map) {
+            map.control.focusTo({
+                focus: {
+                    type: 'POI',
+                    ids: ['PO-4JvSQCWHC2270', /* 남자화장실 */ 'PO-JQ4mw4YeT4536' /* 여자화장실 */],
+                },
+                transition: true,
+                padding: { top: 100, left: 100, bottom: 100, right: 100 },
+            });
+        }
+        function focusToAllPois(map) {
+            map.control.focusTo({
+                focus: {
+                    type: 'POI_ALL',
+                },
+                transition: true,
+                padding: { top: 100, left: 100, bottom: 100, right: 100 },
+            });
+        }
+        async function focusToNavigation(map) {
+            const naviResponse = await mapData.getRoute({
+                origin: {
+                    poiId: 'PO-4JvSQCWHC2270', // 남자화장실 (11층)
+                    floorId: 'FL-t4vqgyek3jnb8146',
+                },
+                destination: {
+                    poiId: 'PO-Du95g7HAL1967', // 플랫폼사업부
+                    floorId: 'FL-t4vqgyek3jnb8146',
+                },
+                type: ['recommendation'],
+            });
+            await map.routeSimulation.set(naviResponse.recommendation);
+
+            map.control.focusTo({
+                focus: {
+                    type: 'NAVIGATION',
+                },
+                transition: true,
+                padding: { top: 500, left: 500, bottom: 500, right: 500 },
+            });
+        }
+
+        init();
+    </script>
 </html>

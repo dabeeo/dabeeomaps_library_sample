@@ -42,10 +42,11 @@ body {
     line-height: 16px;
     outline: none;
     font-weight: bold;
+    margin-bottom: 5px;
 }
 
 .inline-input {
-    margin-top: 5px;
+    margin-bottom: 5px;
     outline: none;
     border: 1px solid #ddd;
     height: 24px;
