@@ -11,6 +11,8 @@ const Example = () => {
         'changeLanguage',
         'groupCode',
         'mapOption',
+        'objects',
+        'pois',
         'controls',
         'focus',
         'mapContext',
