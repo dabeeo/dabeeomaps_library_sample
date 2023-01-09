@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>tiling</title>
+        <link rel="stylesheet" href="style.css" />
+    </head>
+    <body>
+        <div id="map" class="map"></div>
+    </body>
+    
+    <script type="text/javascript" src='https://assets.dabeeomaps.com/upload/library/dabeeomaps-4.0-pre-release.js'></script>
+    <script>
+        async function init() {
+            const dabeeoMaps = new dabeeo.Maps();
+
+            // mapDataOption 정의
+            const mapDataOption = {
+                // 사무실 지도
+                // clientId: '75hb8YSnAokb-sZ04aDR91',
+                // clientSecret: '0f7ad84f160c7b3fd1849a7920af718b',
+                // 잠실역 주변지도
+                // clientId: '7Tf4GcFx4jgb1yPqM2c2Hx',
+                // clientSecret: 'bbcfca4d5e6f844698687b3ab3c66176',
+                // 경복궁 지도
+                // clientId: 'fB7UpLmXkdeaI65Fwmz786',
+                // clientSecret: '26322b6cf77edd20afbd01e7b61ab10d',
+                // 경주 지도
+                clientId: '8sQFPWruAUGbcZt7OyxFX0',
+                clientSecret: '120ad2959d5533e44cc24905d8af0da4',
+            };
+        
+            // mapData 가져오기
+            const mapData = await dabeeoMaps.getMapData(mapDataOption);
+            const mapContainer = document.getElementById('map');
+            const mapOption = {
+                camera: '3d',
+                enableTiling: true,
+            };
+            const map = await dabeeoMaps.showMap(mapContainer, mapOption, mapData);
+            console.log('tiling test');
+        }
+        init();
+    </script>
+</html>
