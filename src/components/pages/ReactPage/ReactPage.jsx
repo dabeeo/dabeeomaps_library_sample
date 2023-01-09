@@ -22,7 +22,6 @@ const ReactText = (
             <br />
             해당 소스는 default로 library import 형식으로 되어있으며 원하실 경우 public의 index.html에서 cdn링크로 작업을 하실 수도 있습니다.
         </p>
-        <div></div>
         <pre>
             <code className={styles.code}>
                 {`useEffect(() => {
@@ -38,6 +37,7 @@ const ReactText = (
     const mapOption = {};
     const mapContainer = document.getElementById("map");
     const map = await dabeeoMaps.showMap(mapContainer, mapOption, mapData);
+    setMapInfo(map);
   }
 
   return (
@@ -46,6 +46,20 @@ const ReactText = (
     </div>
   );
 `}
+            </code>
+        </pre>
+        <div className={styles.texts}>삭제하실땐 다음과 같이 실행하시면 됩니다.</div>
+        <div className={styles.texts}>gqu 메모리 사용을 초기화하기 위해 tag도 삭제를 하셔야합니다.</div>
+        <pre>
+            <code className={styles.code}>
+                {`function removeMap() {
+    const mapContainer = document.querySelector('.map');
+    mapInfo.context.cleanup();
+    if (mapContainer) {
+        mapContainer.parentNode.removeChild(mapContainer);
+    }
+    setMapInfo(null);
+}`}
             </code>
         </pre>
     </div>
