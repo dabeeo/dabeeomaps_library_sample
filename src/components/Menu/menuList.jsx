@@ -24,6 +24,7 @@ import HeatMapText from '../pages/HeatMap/HeatMapText';
 import { GeoJsonText } from '../pages/GeoJson/GeoJsonText';
 import { ModelText } from '../pages/Model/ModelText';
 import Events from '../pages/Events/Events';
+import ReactText from '../pages/ReactPage/ReactPage';
 
 const menuList = [
     { id: 'getStarted', ko: '시작하기', en: 'Get Started', code: 'getStarted', koPage: textKo, enPage: textEn },
@@ -41,6 +42,7 @@ const menuList = [
     { id: 'geoJson', ko: 'GeoJson 올리기', en: 'Geojson', code: 'geojson', koPage: GeoJsonText, enPage: GeoJsonText },
     { id: 'model', ko: '3dModel 올리기', en: '3d model', code: 'models', koPage: ModelText, enPage: ModelText },
     { id: 'events', ko: '이벤트', en: 'Event', code: '', koPage: Events, enPage: Events },
+    { id: 'react', ko: 'React 사용', en: 'Using React', code: 'react', koPage: ReactText, enPage: ReactText },
 ];
 
 export default menuList;
