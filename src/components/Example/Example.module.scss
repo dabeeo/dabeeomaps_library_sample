@@ -11,7 +11,10 @@ a:active {
 .example {
     width: 100vw;
     height: 100vh;
-    overflow: hidden;
+    overflow-x: hidden;
+    overflow-y: hidden;
+
+    // overflow: hidden;
 
     .header {
         width: 100%;
@@ -24,20 +27,24 @@ a:active {
         justify-content: center;
         font-size: 1.5rem;
         font-weight: bold;
+        position: sticky;
     }
 
     .body {
         display: flex;
+        overflow-x: hidden;
+        overflow-y: hidden;
 
         .lists {
             width: 15%;
-            height: 100vh;
+            height: calc(100vh - 70px);
             font-size: 15px;
             display: flex;
             margin-right: 10px;
             flex-direction: column;
             border-right: 1px solid #e4e6ee;
-
+            overflow-y: auto;
+            overflow-x: hidden;
             .item {
                 margin-right: 50px;
                 width: 100%;
@@ -57,9 +64,11 @@ a:active {
             }
         }
         .code {
-            width: 100vw;
-            top: 100px;
-            height: calc(100vh-100px);
+            overflow-x: hidden;
+            overflow-y: hidden;
+            width: 90vw;
+            top: 70 px;
+            height: calc(100vh -100px);
         }
     }
 }

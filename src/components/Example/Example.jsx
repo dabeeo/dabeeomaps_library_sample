@@ -26,6 +26,8 @@ const Example = () => {
         'geojson',
         'models_video_ver',
         'modelKbg',
+        'tiling',
+        'tts',
     ];
     const [id, setId] = useState('getStarted');
     console.log('Example ', id);

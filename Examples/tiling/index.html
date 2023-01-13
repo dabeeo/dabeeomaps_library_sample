@@ -5,13 +5,13 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>tiling</title>
-        <link rel="stylesheet" href="style.css" />
+        <link rel="stylesheet" href="../styles/styles.css" />
     </head>
     <body>
         <div id="map" class="map"></div>
     </body>
-    
-    <script type="text/javascript" src='https://assets.dabeeomaps.com/upload/library/dabeeomaps-4.0-pre-release.js'></script>
+
+    <script type="text/javascript" src="https://assets.dabeeomaps.com/upload/library/dabeeomaps-4.0-pre-release.js"></script>
     <script>
         async function init() {
             const dabeeoMaps = new dabeeo.Maps();
@@ -31,7 +31,7 @@
                 clientId: '8sQFPWruAUGbcZt7OyxFX0',
                 clientSecret: '120ad2959d5533e44cc24905d8af0da4',
             };
-        
+
             // mapData 가져오기
             const mapData = await dabeeoMaps.getMapData(mapDataOption);
             const mapContainer = document.getElementById('map');
