@@ -33,15 +33,14 @@ const map = await dabeeoMaps.showMap(mapContainer, mapOption, mapData);
 
         <div className={styles.texts}>
             <br />
-            지도에 대한 기본 정보 속성을 가져올 때는 mapInfo를 사용하면 됩니다. 예를 들어 지도의 속성에 저장된 지도 정보를 가져오는 코드는 아래와 같습니다.
+            지도에 대한 기본 정보 속성을 가져올 때는 dataMapInfo를 사용하면 됩니다. 예를 들어 지도의 속성에 저장된 지도 정보 중 주소를 가져오는 코드는 아래와
+            같습니다.
         </div>
         <pre>
             <code className={styles.code}>
                 {`// 지도 속성에 저장된 주소 가져오기 
-mapData.mapInfo.address
+mapData.dataMapInfo.getAddress()
 
-// 지도명 가져오기 
-mapData.mapInfo.name
 `}
             </code>
         </pre>
