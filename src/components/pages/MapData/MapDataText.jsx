@@ -39,7 +39,7 @@ const map = await dabeeoMaps.showMap(mapContainer, mapOption, mapData);
         <pre>
             <code className={styles.code}>
                 {`// 지도 속성에 저장된 주소 가져오기 
-mapData.dataMapInfo.getAddress()
+mapData.dataMapInfo.mapInfo.address
 
 `}
             </code>

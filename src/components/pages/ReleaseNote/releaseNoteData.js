@@ -1,7 +1,14 @@
 export const releaseNoteData = [
     {
+        title: '04.13.01',
+        content: ['2023.01.27', 'scaleCm이 큰 지도에 대하여 2d상에서 일부 object와 poi가 안보이는 현상 해결'],
+    },
+    {
         title: '04.12.01',
-        content: ['2023.01.20', 'mapInfo 속성 가져올 때 직접 access하였음 mapData.mapInfo.address => method 통해 가능 mapData.dataMapInfo.getAddress()'],
+        content: [
+            '2023.01.20',
+            'mapInfo 속성 가져올 때 class 추가로 dataMapInfo class를 통하여 가져오도록 수정되었음. mapData.mapInfo.address => mapData.dataMapInfo.mapInfo.address',
+        ],
     },
     {
         title: '04.11.01',
