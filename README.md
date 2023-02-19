@@ -10,7 +10,7 @@ Examples 폴더에 다양한 예제가 있어서 이를 활용하면 쉽게 지�
 
 또한 직접 링크를 이용하여 사용할 수도 있습니다. 링크는 배포될 때마다 변경됩니다. 릴리즈 노트를 참고하세요.
 
--   API 링크 : [https://assets.dabeeomaps.com/upload/library/dabeeomaps-04.04.01.js](https://assets.dabeeomaps.com/upload/library/dabeeomaps-04.04.01.js)
+-   Release Note : https://api-sample.dabeeomaps.com/releaseNote
 
 가이드와 예제를 모아놓은 사이트입니다. 사용방법에 대해서는 아래 링크를 참고하세요.
 
