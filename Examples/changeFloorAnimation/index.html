@@ -6,12 +6,12 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>[floor animation]</title>
     </head>
-    <link rel="stylesheet" href="../styles/styles.css">
+    <link rel="stylesheet" href="../styles/styles.css" />
     <body>
         <div class="menu">
             <div class="container">
                 <button type="button" id="changeFloorAnimation" class="button-menu">층변경시 층변경 애니메이션</button>
-                <button type="button" id="simulationAnimation" class="button-menu" style="margin-top: 5px;">모의주행시 층변경 애니메이션</button>
+                <button type="button" id="simulationAnimation" class="button-menu" style="margin-top: 5px">모의주행시 층변경 애니메이션</button>
             </div>
         </div>
         <div id="map" class="map"></div>
@@ -42,17 +42,22 @@
             const mapOption = Object.assign({
                 // camera: '2d',
                 enableFloorMotion: true,
+                controlOption: {
+                    zoom: 19,
+                    rotate: 10,
+                    tilt: 30,
+                    // pan: {
+                    //     x: 2000,
+                    //     y: 0,
+                    //     z: 0,
+                    // },
+                },
             });
 
             // 11F - FL-t4vqgyek3jnb8146
 
             //mapOption으로 mapContainer에 map 그리기
             const map = await dabeeoMaps.showMap(mapContainer, mapOption, mapData);
-
-            document.body.addEventListener('keydown', async (e) => {
-                if (e.key === 'a') await changeFloorAnimationTest(); // 층 변경 애니메이션 테스트
-                if (e.key === 'd') await routeSimulationChangeFloorAnimationTest(); // 모의주행 중 층 변경 애니메이션 테스트
-            });
 
             document.body.querySelector('#changeFloorAnimation').addEventListener('click', async (e) => {
                 console.log('change');
@@ -72,7 +77,8 @@
             async function routeSimulationChangeFloorAnimationTest() {
                 const animOption = {
                     changeFloorDelay: 1000,
-                    speedRate: 50,
+                    speedRate: 15,
+                    zoom: 20,
                     removeIcon: false,
                     markerOptions: {
                         width: 30,
