@@ -11,13 +11,13 @@
     <body>
         <div id="map" class="map"></div>
         <div class="container">
-            <button type="button" id="map-name" class="button-menu">mapName</button>
-            <button type="button" id="floor-name" class="button-menu">floorName</button>
-            <button type="button" id="x" class="button-menu">floorName</button>
-            <button type="button" id="y" class="button-menu">floorName</button>
+            <button type="button" id="map-name" class="button-menu"></button>
+            <button type="button" id="floor-name" class="button-menu"></button>
+            <button type="button" id="x" class="button-menu"></button>
+            <button type="button" id="y" class="button-menu"></button>
         </div>
     </body>
-    <script type="text/javascript" src="https://assets.dabeeomaps.com/upload/library/dabeeomaps-4.0-pre-release.js"></script>
+    <script type="text/javascript" src= https://api-assets.dabeeomaps.com/upload/library/dabeeomaps-4.0-pre-release.js></script>
     <script>
         function getParam() {
             const params = new URLSearchParams(window.location.search);
@@ -34,7 +34,7 @@
             if (!clientId || !clientSecret || !floorName || !x || !y) {
                 alert(
                     '필요한 parameter가 없습니다. 아래와 같은 형식이어야 합니다\n' +
-                        'location/index.html?clientId=75hb8YSnAokb-sZ04aDR91&clientSecret=0f7ad84f160c7b3fd1849a7920af718b&floorName=2F&x=1000&y=1000',
+                        'location/?clientId=75hb8YSnAokb-sZ04aDR91&clientSecret=0f7ad84f160c7b3fd1849a7920af718b&floorName=2F&x=1000&y=1000',
                 );
                 return;
             }
@@ -58,14 +58,42 @@
             const mapOption = {
                 floor: floor[0].id,
                 camera: '2d',
+                controlOption: {
+                // zoom: 20, // 0~24
+                pan: {
+                    // 중심좌표, default는 지도 중심
+                    x: x,
+                    y: y,
+                },
+                // tilt: 30,
+            },
+
             };
             const mapContainer = document.getElementById('map');
             const map = await dabeeoMaps.showMap(mapContainer, mapOption, mapData);
             const option = {
                 // 현재층
-                marker: [{ x: x, y: y }],
+                marker: [
+                    {
+                        x: x,
+                        y: y,
+                        iconOption: {
+                            positionZ: 40, // 아이콘 z좌표값
+                            anchor: {
+                                // 아이콘 중심좌표값 (default값 x:0.5,y:0 )
+                                x: 0.5,
+                                y: 0,
+                            },
+                            // iconUrl: './assets/img_marker_blue-3x.png', // 아이콘 이미지. url적용안할시 default로 지정된 marker image 적용
+                            // width: 50, // marker 넓이값. default = marker image의 기본 width
+                            // height: 70, // marker 높이값. default = marker image의 기본 height
+                            visibleIcon: true, // marker를 보여줄지 말지 여부. default = true
+                        },
+                    },
+                ],
             };
-            await map.markers.set(option);
+            const result = await map.markers.set(option);
+            console.log(result);
         }
 
         init();
