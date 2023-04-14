@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <link rel="icon" href="../dabeeo_ci_symbol.png" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Get Started</title>
+    </head>
+    <link rel="stylesheet" href="../styles/styles.css" />
+    <body>
+        <div id="map" class="map"></div>
+        <div class="container">
+            <button type="button" id="map-name" class="button-menu">mapName</button>
+            <button type="button" id="floor-name" class="button-menu">floorName</button>
+            <button type="button" id="x" class="button-menu">floorName</button>
+            <button type="button" id="y" class="button-menu">floorName</button>
+        </div>
+    </body>
+    <script type="text/javascript" src="https://assets.dabeeomaps.com/upload/library/dabeeomaps-4.0-pre-release.js"></script>
+    <script>
+        function getParam() {
+            const params = new URLSearchParams(window.location.search);
+            const paramMap = {};
+            params.forEach((value, key) => {
+                paramMap[key] = value;
+            });
+            return paramMap;
+        }
+        async function init() {
+            const { clientId, clientSecret, floorName, x, y } = getParam();
+            const dabeeoMaps = new dabeeo.Maps();
+            console.log(clientId);
+            if (!clientId || !clientSecret || !floorName || !x || !y) {
+                alert(
+                    '필요한 parameter가 없습니다. 아래와 같은 형식이어야 합니다\n' +
+                        'location/index.html?clientId=75hb8YSnAokb-sZ04aDR91&clientSecret=0f7ad84f160c7b3fd1849a7920af718b&floorName=2F&x=1000&y=1000',
+                );
+                return;
+            }
+            //fetch a map data
+            const mapData = await dabeeoMaps.getMapData({
+                // clientId: '75hb8YSnAokb-sZ04aDR91',
+                // clientSecret: '0f7ad84f160c7b3fd1849a7920af718b',
+                clientId,
+                clientSecret,
+            });
+            const floor = mapData.dataFloor.find({ title: floorName });
+            if (!floor) {
+                alert('요청하신 floorName으로 된 층을 찾을 수가 없습니다.');
+                return;
+            }
+            document.querySelector('#floor-name').innerHTML = floor[0].name[0].text;
+            document.querySelector('#map-name').innerHTML = mapData.dataMapInfo.mapInfo.name;
+            document.querySelector('#x').innerHTML = `x 좌표: ${x}`;
+            document.querySelector('#y').innerHTML = `y 좌표: ${y}`;
+            // render a map
+            const mapOption = {
+                floor: floor[0].id,
+                camera: '2d',
+            };
+            const mapContainer = document.getElementById('map');
+            const map = await dabeeoMaps.showMap(mapContainer, mapOption, mapData);
+            const option = {
+                // 현재층
+                marker: [{ x: x, y: y }],
+            };
+            await map.markers.set(option);
+        }
+
+        init();
+    </script>
+</html>
