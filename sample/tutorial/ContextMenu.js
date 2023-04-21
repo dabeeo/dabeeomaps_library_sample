@@ -29,7 +29,7 @@ export class ContextMenu {
         };
         this.menu = this.gui.addFolder('옵션 변경');
         this.menu.open();
-        this.menu.add(mapContext, 'floor', floorSetting).name('층').onChange(this.changeFloor.bind(this)).listen();
+        this.menu.add(mapContext, 'floor', floorSetting).name('floor').onChange(this.changeFloor.bind(this)).listen();
         this.menu.add(mapContext, 'camera', ['2D', '3D']).name('2d/3d').onChange(this.changeCamera.bind(this));
         return this.menu;
     }

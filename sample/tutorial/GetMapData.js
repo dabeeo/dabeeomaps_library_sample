@@ -24,7 +24,7 @@ export class GetMapData {
 
     async getMapData(value) {
         if (value < 0) {
-            alert('map을 선택하세요. ');
+            alert('select a map ');
             return;
         }
         this.removeMenu();
@@ -38,7 +38,7 @@ export class GetMapData {
 
         const mapData = await this.dabeeoMaps.getMapData(option);
 
-        this.menu = this.gui.addFolder('지도 메뉴');
+        this.menu = this.gui.addFolder('Map Menu');
         // this.mapInfo.init(this.menu, mapData);
         this.mapOption.init(this.menu, mapData, this.mapContainer);
         const map = await this.mapOption.showMap(value);
@@ -56,7 +56,7 @@ export class GetMapData {
 
         const mapData = await this.dabeeoMaps.getMapData(option);
 
-        this.menu = this.gui.addFolder('지도 메뉴');
+        this.menu = this.gui.addFolder('Map Menu');
         // this.mapInfo.init(this.menu, mapData);
         this.mapOption.init(this.menu, mapData, this.mapContainer);
         const map = await this.mapOption.showMap(value);
@@ -72,17 +72,17 @@ export class GetMapData {
             getMap: this.getMap.bind(this),
         };
         let mapSetting = {
-            선택: -1,
+            select: -1,
         };
         mapList.forEach((element, index) => {
             mapSetting[element.name] = index;
         });
         const setting = this.setting;
-        const getMapClient = gui.addFolder('맵 정보 지정하여 가져오기');
+        const getMapClient = gui.addFolder('Get map by client');
         getMapClient.add(setting, 'clientId');
         getMapClient.add(setting, 'clientSecret');
         getMapClient.add(setting, 'getMap');
-        gui.add(setting, 'mapIndex', mapSetting).name('지도선택').onChange(this.getMapData.bind(this));
+        gui.add(setting, 'mapIndex', mapSetting).name('select Map').onChange(this.getMapData.bind(this));
         return this.menu;
     }
 }

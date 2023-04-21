@@ -97,6 +97,7 @@ export class MapOption {
     getOption() {
         const setting = this.setting;
         const mapOption = {
+            backgroundImage: 'https://assets.dabeeomaps.com/upload/library/assets/EVO_Sports_Expo_SANTA_CLARA_2023_layout.jpg',
             camera: setting.camera, // 초기 카메라 모드 3d
             floor: setting.floor, // 적용할 층 정보
             language: setting.language, // 초기 poi 언어 설정

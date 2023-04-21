@@ -19,7 +19,7 @@ export class MapInfo {
             id: mapData.mapInfo.id,
             version: mapData.mapInfo.versionString,
         };
-        this.menu = this.gui.addFolder('지도 정보');
+        this.menu = this.gui.addFolder('Map Info');
         // mapInfoGui.open();
         this.menu.add(mapInfo, 'northReference');
         this.menu.add(mapInfo, 'width');

@@ -31,9 +31,9 @@ export class SimulationMenu {
         this.mapData = mapData;
         this.map = map;
         this.mapContainer = mapContainer;
-        this.menu = this.gui.addFolder('길찾기 메뉴');
-        this.originPoi = this.initPoiSetting('출발지');
-        this.destinationPoi = this.initPoiSetting('도착지');
+        this.menu = this.gui.addFolder('Navigation');
+        this.originPoi = this.initPoiSetting('start');
+        this.destinationPoi = this.initPoiSetting('end');
         // this.waypoint1 = this.initWayPoint("waypoint1");
         // this.waypoint2 = this.initWayPoint("waypoint2");
         this.setting = this.initSetting();
@@ -85,7 +85,7 @@ export class SimulationMenu {
             poi: '',
         };
 
-        menu.add(setting, 'floor', floorSetting).name('층').onChange(changeFloor);
+        menu.add(setting, 'floor', floorSetting).name('floor').onChange(changeFloor);
         poiSetting = menu.add(setting, 'poi', poisSetting).name(menuName);
         return setting;
     }
@@ -106,7 +106,7 @@ export class SimulationMenu {
             apply: false,
         };
 
-        menu.add(setting, 'floor', floorSetting).name('층').onChange(changeFloor);
+        menu.add(setting, 'floor', floorSetting).name('floor').onChange(changeFloor);
         poiSetting = menu.add(setting, 'poi', poisSetting).name(menuName);
         menu.add(setting, 'apply');
 
@@ -123,11 +123,11 @@ export class SimulationMenu {
         };
 
         const menu = this.menu;
-        menu.add(setting, 'type', ['recommendation', 'stairs', 'escalator', 'elevator']).name('이동수단선택');
-        menu.add(setting, 'set').name('경로그리기');
-        menu.add(setting, 'clear').name('경로지우기');
-        menu.add(setting, 'start').name('모의주행 시작');
-        menu.add(setting, 'stop').name('모의주행 종료');
+        // menu.add(setting, 'type', ['recommendation', 'stairs', 'escalator', 'elevator']).name('이동수단선택');
+        menu.add(setting, 'set').name('draw navigation');
+        menu.add(setting, 'start').name('start simulation');
+        menu.add(setting, 'clear').name('remove navigation');
+        menu.add(setting, 'stop').name('stop simulation');
 
         return setting;
     }
@@ -235,7 +235,7 @@ export class SimulationMenu {
 
     initAnimationMenu(menuName) {
         const setting = {
-            zoom: 20,
+            // zoom: 20,
             changeFloorDelay: 1000,
             speedRate: 30,
             removeIcon: true,
