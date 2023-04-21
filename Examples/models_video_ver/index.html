@@ -19,7 +19,7 @@
     <body>
         <div id="map" class="map"></div>
     </body>
-    <script type="text/javascript" src="https://assets.dabeeomaps.com/upload/library/dabeeomaps-4.0-pre-release.js"></script>
+    <script type="text/javascript" src="https://api-assets.dabeeomaps.com/upload/library/dabeeomaps-4.0-latest.js"></script>
     <script>
         async function init() {
             const dabeeoMaps = new dabeeo.Maps();
@@ -42,7 +42,7 @@
 
             //mapOption으로 mapContainer에 map 그리기
             const map = await dabeeoMaps.showMap(mapContainer, mapOption, mapData);
-            
+
             // Model Layer 데이터 저장
             await map.overlay.addSource('model-test', {
                 type: 'json',
@@ -55,7 +55,7 @@
                 source: 'model-test',
                 paint: {},
             });
-            
+
             console.log('test: models.ts');
         }
         init();
