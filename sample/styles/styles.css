@@ -1,0 +1,73 @@
+body {
+    margin: 0;
+    overflow-x: hidden;
+    overflow-y: hidden;
+}
+.container,
+.container2,
+.container3,
+.container4,
+.container5 {
+    top: 20px;
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    z-index: 100;
+}
+
+.container {
+    right: 20px;
+}
+
+.container2 {
+    right: 230px;
+}
+
+.container3 {
+    right: 442px;
+}
+
+.container4 {
+    right: 655px;
+}
+
+.container5 {
+    left: 10px;
+}
+
+.button-menu {
+    width: 201px;
+    height: 24px;
+    background-color: #f5f6f9;
+    border: 1px solid #ddd;
+    text-align: center;
+    line-height: 16px;
+    outline: none;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.inline-input {
+    margin-bottom: 5px;
+    outline: none;
+    border: 1px solid #ddd;
+    height: 24px;
+}
+
+.map {
+    width: 100vw;
+    height: 100vh;
+}
+
+.navi-path {
+    position: relative;
+}
+
+.pointX,
+.pointY {
+    border: 1px solid #ddd;
+}
+
+.pointY {
+    margin-top: 5px;
+}
