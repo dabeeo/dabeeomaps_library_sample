@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <link rel="icon" href="../dabeeo_ci_symbol.png" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <style>
+            .map {
+                width: 100vw;
+                height: 100vh;
+            }
+        </style>
+        <title>Navigation</title>
+    </head>
+    <link rel="stylesheet" href="../styles/styles.css" />
+    <body>
+        <div class="container">
+            <button type="button" class="button-menu">floor</button>
+            <select type="text" class="inline-input" name="floor"></select>
+        </div>
+
+        <div class="container2">
+            <button type="button" class="button-menu" name="set">draw route</button>
+            <button type="button" class="button-menu" name="clear">clear route</button>
+            <button type="button" class="button-menu" name="start">start animation</button>
+            <button type="button" class="button-menu" name="stop">stop animation</button>
+        </div>
+        <div class="container5" name="naviList"></div>
+        <div id="map" class="map"></div>
+    </body>
+    <script type="text/javascript" src="https://api-assets.dabeeomaps.com/upload/library/dabeeomaps-4.0-latest.js"></script>
+    <script>
+        const dabeeoMaps = new dabeeo.Maps();
+        let mapData = null;
+        let map = null;
+
+        async function init() {
+            //fetch a map
+            mapData = await dabeeoMaps.getMapData({
+                clientId: '75hb8YSnAokb-sZ04aDR91',
+                clientSecret: '0f7ad84f160c7b3fd1849a7920af718b',
+            });
+
+            //get route information
+            const naviResponse = await getRoute();
+            console.log(mapData);
+            initFloorMenu();
+
+            console.log(naviResponse);
+
+            // render a map
+            const mapOption = Object.assign({
+                // camera: "2d"
+                framerate: 60,
+            });
+            const mapContainer = document.getElementById('map');
+            map = await dabeeoMaps.showMap(mapContainer, mapOption, mapData);
+
+            const controlOption = {
+                mouseOption: {
+                    enableZoom: true,
+                    enableRotate: false,
+                    enablePan: true,
+                    enableTilt: false,
+                    buttonOption: {
+                        left: 'PAN',
+                        middle: 'ZOOM',
+                        right: 'ROTATE',
+                    },
+                },
+                touchOption: {
+                    enableZoom: true,
+                    enableRotate: false,
+                    enablePan: true,
+                    enableTilt: false,
+                },
+            };
+
+            //disable camera rotation with mouse
+            // map.control.setOption(controlOption);
+
+            //initialize events
+            initFloorEvent();
+            initNaviCompleteEvent(mapContainer);
+
+            initRouteEvent(naviResponse);
+        }
+
+        async function getRoute() {
+            const routeOption = {
+                origin: {
+                    poiId: 'PO-WgCv1-qBo8094', // 사업전략부 (11 floor)
+                    floorId: 'FL-t4vqgyek3jnb8146',
+                },
+                // destination: {
+                //     poiId: "PO-NMvw3E0pe1690", // 플랫폼사업부 회의실 (11 floor )
+                //     floorId: "FL-t4vqgyek3jnb8146"
+                // },
+                destination: {
+                    poiId: 'PO-9InVzIGv20417', // 남자화장실 (2 floor )
+                    floorId: 'FL-vf3q07spbmsw8132',
+                },
+                type: ['recommendation', 'elevator'],
+            };
+            const routeOption2 = {
+                origin: {
+                    position: { x: 1000, y: 1000 },
+                    floorId: 'FL-t4vqgyek3jnb8146',
+                },
+                destination: {
+                    position: { x: 1000, y: 1000 },
+                    floorId: 'FL-vf3q07spbmsw8132',
+                },
+                type: ['recommendation', 'elevator'],
+            };
+            const naviResponse = await mapData.getRoute(routeOption);
+            return naviResponse;
+        }
+
+        function initRouteEvent(naviResponse) {
+            document.querySelector("[name='set']").addEventListener('click', function () {
+                const element = document.querySelector("[name='naviList']");
+                element.innerHTML = '';
+                setRoute(naviResponse);
+                showRouteInfo(naviResponse);
+            });
+
+            document.querySelector("[name='clear']").addEventListener('click', function () {
+                map.routeSimulation.clear();
+                const element = document.querySelector("[name='naviList']");
+                element.innerHTML = '';
+            });
+
+            document.querySelector("[name='start']").addEventListener('click', function () {
+                const animOption = {
+                    // enableTwoFloorsNavigation: true,
+                    // twoFloorsNavigationDuration: 4000,
+                    // twoFloorsNavigationOriginCss: `width:700px; height:550px`,
+                    // twoFloorsNavigationDestCss: `width:700px; height:550px`,
+                    // enableFloorMotionCSS: true,
+                    // floorMotionDuration: 3000,
+                    // changeFloorDelay: 1000,
+                    destOption: {
+                        activeDest: true,
+                        color: '#00ffff',
+                        opacity: 0.3,
+                        isAnimate: true,
+                        duration: 1200,
+                        isRepeat: true,
+                        isYoyo: false,
+                    },
+                    speedRate: 20,
+                    removeIcon: true,
+                    zoom: 20.4,
+                    markerOptions: {
+                        iconUrl: 'https://assets.dabeeomaps.com/image/ico/img_person-3x.png',
+                        width: 30,
+                        height: 30,
+                        positionZ: 20,
+                        anchor: {
+                            x: 0.5,
+                            y: 0.5,
+                        },
+                    },
+                };
+
+                map.routeSimulation.start(animOption);
+            });
+
+            document.querySelector("[name='stop']").addEventListener('click', function () {
+                map.routeSimulation.stop();
+            });
+        }
+        function showRouteInfo(naviResponse) {
+            const element = document.querySelector("[name='naviList']");
+
+            // navigation list 버튼 추가
+            console.log('NavigationResponse.navigationList 에 대한 결과값', naviResponse.recommendation.navigationList);
+            naviResponse.recommendation.navigationList?.forEach((item, index, arr) => {
+                let { poiTitle, floorName, move, direction, distance, transportation } = getNavigationListData(item);
+                const button = document.createElement('button');
+                button.type = 'button';
+                button.className = 'button-menu';
+                button.style.width = '400px';
+
+                if (move) button.onclick = move;
+                if (poiTitle === undefined) poiTitle = '';
+                if (transportation === '걷기') {
+                    button.textContent = `${poiTitle}(${floorName})에서 ${direction}하여 ${distance}m 만큼 ${transportation}(으)로 이동`;
+                } else {
+                    button.textContent = `${poiTitle}(${floorName})에서 ${transportation}(으)로 이동`;
+                }
+                if (index === arr.length - 1) button.textContent = `${poiTitle}(${floorName}) 도착 `;
+
+                element.appendChild(button);
+            });
+        }
+
+        function getNavigationListData(item) {
+            let poiTitle, direction, distance, transportation, floorName, move;
+
+            if (item.poi) poiTitle = item.poi.title;
+            if (item.direction) direction = item.direction;
+            if (item.distance) distance = item.distance;
+            if (item.transportation) transportation = item.transportation;
+            if (item.floorId) {
+                const floorData = mapData.dataFloor.getFloors().find((floor) => floor.id === item.floorId);
+                floorName = floorData?.name[0].text;
+            }
+            if (item.move)
+                move = () => {
+                    item.move(map);
+                }; // 해당 navigation 경로로 이동하는 함수 저장
+
+            return {
+                poiTitle,
+                floorName,
+                move,
+                direction,
+                distance,
+                transportation,
+            };
+        }
+        function setRoute(naviResponse) {
+            const naviOption = {
+                lineZ: 100, // 주행선의 z축 값을 지정합니다.
+                lineDivide: true, // 네비게이션 선 분할여부 결정 (false 인 경우, defaultLineOption 만 사용)
+                defaultLineOption: {
+                    // 기본 주행선 옵션
+                    lineColor: '#00ffff', // navigation 주행 라인의 색상을 지정
+                    lineSpotSize: 10, // 주행선의 점의 굵기를 지정합니다. 주행선의 속성이 점선일 경우 적용됩니다.
+                    lineSpotInterval: 30, // 주행선의 점간의 간격을 지정합니다. 숫자가 커질수록 실선에 가깝게 보입니다.
+                    lineSpotAnimate: true, // 점선 애니메이션 활성화 여부
+                    lineSpotAnimateSpeed: 0.2, // 점선 애니메이션 속도
+                    solidLineEnabled: true, // 주행라인의 속성을 결정합니다. false일 때는 점선, true일 때는 실선으로 그려집니다. default는 false.
+                    solidLineWidth: 10, // 실선의 굵기입니다. default는 1
+                },
+                destination: {
+                    // 도착지 마커 및 주행선 옵션
+                    showTag: false, // 도착지 말풍선 생성 여부 (기본값 true)
+                },
+            };
+
+            map.routeSimulation.set(naviResponse.recommendation, naviOption);
+        }
+
+        function initFloorMenu() {
+            //floor data
+            const dataFloor = mapData.dataFloor;
+            const floorInfo = dataFloor.getFloors();
+            const mapDefaultFloor = dataFloor.getDefaultFloor();
+            let element = document.querySelector("[name='floor']");
+
+            for (const floor of floorInfo) {
+                let newOption = document.createElement('option');
+                newOption.value = floor.id;
+                newOption.appendChild(document.createTextNode(floor.name[0].text));
+                element.appendChild(newOption);
+            }
+            element.value = mapDefaultFloor.id;
+        }
+
+        function initNaviCompleteEvent(mapContainer) {
+            mapContainer.addEventListener('navi-complete', (e) => {
+                setTimeout(() => {
+                    map.control.reset({ transition: true });
+                }, 200);
+
+                console.log('navi-complete 에 대한 결과값', e.detail);
+            });
+        }
+
+        function initFloorEvent() {
+            const optionDefaultFloor = map.context.getMapOptions().floor;
+            let element = document.querySelector("[name='floor']");
+            element.value = optionDefaultFloor;
+            element.addEventListener('change', async function (e) {
+                const floor = e.target.value;
+                await map.context.changeFloor(floor);
+            });
+        }
+
+        init();
+    </script>
+</html>
