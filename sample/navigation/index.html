@@ -239,6 +239,23 @@
                 destination: {
                     // 도착지 마커 및 주행선 옵션
                     showTag: false, // 도착지 말풍선 생성 여부 (기본값 true)
+                    markerOptions: {
+                        // 도착지 마커 옵션 (출발지 마커 옵션과 동일)
+                        // iconUrl: 'https://assets.dabeeomaps.com/image/btn_floor_down_on.png', // 도착지 마커 이미지 url
+                        width: 50,
+                        height: 50,
+                        positionZ: 100,
+                        // visibleIcon: true,
+                        // anchor: {
+                        //     x: 1,
+                        //     y: 0.5,
+                        // },
+                        animate: {
+                            duration: 2000,
+                            // repeat: 3,
+                            opacity: 0.4,
+                        },
+                    },
                 },
             };
 
@@ -266,8 +283,6 @@
                 setTimeout(() => {
                     map.control.reset({ transition: true });
                 }, 200);
-
-                console.log('navi-complete 에 대한 결과값', e.detail);
             });
         }
 
