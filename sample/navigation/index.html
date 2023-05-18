@@ -98,7 +98,8 @@
                 //     floorId: "FL-t4vqgyek3jnb8146"
                 // },
                 destination: {
-                    poiId: 'PO-9InVzIGv20417', // 남자화장실 (2 floor )
+                    //poiId: 'PO-9InVzIGv20417', // 남자화장실 (2 floor )
+                    position: { x: 1000, y: 1000 },
                     floorId: 'FL-vf3q07spbmsw8132',
                 },
                 type: ['recommendation', 'elevator'],
@@ -251,8 +252,8 @@
                         //     y: 0.5,
                         // },
                         animate: {
-                            duration: 2000,
-                            // repeat: 3,
+                            duration: 500,
+                            repeat: 10,
                             opacity: 0.4,
                         },
                     },
@@ -281,7 +282,12 @@
         function initNaviCompleteEvent(mapContainer) {
             mapContainer.addEventListener('navi-complete', (e) => {
                 setTimeout(() => {
-                    map.control.reset({ transition: true });
+                    //map.control.reset({ transition: true });
+                    const position = { x: 1000, y: 1000 };
+
+                    map.control.moveTo({ position, transition: true });
+                    const option = { zoom: 21, rotation: 0, tilt: 10, transition: true };
+                    map.control.set(option);
                 }, 200);
             });
         }
