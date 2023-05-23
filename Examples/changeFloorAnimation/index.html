@@ -7,10 +7,35 @@
         <title>[floor animation]</title>
     </head>
     <link rel="stylesheet" href="../styles/styles.css" />
+    <style>
+        .modal {
+            position: fixed;
+            font-size: 1.2rem;
+            left: calc(100vw / 2 - 200px);
+            top: calc(100vh / 2 - 100px);
+            width: 400px;
+            height: 100px;
+            background-color: rgba(0, 0, 0, 0.7);
+            color: #fff;
+            padding-top: 40px;
+            text-align: center;
+            opacity: 0;
+            /* visibility: hidden; */
+            transform: scale(1.1);
+            transition: visibility 0s linear 0.25s, opacity 0.25s 0s, transform 0.25s;
+        }
+
+        .hide {
+            opacity: 0;
+        }
+    </style>
+
     <body>
+        <div class="modal">modal</div>
+
         <div class="menu">
             <div class="container">
-                <button type="button" id="changeFloorAnimation" class="button-menu">층변경시 층변경 애니메이션</button>
+                <button type="button" id="changeFloorAnimation" class="button-menu">모의주행시 층변경 알림</button>
                 <button type="button" id="simulationAnimation" class="button-menu" style="margin-top: 5px">모의주행시 층변경 애니메이션</button>
             </div>
         </div>
@@ -19,7 +44,57 @@
 
     <script type="text/javascript" src="https://api-assets.dabeeomaps.com/upload/library/dabeeomaps-4.0-latest.js"></script>
     <script type="module">
-        import { routeOptions, naviOption } from './routeOptions.js';
+        const routeOption = {
+            origin: {
+                poiId: 'PO-bG8eepPeB2502', // 여자화장실 (2층)
+                floorId: 'FL-vf3q07spbmsw8132',
+            },
+            destination: {
+                poiId: 'PO-NMvw3E0pe1690', // 플랫폼사업부 회의실 (11층)
+                floorId: 'FL-t4vqgyek3jnb8146',
+            },
+            type: ['recommendation'],
+        };
+
+        const naviOption = {
+            origin: {
+                markerOptions: {
+                    // iconUrl: 'https://assets.dabeeomaps.com/image/btn_floor_up.png',
+                    width: 30,
+                    height: 30,
+                    positionZ: 100,
+                    visibleIcon: true,
+                    async: true,
+                    // anchor: {
+                    //   x: 1,
+                    //   y: 0.5,
+                    // },
+                },
+            }, // 출발지 아이콘 및 주행선
+            destination: {
+                markerOptions: {
+                    // iconUrl: 'https://assets.dabeeomaps.com/image/btn_floor_up.png',
+                    width: 30,
+                    height: 30,
+                    positionZ: 100,
+                    visibleIcon: true,
+                },
+                lineOptions: {
+                    lineColor: '#ffbb00',
+                    solidLineEnabled: true,
+                    solidLineWidth: 20,
+                },
+                showTag: false,
+            }, // 도착지 아이콘 및 주행선
+            defaultLineOption: {
+                lineColor: '#0000ff',
+                solidLineEnabled: true,
+                solidLineWidth: 10,
+            }, // 기본 주행선 옵션
+            lineDivide: true, // 네비게이션 선 분할여부 결정 (false 인 경우, defaultLineOption 만 사용)
+            lineZ: 100,
+        };
+        const delayTime = 3000;
 
         async function init() {
             const dabeeoMaps = new dabeeo.Maps();
@@ -41,7 +116,7 @@
             //mapOption 정의
             const mapOption = Object.assign({
                 // camera: '2d',
-                enableFloorMotion: true,
+                framerate: 60,
                 controlOption: {
                     zoom: 19,
                     rotate: 10,
@@ -61,39 +136,105 @@
 
             document.body.querySelector('#changeFloorAnimation').addEventListener('click', async (e) => {
                 console.log('change');
-                await changeFloorAnimationTest(); // 층 변경 애니메이션 테스트
+                initWillChangeFloor(mapContainer);
+                await routeSimulationAlertTest(mapData, map); // 층 변경 애니메이션 테스트
             });
 
             document.body.querySelector('#simulationAnimation').addEventListener('click', async (e) => {
-                await routeSimulationChangeFloorAnimationTest(); // 층 변경 애니메이션 테스트
+                await routeSimulationChangeFloorAnimationTest(mapContainer, mapData, map); // 층 변경 애니메이션 테스트
             });
-
-            async function changeFloorAnimationTest() {
-                let currentFloorId = map.context.getCurrentFloor().id;
-                if (currentFloorId === 'FL-t4vqgyek3jnb8146') await map.context.changeFloor('FL-vf3q07spbmsw8132');
-                if (currentFloorId === 'FL-vf3q07spbmsw8132') await map.context.changeFloor('FL-t4vqgyek3jnb8146');
-            }
-
-            async function routeSimulationChangeFloorAnimationTest() {
-                const animOption = {
-                    changeFloorDelay: 1000,
-                    speedRate: 15,
-                    zoom: 20,
-                    removeIcon: false,
-                    markerOptions: {
-                        width: 30,
-                        height: 30,
-                        positionZ: 120,
-                    },
-                };
-                const naviResponse = await mapData.getRoute(routeOptions.downUp);
-                await map.routeSimulation.set(naviResponse?.recommendation, naviOption);
-                await map.routeSimulation.start(animOption);
-            }
-
-            console.log(map);
-            console.log('test: floorAnimation.ts');
         }
+
+        function transCodeName(type) {
+            let result = '걷기';
+            /*
+             * transCode: 이동수단 코드
+             * OB-ELEVATOR : 엘리베이터
+             * OB-ESCALATOR : 에스컬레이터 양방향
+             * OB-ESCALATOR_UP : 에스컬레이터 상행
+             * OB-ESCALATOR_DOWN : 에스컬레이터 하행
+             * OB-STAIRS : 계단
+             */
+            switch (type) {
+                case 'OB-STAIRS':
+                    result = '계단';
+                    break;
+                case 'OB-ELEVATOR':
+                    result = '엘리베이터';
+                    break;
+                case 'OB-ESCALATOR':
+                    result = '에스컬레이터 양방향';
+                    break;
+                case 'OB-ESCALATOR_UP':
+                    result = '에스컬레이터 상행';
+                    break;
+                case 'OB-ESCALATOR_DOWN':
+                    result = '에스컬레이터 하행';
+                    break;
+                case 'OB-OTHER_TRANSPORT':
+                    result = '연결통로';
+                    break;
+                default:
+                    result = '걷기';
+                    break;
+            }
+            return result;
+        }
+
+        function handlerFunction(e) {
+            if (e.detail === null) return;
+            let currentFloor = e.detail.floor.current.name[0].text;
+            let nextFloor = e.detail.floor.next.name[0].text;
+            let transCode = e.detail.transCode;
+            let modal = document.querySelector('.modal');
+            modal.innerHTML = transCodeName(transCode) + '를 이용하여 ' + currentFloor + '에서 ' + nextFloor + '로 이동합니다';
+            modal.style.opacity = '100';
+            setTimeout(() => {
+                modal.style.opacity = 0;
+            }, delayTime);
+        }
+
+        function initWillChangeFloor(mapContainer) {
+            mapContainer.addEventListener('floor-changing', handlerFunction);
+        }
+
+        async function routeSimulationAlertTest(mapData, map) {
+            const animOption = {
+                changeFloorDelay: delayTime,
+                speedRate: 15,
+                zoom: 20,
+                removeIcon: false,
+                markerOptions: {
+                    width: 30,
+                    height: 30,
+                    positionZ: 120,
+                },
+            };
+
+            const naviResponse = await mapData.getRoute(routeOption);
+            await map.routeSimulation.set(naviResponse?.recommendation, naviOption);
+            await map.routeSimulation.start(animOption);
+        }
+
+        async function routeSimulationChangeFloorAnimationTest(mapContainer, mapData, map) {
+            const animOption = {
+                enableFloorMotionCSS: true,
+                floorMotionDuration: 3000,
+                speedRate: 15,
+                zoom: 20,
+                removeIcon: false,
+                markerOptions: {
+                    width: 30,
+                    height: 30,
+                    positionZ: 120,
+                },
+            };
+            mapContainer.removeEventListener('floor-changing', handlerFunction);
+            const naviResponse = await mapData.getRoute(routeOption);
+            await map.routeSimulation.set(naviResponse?.recommendation, naviOption);
+            await map.routeSimulation.start(animOption);
+        }
+
         init();
     </script>
 </html>
