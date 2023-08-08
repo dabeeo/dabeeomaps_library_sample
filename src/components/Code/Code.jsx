@@ -3,6 +3,12 @@ import styles from './Code.module.scss';
 import { Maps } from 'dabeeomaps';
 import { useState } from 'react';
 
+const dabeeoMaps = new Maps();
+const mapData = await dabeeoMaps.getMapData({
+    clientId: '75hb8YSnAokb-sZ04aDR91',
+    clientSecret: '0f7ad84f160c7b3fd1849a7920af718b',
+});
+
 const Code = ({ id }) => {
     console.log('code');
     console.log(id);
@@ -14,14 +20,9 @@ const Code = ({ id }) => {
         if (id === 'react') {
             init();
         }
-    }, []);
+    }, [id]);
 
     async function init() {
-        const dabeeoMaps = new Maps();
-        const mapData = await dabeeoMaps.getMapData({
-            clientId: '75hb8YSnAokb-sZ04aDR91',
-            clientSecret: '0f7ad84f160c7b3fd1849a7920af718b',
-        });
         const mapOption = {};
         const mapContainer = document.querySelector('.map');
         const map = await dabeeoMaps.showMap(mapContainer, mapOption, mapData);
@@ -74,6 +75,7 @@ const Code = ({ id }) => {
                         className={styles.viewCode}
                         href={`https://github.com/dabeeo/dabeeomaps_library_sample/blob/master/Examples/${id}/index.html`}
                         target="_blank"
+                        rel="noreferrer"
                     >
                         코드로 보기
                     </a>
