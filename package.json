@@ -18,6 +18,8 @@
     "scripts": {
         "start": "react-scripts start",
         "build": "react-scripts build",
+        "deploy": "aws s3 sync ./build s3://api-cell-api-sample.dabeeomaps.com --delete && npm run nocache",
+        "nocache": "aws cloudfront create-invalidation --distribution-id E1A3RPV2ZGVZH1 --paths '/*'",
         "test": "react-scripts test",
         "eject": "react-scripts eject"
     },
