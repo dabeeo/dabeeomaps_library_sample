@@ -26,7 +26,7 @@ const ReactText = (
         <br />
         <b className={styles.texts}>지도 데이터 생성시 주의점</b>
         <p className={styles.texts}>
-            Maps 객체와 Map Data 객체는 프로젝트당 한개만 존재하여야합니다.
+            Maps 객체는 프로젝트당 한개 MapData 객체는 지도당 한개만 존재하여야합니다.
             <br />두 객체는 가비지 컬렉션에의해 해제되지 않으니 최상위 파일에서 한번만 생성하기를 권장합니다.
         </p>
 
