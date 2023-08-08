@@ -22,6 +22,25 @@ const ReactText = (
             <br />
             해당 소스는 default로 library import 형식으로 되어있으며 원하실 경우 public의 index.html에서 cdn링크로 작업을 하실 수도 있습니다.
         </p>
+
+        <br />
+        <b className={styles.texts}>지도 데이터 생성시 주의점</b>
+        <p className={styles.texts}>
+            Maps 객체와 Map Data 객체는 프로젝트당 한개만 존재하여야합니다.
+            <br />두 객체는 가비지 컬렉션에의해 해제되지 않으니 최상위 파일에서 한번만 생성하기를 권장합니다.
+        </p>
+
+        <pre>
+            <code className={styles.code}>
+                {`export const dabeeoMaps = new Maps();
+export const mapData = await dabeeoMaps.getMapData({
+  clientId: "client Id",
+  clientSecret: "clientSecret",
+});
+`}
+            </code>
+        </pre>
+        <div className={styles.texts}>지도를 생성 하실땐 다음과 같이 실행하시면 됩니다.</div>
         <pre>
             <code className={styles.code}>
                 {`useEffect(() => {
@@ -29,12 +48,6 @@ const ReactText = (
   }, []);
 
   async function init() {
-    const dabeeoMaps = new Maps();
-    const mapData = await dabeeoMaps.getMapData({
-      clientId: "client Id",
-      clientSecret: "clientSecret",
-    });
-    const mapOption = {};
     const mapContainer = document.getElementById("map");
     const map = await dabeeoMaps.showMap(mapContainer, mapOption, mapData);
     setMapInfo(map);
