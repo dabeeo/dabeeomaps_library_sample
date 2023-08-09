@@ -4,47 +4,53 @@ import { Maps } from 'dabeeomaps';
 import { useState } from 'react';
 
 const dabeeoMaps = new Maps();
-const mapData = await dabeeoMaps.getMapData({
-    clientId: '75hb8YSnAokb-sZ04aDR91',
-    clientSecret: '0f7ad84f160c7b3fd1849a7920af718b',
-});
 
 const Code = ({ id }) => {
     console.log('code');
     console.log(id);
 
-    const [dabeeoMap, setDabeeoMap] = useState(null);
     const [mapInfo, setMapInfo] = useState(null);
+    const [mapData, setMapdata] = useState(null);
 
     useEffect(() => {
         if (id === 'react') {
             init();
         }
-    }, [id]);
+    }, [id, mapData]);
+
+    useEffect(() => {
+        getMapData();
+    }, []);
+
+    async function getMapData() {
+        const mapData = await dabeeoMaps.getMapData({
+            clientId: '75hb8YSnAokb-sZ04aDR91',
+            clientSecret: '0f7ad84f160c7b3fd1849a7920af718b',
+        });
+
+        setMapdata(mapData);
+    }
 
     async function init() {
-        const mapOption = {};
-        const mapContainer = document.querySelector('.map');
-        const map = await dabeeoMaps.showMap(mapContainer, mapOption, mapData);
+        if (mapData) {
+            const mapOption = {};
+            const mapContainer = document.querySelector('.map');
+            const map = await dabeeoMaps.showMap(mapContainer, mapOption, mapData);
 
-        setDabeeoMap(dabeeoMaps);
-        setMapInfo(map);
+            setMapInfo(map);
+        }
     }
 
     async function addMap() {
-        if (mapInfo === null) {
+        if (mapInfo === null && mapData) {
             const container = document.getElementById('mapContainer');
             const mapContainer = document.createElement('div');
             mapContainer.style.width = '100%';
             mapContainer.style.height = '100%';
             mapContainer.classList.add('map');
             container.appendChild(mapContainer);
-            const mapData = await dabeeoMap.getMapData({
-                clientId: '75hb8YSnAokb-sZ04aDR91',
-                clientSecret: '0f7ad84f160c7b3fd1849a7920af718b',
-            });
             const mapOption = {};
-            const map = await dabeeoMap.showMap(mapContainer, mapOption, mapData);
+            const map = await dabeeoMaps.showMap(mapContainer, mapOption, mapData);
             setMapInfo(map);
         }
     }
