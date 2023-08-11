@@ -4,10 +4,23 @@ const MapOptionText = (
         <div className={styles.title}>지도 그리기</div>
         <div className={styles.miniTitle}>불러온 지도데이터를 이용하여 map을 그립니다.</div>
         <div className={styles.texts}>
-            불러온 지도데이터를 이용하여 map을 그립니다. 이 때 옵션을 설정할 수 있습니다. <br />
-            초기 줌값, 중심좌표 등이 여기에 해당합니다. mapOption은 다음과 같은 값을 입력받을 수 있습니다. <br />
+            불러온 지도데이터를 이용하여 map을 그립니다. <br />
+            넘겨줘야할 인자는
+            <ul>
+                <li>getMapData()를 통하여 받은 지도데이터, </li>
+                <li>지도를 표출할 HTMLElement,</li>
+                <li>지도를 그릴 때 사용할 옵션</li>
+            </ul>
+            입니다. <br />
+            <br />
+            <strong>
+                [주의!] 인자로 지정한 HTML Element는 내부적으로 child로 지도를 표출할 canvas 속성이 추가되므로 child의 속성을 임의로 수정해서는 안됩니다.{' '}
+            </strong>
+            <br />
+            <br />
             showMap()을 통해 그렸던 지도를 지우고 다시 그리고자 할 때는 새로운 showMap()을 호출하기 전에 반드시 메모리를 해제해줘야 합니다. <br />
             지도컨텍스트 가이드에 나와있듯이 map.context.cleanup()를 호출해야 지도그릴 때 사용되었던 메모리가 해제됩니다 .<br />
+            옵션으로는 초기 줌값, 중심좌표 등이 있습니다. mapOption으로 주는 옵션의 예제는 아래에 있습니다. <br />
             자세한 사항은 API Reference를 참조바랍니다.
         </div>
         <pre>
@@ -21,6 +34,7 @@ const mapData = await dabeeoMaps.getMapData({
 // render a map
 const mapContainer = document.getElementById('map');
 
+// 옵션 전체는 API Reference를 참고하세요
 let mapOption = {
   camera: '2d' | '3d',              // 초기 카메라 모드. default는 3d
   floor: string,                    // 적용할 층 정보. default는 지도 설정값

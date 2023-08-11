@@ -3,7 +3,6 @@ import ARROWIMG from '../../../imgs/arrow.png';
 import { useState } from 'react';
 
 const ReleaseNoteItem = ({ item }) => {
-
     const [toggle, setToggle] = useState(false);
 
     function onBtnClick(e) {
@@ -19,16 +18,20 @@ const ReleaseNoteItem = ({ item }) => {
     return (
         <div className={styles.releaseNoteItem}>
             <div className={styles.title}>
-                <img src={ARROWIMG} alt='arrow' className={styles.img} onClick={(e) => onBtnClick(e)}></img>
-                <div>{item.title}</div>
+                <img src={ARROWIMG} alt="arrow" className={styles.img} onClick={(e) => onBtnClick(e)}></img>
+                <div>
+                    <strong>{item.title}</strong>
+                </div>
             </div>
-            { toggle && <ul className={styles.content}>
-                { item.content.map((content, i) => {
-                    return <li key={i}>{content}</li>
-                })}
-            </ul>}
+            {toggle && (
+                <ul className={styles.content}>
+                    {item.content.map((content, i) => {
+                        return <li key={i}>{content}</li>;
+                    })}
+                </ul>
+            )}
         </div>
-    )
-}
+    );
+};
 
 export default ReleaseNoteItem;
