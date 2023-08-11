@@ -36,8 +36,9 @@
     <script type="text/javascript" src="https://api-assets.dabeeomaps.com/upload/library/dabeeomaps-4.0-latest.js"></script>
 
     <script>
+        const dabeeoMaps = new dabeeo.Maps();
+
         async function init() {
-            const dabeeoMaps = new dabeeo.Maps();
             const mapData = await dabeeoMaps.getMapData({
                 clientId: '3QUNV6dUkjZ9L_bztHLMbr',
                 clientSecret: 'ebe9e83d29c11ce3b9063987ef552c45',

@@ -17,8 +17,10 @@
             <button type="button" id="y" class="button-menu"></button>
         </div>
     </body>
-    <script type="text/javascript" src= https://api-assets.dabeeomaps.com/upload/library/dabeeomaps-4.0-pre-release.js></script>
+    <script type="text/javascript" src="https://api-assets.dabeeomaps.com/upload/library/dabeeomaps-4.0-latest.js"></script>
     <script>
+        const dabeeoMaps = new dabeeo.Maps();
+
         function getParam() {
             const params = new URLSearchParams(window.location.search);
             const paramMap = {};
@@ -27,9 +29,9 @@
             });
             return paramMap;
         }
+
         async function init() {
             const { clientId, clientSecret, floorName, x, y } = getParam();
-            const dabeeoMaps = new dabeeo.Maps();
             console.log(clientId);
             if (!clientId || !clientSecret || !floorName || !x || !y) {
                 alert(
@@ -59,15 +61,14 @@
                 floor: floor[0].id,
                 camera: '2d',
                 controlOption: {
-                // zoom: 20, // 0~24
-                pan: {
-                    // 중심좌표, default는 지도 중심
-                    x: x,
-                    y: y,
+                    // zoom: 20, // 0~24
+                    pan: {
+                        // 중심좌표, default는 지도 중심
+                        x: x,
+                        y: y,
+                    },
+                    // tilt: 30,
                 },
-                // tilt: 30,
-            },
-
             };
             const mapContainer = document.getElementById('map');
             const map = await dabeeoMaps.showMap(mapContainer, mapOption, mapData);

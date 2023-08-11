@@ -85,12 +85,12 @@
     <script type="text/javascript" src="https://api-assets.dabeeomaps.com/upload/library/dabeeomaps-4.0-latest.js"></script>
     <script type="module">
         import { routeOptions } from './routeOptions.js';
+        const dabeeoMaps = new dabeeo.Maps();
 
         let mapData = null;
         let map = null;
 
         async function init() {
-            const dabeeoMaps = new dabeeo.Maps();
             mapData = await dabeeoMaps.getMapData({
                 // 공덕역 주변지도
                 clientId: 'fji1sdUNkOz91XEtqArQT8',

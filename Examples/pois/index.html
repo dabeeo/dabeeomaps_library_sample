@@ -14,6 +14,8 @@
     <!-- <script type="text/javascript" src='../../build/dabeeomaps-4.0.0.js'></script> -->
     <script type="text/javascript" src="https://api-assets.dabeeomaps.com/upload/library/dabeeomaps-4.0-latest.js"></script>
     <script>
+        const dabeeoMaps = new dabeeo.Maps();
+
         let mapData = null;
         let map = null;
 
@@ -21,7 +23,6 @@
         const poiArray = ['PO-M02DvTVjp8449', 'PO-JQ4mw4YeT4536', 'PO-gy5U7uRVH9908'];
 
         async function init() {
-            const dabeeoMaps = new dabeeo.Maps();
             //mapDataOption
             const mapDataOption = {
                 clientId: '75hb8YSnAokb-sZ04aDR91',

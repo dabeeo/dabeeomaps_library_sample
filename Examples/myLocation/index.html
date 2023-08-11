@@ -20,8 +20,9 @@
     </body>
     <script type="text/javascript" src="https://api-assets.dabeeomaps.com/upload/library/dabeeomaps-4.0-latest.js"></script>
     <script>
+        const dabeeoMaps = new dabeeo.Maps();
+
         window.onload = function () {
-            const dabeeoMaps = new dabeeo.Maps();
             dabeeoMaps
                 .getMapData({
                     clientId: '75hb8YSnAokb-sZ04aDR91',
