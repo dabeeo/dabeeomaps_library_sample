@@ -215,6 +215,7 @@
                 mapContainer?.addEventListener('tracking-complete', (e) => {
                     console.log('tracking-complete에 대한 결과값: ', e.detail);
                     // map.mylocation.stop(); // geolocation 중단
+                    alert('목적지에 도착하여 서비스를 종료합니다. ');
                     map.mylocation.indoorStop(); // geolocation 시작
                     map.mylocation.clear(); // myLocation 제거
                 });
