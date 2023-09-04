@@ -3,316 +3,194 @@
     <head>
         <meta charset="UTF-8" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <link rel="icon" href="../dabeeo_ci_symbol.png" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>geolocation</title>
-        <style>
-            body {
-                margin: 0;
-            }
-            #map {
-                width: 100vw;
-                height: 100vh;
-                /* border: 1px solid black; */
-            }
-            #tracking-info {
-                display: flex;
-                flex-direction: column;
-                gap: 0.3rem;
-                position: absolute;
-                left: 0;
-                bottom: 0;
-                margin: 1rem;
-                padding: 1rem;
-                width: 90%;
-                height: fit-content;
-                z-index: 999;
-                background-color: rgba(255, 255, 255, 0.9);
-            }
-
-            #container {
-                display: flex;
-                flex-direction: row;
-                justify-content: space-between;
-                position: absolute;
-                left: 0;
-                top: 0;
-                margin: 1rem;
-                padding: 1rem;
-                width: 90%;
-                height: fit-content;
-                z-index: 999;
-                background-color: rgba(255, 255, 255, 0.9);
-            }
-
-            .stats {
-                font-size: 0.8rem;
-                font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue',
-                    sans-serif;
-            }
-
-            .stats span {
-                color: red;
-            }
-            #focus {
-                position: absolute;
-                right: 0px;
-                top: 0px;
-            }
-            #start {
-                position: absolute;
-                right: 100px;
-                top: 0px;
-            }
-        </style>
+        <title>Navigation</title>
     </head>
-
+    <link rel="stylesheet" href="../styles/styles.css" />
     <body>
+        <div class="container">
+            <button type="button" class="button-menu" name="set">모의주행 안내</button>
+            <button type="button" class="button-menu" name="clear">모의주행 종료</button>
+        </div>
+        <div class="container5" name="naviList"></div>
         <div id="map" class="map"></div>
-        <div id="container">
-            <div class="stats">내 위치 상태: <span id="myloc-state"></span></div>
-            <button id="focus">focus</button>
-            <button id="start">start</button>
-        </div>
-        <div id="tracking-info">
-            <div class="stats">현재 사용자 위치: <span id="current_position"></span></div>
-            <div class="stats">가장 가까운 지점: <span id="closestPoint"></span></div>
-            <div class="stats">출발지로부터의 거리: <span id="distance_from_origin"></span></div>
-            <div class="stats">도착지까지 남은 거리: <span id="distance_to_destination"></span></div>
-            <div class="stats">가장 가까운 path 와의 거리: <span id="distance_to_closest_path"></span></div>
-            <div class="stats">다음 방향: <span id="next_step"></span></div>
-            <div class="stats">현재 속한 path: <span id="current_path"></span></div>
-            <div class="stats">현재 path 각도: <span id="current_angle"></span></div>
-            <div class="stats">현재 상태: <span id="current_state"></span></div>
-        </div>
     </body>
-    <!-- <script type="text/javascript" src="../../build/dabeeomaps-4.0.0.js"></script> -->
-    <script type="text/javascript" src="https://assets.dabeeomaps.com/upload/library/dabeeomaps-4.0.0.js"></script>
-    <!-- <script type="text/javascript" src="https://assets.dabeeomaps.com/upload/library/dabeeomaps-4.0-pre-release.js"></script> -->
-    <!-- <script type="text/javascript" src='https://assets.dabeeomaps.com/upload/gps-library/dabeeomaps-4.0.0.js'></script> -->
-    <!-- <script type="text/javascript" src='https://assets.dabeeomaps.com/upload/gps-test/dabeeomaps-4.0.0.js'></script> -->
-    <script type="module">
+    <script type="text/javascript" src="https://api-assets.dabeeomaps.com/upload/library/dabeeomaps-4.0-latest.js"></script>
+    <script>
+        const dabeeoMaps = new dabeeo.Maps();
+
         let mapData = null;
         let map = null;
 
         async function init() {
-            const dabeeoMaps = new dabeeo.Maps();
+            //fetch a map
             mapData = await dabeeoMaps.getMapData({
-                // 공덕역 사무실
-                clientId: '6FLO-0RJQDv9oPd_mgAJX0',
-                clientSecret: '4ff90a5feffb4d5d785994e981cf3924',
+                clientId: '75hb8YSnAokb-sZ04aDR91',
+                clientSecret: '0f7ad84f160c7b3fd1849a7920af718b',
+            });
+
+            //get route information
+            const naviResponse = await getRoute();
+
+            // render a map
+            const mapOption = Object.assign({
+                // camera: "2d"
             });
             const mapContainer = document.getElementById('map');
-
-            const mapOption = Object.assign({
-                camera: '2d',
-                // mergeMesh: true,
-            });
             map = await dabeeoMaps.showMap(mapContainer, mapOption, mapData);
-            console.log('geolocation');
+
+            initRouteEvent(naviResponse);
+        }
+
+        function initRouteEvent(naviResponse) {
+            document.querySelector("[name='set']").addEventListener('click', async function () {
+                map.routeSimulation.clear();
+                const element = document.querySelector("[name='naviList']");
+                element.innerHTML = '';
+                await setRoute(naviResponse);
+                showRouteInfo(naviResponse);
+                initTTSEvent();
+
+                map.routeSimulation.start();
+            });
+
+            document.querySelector("[name='clear']").addEventListener('click', function () {
+                map.routeSimulation.clear();
+                map.routeSimulation.stop();
+                window.speechSynthesis.cancel(); // 현재 읽고있다면 초기화
+
+                const element = document.querySelector("[name='naviList']");
+                element.innerHTML = '';
+            });
+        }
+
+        function initTTSEvent() {
+            const naviElement = document.querySelector("[name='naviList']");
+            if (naviElement.children.length === 0) {
+                alert('모의주행 안내를 먼저 실행하세요. 안내할 경로가 없습니다.');
+                return;
+            }
+            let text = '';
+            for (const child of naviElement.children) {
+                text += ', ' + child.innerHTML;
+            }
+            speak(text, {
+                rate: 0.9,
+                pitch: 1,
+                lang: 'ko-KR',
+            });
+        }
+
+        function speak(text, opt_prop) {
+            if (typeof SpeechSynthesisUtterance === 'undefined' || typeof window.speechSynthesis === 'undefined') {
+                alert('이 브라우저는 음성 합성을 지원하지 않습니다.');
+                return;
+            }
+            window.speechSynthesis.cancel(); // 현재 읽고있다면 초기화
+            const prop = opt_prop || {};
+            const speechMsg = new SpeechSynthesisUtterance();
+            speechMsg.rate = prop.rate || 1; // 속도: 0.1 ~ 10
+            speechMsg.pitch = prop.pitch || 1; // 음높이: 0 ~ 2
+            speechMsg.lang = prop.lang || 'ko-KR';
+            speechMsg.text = text;
+            // SpeechSynthesisUtterance에 저장된 내용을 바탕으로 음성합성 실행
+            window.speechSynthesis.speak(speechMsg);
+        }
+
+        async function getRoute() {
             const routeOption = {
                 origin: {
-                    position: { x: 1745, y: 1470 },
-                    floorId: 'FL-vevccrt2oto33702',
+                    poiId: 'PO-WgCv1-qBo8094', // 사업전략부 (11 floor)
+                    floorId: 'FL-t4vqgyek3jnb8146',
                 },
                 destination: {
-                    position: { x: 4236, y: 2146 },
-                    floorId: 'FL-vevccrt2oto33702',
+                    poiId: 'PO-NMvw3E0pe1690', // 플랫폼사업부 회의실 (11 floor )
+                    floorId: 'FL-t4vqgyek3jnb8146',
                 },
+                // destination: {
+                //     poiId: 'PO-9InVzIGv20417', // 남자화장실 (2 floor )
+                //     floorId: 'FL-vf3q07spbmsw8132',
+                // },
+                type: ['recommendation', 'elevator'],
             };
-
-            const naviResponse = await mapData.getRoute(routeOption); // 경로데이터 가져오기
-            console.log(naviResponse);
-
-            ///////////////////////////////// API 샘플 및 사용 예제 요약
-            indoorStartTest();
-            // routeSimulationSetTest(); // map.routeSimulation.set() 테스트
-            // GPSTrackingTest(); // GPS Tracking 테스트
-            // GPSTrackingOnTest(); // map.mylocation.trackingOn() 테스트
-            // GPSTrackingOffTest();                                // map.mylocation.trackingOff() 테스트
-            GPSGetCurrentPositionTest(); // map.mylocation.getCurrentPosition() 테스트
-            trackingCompleteTest(); // tracking-complete 이벤트 및 GPS Tracking 종료 테스트
-            trackingMoveTest(); // tracking-move 이벤트 테스트
-            mylocationMapOut(); // mylocation-map-out 이벤트 테스트
-            mylocationMapIn(); // mylocation-map-in 이벤트 테스트
-
-            ///////////////////////////////////////
-
-            function routeSimulationSetTest() {
-                // 경로 그리기
-                map.routeSimulation.set(naviResponse?.recommendation);
-            }
-            function indoorStartTest() {
-                const button = document.getElementById('start');
-                button.addEventListener('click', (e) => {
-                    GPSTrackingTest();
-                    console.log('start indoor tracking service');
-                });
-            }
-            function GPSTrackingTest() {
-                const locationOption = {
-                    x: 1745,
-                    y: 1470,
-                    iconOption: {
-                        // positionZ: 300, // 설정값에 따라 ak몰에서 안보이는 이슈
-                        // iconUrl: 'https://api-assets.dabeeomaps.com/upload/ico/img_mylocation_direction_blue.png',
-                        iconUrl: 'https://assets.dabeeomaps.com/image/ico/indoorlocation.png',
-                        width: 60,
-                        height: 60,
-                        anchor: {
-                            x: 0.5,
-                            y: 0.5,
-                        },
-                    },
-                    onActive: true,
-                    animate: {
-                        color: '#0000ff',
-                        opacity: 0.2,
-                        desireScale: 2,
-                        duration: 1500,
-                    },
-                    gpsOption: {
-                        leftCourseDistance: 50, // 경로이탈 여부 (ON_PATH 와 OUT_OF_PATH) 를 판단하는 기준 거리
-                        willArriveRadius: 100, // 도착 예정 범위 반경
-                        arrivedRadius: 50, // 도착 범위 반경
-                    },
-                };
-                map.mylocation.set(locationOption); // myLocation 생성
-                //map.mylocation.start(); // geolocation 시작
-                const indoorTrackingOption = {
-                    orient: 0,
-                    position: { x: 1745, y: 1470 }, // My location coordinates
-                    height: 170,
-                };
-
-                map.mylocation.indoorStart(indoorTrackingOption); // geolocation 시작
-            }
-
-            function GPSTrackingOnTest() {
-                map.mylocation.trackingOn(naviResponse?.recommendation); // tracking-move, tracking-complete 이벤트 활성화
-            }
-
-            function GPSTrackingOffTest() {
-                map.mylocation.trackingOff(); // tracking-move, tracking-complete 이벤트 비활성화
-            }
-
-            function GPSGetCurrentPositionTest() {
-                const button = document.getElementById('focus');
-                button.addEventListener('click', (e) => {
-                    const currentPosition = map.mylocation.getCurrentPosition(); // 현재 GPS 수신 좌표를 반환
-                    console.log('map.mylocation.getCurrentPosition()에 대한 결과값: ', currentPosition);
-                });
-            }
-
-            function trackingCompleteTest() {
-                // tracking-complete
-                mapContainer?.addEventListener('tracking-complete', (e) => {
-                    console.log('tracking-complete에 대한 결과값: ', e.detail);
-                    // map.mylocation.stop(); // geolocation 중단
-                    map.mylocation.indoorStop(); // geolocation 시작
-
-                    map.mylocation.clear(); // myLocation 제거
-                });
-            }
-
-            function trackingMoveTest() {
-                // tracking-move
-                mapContainer?.addEventListener('tracking-move', (e) => {
-                    console.log('tracking-move에 대한 결과값: ', e.detail);
-                    updateStats(e);
-                });
-            }
-
-            function mylocationMapOut() {
-                // mylocation-map-out
-                mapContainer?.addEventListener('mylocation-map-out', (e) => {
-                    console.log('mylocation-map-out에 대한 결과값: ', e.detail);
-                    const mylocationState = document.getElementById('myloc-state');
-                    mylocationState.textContent = e.detail;
-                    map.mylocation.hide(); // 지도영역을 벗어나면 내 위치 마커를 감춤.
-                });
-            }
-
-            function mylocationMapIn() {
-                // mylocation-map-in
-                mapContainer?.addEventListener('mylocation-map-in', (e) => {
-                    console.log('mylocation-map-in에 대한 결과값: ', e.detail);
-                    const mylocationState = document.getElementById('myloc-state');
-                    mylocationState.textContent = e.detail;
-                    map.mylocation.show(); // 지도영역으로 돌아오면 내 위치 마커를 보여줌.
-                });
-            }
-
-            function updateStats(e) {
-                const trackingInfo = e.detail;
-                for (const key in trackingInfo) {
-                    const stat = document.getElementById(key);
-                    if (stat) {
-                        let content = trackingInfo[key];
-                        if (Array.isArray(content)) {
-                            content = `
-               시작점 {
-                 x: ${content[0].position.x.toFixed(2)},
-                 y: ${content[0].position.y.toFixed(2)},
-                 z: ${content[0].position.z.toFixed(2)}
-               } ~
-               끝점 {
-                 x: ${content[1].position.x.toFixed(2)},
-                 y: ${content[1].position.y.toFixed(2)},
-                 z: ${content[1].position.z.toFixed(2)}
-               }
-             `;
-                        }
-                        if (key === 'closestPoint' || key === 'current_position') {
-                            if (content instanceof Object) {
-                                content = `
-                 x: ${content.x.toFixed(2)},
-                 y: ${content.y.toFixed(2)},
-                 z: ${content.z.toFixed(2)}
-               `;
-                            }
-                        }
-                        if (typeof content === 'number') {
-                            content = content.toFixed(2);
-                        }
-                        stat.textContent = content;
-                    }
-                }
-            }
-
-            // x, y, z값만 넣어도 location 표시는 됩니다.
-            // const locationOption = {
-            //     x: number,                                          // 내 위치 x 좌표
-            //     y: number,                                          // 내 위치 y 좌표
-            //     onActive: boolean,                                  // 타층 이동후 다시 돌아왔을 때 표시 여부
-            //     iconOption: {                                       // 내 위치 마커의 아이콘 속성
-            //         iconUrl: "이미지 Url",                            // 내 위치 마커의 이미지
-            //         width: number,                                  // 내 위치 마커 아이콘의 가로 사이즈
-            //         height: number,                                 // 내 위치 마커 아이콘의 세로 사이즈
-            //         positionZ: number,                              // 내 위치 마커 아이콘의 z 좌표값
-            //         anchor: {                                       // 내 위치 마커 아이콘의 중심점 (left/bottom이 0,0이고 right/top이 1,1)
-            //           x: number,
-            //           y: number,
-            //         },
-            //     },
-            //     animate: boolean | {                                // 내 위치 마커 애니메이션 효과 속성
-            //         color: "#ff00ff",                               // 내 위치 마커의 색상
-            //         opacity: number,                                // 내 위치 마커의 투명도(0~100)
-            //         desireScale: number                             // 내 위치 마커의 최대 크기
-            //         duration: number                                // 내 위치 마커 애니메이션 지속시간 (밀리세컨드 단위)
-            //     },
-            //     gpsOption: {                                        // 내 위치 마커의 GPS 옵션
-            //       leftCourseDistance: 50,                           // GPS Tracking 시 경로이탈 여부 (ON_PATH 와 OUT_OF_PATH) 를 판단하는 기준 거리. 기본값은 25m. 단위는 m(미터)
-            //       willArriveRadius: 100,                            // GPS Tracking 시 도착 예정 범위 반경. 기본값은 50m -> 도착 예정 범위 반경은 도착 범위 반경보다 더 커야합니다. 작거나 같을 경우, 에러를 출력하면서 전달된 값이 무시되고, 기본값을 적용합니다.
-            //       arrivedRadius: 50,                                // GPS Tracking 시 도착 범위 반경. 기본값은 25m -> 해당 범위내로 도착 시, tracking-complete 이벤트가 발생합니다.
-            //     },
-            // }
-
-            // location 적용
-            // map.mylocation.set(locationOption);
-
-            // location 삭제
-            // map.mylocation.clear();
+            const routeOption2 = {
+                origin: {
+                    position: { x: 1000, y: 1000 },
+                    floorId: 'FL-t4vqgyek3jnb8146',
+                },
+                destination: {
+                    position: { x: 1000, y: 1000 },
+                    floorId: 'FL-vf3q07spbmsw8132',
+                },
+                type: ['recommendation', 'elevator'],
+            };
+            const naviResponse = await mapData.getRoute(routeOption);
+            return naviResponse;
         }
+
+        async function setRoute(naviResponse) {
+            const naviOption = {
+                defaultLineOption: {
+                    lineColor: '#0000ff',
+                    solidLineEnabled: true,
+                    solidLineWidth: 10,
+                }, // 기본 주행선 옵션
+            };
+            map.routeSimulation.set(naviResponse.recommendation, naviOption);
+        }
+
+        function showRouteInfo(naviResponse) {
+            const element = document.querySelector("[name='naviList']");
+
+            // navigation list 버튼 추가
+            console.log('NavigationResponse.navigationList 에 대한 결과값', naviResponse.recommendation.navigationList);
+            naviResponse.recommendation.navigationList?.forEach((item, index, arr) => {
+                let { poiTitle, floorName, move, direction, distance, transportation } = getNavigationListData(item);
+                const button = document.createElement('button');
+                button.type = 'button';
+                button.className = 'button-menu';
+                button.style.width = '400px';
+
+                if (move) button.onclick = move;
+                if (poiTitle === undefined) poiTitle = '';
+                if (transportation === '걷기') {
+                    button.textContent = `${poiTitle}(${floorName})에서 ${direction}하여 ${distance}m 만큼 ${transportation}로 이동합니다`;
+                } else {
+                    button.textContent = `${poiTitle}(${floorName})에서 ${transportation}로 이동합니다`;
+                }
+                if (index === arr.length - 1) button.textContent = `${poiTitle}(${floorName}) 도착 `;
+
+                element.appendChild(button);
+            });
+        }
+
+        function getNavigationListData(item) {
+            let poiTitle, direction, distance, transportation, floorName, move;
+
+            if (item.poi) poiTitle = item.poi.title;
+            if (item.direction) direction = item.direction;
+            if (item.distance) distance = item.distance;
+            if (item.transportation) transportation = item.transportation;
+            if (item.floorId) {
+                const floorData = mapData.dataFloor.getFloors().find((floor) => floor.id === item.floorId);
+                floorName = floorData?.name[0].text;
+            }
+            if (item.move)
+                move = () => {
+                    item.move(map);
+                }; // 해당 navigation 경로로 이동하는 함수 저장
+
+            return {
+                poiTitle,
+                floorName,
+                move,
+                direction,
+                distance,
+                transportation,
+            };
+        }
+
         init();
     </script>
 </html>

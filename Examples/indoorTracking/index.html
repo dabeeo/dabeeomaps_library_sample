@@ -60,7 +60,12 @@
             }
             #start {
                 position: absolute;
-                right: 100px;
+                right: 130px;
+                top: 0px;
+            }
+            #navigation {
+                position: absolute;
+                right: 50px;
                 top: 0px;
             }
         </style>
@@ -70,8 +75,9 @@
         <div id="map" class="map"></div>
         <div id="container">
             <div class="stats">내 위치 상태: <span id="myloc-state"></span></div>
-            <button id="focus">focus</button>
             <button id="start">start</button>
+            <button id="navigation">navigation</button>
+            <button id="focus">focus</button>
         </div>
         <div id="tracking-info">
             <div class="stats">현재 사용자 위치: <span id="current_position"></span></div>
@@ -124,12 +130,10 @@
             console.log(naviResponse);
 
             ///////////////////////////////// API 샘플 및 사용 예제 요약
-            indoorStartTest();
-            // routeSimulationSetTest(); // map.routeSimulation.set() 테스트
-            // GPSTrackingTest(); // GPS Tracking 테스트
-            // GPSTrackingOnTest(); // map.mylocation.trackingOn() 테스트
-            // GPSTrackingOffTest();                                // map.mylocation.trackingOff() 테스트
-            GPSGetCurrentPositionTest(); // map.mylocation.getCurrentPosition() 테스트
+            indoorStartTest(); // indoor Tracking Service Start (tracking mode)
+            indoorTrackingOnTest(); // map.mylocation.trackingOn() 테스트 (navigation mode)
+            // GPSTrackingOffTest(); // map.mylocation.trackingOff() 테스트
+            GetCurrentPositionTest(); // map.mylocation.getCurrentPosition() 테스트
             trackingCompleteTest(); // tracking-complete 이벤트 및 GPS Tracking 종료 테스트
             trackingMoveTest(); // tracking-move 이벤트 테스트
             mylocationMapOut(); // mylocation-map-out 이벤트 테스트
@@ -137,18 +141,25 @@
 
             ///////////////////////////////////////
 
-            function routeSimulationSetTest() {
-                // 경로 그리기
-                map.routeSimulation.set(naviResponse?.recommendation);
-            }
             function indoorStartTest() {
                 const button = document.getElementById('start');
                 button.addEventListener('click', (e) => {
-                    GPSTrackingTest();
+                    indoorTrackingOn();
                     console.log('start indoor tracking service');
                 });
             }
-            function GPSTrackingTest() {
+
+            function indoorTrackingOnTest() {
+                // 경로 그리기
+                const button = document.getElementById('navigation');
+                button.addEventListener('click', (e) => {
+                    console.log('start indoor tracking navigation service');
+                    map.routeSimulation.set(naviResponse?.recommendation);
+                    map.mylocation.trackingOn(naviResponse?.recommendation); // tracking-move, tracking-complete 이벤트 활성화
+                });
+            }
+
+            function indoorTrackingOn() {
                 const locationOption = {
                     x: 1745,
                     y: 1470,
@@ -187,15 +198,11 @@
                 map.mylocation.indoorStart(indoorTrackingOption); // geolocation 시작
             }
 
-            function GPSTrackingOnTest() {
-                map.mylocation.trackingOn(naviResponse?.recommendation); // tracking-move, tracking-complete 이벤트 활성화
-            }
-
-            function GPSTrackingOffTest() {
+            function indoorTrackingOffTest() {
                 map.mylocation.trackingOff(); // tracking-move, tracking-complete 이벤트 비활성화
             }
 
-            function GPSGetCurrentPositionTest() {
+            function GetCurrentPositionTest() {
                 const button = document.getElementById('focus');
                 button.addEventListener('click', (e) => {
                     const currentPosition = map.mylocation.getCurrentPosition(); // 현재 GPS 수신 좌표를 반환
@@ -209,7 +216,6 @@
                     console.log('tracking-complete에 대한 결과값: ', e.detail);
                     // map.mylocation.stop(); // geolocation 중단
                     map.mylocation.indoorStop(); // geolocation 시작
-
                     map.mylocation.clear(); // myLocation 제거
                 });
             }
