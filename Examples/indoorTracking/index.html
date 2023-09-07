@@ -26,22 +26,7 @@
                 width: 90%;
                 height: fit-content;
                 z-index: 999;
-                background-color: rgba(255, 255, 255, 0.9);
-            }
-
-            #container {
-                display: flex;
-                flex-direction: row;
-                justify-content: space-between;
-                position: absolute;
-                left: 0;
-                top: 0;
-                margin: 1rem;
-                padding: 1rem;
-                width: 90%;
-                height: fit-content;
-                z-index: 999;
-                background-color: rgba(255, 255, 255, 0.9);
+                background-color: rgba(255, 255, 255, 0.5);
             }
 
             .stats {
@@ -53,32 +38,19 @@
             .stats span {
                 color: red;
             }
-            #focus {
-                position: absolute;
-                right: 0px;
-                top: 0px;
-            }
-            #start {
-                position: absolute;
-                right: 130px;
-                top: 0px;
-            }
-            #navigation {
-                position: absolute;
-                right: 50px;
-                top: 0px;
-            }
         </style>
     </head>
 
     <body>
-        <div id="map" class="map"></div>
         <div id="container">
             <div class="stats">내 위치 상태: <span id="myloc-state"></span></div>
             <button id="start">start</button>
             <button id="navigation">navigation</button>
+            <button id="getCurrentPosition">getCurrentPosition</button>
+            <button id="heading">heading</button>
             <button id="focus">focus</button>
         </div>
+        <div id="map" class="map"></div>
         <div id="tracking-info">
             <div class="stats">현재 사용자 위치: <span id="current_position"></span></div>
             <div class="stats">가장 가까운 지점: <span id="closestPoint"></span></div>
@@ -99,6 +71,8 @@
     <script type="module">
         let mapData = null;
         let map = null;
+        let heading = true;
+        let focus = true;
 
         async function init() {
             const dabeeoMaps = new dabeeo.Maps();
@@ -132,9 +106,11 @@
             ///////////////////////////////// API 샘플 및 사용 예제 요약
             indoorStartTest(); // indoor Tracking Service Start (tracking mode)
             indoorTrackingOnTest(); // map.mylocation.trackingOn() 테스트 (navigation mode)
-            // GPSTrackingOffTest(); // map.mylocation.trackingOff() 테스트
+            // indoorTrackingOffTest(); // map.mylocation.trackingOff() 테스트
+            initMyLocationIndoorHeadingOnOff(); // map.mylocation.indoorSetHeading() 테스트
+            initMyLocationIndoorFocusOnOff(); // map.mylocation.indoorSetFocus()  테스트
             GetCurrentPositionTest(); // map.mylocation.getCurrentPosition() 테스트
-            trackingCompleteTest(); // tracking-complete 이벤트 및 GPS Tracking 종료 테스트
+            trackingCompleteTest(); // tracking-complete 이벤트 및 map.mylocation.indoorStop() 테스트
             trackingMoveTest(); // tracking-move 이벤트 테스트
             mylocationMapOut(); // mylocation-map-out 이벤트 테스트
             mylocationMapIn(); // mylocation-map-in 이벤트 테스트
@@ -144,8 +120,60 @@
             function indoorStartTest() {
                 const button = document.getElementById('start');
                 button.addEventListener('click', (e) => {
-                    indoorTrackingOn();
                     console.log('start indoor tracking service');
+                    const locationOption = {
+                        x: 1745,
+                        y: 1470,
+                        iconOption: {
+                            // positionZ: 300, // 설정값에 따라 ak몰에서 안보이는 이슈
+                            // iconUrl: 'https://api-assets.dabeeomaps.com/upload/ico/img_mylocation_direction_blue.png',
+                            iconUrl: 'https://assets.dabeeomaps.com/image/ico/indoorlocation.png',
+                            width: 60,
+                            height: 60,
+                            anchor: {
+                                x: 0.5,
+                                y: 0.5,
+                            },
+                        },
+                        onActive: true,
+                        animate: {
+                            color: '#0000ff',
+                            opacity: 0.2,
+                            desireScale: 2,
+                            duration: 1500,
+                        },
+                        gpsOption: {
+                            leftCourseDistance: 50, // 경로이탈 여부 (ON_PATH 와 OUT_OF_PATH) 를 판단하는 기준 거리
+                            willArriveRadius: 100, // 도착 예정 범위 반경
+                            arrivedRadius: 50, // 도착 범위 반경
+                        },
+                    };
+                    map.mylocation.set(locationOption); // myLocation 생성
+                    //map.mylocation.start(); // geolocation 시작
+                    const indoorTrackingOption = {
+                        orient: 0,
+                        position: { x: 1745, y: 1470 }, // My location coordinates
+                        height: 170,
+                    };
+
+                    map.mylocation.indoorStart(indoorTrackingOption); // geolocation 시작
+                });
+            }
+
+            // myLocation indoor tracking service Heading 설정
+            function initMyLocationIndoorHeadingOnOff() {
+                const element = document.getElementById('heading');
+                element.addEventListener('click', () => {
+                    heading = !heading;
+                    map.mylocation.indoorSetHeading(heading); // 신장 설정
+                });
+            }
+            // myLocation indoor tracking service focus 설정
+            function initMyLocationIndoorFocusOnOff() {
+                const element = document.getElementById('focus');
+                element.addEventListener('click', () => {
+                    focus = !focus;
+                    map.mylocation.indoorSetFocus(focus); // 신장 설정
                 });
             }
 
@@ -159,51 +187,12 @@
                 });
             }
 
-            function indoorTrackingOn() {
-                const locationOption = {
-                    x: 1745,
-                    y: 1470,
-                    iconOption: {
-                        // positionZ: 300, // 설정값에 따라 ak몰에서 안보이는 이슈
-                        // iconUrl: 'https://api-assets.dabeeomaps.com/upload/ico/img_mylocation_direction_blue.png',
-                        iconUrl: 'https://assets.dabeeomaps.com/image/ico/indoorlocation.png',
-                        width: 60,
-                        height: 60,
-                        anchor: {
-                            x: 0.5,
-                            y: 0.5,
-                        },
-                    },
-                    onActive: true,
-                    animate: {
-                        color: '#0000ff',
-                        opacity: 0.2,
-                        desireScale: 2,
-                        duration: 1500,
-                    },
-                    gpsOption: {
-                        leftCourseDistance: 50, // 경로이탈 여부 (ON_PATH 와 OUT_OF_PATH) 를 판단하는 기준 거리
-                        willArriveRadius: 100, // 도착 예정 범위 반경
-                        arrivedRadius: 50, // 도착 범위 반경
-                    },
-                };
-                map.mylocation.set(locationOption); // myLocation 생성
-                //map.mylocation.start(); // geolocation 시작
-                const indoorTrackingOption = {
-                    orient: 0,
-                    position: { x: 1745, y: 1470 }, // My location coordinates
-                    height: 170,
-                };
-
-                map.mylocation.indoorStart(indoorTrackingOption); // geolocation 시작
-            }
-
             function indoorTrackingOffTest() {
                 map.mylocation.trackingOff(); // tracking-move, tracking-complete 이벤트 비활성화
             }
 
             function GetCurrentPositionTest() {
-                const button = document.getElementById('focus');
+                const button = document.getElementById('getCurrentPosition');
                 button.addEventListener('click', (e) => {
                     const currentPosition = map.mylocation.getCurrentPosition(); // 현재 GPS 수신 좌표를 반환
                     console.log('map.mylocation.getCurrentPosition()에 대한 결과값: ', currentPosition);
