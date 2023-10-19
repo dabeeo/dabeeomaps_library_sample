@@ -27,6 +27,7 @@
       const setAssets = async () =>{
       try {
       const tileset = await Cesium.Cesium3DTileset.fromIonAssetId(2320163);
+      viewer.scene.primitives.add(tileset);
       await viewer.zoomTo(tileset);
 
       // Apply the default style if it exists
