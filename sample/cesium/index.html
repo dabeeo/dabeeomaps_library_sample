@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cesium.com/downloads/cesiumjs/releases/1.110/Build/Cesium/Cesium.js"></script>
+    <link href="https://cesium.com/downloads/cesiumjs/releases/1.110/Build/Cesium/Widgets/widgets.css" rel="stylesheet">
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+      }
+      
+      #app {
+        position: absolute; top: 0; right: 0; bottom: 0; left: 0;
+      }
+    </style>
+
+    <title>Cesium Example</title>
+  </head>
+  <body>
+    <div id="app">
+    </div>
+    <script type="module" >
+      Cesium.Ion.defaultAccessToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJmNzI0ZmNhYi1lMTU0LTQwNDUtYTRmYy1hMDJkY2NiNWVlNTMiLCJpZCI6MTcxMTcwLCJpYXQiOjE2OTc1MTI2NTF9.jaSgUdgbnyhf__JLvgaqq7F_3uIAfDd3Uss5x0IjQ0M";
+      const viewer = new Cesium.Viewer("app");
+      const setAssets = async () =>{
+      try {
+      const tileset = await Cesium.Cesium3DTileset.fromIonAssetId(2320163);
+      await viewer.zoomTo(tileset);
+
+      // Apply the default style if it exists
+      const extras = tileset.asset.extras;
+      if (
+        Cesium.defined(extras) &&
+        Cesium.defined(extras.ion) &&
+        Cesium.defined(extras.ion.defaultStyle)
+      ) {
+        tileset.style = new Cesium.Cesium3DTileStyle(extras.ion.defaultStyle);
+      }
+      } catch (error) {
+      console.log(error);
+      }
+    }
+    setAssets();
+
+
+    </script>
+
+  </body>
+</html>
