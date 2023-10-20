@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cesium.com/downloads/cesiumjs/releases/1.110/Build/Cesium/Cesium.js"></script>
+    <link href="https://cesium.com/downloads/cesiumjs/releases/1.110/Build/Cesium/Widgets/widgets.css" rel="stylesheet">
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+      }
+      
+      #app {
+        position: absolute; top: 0; right: 0; bottom: 0; left: 0;
+      }
+    </style>
+
+    <title>Cesium Example</title>
+  </head>
+  <body>
+    <div id="app">
+    </div>
+    <script type="module" >
+      Cesium.Ion.defaultAccessToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJmNzI0ZmNhYi1lMTU0LTQwNDUtYTRmYy1hMDJkY2NiNWVlNTMiLCJpZCI6MTcxMTcwLCJpYXQiOjE2OTc1MTI2NTF9.jaSgUdgbnyhf__JLvgaqq7F_3uIAfDd3Uss5x0IjQ0M";
+      const viewer = new Cesium.Viewer("app");
+      const assetsList = [2319695, 2318255, 2318253, 2318252, 2318251, 2317797, 2317799, 2317800, 2317805,
+        2317806, 2317809, 2317811, 2317816, 2317821, 2317822, 2317823, 2317824, 2317825, 2317826,
+        2318245, 2318248, 2318249];
+      const setAssets = async () =>{
+        try {
+          assetsList.forEach(async( asset, index)=>{
+          const tileset = await Cesium.Cesium3DTileset.fromIonAssetId(asset);
+            viewer.scene.primitives.add(tileset);
+            // Apply the default style if it exists
+            if(index == (0))await viewer.zoomTo(tileset);
+
+            const extras = tileset.asset.extras;
+            if (
+              Cesium.defined(extras) &&
+              Cesium.defined(extras.ion) &&
+              Cesium.defined(extras.ion.defaultStyle)
+            ) {
+              tileset.style = new Cesium.Cesium3DTileStyle(extras.ion.defaultStyle);
+            }
+        })
+  
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    setAssets();
+
+
+    </script>
+
+  </body>
+</html>
