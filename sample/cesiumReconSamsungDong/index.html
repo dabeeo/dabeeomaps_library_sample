@@ -22,11 +22,11 @@
     <div id="app">
     </div>
     <script type="module" >
-      Cesium.Ion.defaultAccessToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJmNzI0ZmNhYi1lMTU0LTQwNDUtYTRmYy1hMDJkY2NiNWVlNTMiLCJpZCI6MTcxMTcwLCJpYXQiOjE2OTc1MTI2NTF9.jaSgUdgbnyhf__JLvgaqq7F_3uIAfDd3Uss5x0IjQ0M";
+      Cesium.Ion.defaultAccessToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI5OTZhMmMzZC1lY2VlLTRlYzUtYTc5MC02OTk0Zjk3Y2Y0NjIiLCJpZCI6MTc0MjQyLCJpYXQiOjE2OTgzNjYyMjZ9.TN2DP64aepsTz5_W8tz12bSHNyD2jVoBVYreK0TZ0fA";
       const viewer = new Cesium.Viewer("app");
       const setAssets = async () =>{
       try {
-      const tileset = await Cesium.Cesium3DTileset.fromIonAssetId(2320163);
+      const tileset = await Cesium.Cesium3DTileset.fromIonAssetId(2332778);
       viewer.scene.primitives.add(tileset);
       await viewer.zoomTo(tileset);
 
