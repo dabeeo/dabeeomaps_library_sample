@@ -33,6 +33,14 @@
               modelMatrix: Cesium.Transforms.eastNorthUpToFixedFrame(
                 Cesium.Cartesian3.fromDegrees(0, 0)
               ),
+              skipLevelOfDetail: true,  //email 내용 
+                baseScreenSpaceError: 8000, //email 내용 
+                skipScreenSpaceErrorFactor: 8,
+                skipLevels: 1,
+                // immediatelyLoadDesiredLevelOfDetail: false,
+                // loadSiblings: false,
+                // cullWithChildrenBounds: false,
+                maximumScreenSpaceError: 15,
             });
             viewer.scene.primitives.add(tileset);
             // Apply the default style if it exists
