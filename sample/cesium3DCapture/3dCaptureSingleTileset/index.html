@@ -28,7 +28,12 @@
 
       const setAssets = async () =>{
         try {
-          const tileset = await Cesium.Cesium3DTileset.fromIonAssetId(2332722);
+          const tileset = await Cesium.Cesium3DTileset.fromIonAssetId(2332722, {
+              //This tileset doesn't have a location, so we're using a modelMatrix to place it at 0, 0 instead of drawing at the center of the earth
+              modelMatrix: Cesium.Transforms.eastNorthUpToFixedFrame(
+                Cesium.Cartesian3.fromDegrees(0, 0)
+              ),
+            });
             viewer.scene.primitives.add(tileset);
             // Apply the default style if it exists
             await viewer.zoomTo(tileset);
