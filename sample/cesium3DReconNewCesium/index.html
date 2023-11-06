@@ -28,30 +28,27 @@
             Cesium.Ion.defaultAccessToken =
                 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI5OTZhMmMzZC1lY2VlLTRlYzUtYTc5MC02OTk0Zjk3Y2Y0NjIiLCJpZCI6MTc0MjQyLCJpYXQiOjE2OTgzNjYyMjZ9.TN2DP64aepsTz5_W8tz12bSHNyD2jVoBVYreK0TZ0fA';
             const viewer = new Cesium.Viewer('app');
-            const assetsList = [2338061];
+            //78 도엽
+            const assetsList = [
+            2338057, 2341558, 2341560, 2341563, 2341564, 2341567, 2341568, 2341571, 2341575, 2341576, 2341577, 2341579, 2341581, 2341583, 2341585, 
+            2341586, 2341588, 2341589, 2341590, 2341591, 2341592, 2341593, 2341599, 2341605, 2341609, 2341610, 2341615, 2341619, 2341621, 2341623,
+            2341624, 2341639, 2341642, 2341657, 2341659, 2341661, 2341662, 2341664, 2341700, 2341701, 2341702, 2341705, 2341707, 2341722, 2341723, 
+            2341724, 2341725, 2341727, 2341728, 2341729, 2341730, 2341731, 2341735, 2341736, 2341737, 2341739, 2341741, 2341742, 2341743, 2341744, 
+            2341748, 2341749, 2341750, 2341751, 2341752, 2341754, 2341755, 2341756, 2341758, 2341759, 2341760, 2341761, 2341762, 2341763, 2341764, 
+            2341765, 2338061, 2341960 ];
+
+
             let promiseArry = [];
             try {
                 promiseArry = assetsList.map(async (asset, index) => {
-                    // const tileset = await Cesium.Cesium3DTileset.fromIonAssetId(asset);
                     const resource = await Cesium.IonResource.fromAssetId(asset);
                     const tileset = await Cesium.Cesium3DTileset.fromUrl(resource, {
-                        // dynamicScreenSpaceError : false,
-                        // dynamicScreenSpaceErrorDensity : 0.00278,
-                        // dynamicScreenSpaceErrorFactor : 4.0,
-                        // dynamicScreenSpaceErrorHeightFalloff : 0.01,
-
-                        skipLevelOfDetail: true, //email 내용
-                        baseScreenSpaceError: 8000, //email 내용
-                        skipScreenSpaceErrorFactor: 8,
+                        skipLevelOfDetail: true,  //email 내용 
+                        baseScreenSpaceError: 2000, //email 내용 //이전8000
+                        skipScreenSpaceErrorFactor: 20, //이전8
                         skipLevels: 1,
-                        // immediatelyLoadDesiredLevelOfDetail: false,
-                        // loadSiblings: false,
-                        // cullWithChildrenBounds: false,
-                        maximumScreenSpaceError: 8,
+                        maximumScreenSpaceError: 25, //이전8
                     });
-                    // scene.primitives.add(tileset);
-                    // Apply the default style if it exists
-                    // if(index == (0))await viewer.zoomTo(tileset);
 
                     const extras = tileset.asset.extras;
 
@@ -64,7 +61,6 @@
                 });
 
                 try {
-                    // viewer.entities = entityCollection;
                     await Promise.all(promiseArry);
                 } catch (e) {
                     // default value: empty array
