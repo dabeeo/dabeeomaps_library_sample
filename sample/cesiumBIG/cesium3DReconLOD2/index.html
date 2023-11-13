@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cesium.com/downloads/cesiumjs/releases/1.110/Build/Cesium/Cesium.js"></script>
+    <link href="https://cesium.com/downloads/cesiumjs/releases/1.110/Build/Cesium/Widgets/widgets.css" rel="stylesheet">
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+      }
+      
+      #app {
+        position: absolute; top: 0; right: 0; bottom: 0; left: 0;
+      }
+    </style>
+
+    <title>Cesium Example</title>
+  </head>
+  <body>
+    <div id="app">
+    </div>
+    <script type="module" >
+      Cesium.Ion.defaultAccessToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI5OTZhMmMzZC1lY2VlLTRlYzUtYTc5MC02OTk0Zjk3Y2Y0NjIiLCJpZCI6MTc0MjQyLCJpYXQiOjE2OTgzNjYyMjZ9.TN2DP64aepsTz5_W8tz12bSHNyD2jVoBVYreK0TZ0fA";
+      const viewer = new Cesium.Viewer("app", {globe: false});
+      const assetsList = [2349580];
+      let promiseArry = [];
+        try {
+          promiseArry = assetsList.map(async ( asset, index)=>{
+
+              // const tileset = await Cesium.Cesium3DTileset.fromIonAssetId(asset);
+              const resource = await Cesium.IonResource.fromAssetId(asset);
+              const tileset = await Cesium.Cesium3DTileset.fromUrl(resource, {
+                DynamicScreenSpaceErrorHeightFalloff: 1.0,
+          });
+              // scene.primitives.add(tileset);
+              // Apply the default style if it exists
+              // if(index == (0))await viewer.zoomTo(tileset);
+
+              const extras = tileset.asset.extras;
+            
+              if (
+                Cesium.defined(extras) &&
+                Cesium.defined(extras.ion) &&
+                Cesium.defined(extras.ion.defaultStyle)
+              ) {
+                tileset.style = new Cesium.Cesium3DTileStyle(extras.ion.defaultStyle);
+              }
+              await viewer.zoomTo(tileset);
+
+              return viewer.scene.primitives.add(tileset);
+
+          });
+
+        
+          try {
+            // viewer.entities = entityCollection;
+            await Promise.all(promiseArry);
+
+          } catch (e) {
+              // default value: empty array
+            console.error('promise-all', e);
+          }
+
+        } catch (error) {
+          console.log(error);
+        }
+
+
+    </script>
+
+  </body>
+</html>
