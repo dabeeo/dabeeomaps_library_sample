@@ -24,16 +24,34 @@
     <script type="module" >
       Cesium.Ion.defaultAccessToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI5OTZhMmMzZC1lY2VlLTRlYzUtYTc5MC02OTk0Zjk3Y2Y0NjIiLCJpZCI6MTc0MjQyLCJpYXQiOjE2OTgzNjYyMjZ9.TN2DP64aepsTz5_W8tz12bSHNyD2jVoBVYreK0TZ0fA";
       const viewer = new Cesium.Viewer("app");
-      const assetsList = [ 2334410 ,2334411,2334412, 2334415, 2334423 , 2334425, 2334426, 2334427, 2334428  ];
-
-      const setAssets = async () =>{
+      const assetsList = [
+        2338057, 2341558, 2341560, 2341563, 2341564, 2341567, 2341568, 2341571, 2341575, 2341576, 2341577, 2341579, 2341581, 2341583, 2341585, 
+        2341586, 2341588, 2341589, 2341590, 2341591, 2341592, 2341593, 2341599, 2341605, 2341609, 2341610, 2341615, 2341619, 2341621, //2341623	,
+        2341624, 2341639, 2341642, 2341657, 2341659, 2341661, 2341662, 2341664, 2341700, 2341701, 2341702, 2341705, 2341707, 2341722, 2341723, 2341724, 
+        2341725, 2341727, 2341728, 2341729, 2341730, 2341731, 2341735, 2341736, 2341737, 2341739, 2341741, 2341742, 2341743, 2341744, 2341748, 2341749, 2341750, 2341751, 2341752, 
+        2341754, 2341755, 2341756, 2341758, 2341759, 2341760, 2341761, 
+        // 2341762, 2341763, 2341764,
+        // original update 
+        2349912, 2349916, 2349918,
+        // 2341765, 
+        2338061, 2341960, 2346036, 2346037, 2346038, 2346042, 2346043, 
+        2349908, 2349927, 2349937, 2349939, 2349940, 2349941, 2349942, 
+        2349943, 2349945, 2349947, 2349949, 2349950, 2349954,  2349968, 2349994, 2349995,
+        
+        //중복구역
+        2346045, 2346046, 2346047, 2346049, 2346051, 2346052, 2346054, 2346055, 2346062, 2346063, 2349929, 2349930, 2349932, 2349934, 2349936, 2349957, 2349958, 2349959, 2349966,
+      ]
+      let promiseArry = [];
         try {
-          assetsList.forEach(async( asset, index)=>{
-          const tileset = await Cesium.Cesium3DTileset.fromIonAssetId(asset);
-            viewer.scene.primitives.add(tileset);
-            // Apply the default style if it exists
-            if(index == (0))await viewer.zoomTo(tileset);
-
+          promiseArry = assetsList.map(async ( asset, index)=>{
+            const resource = await Cesium.IonResource.fromAssetId(asset);
+            const tileset = await Cesium.Cesium3DTileset.fromUrl(resource, {
+              skipLevelOfDetail: true,  //email 내용 
+              baseScreenSpaceError: 8000, //email 내용 
+              skipScreenSpaceErrorFactor: 8,
+              skipLevels: 1,
+              maximumScreenSpaceError: 8,
+            });
             const extras = tileset.asset.extras;
             if (
               Cesium.defined(extras) &&
@@ -42,15 +60,21 @@
             ) {
               tileset.style = new Cesium.Cesium3DTileStyle(extras.ion.defaultStyle);
             }
-        })
-  
-      } catch (error) {
-        console.log(error);
-      }
-    }
-    setAssets();
+            await viewer.zoomTo(tileset);
 
+            return viewer.scene.primitives.add(tileset);
+          });
+          try {
+            // viewer.entities = entityCollection;
+            await Promise.all(promiseArry);
+          } catch (e) {
+              // default value: empty array
+            console.error('promise-all', e);
+          }
 
+        } catch (error) {
+          console.log(error);
+        }
     </script>
 
   </body>
