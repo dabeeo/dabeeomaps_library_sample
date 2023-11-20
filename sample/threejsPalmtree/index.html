@@ -43,11 +43,11 @@ let plane;
 const loader = new GLTFLoader();
 const textureLoader = new THREE.TextureLoader()
 const dracoLoader = new DRACOLoader();
-const texture = textureLoader.load("./map/map_light.png");
+const texture = textureLoader.load("../../public/map/map_light.png");
 
-const heightMap = textureLoader.load("./map/heightmap_light.png");
+const heightMap = textureLoader.load("../../public/map/heightmap_light.png");
 
-dracoLoader.setDecoderPath( './draco/' );
+dracoLoader.setDecoderPath( '../../public/draco/' );
 dracoLoader.setDecoderConfig({type: 'js'}); // (Optional) Override detection of WASM support.
 
 dracoLoader.preload();
@@ -133,7 +133,7 @@ function render() {
 async function initGltfData(){
   let model;
   loader.setDRACOLoader(dracoLoader);
-  await loader.loadAsync( './model/model.glb').then(( gltf ) => {
+  await loader.loadAsync( '../../public/model/model.glb').then(( gltf ) => {
   
     model = gltf.scene;
     model.rotation.x = (90 * Math.PI/180);
@@ -463,7 +463,7 @@ function setBase(array){
 }
 
 async function initData() {
-    const palmtreeData = await fetch("./geojsonData/malaysia_update.geojson")
+    const palmtreeData = await fetch("../../public/geojsonData/malaysia_update.geojson")
     .then(function(response) {
         return response.json();
     });
