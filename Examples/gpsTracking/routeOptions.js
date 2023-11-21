@@ -271,7 +271,10 @@ export const routeOptions = {
     },
     gongdeok2: {
         origin: {
-            position: { x: 3645, y: 1320 },
+            position: {
+                x: 3701.569784473168,
+                y: 1120.9295062981628,
+            },
             floorId: 'FL-s4p4cv32e5gy2500',
         },
         destination: {
