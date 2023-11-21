@@ -269,6 +269,16 @@ export const routeOptions = {
         },
         type: ['recommendation'],
     },
+    gongdeok2: {
+        origin: {
+            position: { x: 3645, y: 1320 },
+            floorId: 'FL-s4p4cv32e5gy2500',
+        },
+        destination: {
+            poiId: 'PO-OscIB428A9697', // 카페
+            floorId: 'FL-s4p4cv32e5gy2500',
+        },
+    },
 };
 
 export const naviOption = {

@@ -82,7 +82,9 @@
             <div class="stats">현재 상태: <span id="current_state"></span></div>
         </div>
     </body>
-    <script type="text/javascript" src="https://api-assets.dabeeomaps.com/upload/library/dabeeomaps-4.0-latest.js"></script>
+
+    <!-- <script type="text/javascript" src="https://api-assets.dabeeomaps.com/upload/library/dabeeomaps-04.40.01.js"></script> -->
+    <script type="text/javascript" src="https://api-assets.dabeeomaps.com/upload/library/dabeeomaps-4.0-pre-release.js"></script>
     <script type="module">
         import { routeOptions } from './routeOptions.js';
         const dabeeoMaps = new dabeeo.Maps();
@@ -105,7 +107,7 @@
             map = await dabeeoMaps.showMap(mapContainer, mapOption, mapData);
             console.log('geolocation');
 
-            const naviResponse = await mapData.getRoute(routeOptions.gongdeok); // 경로데이터 가져오기
+            const naviResponse = await mapData.getRoute(routeOptions.gongdeok2); // 경로데이터 가져오기
             console.log(naviResponse);
 
             ///////////////////////////////// API 샘플 및 사용 예제 요약
@@ -222,12 +224,12 @@
 	              시작점 {
 	                x: ${content[0].position.x.toFixed(2)}, 
 	                y: ${content[0].position.y.toFixed(2)},
-	                z: ${content[0].position.z.toFixed(2)}
+	                z: ${content[0].position.z?.toFixed(2)}
 	              } ~ 
 	              끝점 {
 	                x: ${content[1].position.x.toFixed(2)}, 
 	                y: ${content[1].position.y.toFixed(2)},
-	                z: ${content[1].position.z.toFixed(2)}
+	                z: ${content[1].position.z?.toFixed(2)}
 	              }
 	            `;
                         }
