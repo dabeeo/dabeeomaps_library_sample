@@ -24,37 +24,31 @@ import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { DRACOLoader } from 'three/addons/loaders/DRACOLoader.js'
 
 
+
 let container;
 let stats;
 let renderer;
-// let material: THREE.Material;
-let mesh;
 let camera;
 let scene;
-
 let controls;
-let radius = 300;
-
-let treeInfoArray;
+let widthStep;
+let heightStep;
 let type = 'dec';
 let width = window.innerWidth;
 let height = window.innerHeight;
 let plane;
+const group = new THREE.Group();
 const loader = new GLTFLoader();
 const textureLoader = new THREE.TextureLoader()
 const dracoLoader = new DRACOLoader();
-const texture = textureLoader.load("../../public/map/map_light.png");
-
-const heightMap = textureLoader.load("../../public/map/heightmap_light.png");
-
-dracoLoader.setDecoderPath( '../../public/draco/' );
+const texture = textureLoader.load("/map/map_light.png");
+dracoLoader.setDecoderPath( '/draco/' );
 dracoLoader.setDecoderConfig({type: 'js'}); // (Optional) Override detection of WASM support.
-
 dracoLoader.preload();
+
 
 function init() {
   renderer = new THREE.WebGLRenderer( { antialias: true } );
-
   container = document.createElement( 'div' );
   document.body.appendChild( container );
   renderer.setPixelRatio( window.devicePixelRatio );
@@ -63,33 +57,27 @@ function init() {
   container.appendChild( renderer.domElement );
 
 
-  camera = new THREE.PerspectiveCamera( 75, width / height, 0.001, 1000 );
-  camera.position.set(0,0,10);
-  // camera.rotateX((90 * Math.PI) / 180);
+  camera = new THREE.PerspectiveCamera( 75, width / height, 1, 1000 );
+  camera.position.set(0,50,0);
 
   scene = new THREE.Scene();
-  // scene.background = new THREE.Color( 0xffffff );
-	// const light = new THREE.AmbientLight( 0xffffff);
   const light = new THREE.DirectionalLight(0xffffff, 2);
 
-  light.position.set( 0, 0, 10);
-  scene.add( light );
+  light.position.set( 0, 100, 0);
+
   controls = new OrbitControls( camera, renderer.domElement );
   controls.maxPolarAngle = 180 * Math.PI / 180;
   controls.maxAzimuthAngle = 0;
 
-  controls.screenSpacePanning = true //so that panning up and down doesn't zoom in/out
-  //controls.addEventListener('change', render)
+  controls.screenSpacePanning = true; //so that panning up and down doesn't zoom in/out
 
-
-
-  // controls.target.( degrees * Math.PI / 180 )
   stats = new Stats();
   container.appendChild( stats.dom );
 
   window.addEventListener( 'resize', onWindowResize );
+  scene.add( light );
+  clean();
 
-  return true;
 }
 
 function onWindowResize() {
@@ -110,82 +98,24 @@ function animate() {
 
   controls.update();
   stats.update();
-
+ 
   render();
 
 }
 
 function render() {
 
-  // const time = performance.now() * 0.0005;
-
-  // material.uniforms[ 'time' ].value = time;
-
-  // mesh.rotation.x = time * 0.2;
-  // mesh.rotation.y = time * 0.4;
-
   renderer.render( scene, camera );
 
 }
-
-
-
-async function initGltfData(){
-  let model;
-  loader.setDRACOLoader(dracoLoader);
-  await loader.loadAsync( '../../public/model/model.glb').then(( gltf ) => {
-  
-    model = gltf.scene;
-    model.rotation.x = (90 * Math.PI/180);
-    // model.scale (new THREE.Vector3(0.01, 0.01, 0.01));
-
-  }).catch((err)=> {
-    console.log( 'An error happened', err );
-
-  });
-
-  return model; 
-}
-
-const settingBasic = ()=> {
-
-  const instanceMeshSeedling = initMesh(seedlingArry, true);
-  const instanceMeshStandard = initMesh(standardArry, false);
-  group.add(instanceMeshStandard, instanceMeshSeedling);
-
-
-}
-
-const settingGltf = async () => {
-  const instanceMeshStandard = await loadGlftModel(standardArry, false);
-  const instanceMeshSeedling = await loadGlftModel(seedlingArry, true);
-  group.add(instanceMeshStandard, instanceMeshSeedling);
-
-}
-init();
-const object = await initGltfData();
-const threeGroup = new THREE.Group();
-clean();
-initMap();
-
-const { seedlingArry, standardArry } = await initData();
-const group = new THREE.Group();
-settingGltf();
-// console.log(group)
-// camera.lookAt(group.position);
-scene.add(group);
-animate();
-
 
 function clean() {
 
   const meshes = [];
 
   scene.traverse( function ( object) {
-
-      if ( object.isMesh ) meshes.push( object );
-
-  } );
+    if ( object.isMesh ) meshes.push( object );
+  });
 
   for ( let i = 0; i < meshes.length; i ++ ) {
     const mesh = meshes[ i ];
@@ -196,7 +126,28 @@ function clean() {
 
 }
 
-function geolocationCoordToMeterCoord(center_lat, center_lon, target_lat, target_lon) {
+async function initGltfData(){
+  let model;
+  loader.setDRACOLoader(dracoLoader);
+  await loader.loadAsync( 'model/model.glb').then(( gltf ) => {
+  
+    model = gltf.scene;
+
+  }).catch((err)=> {
+    console.log( 'An error happened', err );
+
+  });
+
+  return model; 
+}
+
+const settingGltf = async () => {
+  const instanceMeshStandard = await loadGlftModel(standardArry, false);
+  const instanceMeshSeedling = await loadGlftModel(seedlingArry, true);
+  group.add(instanceMeshStandard, instanceMeshSeedling);
+}
+
+function geolocationCoordToMeterCoord(center_lat, center_lon, target_lat, target_lon){
   let calcX = measure(center_lat, center_lon, center_lat, target_lon);
   if (target_lon < center_lon) {
       calcX *= -1;
@@ -241,86 +192,138 @@ function vertex(refPoint, poiPoint) {
   const rx = cos * (x - 0) - (sin * (y - 0) + 0);
   const ry = cos * (y - 0) + (sin * (x - 0) + 0);
 
-  //지도랑 same size
-  /*
-  let afterX = rx * 0.63;
+  let afterX = rx * widthStep * 0.04;
   //축 방향 반대
-  let afterY = -ry * 1.318;
-  */
-
-  let afterX = rx * 0.003;
-  //축 방향 반대
-  let afterY = -ry * 0.0035;
+  let afterY = ry * heightStep * 0.04;
 
   // plane.get
-  return new THREE.Vector3(afterX, afterY, 0.5);
+  return new THREE.Vector2( afterX, afterY );
 }
 
-function initMap() {
+async function initMap() {
     //지도랑 same size
-  // const planeGeometry = new THREE.PlaneGeometry(7500, 7500, 1000, 1000) //, 360, 180)
-
-  const planeGeometry = new THREE.PlaneGeometry(10, 10, 2048, 2048) //, 360, 180);
-
+  const planeGeometry = new THREE.PlaneGeometry(550, 550, 200, 200).rotateX( -Math.PI * 0.5 );
   const geometry = new THREE.BufferGeometry();
   geometry.index = planeGeometry.index;
   geometry.attributes = planeGeometry.attributes;
-
-
   const material = new THREE.MeshStandardMaterial({
-    // color: 'red',
-    map: texture,
-    displacementMap : heightMap,
-    flatShading: true
-    // normalMap: heightMap,
-    // normalScale: new THREE.Vector2()
+    map: texture,    
+    flatShading: true,
   });
-
-  // const envTexture = new THREE.CubeTextureLoader().load(["img/px_50.png", "img/nx_50.png", "img/py_50.png", "img/ny_50.png", "img/pz_50.png", "img/nz_50.png"])
-  // const envTexture = new THREE.CubeTextureLoader().load(["img/px_eso0932a.jpg", "img/nx_eso0932a.jpg", "img/py_eso0932a.jpg", "img/ny_eso0932a.jpg", "img/pz_eso0932a.jpg", "img/nz_eso0932a.jpg"])
-  // envTexture.mapping = THREE.CubeReflectionMapping
-  // material.envMap = envTexture
-  
-  //const specularTexture = new THREE.TextureLoader().load("img/earthSpecular.jpg")
-  // material.specularMap = specularTexture
-
-  // material.wireframe = true;
-  // material.transparent = false;
-  // material.depthTest = true;
-  // material.depthWrite = true;
-  // material.side = THREE.DoubleSide;
-
-  // material.displacementScale = 0.42;
-  // material.displacementBias = -0.46;
-
-  
   plane = new THREE.Mesh(geometry, material);
-  //지도 맞춤
-  // plane.position.x = -2.5;
-  // plane.position.y = -5.5;
-
-
-  scene.add(plane);
+  textureLoader.load("/map/heightmap_light.png", (heightMap) => {
+    const canvas = document.createElement('canvas');
+    canvas.width = heightMap.image.width;
+    canvas.height = heightMap.image.height;
+    const context = canvas.getContext('2d');
+    context.drawImage(heightMap.image, 0, 0);
+    const width = planeGeometry.parameters.widthSegments + 1;
+    const height = planeGeometry.parameters.heightSegments + 1;
+    widthStep = heightMap.image.width / width;
+    heightStep = heightMap.image.height / height;
+    const data = context.getImageData(
+      0,
+      0,
+      heightMap.image.width,
+      heightMap.image.height
+    );
+    const positions = geometry.attributes.position.array;
+    let w, h, x, y;
   
+    for (let i = 0; i < positions.length; i += 3) {
+        w = (i / 3) % width;
+        h = i / 3 / width;
+  
+        x = Math.round(w * widthStep);
+        y = Math.round(h * heightStep);
+  
+        const displacement = data.data[x * 4 + y * 4 * heightMap.image.width]; 
+        positions[i + 1] = displacement / 5;
+    }
+  
+    geometry.attributes.position.needsUpdate = true;
+    geometry.computeVertexNormals();
+  
+   });
+
+  return plane;
 }
 
+async function initData() {
+  const palmtreeData = await fetch("../geojsonData/malaysia_update.geojson").then(
+    function(response) {
+        return response.json();
+    }
+  );
+  const palmFeature = palmtreeData.features;
+  const featureArray = palmFeature.map((feature)=>{
+      if(feature.geometry.type == 'Point')
+      return feature;
+  });
+  const langArry = featureArray.map((feature)=> {
+    return feature.geometry.coordinate[0];
+  });
+  const latArry = featureArray.map((feature)=> {
+    return feature.geometry.coordinate[1];
+  });
+
+  const base = [setBase(langArry), setBase(latArry)];
+  // 118.0816871612478
+  // 4.379409469546306
+  const seedlingArry = [];
+  const standardArry = [];
+  
+  featureArray.forEach((data, index) => {
+
+    let color;
+    let ndvi_value;
+    if(type === "dec"){
+        color = data.properties.health_status.dec;
+        ndvi_value = data.properties.ndvi_value.dec;
+    }else if(type == "jan"){
+        color = data.properties.health_status.jan;
+        ndvi_value = data.properties.ndvi_value.jan;
+    }else if(type == "april"){
+        color = data.properties.health_status.april;
+        ndvi_value = data.properties.ndvi_value.april;
+    }
+
+    const vector2 = vertex( base , data.geometry.coordinate);
+    const heighPositionArray = plane.geometry.attributes.position.array;
+    const position = nearHeightWithMap(vector2, heighPositionArray);
+    const treeInfo = {
+        id : data.properties.tree_id,
+        color : color === "healthy" ? new THREE.Color(0x00ff00) : new THREE.Color(0xFF0000) ,
+        ndvi_value : ndvi_value,
+        pos: position,
+    };
+    if(data.properties.seedling){
+      treeInfo.color = new THREE.Color(0x00FFFF);
+      seedlingArry.push(treeInfo);
+    }else standardArry.push(treeInfo);
+    
+  });
+  console.log(featureArray.length);
+  return {
+    seedlingArry: seedlingArry,
+    standardArry: standardArry,
+  }
+}
+
+
 async function loadGlftModel(treeInfoArray, isSeedling){
- 
+const threeGroup = new THREE.Group();
 
-  // scene.add(object);
-  
-  
-  const instanceCount = treeInfoArray.length;
-  const material = new THREE.MeshStandardMaterial();
+const instanceCount = treeInfoArray.length;
+const material = new THREE.MeshStandardMaterial();
 
-  object.traverse( ( child ) => {
+object.traverse( ( child ) => {
     if ( child.isMesh ) {
       child.castShadow = true;
       child.receiveShadow = true;
-      child.geometry.rotateX(45 * Math.PI/180);
-      child.geometry.scale(0.05, 0.05, 0.1);
+      // child.geometry.rotateX(45 * Math.PI/180);
+      child.geometry.scale(0.5, 0.5, 0.5);
       material.transparent = false;
-      
       const instanceMesh = new THREE.InstancedMesh( child.geometry, material, instanceCount );
       instanceMesh.instanceMatrix.setUsage( THREE.DynamicDrawUsage ); // will be updated every frame
       instanceMesh.castShadow = true;
@@ -329,9 +332,9 @@ async function loadGlftModel(treeInfoArray, isSeedling){
         const matrix = new THREE.Matrix4();
         matrix.setPosition(treeInfoArray[i].pos);
         if(isSeedling) 
-          matrix.scale(new THREE.Vector3(0.5, 0.5, 0.3) );
+          matrix.scale(new THREE.Vector3(0.4, 0.2, 0.4) );
         else 
-          matrix.scale(new THREE.Vector3(0.7, 0.7, 0.7) );
+          matrix.scale(new THREE.Vector3(0.6, 0.6, 0.6) );
 
         instanceMesh.setMatrixAt( i, matrix );
 
@@ -343,107 +346,24 @@ async function loadGlftModel(treeInfoArray, isSeedling){
         }
       }
       threeGroup.add(instanceMesh);
-      // child.material = new THREE.MeshStandardMaterial();
-      // child.castShadow = true;
-      // child.receiveShadow = true;
-      // child.isInstancedMesh = true;
-      // child.instanceMatrix = new THREE.InstancedBufferAttribute( new Float32Array( instanceCount * 16 ), 16 );
-      // child.count = instanceCount;
     }
   });
-
-  // boxes.userData.physics = { mass: 1 }; //정보 여기다 넣으면 될듯
-
-// camera.lookAt(object.position)
-
   return threeGroup;
 
 }
 
-
-function initMesh(treeInfoArray, isSeedling) {
-  
-  //나중 material
-
-  /*
-    material = new THREE.RawShaderMaterial( {
-      uniforms: {
-        'map': { value: new THREE.TextureLoader().load( 'textures/sprites/circle.png' ) },
-        'time': { value: 0.0 }
-      },
-  
-      vertexShader: document.getElementById( 'vshader' ) !== undefined ? document.getElementById( 'vshader' )?.textContent :  '',
-      fragmentShader: document.getElementById( 'fshader' )?.textContent,
-      depthTest: true,
-      depthWrite: true
-    });
-  */
- /*
-  const baseTreeGeometry = new THREE.BoxGeometry( 1, 1, 10 );
-  const geometry = new THREE.InstancedBufferGeometry();
-  geometry.index = baseTreeGeometry.index;
-  geometry.attributes = baseTreeGeometry.attributes;
-  material = new THREE.MeshStandardMaterial();
-  mesh = new THREE.InstancedMesh( baseTreeGeometry, material, palmtreeCount );
-*/
-
-  const palmtreeCount = treeInfoArray.length; //palmtree 개수
-  material = new THREE.MeshStandardMaterial();
-
-  const height = isSeedling ? 0.005 : 0.05;
-  const geometryBox = new THREE.BoxGeometry( 0.005, 0.005, height );
-
-  const boxes = new THREE.InstancedMesh( geometryBox, material, palmtreeCount );
-  boxes.instanceMatrix.setUsage( THREE.DynamicDrawUsage ); // will be updated every frame
-  boxes.castShadow = true;
-  boxes.receiveShadow = true;
-
-  // boxes.userData.physics = { mass: 1 }; //정보 여기다 넣으면 될듯
-
-  for ( let i = 0; i < palmtreeCount; i ++ ) {
-    const matrix = new THREE.Matrix4();
-
-    matrix.setPosition(treeInfoArray[i].pos);
-    boxes.setMatrixAt( i, matrix );
-    boxes.setColorAt( i, treeInfoArray[i].color);
+function nearHeightWithMap (treePos, mapData) {
+  let nearHeight = new THREE.Vector2(mapData[0], mapData[1]).manhattanDistanceTo(treePos);
+  let nearIndex = 0;
+  for (let i = 0; i < mapData.length; i += 3) {
+    const mapPosVect = new THREE.Vector2(mapData[i], mapData[i+2]);
+    const dist = mapPosVect.manhattanDistanceTo(treePos);
+    if(nearHeight - dist > 0 ){
+      nearHeight = dist;
+      nearIndex = i;
+    }
   }
-  // scene.add( boxes );
-  return boxes;
-  // const translateArray = new Float32Array( palmtreeCount * 3 ); //translate? position setting 부분인듯?
-
-  // for ( let i = 0, i3 = 0, l = palmtreeCount; i < l; i ++, i3 += 3 ) {
-  //   translateArray[ i3 + 0 ] = treeArray[i].pos.x;
-  //   translateArray[ i3 + 1 ] = treeArray[i].pos.y;
-  //   translateArray[ i3 + 2 ] = treeArray[i].pos.z;
-  // }
-  // geometry.setAttribute( 'translate', new THREE.InstancedBufferAttribute( translateArray, 3 ) );
-
-  
-  // for ( let i = 0; i < palmtreeCount; i ++ ) {
-  //   const matrix = new THREE.Matrix4();
-
-  //   let scale = new THREE.Vector3(1, 1, 1);
-  //   if(treeInfoArray[i].isSeedling){
-  //     scale = new THREE.Vector3(100, 100, 100)
-  //   }
-
-//됬었던 것
-/*
-	// 	matrix.compose( treeInfoArray[i].pos, new THREE.Quaternion(), scale );
-  //   mesh.setMatrixAt( i, matrix );
-
-  //   mesh.setColorAt( i, treeInfoArray[i].color);
-  //   let need = mesh.instanceColor;
-  //   let insMat = mesh.instanceMatrix;
-  //   if(need){
-  //     need.needsUpdate = true;
-  //   }
-  //   if(insMat) insMat.needsUpdate = true;
-
-  // }
-  // console.log(mesh)
-  // scene.add( mesh );  
-  */
+  return new THREE.Vector3(treePos.x, mapData[nearIndex + 1], treePos.y) ;
 }
 
 function setLod() {
@@ -462,72 +382,15 @@ function setBase(array){
   return array.reduce((p, c) => p + c, 0) / array.length;
 }
 
-async function initData() {
-    const palmtreeData = await fetch("../../public/geojsonData/malaysia_update.geojson")
-    .then(function(response) {
-        return response.json();
-    });
-    const palmFeature = palmtreeData.features;
-    const featureArray = palmFeature.map((feature)=>{
-        if(feature.geometry.type == 'Point')
-        return feature;
-    });
-    const langArry = featureArray.map((feature)=> {
-      return feature.geometry.coordinate[0];
-    });
-    const latArry = featureArray.map((feature)=> {
-      return feature.geometry.coordinate[1];
-    });
+init();
 
-    const base = [setBase(langArry), setBase(latArry)];
-    console.log("basee", base);
- 
-    // 118.0816871612478
-    // 4.379409469546306
+plane = await initMap();
+const object = await initGltfData();
+const { seedlingArry, standardArry } = await initData();
+settingGltf();
 
-
-    const seedlingArry = [];
-    const standardArry = [];
-    
-    featureArray.forEach((data) => {
-      let color;
-      let ndvi_value;
-      if(type === "dec"){
-          color = data.properties.health_status.dec;
-          ndvi_value = data.properties.ndvi_value.dec;
-      }else if(type == "jan"){
-          color = data.properties.health_status.jan;
-          ndvi_value = data.properties.ndvi_value.jan;
-      }else if(type == "april"){
-          color = data.properties.health_status.april;
-          ndvi_value = data.properties.ndvi_value.april;
-      }
-
-      const position = vertex( base , data.geometry.coordinate);
-
-      const treeInfo = {
-          id : data.properties.tree_id,
-          color : color === "healthy" ? new THREE.Color(0x00ff00) : new THREE.Color(0xFF0000) ,
-          ndvi_value : ndvi_value,
-          pos: position,
-      };
-      if(data.properties.seedling){
-        treeInfo.color = new THREE.Color(0x00FFFF);
-        seedlingArry.push(treeInfo);
-      }else standardArry.push(treeInfo);
-      
-    });
-    console.log(featureArray.length);
-    return {
-      seedlingArry: seedlingArry,
-      standardArry: standardArry,
-    }
-    // camera.lookAt( mesh.position);
-
-}
-
-
-
+scene.add(group, plane);
+animate();
 
     </script>
   </body>
