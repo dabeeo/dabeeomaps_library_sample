@@ -44,7 +44,7 @@
       const assetsList = [];
 
       const readGeoJsonToPosition = async () =>{
-          const palmtreeData = await fetch("../geojsonData/malaysia_update.geojson")
+          const palmtreeData = await fetch("../../public/geojsonData/malaysia_update.geojson")
           .then(function(response) {
               return response.json();
           });

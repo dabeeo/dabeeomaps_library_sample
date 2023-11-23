@@ -41,8 +41,8 @@ const group = new THREE.Group();
 const loader = new GLTFLoader();
 const textureLoader = new THREE.TextureLoader()
 const dracoLoader = new DRACOLoader();
-const texture = textureLoader.load("/map/map_light.png");
-dracoLoader.setDecoderPath( '/draco/' );
+const texture = textureLoader.load("../../public/map/map_light.png");
+dracoLoader.setDecoderPath( '../../public/draco/' );
 dracoLoader.setDecoderConfig({type: 'js'}); // (Optional) Override detection of WASM support.
 dracoLoader.preload();
 
@@ -129,7 +129,7 @@ function clean() {
 async function initGltfData(){
   let model;
   loader.setDRACOLoader(dracoLoader);
-  await loader.loadAsync( 'model/model.glb').then(( gltf ) => {
+  await loader.loadAsync( '../../public/model/model.glb').then(( gltf ) => {
   
     model = gltf.scene;
 
@@ -211,7 +211,7 @@ async function initMap() {
     flatShading: true,
   });
   plane = new THREE.Mesh(geometry, material);
-  textureLoader.load("/map/heightmap_light.png", (heightMap) => {
+  textureLoader.load("../../public/map/heightmap_light.png", (heightMap) => {
     const canvas = document.createElement('canvas');
     canvas.width = heightMap.image.width;
     canvas.height = heightMap.image.height;
@@ -250,7 +250,7 @@ async function initMap() {
 }
 
 async function initData() {
-  const palmtreeData = await fetch("../geojsonData/malaysia_update.geojson").then(
+  const palmtreeData = await fetch("../../public/geojsonData/malaysia_update.geojson").then(
     function(response) {
         return response.json();
     }
