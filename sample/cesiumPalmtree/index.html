@@ -22,105 +22,113 @@
     <div id="app">
     </div>
     <script type="module" >
-      Cesium.Ion.defaultAccessToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJmNzI0ZmNhYi1lMTU0LTQwNDUtYTRmYy1hMDJkY2NiNWVlNTMiLCJpZCI6MTcxMTcwLCJpYXQiOjE2OTc1MTI2NTF9.jaSgUdgbnyhf__JLvgaqq7F_3uIAfDd3Uss5x0IjQ0M";
+      Cesium.Ion.defaultAccessToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI5OTZhMmMzZC1lY2VlLTRlYzUtYTc5MC02OTk0Zjk3Y2Y0NjIiLCJpZCI6MTc0MjQyLCJpYXQiOjE2OTgzNjYyMjZ9.TN2DP64aepsTz5_W8tz12bSHNyD2jVoBVYreK0TZ0fA";
+      const ellipsoidTerrainProvider = new Cesium.EllipsoidTerrainProvider();
       const worldTerrain = Cesium.Terrain.fromWorldTerrain();
-      const viewer = new Cesium.Viewer("app",  {
+      const viewer = new Cesium.Viewer("container",  {
           animation: false,
           baseLayerPicker: false,
           geocoder: false,
           scsceneModePicker: false,
           selectionIndicator: false,
           homeButton: false,
-
           navigationInstructionsInitiallyVisible: false,
           // global
 
           terrain: worldTerrain,
 
         });
-      viewer.scene.globe.depthTestAgainstTerrain = true;
+        const scene = viewer.scene;
+        viewer.scene.globe.HeightReference = Cesium.HeightReference.CLAMP_TO_GROUND;
+
       const assetsList = [];
-      const scene = viewer.scene;
 
       const readGeoJsonToPosition = async () =>{
-          const palmtreeData = await fetch("../../public/geojsonData/malaysia_update.geojson")
+          const palmtreeData = await fetch("../geojsonData/malaysia_update.geojson")
           .then(function(response) {
               return response.json();
           });
           const palmFeature = palmtreeData.features;
           const palmTreeInfo = palmFeature.map((feature)=>{
               if(feature.geometry.type == 'Point')
-              // return feature.geometry.coordinate;
               return feature;
           });
-          console.log(palmTreeInfo);
           return palmTreeInfo;
-        
       } 
 
+const setTreeInfo = (info, type) => {
 
-      const palmtreeInfoArray = await readGeoJsonToPosition();
-      addGeometries(palmtreeInfoArray, "dec");
+  let color;
+  let ndvi_value;
+  if(type === "dec"){
+      color = info.properties.health_status.dec;
+      ndvi_value = info.properties.ndvi_value.dec;
+  }else if(type == "jan"){
+      color = info.properties.health_status.jan;
+      ndvi_value = info.properties.ndvi_value.jan;
+  }else if(type == "april"){
+      color = info.properties.health_status.april;
+      ndvi_value = info.properties.ndvi_value.april;
+  }
+  const pos = {
+      longitude : info.geometry.coordinate[0],
+      latitude : info.geometry.coordinate[1]
+  };
 
+  const treeInfo = {
+      id : info.properties.tree_id,
+      color : color === "healthy" ? Cesium.Color.CHARTREUSE : Cesium.Color.RED ,
+      ndvi_value : ndvi_value,
+      position: Cesium.Cartesian3.fromDegrees(pos.longitude, pos.latitude),
+      height: info.properties.seedling ? 2.0 : 10.0
+  };
 
-      async function addGeometry (info)  {
-          // console.log(info);
-          return new Promise((resolve, reject) => {
-              viewer.entities.add({
-                  name: info.id,
-                  position: info.position,
-                  box: {
-                      dimensions: new Cesium.Cartesian3(2.0, 2.0, info.height ),
-                      material: info.color,
-                      heightReference: Cesium.HeightReference.CLAMP_TO_GROUND,
-                  },
-              });
-              resolve(viewer.entities);
-          });
-      }
+  if(info.properties.seedling){
+      treeInfo.color = Cesium.Color.CYAN;
+  }
+  return treeInfo;
+}
 
-      async function addGeometries(infoArry, type) {
+const addGeometry = (info, index) =>  {
+  const geometry = Cesium.BoxGeometry.fromDimensions({
+      vertexFormat : Cesium.VertexFormat.POSITION_AND_NORMAL,
+      dimensions: new Cesium.Cartesian3(1.0, 1.0, info.height ),
+      heightReference: Cesium.HeightReference.CLAMP_TO_GROUND,
 
-          const promiseList = infoArry.map( (info, index) => {
-              let color;
-              let ndvi_value;
-              if(type === "dec"){
-                  color = info.properties.health_status.dec;
-                  ndvi_value = info.properties.ndvi_value.dec;
-              }else if(type == "jan"){
-                  color = info.properties.health_status.jan;
-                  ndvi_value = info.properties.ndvi_value.jan;
-              }else if(type == "april"){
-                  color = info.properties.health_status.april;
-                  ndvi_value = info.properties.ndvi_value.april;
-              }
-              const pos = {
-                  longitude : info.geometry.coordinate[0],
-                  latitude : info.geometry.coordinate[1]
-              };
+  });
 
-              const treeInfo = {
-                  id : info.properties.tree_id,
-                  color : color === "healthy" ? Cesium.Color.CHARTREUSE : Cesium.Color.RED ,
-                  ndvi_value : ndvi_value,
-                  position: Cesium.Cartesian3.fromDegrees(pos.longitude, pos.latitude, 0.0),
-                  height: info.properties.seedling ? 2.0 : 10.0
-              };
-
-              //작은 애들 시각적으로 표시하기 위해 파란색으로
-              if(info.properties.seedling){
-                  treeInfo.color = Cesium.Color.CYAN;
-              }
-              return addGeometry(treeInfo);        
-          });
-
-          try {
-              const result = await Promise.all(promiseList);
-              viewer.zoomTo(viewer.entities);
-            } catch (e) {
-              console.error('promise-all', e);
-            }
-        }
+    const instance = new Cesium.GeometryInstance({
+      geometry : geometry,
+      modelMatrix : Cesium.Matrix4.fromTranslationQuaternionRotationScale(
+          info.position, 
+          Cesium.Quaternion.IDENTITY,
+          Cesium.Cartesian3.ONE
+      ),
+      attributes : {
+          color :  Cesium.ColorGeometryInstanceAttribute.fromColor(info.color)
+      },
+      id : info.id
+    });
+    
+    if(index == 0){
+      viewer.camera.flyTo({
+          destination : info.position
+      });
+    }
+  return instance;
+}
+const addGeometries = (infoArry, type) => {
+  const instanceArry = infoArry.map( (info, index) => {
+    return addGeometry( setTreeInfo(info, type), index);     
+  });
+  scene.primitives.add(new Cesium.Primitive({
+    geometryInstances : instanceArry,
+    appearance : new Cesium.PerInstanceColorAppearance(),
+    asynchronous : false
+  }));
+}
+const palmtreeInfoArray = await readGeoJsonToPosition();
+addGeometries(palmtreeInfoArray, "dec");
     </script>
   </body>
 </html>
