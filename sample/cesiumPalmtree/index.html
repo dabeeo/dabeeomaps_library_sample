@@ -77,7 +77,7 @@ const setTreeInfo = (info, type) => {
 
   const treeInfo = {
       id : info.properties.tree_id,
-      color : color === "healthy" ? Cesium.Color.CHARTREUSE : Cesium.Color.RED ,
+      color : color === "healthy" ? color==="attention" ? Cesium.Color.GOLD : Cesium.Color.CHARTREUSE : Cesium.Color.RED ,
       ndvi_value : ndvi_value,
       position: Cesium.Cartesian3.fromDegrees(pos.longitude, pos.latitude),
       height: info.properties.seedling ? 2.0 : 10.0

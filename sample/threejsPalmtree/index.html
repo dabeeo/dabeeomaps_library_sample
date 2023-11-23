@@ -293,7 +293,7 @@ async function initData() {
     const position = nearHeightWithMap(vector2, heighPositionArray);
     const treeInfo = {
         id : data.properties.tree_id,
-        color : color === "healthy" ? new THREE.Color(0x00ff00) : new THREE.Color(0xFF0000) ,
+        color : color === "healthy" ? color==="attention" ? new THREE.Color(0xffff00) : new THREE.Color(0x00ff00) : new THREE.Color(0xFF0000) ,
         ndvi_value : ndvi_value,
         pos: position,
     };
