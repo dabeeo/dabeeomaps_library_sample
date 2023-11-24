@@ -65,6 +65,7 @@
             <div class="stats">다음 방향: <span id="next_step"></span></div>
         </div>
     </body>
+    <!-- <script type="text/javascript" src="../../build/dabeeomaps-4.0.0.js"></script> -->
     <script type="text/javascript" src="https://api-assets.dabeeomaps.com/upload/library/dabeeomaps-4.0-latest.js"></script>
 
     <script type="module">
@@ -89,6 +90,7 @@
                 camera: '2d',
             });
             map = await dabeeoMaps.showMap(mapContainer, mapOption, mapData);
+            const naviResponse = await getRoute(); // 경로 찾기
 
             ///////////////////////////////// API 샘플 및 사용 예제 요약
             initRouteSimulation(); // 모의주행 시작
@@ -104,11 +106,21 @@
 
             ///////////////////////////////////////
             console.log('indoor tracking test');
+
+            // 경로 검색
+            async function getRoute() {
+                const routeOption = {
+                    origin: { position: { x: 1745, y: 1470 }, floorId: 'FL-vevccrt2oto33702' },
+                    destination: { position: { x: 4236, y: 2146 }, floorId: 'FL-vevccrt2oto33702' },
+                };
+                const naviResponse = await mapData.getRoute(routeOption); // 모의주행 경로 찾기
+                return naviResponse;
+            }
+
             // 모의주행 시작
             function initRouteSimulation() {
                 const element = document.getElementById('routeSimulationSet');
                 element.addEventListener('click', async () => {
-                    const naviResponse = await getRoute(); // 경로 찾기
                     routeSimulationSet(naviResponse); // 경로그리기
                     routeAnimation(); // 모의주행 시작
                 });
@@ -130,7 +142,6 @@
                     alert('Indoor Tracking 서비스를 시작합니다');
                     mylocationSet();
                     const indoorTrackingOption = {
-                        orient: 0,
                         position: { x: 1745, y: 1470 }, // My location coordinates
                         height: 170,
                         focus: true,
@@ -142,7 +153,6 @@
                         alert('Indoor Tracking 서비스가 불가능합니다. ');
                         return;
                     }
-                    const naviResponse = await getRoute();
                     const result2 = map.mylocation.trackingOn(naviResponse?.recommendation); // tracking-move, tracking-complete 이벤트 활성화
                     if (!result2) {
                         alert('Navigation 서비스가 불가능합니다. ');
@@ -157,7 +167,7 @@
                 const element = document.getElementById('indoorStop');
                 element.addEventListener('click', () => {
                     alert('Indoor Tracking 서비스를 종료합니다');
-                    map.mylocation.clear();
+                    map.mylocation.clear(); // 내위치 마커 삭제
                     map.routeSimulation.clear(); // 모의주행 경로 삭제
                     map.mylocation.trackingOff(); // navigation tracking 중단
                     map.mylocation.indoorStop(); // indoor tracking service 종료
@@ -190,14 +200,6 @@
                 map.control.moveTo({ position: { x: 1745, y: 1470 }, transition: true }); // 지정한좌표를 화면 중앙으로
             }
 
-            async function getRoute() {
-                const routeOption = {
-                    origin: { position: { x: 1745, y: 1470 }, floorId: 'FL-vevccrt2oto33702' },
-                    destination: { position: { x: 4236, y: 2146 }, floorId: 'FL-vevccrt2oto33702' },
-                };
-                const naviResponse = await mapData.getRoute(routeOption); // 모의주행 경로 찾기
-                return naviResponse;
-            }
             function routeSimulationSet(naviResponse) {
                 const naviOption = {
                     lineDivide: false, // 네비게이션 선 분할여부 결정 (false 인 경우, defaultLineOption 만 사용)
