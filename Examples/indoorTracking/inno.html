@@ -68,7 +68,6 @@
             <div class="stats">다음 방향: <span id="next_step"></span></div>
         </div>
     </body>
-    <!-- <script type="text/javascript" src="../../build/dabeeomaps-4.0.0.js"></script> -->
     <script type="text/javascript" src="https://api-assets.dabeeomaps.com/upload/library/dabeeomaps-4.0-latest.js"></script>
 
     <script type="module">
@@ -76,21 +75,27 @@
         const dabeeoMaps = new dabeeo.Maps();
 
         // 지도 데이터를 불러오기 위한 키
-        // 공덕역 사무실
+        // inno 사무실
         const mapDataOption = {
-            clientId: '6FLO-0RJQDv9oPd_mgAJX0',
-            clientSecret: '4ff90a5feffb4d5d785994e981cf3924',
+            clientId: 'fNZ3Xedj4IP9uqSD36iath',
+            clientSecret: 'b3a2e30065d05e3ed221697b36131851',
         };
 
         // 내위치 마커, 출발지 위치
-        // 공덕역 사무실
-        const startPosition = { x: 1745, y: 1470 };
+        // inno 사무실
+        const startPosition = { x: 975, y: 1712 };
 
         // 모의주행 그리기 위한 출발지와 도착지
-        // 공덕역 사무실
+        // inno 사무실
         const routeOption = {
-            origin: { position: startPosition, floorId: 'FL-vevccrt2oto33702' },
-            destination: { position: { x: 4236, y: 2146 }, floorId: 'FL-vevccrt2oto33702' },
+            // 소수점 제한 있음!
+            origin: { position: startPosition, floorId: 'FL-_hg9DHSEt0996' },
+            destination: { position: { x: 2829, y: 608 }, floorId: 'FL-_hg9DHSEt0996' },
+            waypoints: [
+                { position: { x: 2014, y: 730 }, floorId: 'FL-_hg9DHSEt0996' },
+                { position: { x: 423, y: 377 }, floorId: 'FL-_hg9DHSEt0996' },
+                { position: { x: 417, y: 1200 }, floorId: 'FL-_hg9DHSEt0996' },
+            ],
         };
 
         let heading = true; // heading flag
