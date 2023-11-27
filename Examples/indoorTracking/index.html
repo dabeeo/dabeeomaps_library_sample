@@ -8,6 +8,9 @@
         <style>
             body {
                 margin: 0;
+                width: 100vw;
+                height: 100vh;
+                overflow-y: hidden;
             }
             button {
                 margin-top: 10px;
@@ -24,7 +27,7 @@
                 position: absolute;
                 left: 0;
                 bottom: 0;
-                margin: 1rem;
+                /* margin: 1rem; */
                 padding: 1rem;
                 width: 90%;
                 height: fit-content;
@@ -48,7 +51,7 @@
         <div id="container">
             <div class="stats">내 위치 상태: <span id="myloc-state"></span></div>
             <button id="routeSimulationSet">모의주행 시작</button>
-            <button id="routeSimulationClear">모의주행 종료</button>
+            <button id="routeSimulationClear">모의주행 삭제</button>
             <button id="indoorStart">indooor tracking 시작</button>
             <button id="indoorStop">indooor tracking 종료</button>
             <button id="heading">Heading On/Off</button>
@@ -69,28 +72,41 @@
     <script type="text/javascript" src="https://api-assets.dabeeomaps.com/upload/library/dabeeomaps-4.0-latest.js"></script>
 
     <script type="module">
-        let mapData = null;
-        let map = null;
-        let heading = true;
-        let focus = true;
+        // 지도 api 객체 불러오기
+        const dabeeoMaps = new dabeeo.Maps();
+
+        // 지도 데이터를 불러오기 위한 키
+        const mapDataOption = {
+            // 공덕역 사무실
+            clientId: '6FLO-0RJQDv9oPd_mgAJX0',
+            clientSecret: '4ff90a5feffb4d5d785994e981cf3924',
+        };
+
+        // 내위치 마커, 출발지 위치
+        const startPosition = { x: 1745, y: 1470 };
+
+        // 모의주행 그리기 위한 출발지와 도착지
+        const routeOption = {
+            origin: { position: startPosition, floorId: 'FL-vevccrt2oto33702' },
+            destination: { position: { x: 4236, y: 2146 }, floorId: 'FL-vevccrt2oto33702' },
+        };
+
+        let heading = true; // heading flag
+        let focus = true; // focus flag
 
         async function init() {
-            // 지도 api 불러오기
-            const dabeeoMaps = new dabeeo.Maps();
-            // 지도 데이터 가져오기
-            mapData = await dabeeoMaps.getMapData({
-                // 공덕역 사무실
-                clientId: '6FLO-0RJQDv9oPd_mgAJX0',
-                clientSecret: '4ff90a5feffb4d5d785994e981cf3924',
-            });
-            const mapContainer = document.getElementById('map');
+            // 1. 지도 데이터 가져오기
+            const mapData = await dabeeoMaps.getMapData(mapDataOption);
 
-            // 지도 그리기
+            // 2. 경로 찾기
+            const naviResponse = await mapData.getRoute(routeOption); // 경로 찾기
+
+            // 3.  지도 그리기
+            const mapContainer = document.getElementById('map');
             const mapOption = Object.assign({
                 camera: '2d',
             });
-            map = await dabeeoMaps.showMap(mapContainer, mapOption, mapData);
-            const naviResponse = await getRoute(); // 경로 찾기
+            const map = await dabeeoMaps.showMap(mapContainer, mapOption, mapData);
 
             ///////////////////////////////// API 샘플 및 사용 예제 요약
             initRouteSimulation(); // 모의주행 시작
@@ -99,6 +115,8 @@
             indoorStopTest(); // indoor tracking 종료
             initIndoorHeadingOnOff(); // Heading on/off
             initIndoorFocusOnOff(); // Focus on/off
+
+            // event handling
             trackingCompleteEventTest(); // tracking-complete 이벤트 및 map.mylocation.indoorStop() 테스트
             trackingMoveEventTest(); // tracking-move 이벤트 테스트
             mylocationMapOutEventTest(); // mylocation-map-out 이벤트 테스트
@@ -107,21 +125,11 @@
             ///////////////////////////////////////
             console.log('indoor tracking test');
 
-            // 경로 검색
-            async function getRoute() {
-                const routeOption = {
-                    origin: { position: { x: 1745, y: 1470 }, floorId: 'FL-vevccrt2oto33702' },
-                    destination: { position: { x: 4236, y: 2146 }, floorId: 'FL-vevccrt2oto33702' },
-                };
-                const naviResponse = await mapData.getRoute(routeOption); // 모의주행 경로 찾기
-                return naviResponse;
-            }
-
-            // 모의주행 시작
+            // 모의주행 시작 : 주행경로를 미리 알아보기 위함
             function initRouteSimulation() {
                 const element = document.getElementById('routeSimulationSet');
                 element.addEventListener('click', async () => {
-                    routeSimulationSet(naviResponse); // 경로그리기
+                    routeSimulationSet(); // 경로 그리기
                     routeAnimation(); // 모의주행 시작
                 });
             }
@@ -140,90 +148,30 @@
                 const button = document.getElementById('indoorStart');
                 button.addEventListener('click', async (e) => {
                     alert('Indoor Tracking 서비스를 시작합니다');
-                    mylocationSet();
-                    const indoorTrackingOption = {
-                        position: { x: 1745, y: 1470 }, // My location coordinates
-                        height: 170,
-                        focus: true,
-                        heading: true,
-                    };
-
-                    const result = await map.mylocation.indoorStart(indoorTrackingOption); // geolocation 시작
-                    if (!result) {
-                        alert('Indoor Tracking 서비스가 불가능합니다. ');
-                        return;
+                    mylocationSet(); // 내위치 마커 표출
+                    const result = await mylocationIndoorStart(); // indoor service 시작
+                    if (result) {
+                        const result2 = await mylocationTrackingOn(); // navigtiona mode로 tracking 시작
+                        if (result2) {
+                            routeSimulationSet(); // 경로그리기
+                            return;
+                        }
                     }
-                    const result2 = map.mylocation.trackingOn(naviResponse?.recommendation); // tracking-move, tracking-complete 이벤트 활성화
-                    if (!result2) {
-                        alert('Navigation 서비스가 불가능합니다. ');
-                        return;
-                    }
-                    routeSimulationSet(naviResponse); // 경로그리기
+                    map.mylocation.clear(); // 내위치 마커 삭제
+                    alert('Indoor Tracking 서비스가 불가능합니다. ');
                 });
             }
 
             // indoor tracking service 종료
             function indoorStopTest() {
                 const element = document.getElementById('indoorStop');
-                element.addEventListener('click', () => {
+                element.addEventListener('click', async () => {
                     alert('Indoor Tracking 서비스를 종료합니다');
                     map.mylocation.clear(); // 내위치 마커 삭제
                     map.routeSimulation.clear(); // 모의주행 경로 삭제
-                    map.mylocation.trackingOff(); // navigation tracking 중단
+                    await map.mylocation.trackingOff(); // navigation tracking 중단
                     map.mylocation.indoorStop(); // indoor tracking service 종료
                 });
-            }
-
-            // 내위치 마커 표출
-            function mylocationSet() {
-                const locationOption = {
-                    x: 1745,
-                    y: 1470,
-                    iconOption: {
-                        iconUrl: 'https://assets.dabeeomaps.com/image/ico/indoorlocation.png',
-                        width: 60,
-                        height: 60,
-                    },
-                    animate: {
-                        color: '#0000ff',
-                        opacity: 0.2,
-                        desireScale: 2,
-                        duration: 1500,
-                    },
-                    gpsOption: {
-                        leftCourseDistance: 3, // 경로이탈 여부 (ON_PATH 와 OUT_OF_PATH) 를 판단하는 기준 거리
-                        willArriveRadius: 5, // 도착 예정 범위 반경
-                        arrivedRadius: 3, // 도착 범위 반경
-                    },
-                };
-                map.mylocation.set(locationOption); // myLocation 생성
-                map.control.moveTo({ position: { x: 1745, y: 1470 }, transition: true }); // 지정한좌표를 화면 중앙으로
-            }
-
-            function routeSimulationSet(naviResponse) {
-                const naviOption = {
-                    lineDivide: false, // 네비게이션 선 분할여부 결정 (false 인 경우, defaultLineOption 만 사용)
-                    defaultLineOption: {
-                        // 기본 주행선 옵션
-                        lineColor: '#0000ff', // navigation 주행 라인의 색상을 지정
-                        lineSpotSize: 10, // 주행선의 점의 굵기를 지정합니다. 주행선의 속성이 점선일 경우 적용됩니다.
-                        solidLineEnabled: true, // 주행라인의 속성을 결정합니다. false일 때는 점선, true일 때는 실선으로 그려집니다. default는 false.
-                        solidLineWidth: 30, // 실선의 굵기입니다. default는 1
-                    },
-                    destination: {
-                        // 도착지 마커 및 주행선 옵션
-                        showTag: false, // 도착지 말풍선 생성 여부 (기본값 true)
-                    },
-                };
-                map.routeSimulation.set(naviResponse?.recommendation, naviOption);
-            }
-
-            async function routeAnimation() {
-                const animOption = {
-                    speedRate: 100,
-                    zoom: 21.4,
-                };
-                await map.routeSimulation.start(animOption); // 모의주행 애니메이션 시작
             }
 
             // indoor tracking service Heading 설정
@@ -246,14 +194,85 @@
                 });
             }
 
+            // 내위치 마커 표출
+            function mylocationSet() {
+                const locationOption = {
+                    x: startPosition.x,
+                    y: startPosition.y,
+                    iconOption: {
+                        iconUrl: 'https://assets.dabeeomaps.com/image/ico/indoorlocation.png',
+                        width: 60,
+                        height: 60,
+                    },
+                    animate: {
+                        color: '#0000ff',
+                        opacity: 0.2,
+                        desireScale: 2,
+                        duration: 1500,
+                    },
+                    gpsOption: {
+                        leftCourseDistance: 3, // 경로이탈 여부 (ON_PATH 와 OUT_OF_PATH) 를 판단하는 기준 거리
+                        willArriveRadius: 5, // 도착 예정 범위 반경
+                        arrivedRadius: 3, // 도착 범위 반경
+                    },
+                };
+                map.mylocation.set(locationOption); // myLocation 생성
+                map.control.moveTo({ position: { x: 1745, y: 1470 }, transition: true }); // 지정한좌표를 화면 중앙으로
+            }
+
+            // indoor service 시작
+            async function mylocationIndoorStart() {
+                const indoorTrackingOption = {
+                    position: startPosition, // My location coordinates
+                    height: 170, // 키(신장)
+                    focus: true, // 내위치 마커가 항상 지도 중심에 올 지 여부 설정
+                    heading: true, // 내위치 마커의 방향이 항상 전방을 가리키도록 할 지 여부 설정
+                };
+
+                return await map.mylocation.indoorStart(indoorTrackingOption); // indoor location service 시작
+            }
+
+            // navigtiona mode로 tracking 시작
+            async function mylocationTrackingOn() {
+                return await map.mylocation.trackingOn(naviResponse?.recommendation); // tracking-move, tracking-complete 이벤트 활성화
+            }
+
+            // 모의주행 경로 그리기
+            function routeSimulationSet() {
+                const naviOption = {
+                    lineDivide: false, // 네비게이션 선 분할여부 결정 (false 인 경우, defaultLineOption 만 사용)
+                    defaultLineOption: {
+                        // 기본 주행선 옵션
+                        lineColor: '#0000ff', // navigation 주행 라인의 색상을 지정
+                        lineSpotSize: 10, // 주행선의 점의 굵기를 지정합니다. 주행선의 속성이 점선일 경우 적용됩니다.
+                        solidLineEnabled: true, // 주행라인의 속성을 결정합니다. false일 때는 점선, true일 때는 실선으로 그려집니다. default는 false.
+                        solidLineWidth: 30, // 실선의 굵기입니다. default는 1
+                    },
+                    destination: {
+                        // 도착지 마커 및 주행선 옵션
+                        showTag: false, // 도착지 말풍선 생성 여부 (기본값 true)
+                    },
+                };
+                map.routeSimulation.set(naviResponse?.recommendation, naviOption);
+            }
+
+            // 모의주행 애니메이션 시작
+            async function routeAnimation() {
+                const animOption = {
+                    speedRate: 100,
+                    zoom: 21.4,
+                };
+                await map.routeSimulation.start(animOption); // 모의주행 애니메이션 시작
+            }
+
+            // tracking-complete event 받은 경우
             function trackingCompleteEventTest() {
                 // tracking-complete
                 mapContainer.addEventListener('tracking-complete', async (e) => {
                     console.log('tracking-complete에 대한 결과값: ', e.detail);
-                    // map.mylocation.stop(); // geolocation 중단
+                    await map.mylocation.trackingOff(); // navigation tracking 중단
+                    map.mylocation.indoorStop(); // indoor tracking service 종료
                     alert('목적지에 도착하여 서비스를 종료합니다. ');
-                    await map.mylocation.trackingOff();
-                    map.mylocation.indoorStop(); // geolocation 시작
                 });
             }
 
