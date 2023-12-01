@@ -14,6 +14,12 @@
             }
             button {
                 margin-top: 10px;
+                background-color: #04aa6d;
+                color: white;
+                padding: 5px 6px;
+                border: none;
+                font: bold;
+                border-radius: 10px;
             }
             #map {
                 width: 100vw;
@@ -74,19 +80,12 @@
         // 지도 api 객체 불러오기
         const dabeeoMaps = new dabeeo.Maps();
 
-        // 지도 데이터를 불러오기 위한 키
         // inno 사무실
         const mapDataOption = {
             clientId: 'fNZ3Xedj4IP9uqSD36iath',
             clientSecret: 'b3a2e30065d05e3ed221697b36131851',
         };
-
-        // 내위치 마커, 출발지 위치
-        // inno 사무실
         const startPosition = { x: 975, y: 1712 };
-
-        // 모의주행 그리기 위한 출발지와 도착지
-        // inno 사무실
         const routeOption = {
             // 소수점 제한 있음!
             origin: { position: startPosition, floorId: 'FL-_hg9DHSEt0996' },
@@ -194,7 +193,8 @@
                 element.addEventListener('click', () => {
                     alert(`Heading option을 ${!heading}으로 설정합니다`);
                     heading = !heading;
-                    map.mylocation.indoorSetHeading(heading); // 신장 설정
+                    element.style.backgroundColor = heading ? '#04aa6d' : '#f44336';
+                    map.mylocation.indoorSetHeading(heading); // heading 설정
                 });
             }
 
@@ -204,7 +204,8 @@
                 element.addEventListener('click', () => {
                     alert(`Focus option을 ${!focus}으로 설정합니다`);
                     focus = !focus;
-                    map.mylocation.indoorSetFocus(focus); // 신장 설정
+                    element.style.backgroundColor = focus ? '#04aa6d' : '#f44336';
+                    map.mylocation.indoorSetFocus(focus); // focus 설정
                 });
             }
 
@@ -239,8 +240,8 @@
                 const indoorTrackingOption = {
                     position: startPosition, // My location coordinates
                     height: 170, // 키(신장)
-                    focus: true, // 내위치 마커가 항상 지도 중심에 올 지 여부 설정
-                    heading: true, // 내위치 마커의 방향이 항상 전방을 가리키도록 할 지 여부 설정
+                    focus: focus, // 내위치 마커가 항상 지도 중심에 올 지 여부 설정
+                    heading: heading, // 내위치 마커의 방향이 항상 전방을 가리키도록 할 지 여부 설정
                 };
 
                 return await map.mylocation.indoorStart(indoorTrackingOption); // indoor location service 시작
@@ -284,6 +285,7 @@
                 // tracking-complete
                 mapContainer.addEventListener('tracking-complete', async (e) => {
                     console.log('tracking-complete에 대한 결과값: ', e.detail);
+                    updateStats(e);
                     await map.mylocation.trackingOff(); // navigation tracking 중단
                     map.mylocation.indoorStop(); // indoor tracking service 종료
                     alert('목적지에 도착하여 서비스를 종료합니다. ');

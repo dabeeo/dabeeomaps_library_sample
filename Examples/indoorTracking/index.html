@@ -14,6 +14,12 @@
             }
             button {
                 margin-top: 10px;
+                background-color: #04aa6d;
+                color: white;
+                padding: 5px 6px;
+                border: none;
+                font: bold;
+                border-radius: 10px;
             }
             #map {
                 width: 100vw;
@@ -75,19 +81,12 @@
         // 지도 api 객체 불러오기
         const dabeeoMaps = new dabeeo.Maps();
 
-        // 지도 데이터를 불러오기 위한 키
         // 공덕역 사무실
         const mapDataOption = {
             clientId: '6FLO-0RJQDv9oPd_mgAJX0',
             clientSecret: '4ff90a5feffb4d5d785994e981cf3924',
         };
-
-        // 내위치 마커, 출발지 위치
-        // 공덕역 사무실
         const startPosition = { x: 1745, y: 1470 };
-
-        // 모의주행 그리기 위한 출발지와 도착지
-        // 공덕역 사무실
         const routeOption = {
             origin: { position: startPosition, floorId: 'FL-vevccrt2oto33702' },
             destination: { position: { x: 4236, y: 2146 }, floorId: 'FL-vevccrt2oto33702' },
@@ -164,6 +163,7 @@
                             routeSimulationSet(); // 경로그리기
                             return;
                         }
+                        map.mylocation.indoorStop();
                     }
                     map.mylocation.clear(); // 내위치 마커 삭제
                     alert('Indoor Tracking 서비스가 불가능합니다. ');
@@ -187,8 +187,10 @@
                 const element = document.getElementById('heading');
                 element.addEventListener('click', () => {
                     alert(`Heading option을 ${!heading}으로 설정합니다`);
+                    console.log(heading);
                     heading = !heading;
-                    map.mylocation.indoorSetHeading(heading); // 신장 설정
+                    element.style.backgroundColor = heading ? '#04aa6d' : '#f44336';
+                    map.mylocation.indoorSetHeading(heading); // heading 설정
                 });
             }
 
@@ -198,7 +200,8 @@
                 element.addEventListener('click', () => {
                     alert(`Focus option을 ${!focus}으로 설정합니다`);
                     focus = !focus;
-                    map.mylocation.indoorSetFocus(focus); // 신장 설정
+                    element.style.backgroundColor = focus ? '#04aa6d' : '#f44336';
+                    map.mylocation.indoorSetFocus(focus); // focus 설정
                 });
             }
 
@@ -233,8 +236,8 @@
                 const indoorTrackingOption = {
                     position: startPosition, // My location coordinates
                     height: 170, // 키(신장)
-                    focus: true, // 내위치 마커가 항상 지도 중심에 올 지 여부 설정
-                    heading: true, // 내위치 마커의 방향이 항상 전방을 가리키도록 할 지 여부 설정
+                    focus: focus, // 내위치 마커가 항상 지도 중심에 올 지 여부 설정
+                    heading: heading, // 내위치 마커의 방향이 항상 전방을 가리키도록 할 지 여부 설정
                 };
 
                 return await map.mylocation.indoorStart(indoorTrackingOption); // indoor location service 시작
@@ -278,6 +281,7 @@
                 // tracking-complete
                 mapContainer.addEventListener('tracking-complete', async (e) => {
                     console.log('tracking-complete에 대한 결과값: ', e.detail);
+                    updateStats(e);
                     await map.mylocation.trackingOff(); // navigation tracking 중단
                     map.mylocation.indoorStop(); // indoor tracking service 종료
                     alert('목적지에 도착하여 서비스를 종료합니다. ');
