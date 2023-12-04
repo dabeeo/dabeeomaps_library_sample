@@ -75,17 +75,16 @@
         </div>
     </body>
     <!-- <script type="text/javascript" src="../../build/dabeeomaps-4.0.0.js"></script> -->
-    <script type="text/javascript" src="https://api-assets.dabeeomaps.com/upload/library/dabeeomaps-4.0-latest.js"></script>
+    <!-- <script type="text/javascript" src="https://api-assets.dabeeomaps.com/upload/library/dabeeomaps-4.0-latest.js"></script> -->
+    <script type="text/javascript" src="https://api-assets.dabeeomaps.com/upload/library/dabeeomaps-4.0-pre-release.js"></script>
 
     <script type="module">
         // 지도 api 객체 불러오기
         const dabeeoMaps = new dabeeo.Maps();
 
         // 공덕역 사무실
-        const mapDataOption = {
-            clientId: '6FLO-0RJQDv9oPd_mgAJX0',
-            clientSecret: '4ff90a5feffb4d5d785994e981cf3924',
-        };
+        const clientId = '6FLO-0RJQDv9oPd_mgAJX0';
+        const clientSecret = '4ff90a5feffb4d5d785994e981cf3924';
         const startPosition = { x: 1745, y: 1470 };
         const routeOption = {
             origin: { position: startPosition, floorId: 'FL-vevccrt2oto33702' },
@@ -97,6 +96,10 @@
 
         async function init() {
             // 1. 지도 데이터 가져오기
+            const mapDataOption = {
+                clientId,
+                clientSecret,
+            };
             const mapData = await dabeeoMaps.getMapData(mapDataOption);
 
             // 2. 경로 찾기
@@ -154,6 +157,10 @@
             function indoorStartTest() {
                 const button = document.getElementById('indoorStart');
                 button.addEventListener('click', async (e) => {
+                    // Request permission for iOS 13+ devices
+                    if (DeviceMotionEvent && typeof DeviceMotionEvent.requestPermission === 'function') {
+                        DeviceMotionEvent.requestPermission();
+                    }
                     alert('Indoor Tracking 서비스를 시작합니다');
                     mylocationSet(); // 내위치 마커 표출
                     const result = await mylocationIndoorStart(); // indoor service 시작
@@ -238,6 +245,7 @@
                     height: 170, // 키(신장)
                     focus: focus, // 내위치 마커가 항상 지도 중심에 올 지 여부 설정
                     heading: heading, // 내위치 마커의 방향이 항상 전방을 가리키도록 할 지 여부 설정
+                    // loggingOption: { clientId, clientSecret },
                 };
 
                 return await map.mylocation.indoorStart(indoorTrackingOption); // indoor location service 시작

@@ -81,10 +81,8 @@
         const dabeeoMaps = new dabeeo.Maps();
 
         // inno 사무실
-        const mapDataOption = {
-            clientId: 'fNZ3Xedj4IP9uqSD36iath',
-            clientSecret: 'b3a2e30065d05e3ed221697b36131851',
-        };
+        clientId = 'fNZ3Xedj4IP9uqSD36iath';
+        clientSecret = 'b3a2e30065d05e3ed221697b36131851';
         const startPosition = { x: 975, y: 1712 };
         const routeOption = {
             // 소수점 제한 있음!
@@ -102,6 +100,10 @@
 
         async function init() {
             // 1. 지도 데이터 가져오기
+            const mapDataOption = {
+                clientId,
+                clientSecret,
+            };
             const mapData = await dabeeoMaps.getMapData(mapDataOption);
 
             // 2. 경로 찾기
@@ -159,6 +161,10 @@
             function indoorStartTest() {
                 const button = document.getElementById('indoorStart');
                 button.addEventListener('click', async (e) => {
+                    // Request permission for iOS 13+ devices
+                    if (DeviceMotionEvent && typeof DeviceMotionEvent.requestPermission === 'function') {
+                        DeviceMotionEvent.requestPermission();
+                    }
                     alert('Indoor Tracking 서비스를 시작합니다');
                     mylocationSet(); // 내위치 마커 표출
                     const result = await mylocationIndoorStart(); // indoor service 시작
@@ -242,6 +248,7 @@
                     height: 170, // 키(신장)
                     focus: focus, // 내위치 마커가 항상 지도 중심에 올 지 여부 설정
                     heading: heading, // 내위치 마커의 방향이 항상 전방을 가리키도록 할 지 여부 설정
+                    // loggingOption: { clientId, clientSecret },
                 };
 
                 return await map.mylocation.indoorStart(indoorTrackingOption); // indoor location service 시작
