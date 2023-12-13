@@ -23,10 +23,10 @@
     </div>
     <script type="module" >
       Cesium.Ion.defaultAccessToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJlZjExOWQwMC1kYzAxLTRkMWItODlkYi1lZTBlZDMwODUxMDkiLCJpZCI6MTc0MDU5LCJpYXQiOjE3MDI0Mjk2OTd9.kXkbjmi5g_uc2C1W792H1eyzEYFcD7MJ2btivj4For0";
-      const viewer = new Cesium.Viewer("app");
+      const viewer = new Cesium.Viewer("app", {globe: false});
       const setAssets = async () =>{
       try {
-      const tileset = await Cesium.Cesium3DTileset.fromIonAssetId(2388239);
+      const tileset = await Cesium.Cesium3DTileset.fromIonAssetId(2389775);
       viewer.scene.primitives.add(tileset);
       await viewer.zoomTo(tileset);
 
