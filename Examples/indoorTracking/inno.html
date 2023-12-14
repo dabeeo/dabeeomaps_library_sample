@@ -81,8 +81,10 @@
         const dabeeoMaps = new dabeeo.Maps();
 
         // inno 사무실
-        clientId = 'fNZ3Xedj4IP9uqSD36iath';
-        clientSecret = 'b3a2e30065d05e3ed221697b36131851';
+        const clientId = 'fNZ3Xedj4IP9uqSD36iath';
+        const clientSecret = 'b3a2e30065d05e3ed221697b36131851';
+        const mapContainer = document.getElementById('map');
+
         const startPosition = { x: 975, y: 1712 };
         const routeOption = {
             // 소수점 제한 있음!
@@ -110,7 +112,6 @@
             const naviResponse = await mapData.getRoute(routeOption); // 경로 찾기
 
             // 3.  지도 그리기
-            const mapContainer = document.getElementById('map');
             const mapOption = {
                 camera: '2d',
                 framerate: 60,
@@ -136,6 +137,7 @@
             mylocationMapOutEventTest(); // mylocation-map-out 이벤트 테스트
             mylocationMapInTest(); // mylocation-map-in 이벤트 테스트
 
+            onMouseClickTest();
             ///////////////////////////////////////
             console.log('indoor tracking test');
 
@@ -145,6 +147,12 @@
                 element.addEventListener('click', async () => {
                     routeSimulationSet(); // 경로 그리기
                     routeAnimation(); // 모의주행 시작
+                });
+            }
+            function onMouseClickTest() {
+                // 마우스 클릭
+                mapContainer.addEventListener('on-mouse-click', (e) => {
+                    console.log('on mouse click 에 대한 결과값', e.detail);
                 });
             }
 
