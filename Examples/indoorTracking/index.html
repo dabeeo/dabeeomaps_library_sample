@@ -66,7 +66,7 @@
         <div id="map" class="map"></div>
         <div id="tracking-info">
             <div class="stats">현상태: <span id="current_state"></span></div>
-            <div class="stats">현위치: <span id="current_position"></span></div>
+            <div class="stats">현위치: <span id="current_position"></span>이전 지점과의 거리 <span id="distance_from_previous"></span></div>
             <div class="stats">가장 가까운 지점: <span id="closestPoint"></span></div>
             <div class="stats">출발지거리: <span id="distance_from_origin"></span> 도착지거리: <span id="distance_to_destination"></span></div>
             <div class="stats">현재 path: <span id="current_path"></span></div>
@@ -76,7 +76,8 @@
     </body>
     <!-- <script type="text/javascript" src="../../build/dabeeomaps-4.0.0.js"></script> -->
     <!-- <script type="text/javascript" src="https://api-assets.dabeeomaps.com/upload/library/dabeeomaps-4.0-latest.js"></script> -->
-    <script type="text/javascript" src="https://api-assets.dabeeomaps.com/upload/library/dabeeomaps-4.0-pre-release.js"></script>
+    <!-- <script type="text/javascript" src="https://api-assets.dabeeomaps.com/upload/library/dabeeomaps-4.0-pre-release.js"></script> -->
+    <script type="text/javascript" src="https://assets.dabeeomaps.com/upload/library/dabeeomaps-4.0.0.js"></script>
 
     <script type="module">
         // 지도 api 객체 불러오기
@@ -90,6 +91,21 @@
             origin: { position: startPosition, floorId: 'FL-vevccrt2oto33702' },
             destination: { position: { x: 4236, y: 2146 }, floorId: 'FL-vevccrt2oto33702' },
         };
+
+        // inno 사무실
+        // clientId = 'fNZ3Xedj4IP9uqSD36iath';
+        // clientSecret = 'b3a2e30065d05e3ed221697b36131851';
+        // const startPosition = { x: 975, y: 1712 };
+        // const routeOption = {
+        //     // 소수점 제한 있음!
+        //     origin: { position: startPosition, floorId: 'FL-_hg9DHSEt0996' },
+        //     destination: { position: { x: 2829, y: 608 }, floorId: 'FL-_hg9DHSEt0996' },
+        //     waypoints: [
+        //         { position: { x: 2014, y: 608 }, floorId: 'FL-_hg9DHSEt0996' },
+        //         { position: { x: 423, y: 377 }, floorId: 'FL-_hg9DHSEt0996' },
+        //         { position: { x: 417, y: 1200 }, floorId: 'FL-_hg9DHSEt0996' },
+        //     ],
+        // };
 
         let heading = true; // heading flag
         let focus = true; // focus flag
@@ -355,7 +371,7 @@
                             }
                         }
                         if (typeof content === 'number') {
-                            content = content.toFixed();
+                            content = content.toFixed(3);
                         }
                         stat.textContent = content;
                     }
