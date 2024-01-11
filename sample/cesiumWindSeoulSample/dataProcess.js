@@ -48,12 +48,12 @@ const DataProcess = (function () {
 
         data.lon.min = Math.min(...data.lon.array);
         data.lon.max = Math.max(...data.lon.array);
-        console.log(
-          "data.lon.array",
-          data.lon.array,
-          data.lon.min,
-          data.lon.max
-        );
+        // console.log(
+        //   "data.lon.array",
+        //   data.lon.array,
+        //   data.lon.min,
+        //   data.lon.max
+        // );
 
         data.lat = {};
         data.lat.array = new Float32Array(NetCDF.getDataVariable("lat").flat());
@@ -71,7 +71,7 @@ const DataProcess = (function () {
 
         data.lev = {};
         data.lev.array = new Float32Array(NetCDF.getDataVariable("lev").flat());
-        console.log("data.lev.array", data.lev.array);
+        // console.log("data.lev.array", data.lev.array);
 
         data.lev.min = Math.min(...data.lev.array);
         data.lev.max = Math.max(...data.lev.array);
@@ -90,7 +90,7 @@ const DataProcess = (function () {
         // data.U.array = [...arraylon, ...arraylon, ...arraylon, ...arraylon];
         // data.U.array.splice(1037519, 2161);
 
-        console.log("data.U.array", data.U.array);
+        // console.log("data.U.array", data.U.array);
 
         data.U.min = uAttributes["min"].value;
         data.U.max = uAttributes["max"].value;
@@ -100,7 +100,7 @@ const DataProcess = (function () {
         //  = arraylat;
         // data.V.array = [...arraylat, ...arraylat, ...arraylat, ...arraylat];
         // data.V.array.splice(1037519, 2161);
-        console.log("data.V.array", data.V.array);
+        // console.log("data.V.array", data.V.array);
 
         data.V.min = vAttributes["min"].value;
         data.V.max = vAttributes["max"].value;
