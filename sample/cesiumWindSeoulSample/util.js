@@ -43,14 +43,14 @@ const Util = (function () {
   };
 
   var createTexture = function (options, typedArray) {
-    console.log(typedArray);
+    // console.log(typedArray);
     if (Cesium.defined(typedArray)) {
       // typed array needs to be passed as source option, this is required by Cesium.Texture
       var source = {};
       source.arrayBufferView = typedArray;
       options.source = source;
     }
-    console.log("options", options);
+    // console.log("options", options);
     var texture = new Cesium.Texture(options);
     return texture;
   };
