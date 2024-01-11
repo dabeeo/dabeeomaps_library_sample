@@ -4,7 +4,7 @@ export const fileOptions = {
   dataDirectory: demo
     ? "https://raw.githubusercontent.com/RaymanNg/3D-Wind-Field/master/data/"
     : "../data/",
-  dataFile: "uv.nc",
+  dataFile: "demo.nc",
   glslDirectory: demo ? "../cesium-wind-mine/glsl/" : "glsl/",
 };
 

@@ -156,31 +156,31 @@ export class Wind3D {
 
         break;
       }
-      case "2401081200": {
-        this.viewer.imageryLayers.addImageryProvider(
-          await Cesium.createWorldImageryAsync()
-        );
-        this.addData(globeLayer.fileName);
+      // case "2401081200": {
+      //   this.viewer.imageryLayers.addImageryProvider(
+      //     await Cesium.createWorldImageryAsync()
+      //   );
+      //   this.addData(globeLayer.fileName);
 
-        break;
-      }
+      //   break;
+      // }
 
-      case "2401080000": {
-        this.viewer.imageryLayers.addImageryProvider(
-          await Cesium.createWorldImageryAsync()
-        );
-        this.addData(globeLayer.fileName);
+      // case "2401080000": {
+      //   this.viewer.imageryLayers.addImageryProvider(
+      //     await Cesium.createWorldImageryAsync()
+      //   );
+      //   this.addData(globeLayer.fileName);
 
-        break;
-      }
-      case "2401080600": {
-        this.viewer.imageryLayers.addImageryProvider(
-          await Cesium.createWorldImageryAsync()
-        );
-        this.addData(globeLayer.fileName);
+      //   break;
+      // }
+      // case "2401080600": {
+      //   this.viewer.imageryLayers.addImageryProvider(
+      //     await Cesium.createWorldImageryAsync()
+      //   );
+      //   this.addData(globeLayer.fileName);
 
-        break;
-      }
+      //   break;
+      // }
     }
     setTimeout(
       () =>
