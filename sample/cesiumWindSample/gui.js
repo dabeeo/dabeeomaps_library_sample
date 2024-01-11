@@ -5,7 +5,7 @@ export const fileOptions = {
     ? "https://raw.githubusercontent.com/RaymanNg/3D-Wind-Field/master/data/"
     : "../../public/windData/",
   dataFile: "demo.nc",
-  glslDirectory: demo ? "../cesium-wind-mine/glsl/" : "glsl/",
+  glslDirectory: demo ? "../cesiumWindSample/glsl/" : "glsl/",
 };
 
 export const defaultParticleSystemOptions = {
