@@ -3,7 +3,7 @@ var demo = Cesium.defaultValue(demo, false);
 export const fileOptions = {
   dataDirectory: demo
     ? "https://raw.githubusercontent.com/RaymanNg/3D-Wind-Field/master/data/"
-    : "../data/",
+    : "../../public/windData/",
   dataFile: "demo.nc",
   glslDirectory: demo ? "../cesium-wind-mine/glsl/" : "glsl/",
 };
