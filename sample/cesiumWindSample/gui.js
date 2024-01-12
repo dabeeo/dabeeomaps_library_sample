@@ -85,7 +85,7 @@ export class Panel {
       this.gui = new dat.GUI({ autoPlace: false });
 
       this.gui
-        .add(that, "maxParticles", 1, 110 * 110, 1)
+        .add(that, "maxParticles", 100, 110 * 110, 1)
         .onFinishChange(onParticleSystemOptionsChange);
       this.gui
         .add(that, "particleHeight", 0.1, 100, 0.01)
@@ -100,10 +100,10 @@ export class Panel {
       //   .add(that, "dropRateBump", 0, 0.2)
       //   .onFinishChange(onParticleSystemOptionsChange);
       this.gui
-        .add(that, "speedFactor", 0.0001, 4)
+        .add(that, "speedFactor", 0.01, 4, 0.001)
         .onFinishChange(onParticleSystemOptionsChange);
       this.gui
-        .add(that, "lineWidth", 0.0001, 2.0)
+        .add(that, "lineWidth", 0.01, 8.0, 0.001)
         .onFinishChange(onParticleSystemOptionsChange);
 
       this.gui
