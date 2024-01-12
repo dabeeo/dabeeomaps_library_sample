@@ -396,7 +396,7 @@ export class Wind3D {
     } else if (viewHeight > 1000) {
       return Math.ceil(k * viewHeight + viewHeight / 25);
     } else if (viewHeight > 500) {
-      return Math.ceil(k * viewHeight + viewHeight / 8);
+      return Math.ceil(k * viewHeight + viewHeight / 4);
     } else {
       return Math.ceil(k * viewHeight + viewHeight);
     }
