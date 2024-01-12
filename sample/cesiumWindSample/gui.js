@@ -14,7 +14,7 @@ export const defaultParticleSystemOptions = {
   dropRate: 0.02,
   dropRateBump: 0.02,
   speedFactor: 4.0,
-  lineWidth: 4.0,
+  lineWidth: 6.0,
 };
 
 const globeLayers = [
