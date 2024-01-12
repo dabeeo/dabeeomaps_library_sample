@@ -18,9 +18,9 @@ export const defaultParticleSystemOptions = {
 };
 
 const globeLayers = [
-  // { name: "2024.01.08.12:00", type: "2401081200", fileName: "2401081200.nc" },
-  // { name: "2024.01.08.00:00", type: "2401080000", fileName: "2401080000.nc" },
-  // { name: "2024.01.08.06:00", type: "2401080600", fileName: "2401080600.nc" },
+  { name: "2024.01.08.00:00", type: "2401080000", fileName: "2401080000.nc" },
+  { name: "2024.01.08.06:00", type: "2401080600", fileName: "2401080600.nc" },
+  { name: "2024.01.08.12:00", type: "2401081200", fileName: "2401081200.nc" },
 
   {
     name: "2018.09.16.00:00",

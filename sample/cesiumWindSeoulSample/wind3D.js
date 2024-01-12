@@ -56,8 +56,24 @@ export class Wind3D {
     // this.updateViewerParameters();
     this.imageryLayers = this.viewer.imageryLayers;
 
-    this.setGlobeLayer(this.panel.getUserInput());
     this.setTileset();
+    this.setGlobeLayer(this.panel.getUserInput());
+    this.setupEventListeners();
+
+    if (this.mode.debug) {
+      this.debug();
+    }
+    setTimeout(
+      () =>
+        this.viewer.camera.flyTo({
+          destination: Cesium.Cartesian3.fromDegrees(
+            127.0363431764427,
+            37.585353994499876,
+            7800
+          ),
+        }),
+      4000
+    );
   }
 
   addData(fileName) {
@@ -70,12 +86,6 @@ export class Wind3D {
         this.viewerParameters
       );
       this.addPrimitives();
-
-      this.setupEventListeners();
-
-      if (this.mode.debug) {
-        this.debug();
-      }
     });
   }
 
@@ -136,65 +146,16 @@ export class Wind3D {
   }
 
   async setGlobeLayer(userInput) {
-    //지도 이미지 바뀌었을 시 다시 그리기 위해
-    this.viewer.imageryLayers.removeAll();
-    this.viewer.terrainProvider = new Cesium.EllipsoidTerrainProvider();
-
     var globeLayer = userInput.globeLayer;
-    // this.particleSystem = null;
-
-    // await this.scene.primitives.removeAll();
     //layer 변경시 고대 지역으로 flyTo
-
     this.updateViewerParameters();
-    switch (globeLayer.type) {
-      case "WorldTerrain": {
-        this.viewer.imageryLayers.addImageryProvider(
-          await Cesium.createWorldImageryAsync()
-        );
-        this.addData(globeLayer.fileName);
-
-        break;
-      }
-      case "2401081200": {
-        this.viewer.imageryLayers.addImageryProvider(
-          await Cesium.createWorldImageryAsync()
-        );
-        this.addData(globeLayer.fileName);
-
-        break;
-      }
-
-      case "2401080000": {
-        this.viewer.imageryLayers.addImageryProvider(
-          await Cesium.createWorldImageryAsync()
-        );
-        this.addData(globeLayer.fileName);
-
-        break;
-      }
-      case "2401080600": {
-        this.viewer.imageryLayers.addImageryProvider(
-          await Cesium.createWorldImageryAsync()
-        );
-        this.addData(globeLayer.fileName);
-
-        break;
-      }
-    }
-    setTimeout(
-      () =>
-        this.viewer.camera.flyTo({
-          destination: Cesium.Cartesian3.fromDegrees(
-            126.991703,
-            37.552802,
-            57800)
-        }),
-      4000
-    );
+    this.addData(globeLayer.fileName);
   }
 
   async setTileset() {
+    this.viewer.imageryLayers.addImageryProvider(
+      await Cesium.createWorldImageryAsync()
+    );
     const assetsList = [
       2386135,
       2387624,
@@ -460,24 +421,20 @@ export class Wind3D {
     this.camera.moveStart.addEventListener(function () {
       that.primitivesArray.forEach((primitive) => (primitive.show = false));
       // that.scene.primitives.show = false;
+      console.log(that.primitivesArray.length);
     });
 
     this.camera.moveEnd.addEventListener(function () {
       const viewHeight = that.getViewHeight();
-      // 根据视高(不同分辨率)设置合适的最大粒子数(解决不同分辨率下固定粒子数问题)
       let maxParticles = that.getMaxNumByHeight(viewHeight);
-      // 根据视高设置合适的迹线宽度(设置高分辨率下迹线太宽影响可视化效果问题)
       let lineWidth = that.getLineWidthByHeight(viewHeight);
-      // 根据视高设置合适的透明度(解决高分辨率下，观察某一局部地区的迹线颜色太亮影响可视化效果)
       let fadeOpacity = that.getOpacityByHeight(viewHeight);
-      // 根据视高设置合适的速度因子(解决分辨率很高的情况下，固定速度因子带来的迹线速度太快，给人眼花缭乱的眩晕感)
       let speedFactor = that.getSpeedFactorByHeight(viewHeight);
       that.panel.maxParticles = maxParticles;
       that.panel.lineWidth = lineWidth;
       that.panel.fadeOpacity = fadeOpacity;
       that.panel.speedFactor = speedFactor;
-      console.log("height:", viewHeight);
-      // console.log(that.panel.getUserInput());
+      console.log(that.panel.getUserInput());
       that.particleSystem.applyUserInput(that.panel.getUserInput());
 
       that.updateViewerParameters();
