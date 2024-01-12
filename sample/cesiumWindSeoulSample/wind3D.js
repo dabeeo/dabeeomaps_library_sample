@@ -377,25 +377,25 @@ export class Wind3D {
     if (viewHeight > 20000000) {
       return Math.ceil(k * viewHeight + 2000);
     } else if (viewHeight > 15000000) {
-      return Math.ceil(k * viewHeight + viewHeight / 3000);
+      return Math.ceil(k * viewHeight + viewHeight / 1500);
     } else if (viewHeight > 10000000) {
-      return Math.ceil(k * viewHeight + viewHeight / 1000);
+      return Math.ceil(k * viewHeight + viewHeight / 500);
     } else if (viewHeight > 5000000) {
-      return Math.ceil(k * viewHeight + viewHeight / 800);
+      return Math.ceil(k * viewHeight + viewHeight / 400);
     } else if (viewHeight > 1000000) {
-      return Math.ceil(k * viewHeight + viewHeight / 350);
+      return Math.ceil(k * viewHeight + viewHeight / 125);
     } else if (viewHeight > 100000) {
-      return Math.ceil(k * viewHeight + viewHeight / 250);
-    } else if (viewHeight > 50000) {
-      return Math.ceil(k * viewHeight + viewHeight / 150);
-    } else if (viewHeight > 10000) {
       return Math.ceil(k * viewHeight + viewHeight / 100);
-    } else if (viewHeight > 5000) {
+    } else if (viewHeight > 50000) {
       return Math.ceil(k * viewHeight + viewHeight / 80);
+    } else if (viewHeight > 10000) {
+      return Math.ceil(k * viewHeight + viewHeight / 50);
+    } else if (viewHeight > 5000) {
+      return Math.ceil(k * viewHeight + viewHeight / 30);
     } else if (viewHeight > 1000) {
-      return Math.ceil(k * viewHeight + viewHeight / 25);
+      return Math.ceil(k * viewHeight + viewHeight / 8);
     } else if (viewHeight > 500) {
-      return Math.ceil(k * viewHeight + viewHeight / 4);
+      return Math.ceil(k * viewHeight + viewHeight / 2);
     } else {
       return Math.ceil(k * viewHeight + viewHeight);
     }
@@ -416,7 +416,7 @@ export class Wind3D {
     } else if (viewHeight > 2000) {
       return 0.6;
     } else if (viewHeight > 1000) {
-      return 0.4;
+      return 0.3;
     } else if (viewHeight > 100) {
       return 0.14;
     } else {
@@ -450,7 +450,7 @@ export class Wind3D {
     } else if (viewHeight > 500) {
       return 1.0;
     } else {
-      return 0.4;
+      return 0.8;
     }
   }
 
