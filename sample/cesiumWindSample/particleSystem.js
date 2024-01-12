@@ -86,7 +86,7 @@ export class ParticleSystem {
           this.particlesRendering.primitives.segments.attributeLocations,
         bufferUsage: Cesium.BufferUsage.STATIC_DRAW,
       });
-      console.log(vertexArray);
+      // console.log(vertexArray);
       this.particlesRendering.primitives.segments.commandToExecute.vertexArray =
         vertexArray;
     }

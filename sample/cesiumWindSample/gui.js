@@ -1,21 +1,20 @@
 var demo = Cesium.defaultValue(demo, false);
 
 export const fileOptions = {
-  dataDirectory: demo
-    ? "https://raw.githubusercontent.com/RaymanNg/3D-Wind-Field/master/data/"
+  dataDirectory
     : "../../public/windData/",
   dataFile: "demo.nc",
-  glslDirectory: demo ? "../cesiumWindSample/glsl/" : "glsl/",
+  glslDirectory:  "glsl/",
 };
 
 export const defaultParticleSystemOptions = {
-  maxParticles: 128 * 128,
-  particleHeight: 25.0,
+  maxParticles: 110 * 110,
+  particleHeight: 30.0,
   fadeOpacity: 0.996,
-  dropRate: 0.03,
-  dropRateBump: 0.04,
-  speedFactor: 1.6,
-  lineWidth: 3.0,
+  dropRate: 0.02,
+  dropRateBump: 0.02,
+  speedFactor: 4.0,
+  lineWidth: 4.0,
 };
 
 const globeLayers = [
@@ -24,7 +23,7 @@ const globeLayers = [
   // { name: "2024.01.08.06:00", type: "2401080600", fileName: "2401080600.nc" },
 
   {
-    name: "WorldTerrain",
+    name: "2018.09.16.00:00",
     type: "WorldTerrain",
     fileName: "demo.nc",
   },
@@ -45,8 +44,15 @@ export class Panel {
     this.dropRateBump = defaultParticleSystemOptions.dropRateBump;
     this.speedFactor = defaultParticleSystemOptions.speedFactor;
     this.lineWidth = defaultParticleSystemOptions.lineWidth;
-
     this.globeLayer = defaultLayerOptions.globeLayer;
+    this.cameraToRecon = () => {
+      var event = new CustomEvent("cameraToRecon");
+      window.dispatchEvent(event);
+    };
+    this.cameraToSeoul = () => {
+      var event = new CustomEvent("cameraToSeoul");
+      window.dispatchEvent(event);
+    };
     this.WMS_URL = defaultLayerOptions.WMS_URL;
 
     var layerNames = [];
@@ -72,39 +78,49 @@ export class Panel {
       window.dispatchEvent(event);
     };
 
+    // const onCameraChange = function () {};
+    // add:function(){ alert("clicked")
+
     window.onload = function () {
-      var gui = new dat.GUI({ autoPlace: false });
-      gui
-        .add(that, "maxParticles", 1, 256 * 256, 1)
+      this.gui = new dat.GUI({ autoPlace: false });
+
+      this.gui
+        .add(that, "maxParticles", 1, 110 * 110, 1)
         .onFinishChange(onParticleSystemOptionsChange);
-      gui
-        .add(that, "particleHeight", 0.1, 10000, 0.01)
+      this.gui
+        .add(that, "particleHeight", 0.1, 100, 0.01)
         .onFinishChange(onParticleSystemOptionsChange);
-      gui
+      this.gui
         .add(that, "fadeOpacity", 0.9, 0.999, 0.001)
         .onFinishChange(onParticleSystemOptionsChange);
-      // gui
+      // this.gui
       //   .add(that, "dropRate", 0.0, 0.1)
       //   .onFinishChange(onParticleSystemOptionsChange);
-      // gui
+      // this.gui
       //   .add(that, "dropRateBump", 0, 0.2)
       //   .onFinishChange(onParticleSystemOptionsChange);
-      gui
-        .add(that, "speedFactor", 0.0001, 8)
+      this.gui
+        .add(that, "speedFactor", 0.0001, 4)
         .onFinishChange(onParticleSystemOptionsChange);
-      gui
-        .add(that, "lineWidth", 0.0001, 16.0)
+      this.gui
+        .add(that, "lineWidth", 0.0001, 2.0)
         .onFinishChange(onParticleSystemOptionsChange);
 
-      gui
+      this.gui
         .add(that, "layerToShow", layerNames)
         .onFinishChange(onLayerOptionsChange);
+
+      this.gui.add(that, "cameraToRecon").onFinishChange();
+      this.gui.add(that, "cameraToSeoul").onFinishChange();
 
       var panelContainer = document
         .getElementsByClassName("cesium-widget")
         .item(0);
-      gui.domElement.classList.add("myPanel");
-      panelContainer.appendChild(gui.domElement);
+      this.gui.domElement.classList.add("myPanel");
+
+      console.log("gui", this.gui);
+
+      panelContainer.appendChild(this.gui.domElement);
     };
   }
 

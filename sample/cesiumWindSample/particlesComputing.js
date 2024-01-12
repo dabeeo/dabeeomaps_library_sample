@@ -86,20 +86,20 @@ export class ParticlesComputing {
       data.dimensions.lat,
       data.dimensions.lev
     );
-    console.log("dimension", dimension);
+    // console.log("dimension", dimension);
     const minimum = new Cesium.Cartesian3(
       data.lon.min,
       data.lat.min,
       data.lev.min
     );
-    console.log("minimum", minimum);
+    // console.log("minimum", minimum);
 
     const maximum = new Cesium.Cartesian3(
       data.lon.max,
       data.lat.max,
       data.lev.max
     );
-    console.log("maximum", maximum);
+    // console.log("maximum", maximum);
 
     const interval = new Cesium.Cartesian3(
       (maximum.x - minimum.x) / (dimension.x - 1),
