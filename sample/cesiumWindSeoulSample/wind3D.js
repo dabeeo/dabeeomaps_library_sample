@@ -186,10 +186,9 @@ export class Wind3D {
       () =>
         this.viewer.camera.flyTo({
           destination: Cesium.Cartesian3.fromDegrees(
-            127.0363431764427,
-            37.585353994499876,
-            7800
-          ),
+            126.991703,
+            37.552802,
+            57800)
         }),
       4000
     );
