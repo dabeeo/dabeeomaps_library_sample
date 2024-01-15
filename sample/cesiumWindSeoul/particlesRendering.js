@@ -1,3 +1,7 @@
+/**
+ * FileName: particlesRendering.js
+ * Description : particle의 geometry 를 실제로 만들어 rendering 할 수 있는 class
+ */
 import Util from "./util.js";
 import { CustomPrimitive } from "./customPrimitive.js";
 import { fileOptions } from "./gui.js";

@@ -1,3 +1,7 @@
+/**
+ * FileName: particlesComputing.js
+ * Description : particle texture들을 만들고 그에 관한 함수들을 만들 수 있는 class
+ */
 import Util from "./util.js";
 import DataProcess from "./dataProcess.js";
 import { CustomPrimitive } from "./customPrimitive.js";

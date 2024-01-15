@@ -1,3 +1,7 @@
+/**
+ * FileName: wind3D.js
+ * Description : 전체적으로 wind 를 구성하는 요소를 설정 및 event 등록을 하는 곳
+ */
 import Util from "./util.js";
 import DataProcess from "./dataProcess.js";
 import { ParticleSystem } from "./particleSystem.js";
@@ -5,9 +9,7 @@ import { defaultParticleSystemOptions, fileOptions } from "./gui.js";
 
 export class Wind3D {
   constructor(panel, mode) {
-    // console.log(panel);
     var options = {
-      // use Sentinel-2 instead of the default Bing Maps because Bing Maps sessions is limited
       contextOptions: {
         requestWebgl1: true,
       },

@@ -1,3 +1,7 @@
+/**
+ * FileName: util.js
+ * Description : 여러곳에서 쓰이는 함수 
+ */
 const Util = (function () {
   var loadText = function (filePath) {
     var request = new XMLHttpRequest();

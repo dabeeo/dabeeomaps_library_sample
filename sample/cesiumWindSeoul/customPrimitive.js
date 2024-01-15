@@ -1,3 +1,7 @@
+/**
+ * FileName: customPrimitive.js
+ * Description : cesium의 primitive를 custom으로 만들기 위한 class.
+ */
 export class CustomPrimitive {
   constructor(options) {
     this.commandType = options.commandType;

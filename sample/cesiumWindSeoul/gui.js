@@ -1,4 +1,8 @@
-var demo = Cesium.defaultValue(demo, false);
+/**
+ * FileName: gui.js
+ * Description : dat.gui 항목들을 구성하는 Class
+ */
+// var demo = Cesium.defaultValue(demo, false);
 
 export const fileOptions = {
   dataDirectory

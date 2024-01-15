@@ -1,3 +1,7 @@
+/**
+ * FileName: particleSystem.js
+ * Description : particleComputing과 particleRendering을 할 수 있는 class
+ */
 import { ParticlesRendering } from "./particlesRendering.js";
 import { ParticlesComputing } from "./particlesComputing.js";
 

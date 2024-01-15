@@ -1,3 +1,7 @@
+/**
+ * FileName: dataProcess.js
+ * Description : NetCDF Data, Color table data를 읽어오는 파일.
+ */
 import { fileOptions } from "./gui.js";
 import Util from "./util.js";
 
@@ -80,13 +84,8 @@ const DataProcess = (function () {
         //   data.dimensions.lon * data.dimensions.lat
         // );
 
-        // 259920;
-        // 1039680;
-        // 1037519;
-        // 2161;
         data.U = {};
         data.U.array = new Float32Array(NetCDF.getDataVariable("U").flat());
-        //  = arraylon;
         // data.U.array = [...arraylon, ...arraylon, ...arraylon, ...arraylon];
         // data.U.array.splice(1037519, 2161);
 
