@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <script src="https://cesium.com/downloads/cesiumjs/releases/1.110/Build/Cesium/Cesium.js"></script>
+        <link href="https://cesium.com/downloads/cesiumjs/releases/1.110/Build/Cesium/Widgets/widgets.css" rel="stylesheet" />
+        <style>
+            body {
+                margin: 0;
+                padding: 0;
+            }
+
+            #app {
+                position: absolute;
+                top: 0;
+                right: 0;
+                bottom: 0;
+                left: 0;
+            }
+        </style>
+
+        <title>Dabeeo 3d Recon (11.1 released cesium) Sample - Seoul(도엽 37705032)</title>
+    </head>
+    <body>
+        <div id="app"></div>
+        <script type="module">
+          Cesium.Ion.defaultAccessToken =
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJlZjExOWQwMC1kYzAxLTRkMWItODlkYi1lZTBlZDMwODUxMDkiLCJpZCI6MTc0MDU5LCJpYXQiOjE3MDI0Mjk2OTd9.kXkbjmi5g_uc2C1W792H1eyzEYFcD7MJ2btivj4For0";
+ const viewer = new Cesium.Viewer('app',{
+    shouldAnimate: true,
+
+ });
+            const assetsList = [
+      2387852, //고려대학교 지역
+    ];
+    const scene = viewer.scene;
+    scene.globe.depthTestAgainstTerrain = true;
+
+            let promiseArry = [];
+            try {
+                promiseArry = assetsList.map(async (asset, index) => {
+                    const resource = await Cesium.IonResource.fromAssetId(asset);
+                    const tileset = await Cesium.Cesium3DTileset.fromUrl(resource, {
+                        skipLevelOfDetail: true,  //email 내용 
+                        baseScreenSpaceError: 2000, //email 내용 //이전8000
+                        skipScreenSpaceErrorFactor: 20, //이전8
+                        skipLevels: 1,
+                        maximumScreenSpaceError: 25, //이전8
+                    });
+
+                    const extras = tileset.asset.extras;
+
+                    if (Cesium.defined(extras) && Cesium.defined(extras.ion) && Cesium.defined(extras.ion.defaultStyle)) {
+                        tileset.style = new Cesium.Cesium3DTileStyle(extras.ion.defaultStyle);
+                    }
+
+                    return viewer.scene.primitives.add(tileset);
+                });
+
+                try {
+                    await Promise.all(promiseArry);
+                } catch (e) {
+                    // default value: empty array
+                    console.error('promise-all', e);
+                }
+            } catch (error) {
+                console.log(error);
+            }
+
+            viewer.camera.flyTo({
+          destination: Cesium.Cartesian3.fromDegrees(
+            127.0363431764427,
+            37.585353994499876,
+            7800
+          ),
+        })
+
+        // Cesium.Cartesian3.fromDegrees(127.0363431764427, 37.585353994499876, 7800);
+//안암동 Cartesian3
+const modelPosition = Cesium.Cartesian3.fromDegrees(
+  127.0363431764427,
+  37.585353994499876,
+  10.0
+);
+const particlesModelMatrix =
+  Cesium.Transforms.eastNorthUpToFixedFrame(modelPosition);
+
+// Draw particle image to a canvas
+let particleCanvas;
+function getImage() {
+  // 하나의 파티클을 그릴 공간을 정하는 부분
+  if (!Cesium.defined(particleCanvas)) {
+    particleCanvas = document.createElement("canvas");
+    // 파티클의 크기가 아니라 파티클을 그릴 공간의 width, height
+    particleCanvas.width = 20;
+    particleCanvas.height = 20;
+
+    const context2D = particleCanvas.getContext("2d");
+    context2D.beginPath();
+    context2D.arc(8, 8, 8, 0, Cesium.Math.TWO_PI, false); //동그라미 이미지지 이미지
+    // context2D.arc(8, 8, 8, 0, (Math.PI * 2) / 4, false); //동그라미 이미지지 이미지
+    // context2D.lineTo(4, 0);
+    context2D.closePath();
+    context2D.fillStyle = "rgb(255, 255, 255)";
+    context2D.fill();
+  }
+  return particleCanvas;
+}
+
+// const resetCamera = function () {
+//   viewer.camera.lookAt(cameraLocation, new Cesium.Cartesian3(-450, -300, 200));
+// };
+// resetCamera();
+
+// Add plane to scene
+// const hpr = new Cesium.HeadingPitchRoll(0.0, Cesium.Math.PI_OVER_TWO, 0.0);
+// const orientation = Cesium.Transforms.headingPitchRollQuaternion(
+//   planePosition,
+//   hpr
+// );
+// const entity = viewer.entities.add({
+//   model: {
+//     uri: "../SampleData/models/CesiumAir/Cesium_Air.glb",
+//     scale: 3.5,
+//   },
+//   position: planePosition,
+//   orientation: orientation,
+// });
+
+// creating particles model matrix
+
+// creating the particle systems
+const rocketOptions = {
+  numberOfSystems: 10.0,
+  iterationOffset: 0.1,
+  cartographicStep: 0.000001,
+  baseRadius: 0.0005,
+
+  colorOptions: [
+    {
+      minimumRed: 1.0,
+      green: 0.5,
+      minimumBlue: 0.05,
+      alpha: 1.0,
+    },
+    {
+      red: 0.9,
+      minimumGreen: 0.6,
+      minimumBlue: 0.01,
+      alpha: 1.0,
+    },
+    {
+      red: 0.8,
+      green: 0.05,
+      minimumBlue: 0.09,
+      alpha: 1.0,
+    },
+    {
+      minimumRed: 1,
+      minimumGreen: 0.05,
+      blue: 0.09,
+      alpha: 1.0,
+    },
+  ],
+};
+
+const cometOptions = {
+  numberOfSystems: 50.0,
+  iterationOffset: 0.003,
+  cartographicStep: 0.000005,
+  baseRadius: 0.05,
+  colorOptions: [
+    {
+      red: 1.0,
+      green: 0.0,
+      blue: 1.0,
+      alpha: 1.0,
+    },
+    {
+      red: 0.6,
+      green: 0.0,
+      blue: 0.9,
+      alpha: 0.9,
+    },
+    {
+      red: 0.3,
+      green: 0.0,
+      blue: 0.5,
+      alpha: 0.5,
+    },
+  ],
+  redColor: [
+    {
+      red: 0.0,
+      green: 1.0,
+      blue: 5.0,
+      alpha: 1.0,
+    },
+    {
+      red: 0.6,
+      green: 0.6,
+      blue: 0.0,
+      alpha: 0.9,
+    },
+    {
+      red: 0.0,
+      green: 0.5,
+      blue: 0.8,
+      alpha: 0.1,
+    },
+  ],
+};
+
+let scratchCartesian3 = new Cesium.Cartesian3();
+let scratchCartographic = new Cesium.Cartographic();
+let velocity = new Cesium.Cartesian3();
+
+const forceUpdate = (particle, dt) => {
+  // dt = Cesium.Math.clamp(dt, 0.0, 0.05); // 제한할 값, 최소, 최대 => 최소 최대 사이로 제한을 줌
+
+  Cesium.Cartesian3.normalize(particle.position, velocity);
+
+  Cesium.Cartesian3.multiplyComponents(
+    velocity,
+    new Cesium.Cartesian3(30 * dt, 30 * dt, -50 * dt),
+    velocity
+  );
+
+  particle.velocity = Cesium.Cartesian3.add(
+    particle.velocity,
+    velocity,
+    particle.velocity
+  );
+};
+
+const forceFunction = function (options, iteration) {
+  return function (particle, dt) {
+    // dt = Cesium.Math.clamp(dt, 0.0, 0.05); // 제한할 값, 최소, 최대 => 최소 최대 사이로 제한을 줌
+
+    //방향 vectoer
+    scratchCartesian3 = Cesium.Cartesian3.normalize(
+      particle.position,
+      new Cesium.Cartesian3()
+    );
+
+    //진행 방향으로 -40*dt만큼 곱해줌
+    // scratchCartesian3 = Cesium.Cartesian3.multiplyByScalar(
+    //   scratchCartesian3,
+    //   -40.0 * dt,
+    //   scratchCartesian3
+    // );
+    const angle = (Cesium.Math.PI * 2.0 * iteration) / options.numberOfSystems;
+
+    scratchCartesian3 = Cesium.Cartesian3.multiplyComponents(
+      scratchCartesian3,
+      new Cesium.Cartesian3(
+        Math.cos(angle) * options.cartographicStep * 3.0 * dt,
+        Math.sin(angle) * options.cartographicStep * 3.0 * dt,
+        0
+      ),
+      scratchCartesian3
+    );
+
+    //시간에 따른 증가한 위치
+    scratchCartesian3 = Cesium.Cartesian3.add(
+      particle.position,
+      scratchCartesian3,
+      scratchCartesian3
+    );
+
+    particle.velocity = Cesium.Cartesian3.add(
+      particle.velocity,
+      scratchCartesian3,
+      particle.velocity
+    );
+
+    
+  };
+};
+
+const emitterModelMatrix = new Cesium.Matrix4();
+const rotation = new Cesium.Quaternion();
+let hpr = new Cesium.HeadingPitchRoll();
+const trs = new Cesium.TranslationRotationScale();
+
+function computeEmitterModelMatrix() {
+  hpr = Cesium.HeadingPitchRoll.fromDegrees(0.0, 0.0, -90.0, hpr);
+  // trs.translation = Cesium.Cartesian3.fromElements(-4.0, 0.0, 1.4, translation);
+  trs.rotation = Cesium.Quaternion.fromHeadingPitchRoll(hpr, rotation);
+
+  return Cesium.Matrix4.fromTranslationRotationScale(trs, emitterModelMatrix);
+}
+
+const matrix4Scratch = new Cesium.Matrix4();
+let scratchAngleForOffset = 0.0;
+const scratchOffset = new Cesium.Cartesian3();
+const imageSize = new Cesium.Cartesian2(10.0, 10.0); //particle 그릴 image 크기
+console.log(particlesModelMatrix);
+function createParticleSystems(options, systemsArray) {
+  const length = options.numberOfSystems;
+  for (let i = 0; i < length; ++i) {
+    // scratchAngleForOffset = (Math.PI * 2.0 * i) / options.numberOfSystems;
+    // scratchOffset.x += options.baseRadius * Math.cos(scratchAngleForOffset);
+    // scratchOffset.y += options.baseRadius * Math.sin(scratchAngleForOffset);
+
+    // const emitterModelMatrix = Cesium.Matrix4.fromTranslation(
+    //   scratchOffset,
+    //   matrix4Scratch
+    // );
+    //color 중에서 random
+    const color = Cesium.Color.fromRandom(
+      options.colorOptions[i % options.colorOptions.length]
+    );
+
+    const redColor = Cesium.Color.fromBytes(30, 255, 254, 255);
+    const redEndColor = Cesium.Color.fromBytes(220, 255, 255, 0);
+    // 다음 force
+    const force = forceFunction(options, i);
+
+    const item = viewer.scene.primitives.add(
+      new Cesium.ParticleSystem({
+        image: getImage(),
+        // startColor: color,
+        // endColor: color.withAlpha(0.0),
+        startColor: redColor,
+        endColor: redEndColor.withAlpha(0.0),
+        particleLife: 6.5,
+        speed: 0.0001,
+        imageSize: imageSize,
+        emissionRate: 50.0,
+        // emitter: new Cesium.SphereEmitter(10.0),
+        emitter: new Cesium.BoxEmitter(new Cesium.Cartesian3(3000, 10, 100)),
+
+        lifetime: 1,
+        // updateCallback: force,
+        updateCallback: forceUpdate,
+        modelMatrix: particlesModelMatrix,
+        // emitterModelMatrix: computeEmitterModelMatrix(),
+      })
+    );
+    systemsArray.push(item);
+  }
+}
+
+const rocketSystems = [];
+const cometSystems = [];
+// createParticleSystems(rocketOptions, rocketSystems);
+createParticleSystems(cometOptions, cometSystems);
+
+// viewer.dataSources.add(Cesium.CzmlDataSource.load(czml));
+
+        </script>
+    </body>
+</html>
