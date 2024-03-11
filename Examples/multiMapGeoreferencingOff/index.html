@@ -1,0 +1,183 @@
+<html>
+    <head></head>
+    <link rel="stylesheet" href="../styles/styles.css" />
+    <body>
+        <div class="inputContainer">
+            <div class="container">
+                <select type="text" class="inline-input" name="floorList"></select>
+                <button type="button" class="button-menu" name="changeFloor">change floor</button>
+                <button type="button" class="button-menu" name="getRouteOn">getRouteOn</button>
+                <button type="button" class="button-menu" name="start">start</button>
+                <button type="button" class="button-menu" name="stop">stop</button>
+                <button type="button" class="button-menu" name="clear">clear</button>
+            </div>
+            <div class="container2">
+                <select type="text" class="inline-input" name="removeBuildingList"></select>
+                <button type="button" class="button-menu" name="removeBuilding">remove building</button>
+            </div>
+            <div class="container3">
+                <select type="text" class="inline-input" name="addBuildingList"></select>
+                <button type="button" class="button-menu" name="addBuilding">add building</button>
+            </div>
+        </div>
+        <div id="map" class="map"></div>
+    </body>
+    <script type="text/javascript" src="https://api-assets.dabeeomaps.com/upload/library/dabeeomaps-4.0-latest.js"></script>
+    <script>
+        let mapData = null;
+        let map = null;
+        let selectedAddBuildingId = null;
+        let selectedRemoveBuildingId = null;
+        let selectedFloorId = null;
+        let hideBuildingId = null;
+        async function init() {
+            const dabeeoMaps = new dabeeo.Maps();
+
+            const mapDataOption = {
+                mapId: 'c216302f-d2d7-4af4-90ab-1a672fd319fd',
+                clientId: '765KKomdQ3S9f-3GS1lEuX',
+                clientSecret: 'ee5ac1e73bef9364949714965de7fe84',
+                serverType: 'SERVER_STUDIO4',
+            };
+
+            mapData = await dabeeoMaps.getMapData(mapDataOption);
+            const mapContainer = document.getElementById('map');
+            const mapOption = {
+                camera: '2d',
+                enableMouseMoveEvent: true,
+                enableGeoreferencing: false,
+            };
+
+            map = await dabeeoMaps.showMap(mapContainer, mapOption, mapData);
+
+            initMenu();
+
+            document.querySelector("[name='addBuilding']").addEventListener('click', async function () {
+                await map.context.addBuilding(selectedAddBuildingId);
+            });
+            document.querySelector("[name='removeBuilding']").addEventListener('click', function () {
+                map.context.removeBuilding(selectedRemoveBuildingId);
+            });
+            document.querySelector("[name='changeFloor']").addEventListener('click', async function () {
+                await map.context.changeFloor(selectedFloorId);
+            });
+            document.querySelector("[name='getRouteOn']").addEventListener('click', async function () {
+                const naivResponse = await mapData.getRoute({
+                    origin: {
+                        floorId: 'fb84a440-6f82-4ea2-982d-d1c79d3f730e',
+                        poiId: 'f666436e-b345-4507-b8e2-18e3e69f9f2b',
+                    },
+                    destination: {
+                        floorId: 'b4a43600-69cb-4ea6-98b2-1779c60fe9c7',
+                        poiId: 'c8577a6d-e5f2-4cf8-9a2c-e7b59c637857',
+                    },
+                    type: ['recommendation'],
+                });
+                const naviOption = {
+                    origin: {
+                        markerOptions: {
+                            width: 30,
+                            height: 30,
+                            visibleIcon: true,
+                        },
+                    }, // 출발지 아이콘 및 주행선
+                    destination: {
+                        markerOptions: {
+                            width: 50,
+                            height: 50,
+                            visibleIcon: true,
+                        },
+                        lineOptions: {
+                            lineColor: '#ffbb00',
+                            solidLineEnabled: true,
+                            solidLineWidth: 30,
+                        },
+                    }, // 도착지 아이콘 및 주행선
+
+                    defaultLineOption: {
+                        lineColor: '#ffbb00',
+                        solidLineEnabled: true,
+                        solidLineWidth: 5,
+                        solidLineCap: 'round',
+                        solidLineJoin: 'round',
+                    }, // 기본 주행선 옵션
+                    lineDivide: false, // 네비게이션 선 분할여부 결정 (false 인 경우, defaultLineOption 만 사용)
+                };
+                await map.routeSimulation.set(naivResponse.recommendation, naviOption);
+            });
+            document.querySelector("[name='start']").addEventListener('click', async function () {
+                const animOption = {
+                    twoFloorsNavigationDuration: 1000,
+                    speedRate: 50,
+                    removeIcon: false,
+                    zoom: 20.4,
+                    markerOptions: {
+                        iconUrl: 'https://assets.dabeeomaps.com/image/ico/img_person-3x.png',
+                        width: 30,
+                        height: 30,
+                        anchor: {
+                            x: 0.5,
+                            y: 0.5,
+                        },
+                    },
+                    enableFloorMotionCSS: true,
+                    changeFloorDelay: 500,
+                };
+                await map.routeSimulation.start(animOption);
+            });
+            document.querySelector("[name='stop']").addEventListener('click', function () {
+                map.routeSimulation.stop();
+            });
+            document.querySelector("[name='clear']").addEventListener('click', function () {
+                map.routeSimulation.clear();
+            });
+
+            const element = document.querySelector("[name='addBuildingList']");
+            const element2 = document.querySelector("[name='removeBuildingList']");
+            const floorElement = document.querySelector("[name='floorList']");
+        }
+
+        init();
+        function initMenu() {
+            const buildings = mapData.dataBuilding.getBuildings();
+
+            const element = document.querySelector("[name='addBuildingList']");
+            const element2 = document.querySelector("[name='removeBuildingList']");
+            const floorElement = document.querySelector("[name='floorList']");
+
+            for (const building of buildings) {
+                const addBuildingOption = document.createElement('option');
+                addBuildingOption.value = building.id;
+                addBuildingOption.appendChild(document.createTextNode(building.name[0].text || building.name));
+                element.appendChild(addBuildingOption);
+
+                const removeBuildingOption = document.createElement('option');
+                removeBuildingOption.value = building.id;
+                removeBuildingOption.appendChild(document.createTextNode(building.name[0].text || building.name));
+                element2.appendChild(removeBuildingOption);
+
+                const floors = building.floors;
+                for (const floor of floors) {
+                    const floorOption = document.createElement('option');
+                    floorOption.value = floor.id;
+                    floorOption.appendChild(document.createTextNode(`${building.name[0].text || ''} ${floor.name[0].text}`));
+                    floorElement.appendChild(floorOption);
+                }
+            }
+
+            selectedAddBuildingId = element.options[0].value;
+            selectedRemoveBuildingId = element2.options[0].value;
+            selectedFloorId = floorElement.options[0].value;
+
+            element.addEventListener('change', function (e) {
+                selectedAddBuildingId = e.target.value;
+            });
+            element2.addEventListener('change', function (e) {
+                selectedRemoveBuildingId = e.target.value;
+            });
+            floorElement.addEventListener('change', function (e) {
+                selectedFloorId = e.target.value;
+            });
+        }
+    </script>
+</html>

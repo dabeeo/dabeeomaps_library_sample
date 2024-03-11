@@ -1,5 +1,5 @@
-import { NavLink, Route, Routes } from 'react-router-dom';
-import { useState } from 'react';
+import { NavLink, Route, Routes, useLocation } from 'react-router-dom';
+import { useEffect, useState } from 'react';
 import styles from './Example.module.scss';
 import Code from '../Code/Code';
 const Example = () => {
@@ -28,8 +28,13 @@ const Example = () => {
         'modelKbg',
         'tiling',
         'tts',
+        'multiMapGeoreferencingOn',
+        'multiMapGeoreferencingOff',
+        'multiMapBuildingMaskClickEvent',
     ];
-    const [id, setId] = useState('getStarted');
+
+    const location = useLocation();
+    const [id, setId] = useState(location.pathname.split('/')[2]);
     console.log('Example ', id);
 
     return (
