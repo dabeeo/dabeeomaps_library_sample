@@ -2,7 +2,7 @@ import styles from '../GetText/GetText.module.scss';
 
 const MultiMapTextEn = (
     <div className={styles.getStartedText}>
-        <div className={styles.title}>Intergrated Map</div>
+        <div className={styles.title}>Multi Map</div>
         <div className={styles.miniTitle}>Through georeferencing, indoor maps can be displayed on outdoor maps within a single map.</div>
         <div className={styles.texts}>Georeferenced maps must always display outdoor maps.</div>
         <div className={styles.texts}>Ungeoreferenced maps cannot display outdoor and indoor maps simultaneously.</div>
