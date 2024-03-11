@@ -45,7 +45,7 @@ const menuList = [
     { id: 'model', ko: '3dModel 올리기', en: '3d model', code: 'models', koPage: ModelText, enPage: ModelText },
     { id: 'events', ko: '이벤트', en: 'Event', code: '', koPage: Events, enPage: Events },
     { id: 'react', ko: 'React 사용', en: 'Using React', code: 'react', koPage: ReactText, enPage: ReactText },
-    { id: 'multiMap', ko: '통합지도', en: 'multi Map', code: 'multiMap', koPage: MultiMapText, enPage: MultiMapTextEn },
+    { id: 'multiMap', ko: '통합지도', en: 'Multi Map', code: 'multiMap', koPage: MultiMapText, enPage: MultiMapTextEn },
 ];
 
 export default menuList;
