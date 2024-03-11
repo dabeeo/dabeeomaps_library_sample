@@ -1,0 +1,64 @@
+<html>
+    <head></head>
+    <link rel="stylesheet" href="../styles/styles.css" />
+    <body>
+        <div id="map" class="map"></div>
+    </body>
+    <script type="text/javascript" src="https://api-assets.dabeeomaps.com/upload/library/dabeeomaps-4.0-latest.js"></script>
+    <script>
+        let mapData = null;
+        let map = null;
+        let selectedBuildingId = null;
+        let hideBuildingId = '';
+        async function init() {
+            const dabeeoMaps = new dabeeo.Maps();
+
+            const mapDataOption = {
+                mapId: 'c216302f-d2d7-4af4-90ab-1a672fd319fd',
+                clientId: '765KKomdQ3S9f-3GS1lEuX',
+                clientSecret: 'ee5ac1e73bef9364949714965de7fe84',
+                serverType: 'SERVER_STUDIO4',
+            };
+
+            mapData = await dabeeoMaps.getMapData(mapDataOption);
+            const mapContainer = document.getElementById('map');
+            const mapOption = {
+                camera: '2d',
+                enableMouseMoveEvent: true,
+            };
+
+            map = await dabeeoMaps.showMap(mapContainer, mapOption, mapData);
+
+            mapContainer.addEventListener('object-mouse-enter', (e) => {
+                const { id, refBuildingId } = e.detail;
+                if (refBuildingId) {
+                    const updateOption = {
+                        color: '#00ffff',
+                        opacity: 0.3,
+                        ids: [id],
+                    };
+                    map.objects.set(updateOption);
+                }
+            });
+
+            mapContainer.addEventListener('object-mouse-leave', (e) => {
+                const { id, refBuildingId } = e.detail;
+                if (refBuildingId) map.objects.reset(id);
+            });
+
+            mapContainer.addEventListener('object-click', async (e) => {
+                for (let i = 0; i < e.detail.length; i++) {
+                    if (e.detail[i].refBuildingId) {
+                        map.context.showBuildingMaskByBuildingId(hideBuildingId);
+                        map.context.removeBuilding(hideBuildingId);
+                        map.context.hideBuildingMaskByBuildingId(e.detail[i].refBuildingId);
+                        await map.context.addBuilding(e.detail[i].refBuildingId);
+                        hideBuildingId = e.detail[i].refBuildingId;
+                    }
+                }
+            });
+        }
+
+        init();
+    </script>
+</html>
