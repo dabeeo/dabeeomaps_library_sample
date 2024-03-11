@@ -34,7 +34,7 @@ const Example = () => {
     ];
 
     const location = useLocation();
-    const [id, setId] = useState(location.pathname.split('/')[2]);
+    const [id, setId] = useState(location.pathname.split('/')[2] || 'getStarted');
     console.log('Example ', id);
 
     return (
