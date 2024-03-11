@@ -28,7 +28,7 @@ const Example = () => {
         'modelKbg',
         'tiling',
         'tts',
-        'multiMapGeoreferencingOn',
+        'multiMap',
         'multiMapGeoreferencingOff',
         'multiMapBuildingMaskClickEvent',
     ];
