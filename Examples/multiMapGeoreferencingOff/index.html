@@ -59,6 +59,8 @@
             // mapOption으로 mapContainer에 map 그리기
             map = await dabeeoMaps.showMap(mapContainer, mapOption, mapData);
 
+            initMenu(); // addBuilding, removeBuilding, changeFloor 를 하기 위한 selectBox option 생성 및 추가하는 코드
+
             //////////////////////////////// API 샘플 및 사용 예제 요약
             addBuildingTest(); // map.context.addBuilding() 테스트 코드
             removeBuildingTest(); // map.context.removeBuilding() 테스트 코드
@@ -69,27 +71,64 @@
 
         init();
 
-        function addBuildingTest() {
-            // mapData.dataBuilding 를 통해 전체 building list 를 가져옴
+        function initMenu() {
+            // mapData.dataBuilding 를 통해 building list 를 받아옴
             const buildings = mapData.dataBuilding.getBuildings();
-            const element = document.querySelector("[name='addBuildingList']");
+
+            const addBuildingSelectBoxElement = document.querySelector("[name='addBuildingList']");
+            const removeBuildingSelectBoxElement = document.querySelector("[name='removeBuildingList']");
+            const floorSelectBoxElement = document.querySelector("[name='floorList']");
 
             // filter 한 building 을 조회하며 selectBox 의 option 생성 및 추가
             for (const building of buildings) {
+                // addBuilding SelectBox option 생성 및 추가
                 const addBuildingOption = document.createElement('option');
                 addBuildingOption.value = building.id;
                 addBuildingOption.appendChild(document.createTextNode(building.name[0].text || building.name));
-                element.appendChild(addBuildingOption);
+                addBuildingSelectBoxElement.appendChild(addBuildingOption);
+
+                // removeBuilding SelectBox option 생성 및 추가
+                const removeBuildingOption = document.createElement('option');
+                removeBuildingOption.value = building.id;
+                removeBuildingOption.appendChild(document.createTextNode(building.name[0].text || building.name));
+                removeBuildingSelectBoxElement.appendChild(removeBuildingOption);
+
+                // building 안의 floor 를 조회하며 floorSelectBox option 생성 및 추가
+                const floors = building.floors;
+                for (const floor of floors) {
+                    const floorOption = document.createElement('option');
+                    floorOption.value = floor.id;
+                    floorOption.appendChild(document.createTextNode(`${building.name[0].text || ''} ${floor.name[0].text}`));
+                    floorSelectBoxElement.appendChild(floorOption);
+                }
             }
 
-            // selectBox 의 첫번째 값을 selectedAddBuildingId 에 넣어줌 (초기값 설정)
-            selectedAddBuildingId = element.options[0].value;
+            // add building selectBox 의 첫번째 값을 selectedAddBuildingId 에 넣어줌 (초기값 설정)
+            selectedAddBuildingId = addBuildingSelectBoxElement.options[0].value;
 
-            // selectBox 에 change 이벤트를 추가, change 가 발생했을 때 선택된 값을 selectedAddBuildingId 에 넣어줌
-            element.addEventListener('change', function (e) {
+            // add building selectBox 에 change 이벤트를 추가, change 가 발생했을 때 선택된 값을 selectedAddBuildingId 에 넣어줌
+            addBuildingSelectBoxElement.addEventListener('change', function (e) {
                 selectedAddBuildingId = e.target.value;
             });
 
+            // remove building selectBox 의 첫번째 값을 selectedRemoveBuildingId 에 넣어줌 (초기값 설정)
+            selectedRemoveBuildingId = removeBuildingSelectBoxElement.options[0].value;
+
+            // remove building selectBox 에 change 이벤트를 추가, change 가 발생했을 때 선택된 값을 selectedRemoveBuildingId 에 넣어줌
+            removeBuildingSelectBoxElement.addEventListener('change', function (e) {
+                selectedRemoveBuildingId = e.target.value;
+            });
+
+            // floor selectBox 의 첫번째 값을 selectedFloorId 에 넣어줌 (초기값 설정)
+            selectedFloorId = floorSelectBoxElement.options[0].value;
+
+            // floor selectBox 에 change 이벤트를 추가, change 가 발생했을 때 선택된 값을 selectedFloorId 에 넣어줌
+            floorSelectBoxElement.addEventListener('change', function (e) {
+                selectedFloorId = e.target.value;
+            });
+        }
+
+        function addBuildingTest() {
             // button click event 추가, addBuilding() 함수 호출 시 await 를 붙여야 함, 선택된 빌딩 추가
             document.querySelector("[name='addBuilding']").addEventListener('click', async function () {
                 await map.context.addBuilding(selectedAddBuildingId);
@@ -97,26 +136,6 @@
         }
 
         function removeBuildingTest() {
-            // mapData.dataBuilding 중 indoor 만 filter 하여 list 를 만듦
-            const buildings = mapData.dataBuilding.getBuildings();
-            const element = document.querySelector("[name='removeBuildingList']");
-
-            // filter 한 building 을 조회하며 selectBox 의 option 생성 및 추가
-            for (const building of buildings) {
-                const removeBuildingOption = document.createElement('option');
-                removeBuildingOption.value = building.id;
-                removeBuildingOption.appendChild(document.createTextNode(building.name[0].text || building.name));
-                element.appendChild(removeBuildingOption);
-            }
-
-            // selectBox 의 첫번째 값을 selectedRemoveBuildingId 에 넣어줌 (초기값 설정)
-            selectedRemoveBuildingId = element.options[0].value;
-
-            // selectBox 에 change 이벤트를 추가, change 가 발생했을 때 선택된 값을 selectedRemoveBuildingId 에 넣어줌
-            element.addEventListener('change', function (e) {
-                selectedRemoveBuildingId = e.target.value;
-            });
-
             // button click event 추가, removeBuilding() 함수 호출, 선택된 building 제거
             document.querySelector("[name='removeBuilding']").addEventListener('click', function () {
                 map.context.removeBuilding(selectedRemoveBuildingId);
@@ -124,29 +143,6 @@
         }
 
         function changeFloorTest() {
-            // mapData.dataBuilding 중 indoor 만 filter 하여 list 를 만듦
-            const buildings = mapData.dataBuilding.getBuildings();
-            const element = document.querySelector("[name='floorList']");
-
-            // filter 한 building 을 조회 후 building 안의 floor 를 조회한 후 floor 정보로 selectBox 의 option 생성 및 추가
-            for (const building of buildings) {
-                const floors = building.floors;
-                for (const floor of floors) {
-                    const floorOption = document.createElement('option');
-                    floorOption.value = floor.id;
-                    floorOption.appendChild(document.createTextNode(`${building.name[0].text || ''} ${floor.name[0].text}`));
-                    element.appendChild(floorOption);
-                }
-            }
-
-            // selectBox 의 첫번째 값을 selectedFloorId 에 넣어줌 (초기값 설정)
-            selectedFloorId = element.options[0].value;
-
-            // selectBox 에 change 이벤트를 추가, change 가 발생했을 때 선택된 값을 selectedFloorId 에 넣어줌
-            element.addEventListener('change', function (e) {
-                selectedFloorId = e.target.value;
-            });
-
             // button click event 추가, floorChange() 함수 호출시 await 를 붙여야 함, 선택된 floor 로 층변경
             // 현재 그려져있지 않은 building 의 층으로는 층변경 할 수 없음
             document.querySelector("[name='changeFloor']").addEventListener('click', async function () {

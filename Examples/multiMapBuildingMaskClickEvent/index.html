@@ -69,16 +69,17 @@
         function buildingMaskObjectClickEvent() {
             const mapContainer = document.getElementById('map');
             // mouse 로 object 를 클릭하면 클릭된 object를 순회하며 해당 object 에 refBuilidngId 가 있는지 판단, 존재할 경우 이벤트를 처리하는 테스트 코드
+            //
             mapContainer.addEventListener('object-click', async (e) => {
                 for (let i = 0; i < e.detail.length; i++) {
                     if (e.detail[i].refBuildingId) {
-                        // 기존에 hide 시켰던 building mask와 연결된 building id를 사용해 building mask 와 연결된 building mask object 를 show 시키는 함수
+                        // 기존에 그려져있던 building 을 제거하고 buildingMask를 다시 표현하기 위해 buildingMaskObject 를 show ( 제거하려는 building id 사용 )
                         map.context.showBuildingMaskByBuildingId(hideBuildingId);
-                        // 기존에 hide 시켰던 building mask와 연결된 building id를 사용해 그려져 있는 building 을 제거함
+                        // 기존에 그려져있던 building 을 제거
                         map.context.removeBuilding(hideBuildingId);
-                        // 클릭된 object 와 연결된 building id 를 얻어 해당 building id 와 연결된 building mask object 를 모두 hide 시킴
+                        // 클릭된 object 와 연결된 building 을 표출하기 위해 해당 building 과 연결된 buildingMaskObject 를 hide ( 추가하려는 building id 사용 )
                         map.context.hideBuildingMaskByBuildingId(e.detail[i].refBuildingId);
-                        // 클릭된 object 와 연결된 building id 를 사용해 해당 빌딩을 추가함
+                        // 클릭된 object 와 연결된 building 을 표출
                         await map.context.addBuilding(e.detail[i].refBuildingId);
                         // hide 시킨 building Mask 와 연결된 building 을 hideBuildingId 에 저장
                         hideBuildingId = e.detail[i].refBuildingId;
