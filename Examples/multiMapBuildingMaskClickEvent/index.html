@@ -8,29 +8,47 @@
     <script>
         let mapData = null;
         let map = null;
-        let selectedBuildingId = null;
+
         let hideBuildingId = '';
         async function init() {
             const dabeeoMaps = new dabeeo.Maps();
 
+            // mapDataOption 정의 (통합지도)
             const mapDataOption = {
-                mapId: 'c216302f-d2d7-4af4-90ab-1a672fd319fd',
                 clientId: '765KKomdQ3S9f-3GS1lEuX',
                 clientSecret: 'ee5ac1e73bef9364949714965de7fe84',
-                serverType: 'SERVER_STUDIO4',
+                serverType: 'SERVER_STUDIO4', // studio4 지도를 사용하기 위해서는 serverType 을 SERVER_STUDIO4 로 명시해야합니다.
             };
 
+            // mapData 가져오기
             mapData = await dabeeoMaps.getMapData(mapDataOption);
+
+            // mapContainer
             const mapContainer = document.getElementById('map');
+
+            // mapOption 정의
             const mapOption = {
                 camera: '2d',
-                enableMouseMoveEvent: true,
+                enableMouseMoveEvent: true, // mouse enter, leave 이벤트를 사용하기 위해 해당 옵션을 활성화 해야 함
             };
 
+            // mapOption으로 mapContainer에 map 그리기
             map = await dabeeoMaps.showMap(mapContainer, mapOption, mapData);
 
+            //////////////////////////////// API 샘플 및 사용 예제 요약
+            buildingMaskHoverEvent(); // object-mouse-enter, leave 이벤트 + building mask object option 변경 테스트 코드
+            buildingMaskObjectClickEvent(); // object click 이벤트 + building mask object show / hide 테스트 코드
+            /////////////////////////////////////////////////////
+        }
+
+        init();
+
+        function buildingMaskHoverEvent() {
+            const mapContainer = document.getElementById('map');
+            // mouse 가 object 위를 올라가면 object 에 refBuildingId 가 있는지 판단, 존재할 경우 해당 object 의 option 을 변경하는 테스트 코드
             mapContainer.addEventListener('object-mouse-enter', (e) => {
                 const { id, refBuildingId } = e.detail;
+                // building mask 로 설정된 object 의 경우 refBuilidingId 를 가지고 있음
                 if (refBuildingId) {
                     const updateOption = {
                         color: '#00ffff',
@@ -40,25 +58,33 @@
                     map.objects.set(updateOption);
                 }
             });
-
+            // mouse 가 object 위에 있다가 벗어났을 때 object 에 refBuildingId 가 있는지 판단, 존재할 경우 해당 object reset 시키는 테스트 코드
             mapContainer.addEventListener('object-mouse-leave', (e) => {
                 const { id, refBuildingId } = e.detail;
+                // building mask 로 설정된 object 의 경우 refBuilidingId 를 가지고 있음
                 if (refBuildingId) map.objects.reset(id);
             });
+        }
 
+        function buildingMaskObjectClickEvent() {
+            const mapContainer = document.getElementById('map');
+            // mouse 로 object 를 클릭하면 클릭된 object를 순회하며 해당 object 에 refBuilidngId 가 있는지 판단, 존재할 경우 이벤트를 처리하는 테스트 코드
             mapContainer.addEventListener('object-click', async (e) => {
                 for (let i = 0; i < e.detail.length; i++) {
                     if (e.detail[i].refBuildingId) {
+                        // 기존에 hide 시켰던 building mask와 연결된 building id를 사용해 building mask 와 연결된 building mask object 를 show 시키는 함수
                         map.context.showBuildingMaskByBuildingId(hideBuildingId);
+                        // 기존에 hide 시켰던 building mask와 연결된 building id를 사용해 그려져 있는 building 을 제거함
                         map.context.removeBuilding(hideBuildingId);
+                        // 클릭된 object 와 연결된 building id 를 얻어 해당 building id 와 연결된 building mask object 를 모두 hide 시킴
                         map.context.hideBuildingMaskByBuildingId(e.detail[i].refBuildingId);
+                        // 클릭된 object 와 연결된 building id 를 사용해 해당 빌딩을 추가함
                         await map.context.addBuilding(e.detail[i].refBuildingId);
+                        // hide 시킨 building Mask 와 연결된 building 을 hideBuildingId 에 저장
                         hideBuildingId = e.detail[i].refBuildingId;
                     }
                 }
             });
         }
-
-        init();
     </script>
 </html>

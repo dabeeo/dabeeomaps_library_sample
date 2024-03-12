@@ -26,47 +26,145 @@
     <script>
         let mapData = null;
         let map = null;
+
+        // addBuilding 의 대상이 되는 building id
         let selectedAddBuildingId = null;
+        // removeBuilding 의 대상이 되는 building id
         let selectedRemoveBuildingId = null;
+        // changeFloor 의 대상이 되는 floor id
         let selectedFloorId = null;
-        let hideBuildingId = null;
+
         async function init() {
             const dabeeoMaps = new dabeeo.Maps();
 
+            // mapDataOption 정의 (통합지도)
             const mapDataOption = {
-                mapId: 'c216302f-d2d7-4af4-90ab-1a672fd319fd',
                 clientId: '765KKomdQ3S9f-3GS1lEuX',
                 clientSecret: 'ee5ac1e73bef9364949714965de7fe84',
-                serverType: 'SERVER_STUDIO4',
+                serverType: 'SERVER_STUDIO4', // studio4 지도를 사용하기 위해서는 serverType 을 SERVER_STUDIO4 로 명시해야합니다.
             };
 
+            // mapData 가져오기
             mapData = await dabeeoMaps.getMapData(mapDataOption);
+
+            // mapContainer
             const mapContainer = document.getElementById('map');
+
+            // mapOption 정의
             const mapOption = {
                 camera: '2d',
-                enableMouseMoveEvent: true,
-                enableGeoreferencing: false,
+                enableGeoreferencing: false, // outdoor 가 있는 통합지도에서 georeferencing 을 사용하지 않기 위해서는 option 값을 false 로 지정해야 함
             };
 
+            // mapOption으로 mapContainer에 map 그리기
             map = await dabeeoMaps.showMap(mapContainer, mapOption, mapData);
 
-            initMenu();
+            //////////////////////////////// API 샘플 및 사용 예제 요약
+            addBuildingTest(); // map.context.addBuilding() 테스트 코드
+            removeBuildingTest(); // map.context.removeBuilding() 테스트 코드
+            changeFloorTest(); // map.context.changeFloor() 테스트 코드
+            routeSimulationTest(); // routeSimualtion 테스트 코드
+            /////////////////////////////////////////////////////
+        }
 
+        init();
+
+        function addBuildingTest() {
+            // mapData.dataBuilding 를 통해 전체 building list 를 가져옴
+            const buildings = mapData.dataBuilding.getBuildings();
+            const element = document.querySelector("[name='addBuildingList']");
+
+            // filter 한 building 을 조회하며 selectBox 의 option 생성 및 추가
+            for (const building of buildings) {
+                const addBuildingOption = document.createElement('option');
+                addBuildingOption.value = building.id;
+                addBuildingOption.appendChild(document.createTextNode(building.name[0].text || building.name));
+                element.appendChild(addBuildingOption);
+            }
+
+            // selectBox 의 첫번째 값을 selectedAddBuildingId 에 넣어줌 (초기값 설정)
+            selectedAddBuildingId = element.options[0].value;
+
+            // selectBox 에 change 이벤트를 추가, change 가 발생했을 때 선택된 값을 selectedAddBuildingId 에 넣어줌
+            element.addEventListener('change', function (e) {
+                selectedAddBuildingId = e.target.value;
+            });
+
+            // button click event 추가, addBuilding() 함수 호출 시 await 를 붙여야 함, 선택된 빌딩 추가
             document.querySelector("[name='addBuilding']").addEventListener('click', async function () {
                 await map.context.addBuilding(selectedAddBuildingId);
             });
+        }
+
+        function removeBuildingTest() {
+            // mapData.dataBuilding 중 indoor 만 filter 하여 list 를 만듦
+            const buildings = mapData.dataBuilding.getBuildings();
+            const element = document.querySelector("[name='removeBuildingList']");
+
+            // filter 한 building 을 조회하며 selectBox 의 option 생성 및 추가
+            for (const building of buildings) {
+                const removeBuildingOption = document.createElement('option');
+                removeBuildingOption.value = building.id;
+                removeBuildingOption.appendChild(document.createTextNode(building.name[0].text || building.name));
+                element.appendChild(removeBuildingOption);
+            }
+
+            // selectBox 의 첫번째 값을 selectedRemoveBuildingId 에 넣어줌 (초기값 설정)
+            selectedRemoveBuildingId = element.options[0].value;
+
+            // selectBox 에 change 이벤트를 추가, change 가 발생했을 때 선택된 값을 selectedRemoveBuildingId 에 넣어줌
+            element.addEventListener('change', function (e) {
+                selectedRemoveBuildingId = e.target.value;
+            });
+
+            // button click event 추가, removeBuilding() 함수 호출, 선택된 building 제거
             document.querySelector("[name='removeBuilding']").addEventListener('click', function () {
                 map.context.removeBuilding(selectedRemoveBuildingId);
             });
+        }
+
+        function changeFloorTest() {
+            // mapData.dataBuilding 중 indoor 만 filter 하여 list 를 만듦
+            const buildings = mapData.dataBuilding.getBuildings();
+            const element = document.querySelector("[name='floorList']");
+
+            // filter 한 building 을 조회 후 building 안의 floor 를 조회한 후 floor 정보로 selectBox 의 option 생성 및 추가
+            for (const building of buildings) {
+                const floors = building.floors;
+                for (const floor of floors) {
+                    const floorOption = document.createElement('option');
+                    floorOption.value = floor.id;
+                    floorOption.appendChild(document.createTextNode(`${building.name[0].text || ''} ${floor.name[0].text}`));
+                    element.appendChild(floorOption);
+                }
+            }
+
+            // selectBox 의 첫번째 값을 selectedFloorId 에 넣어줌 (초기값 설정)
+            selectedFloorId = element.options[0].value;
+
+            // selectBox 에 change 이벤트를 추가, change 가 발생했을 때 선택된 값을 selectedFloorId 에 넣어줌
+            element.addEventListener('change', function (e) {
+                selectedFloorId = e.target.value;
+            });
+
+            // button click event 추가, floorChange() 함수 호출시 await 를 붙여야 함, 선택된 floor 로 층변경
+            // 현재 그려져있지 않은 building 의 층으로는 층변경 할 수 없음
             document.querySelector("[name='changeFloor']").addEventListener('click', async function () {
                 await map.context.changeFloor(selectedFloorId);
             });
+        }
+
+        function routeSimulationTest() {
+            // button click event 추가, 버튼 클릭 시 마포티타운 건물에서 실외지도를 거쳐 프론트원 건물로 가는 길찾기 경로 표출
             document.querySelector("[name='getRouteOn']").addEventListener('click', async function () {
+                // option 에 따른 경로 검색
                 const naivResponse = await mapData.getRoute({
+                    // 마포티타운 건물 8층의 poi
                     origin: {
                         floorId: 'fb84a440-6f82-4ea2-982d-d1c79d3f730e',
                         poiId: 'f666436e-b345-4507-b8e2-18e3e69f9f2b',
                     },
+                    // 프론트원 건물 1층의 poi
                     destination: {
                         floorId: 'b4a43600-69cb-4ea6-98b2-1779c60fe9c7',
                         poiId: 'c8577a6d-e5f2-4cf8-9a2c-e7b59c637857',
@@ -90,7 +188,7 @@
                         lineOptions: {
                             lineColor: '#ffbb00',
                             solidLineEnabled: true,
-                            solidLineWidth: 30,
+                            solidLineWidth: 20,
                         },
                     }, // 도착지 아이콘 및 주행선
 
@@ -103,12 +201,15 @@
                     }, // 기본 주행선 옵션
                     lineDivide: false, // 네비게이션 선 분할여부 결정 (false 인 경우, defaultLineOption 만 사용)
                 };
+                // 구한 경로를 지도에 표출
                 await map.routeSimulation.set(naivResponse.recommendation, naviOption);
             });
+
+            // button click event 추가, 버튼 클릭 시 길찾기 시뮬레이션을 start
             document.querySelector("[name='start']").addEventListener('click', async function () {
                 const animOption = {
                     twoFloorsNavigationDuration: 1000,
-                    speedRate: 50,
+                    speedRate: 40,
                     removeIcon: false,
                     zoom: 20.4,
                     markerOptions: {
@@ -125,58 +226,15 @@
                 };
                 await map.routeSimulation.start(animOption);
             });
+
+            // button click event 추가, 버튼 클릭 시 길찾기 시뮬레이션을 stop
             document.querySelector("[name='stop']").addEventListener('click', function () {
                 map.routeSimulation.stop();
             });
+
+            // button click event 추가, 버튼 클릭 시 길찾기 경로 제거
             document.querySelector("[name='clear']").addEventListener('click', function () {
                 map.routeSimulation.clear();
-            });
-
-            const element = document.querySelector("[name='addBuildingList']");
-            const element2 = document.querySelector("[name='removeBuildingList']");
-            const floorElement = document.querySelector("[name='floorList']");
-        }
-
-        init();
-        function initMenu() {
-            const buildings = mapData.dataBuilding.getBuildings();
-
-            const element = document.querySelector("[name='addBuildingList']");
-            const element2 = document.querySelector("[name='removeBuildingList']");
-            const floorElement = document.querySelector("[name='floorList']");
-
-            for (const building of buildings) {
-                const addBuildingOption = document.createElement('option');
-                addBuildingOption.value = building.id;
-                addBuildingOption.appendChild(document.createTextNode(building.name[0].text || building.name));
-                element.appendChild(addBuildingOption);
-
-                const removeBuildingOption = document.createElement('option');
-                removeBuildingOption.value = building.id;
-                removeBuildingOption.appendChild(document.createTextNode(building.name[0].text || building.name));
-                element2.appendChild(removeBuildingOption);
-
-                const floors = building.floors;
-                for (const floor of floors) {
-                    const floorOption = document.createElement('option');
-                    floorOption.value = floor.id;
-                    floorOption.appendChild(document.createTextNode(`${building.name[0].text || ''} ${floor.name[0].text}`));
-                    floorElement.appendChild(floorOption);
-                }
-            }
-
-            selectedAddBuildingId = element.options[0].value;
-            selectedRemoveBuildingId = element2.options[0].value;
-            selectedFloorId = floorElement.options[0].value;
-
-            element.addEventListener('change', function (e) {
-                selectedAddBuildingId = e.target.value;
-            });
-            element2.addEventListener('change', function (e) {
-                selectedRemoveBuildingId = e.target.value;
-            });
-            floorElement.addEventListener('change', function (e) {
-                selectedFloorId = e.target.value;
             });
         }
     </script>
