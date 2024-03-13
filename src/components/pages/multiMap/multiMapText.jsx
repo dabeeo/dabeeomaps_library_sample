@@ -6,6 +6,11 @@ const MultiMapText = (
         <div className={styles.miniTitle}>하나의 지도에서 georeferencing 을 통해 실외지도 위에 실내지도를 표출할 수 있습니다.</div>
         <div className={styles.texts}>georeferencing 한 지도는 항상 실외지도가 표출된 상태여야 합니다.</div>
         <div className={styles.texts}>georeferencing 하지 않은 지도는 실외지도와 실내지도를 동시에 표출할 수 없습니다.</div>
+        <div className={styles.texts}>outdoor의 경우 indoor와 같은 레벨에 존재하는 building으로 생각하시면 좋습니다.</div>
+        <div className={styles.texts}>
+            따라서 indoor를 표출 중에 지도를 outdoor로 바꾸기 위해서는 changeFloor(outdoor_floor_id)가 아닌 addBuilding(outdoor_id)를 해야 합니다.
+        </div>
+
         <pre>
             <code className={styles.code}>
                 {`

@@ -6,6 +6,11 @@ const MultiMapTextEn = (
         <div className={styles.miniTitle}>Through georeferencing, indoor maps can be displayed on outdoor maps within a single map.</div>
         <div className={styles.texts}>Georeferenced maps must always display outdoor maps.</div>
         <div className={styles.texts}>Ungeoreferenced maps cannot display outdoor and indoor maps simultaneously.</div>
+        <div className={styles.texts}>You can think of "outdoor" as a building that exists at the same level as "indoor."</div>
+        <div className={styles.texts}>
+            Therefore, to switch the map from displaying "indoor" to "outdoor," you need to use addBuilding(outdoor_id) instead of
+            changeFloor(outdoor_floor_id).
+        </div>
         <pre>
             <code className={styles.code}>{`
 mapOption = {
