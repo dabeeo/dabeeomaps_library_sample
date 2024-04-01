@@ -55,11 +55,13 @@ map.context.removeBuilding(buildingId); // 4. 그렸던 빌딩 제거
             <br />
             1.2. floor 를 입력하지 않으면 실외지도가 가장 먼저 그려지게 됩니다.
             <br />
-            2. 빌딩 혹은 실외지도를 switching하기 위해 addBuilding 혹은 changeFloor 을 통해 원하는 빌딩, 층으로 이동할 수 있습니다.
+            2. 빌딩 혹은 실외지도를 switching하기 위해 addBuilding <b>혹은</b> changeFloor 을 통해 원하는 빌딩, 층으로 이동할 수 있습니다.
             <br />
-            2.1. changeFloor() 를 통해 다른 빌딩의 층으로도 이동할 수 있습니다.
+            2.1. addBuilding(buildingId, floorId) 으로 이동하는 경우는 특정 빌딩의 특정 층으로 이동할 수 있습니다.
             <br />
-            2.2. 빌딩 혹은 실외지도로 이동하게 되면 기존에 그려져있던 빌딩 혹은 실외지도는 지워집니다.
+            2.2. addBuilding() 을 사용하지 않고 changeFloor() 를 통해 다른 빌딩의 층으로도 이동할 수 있습니다.
+            <br />
+            2.3. 빌딩 혹은 실외지도로 이동하게 되면 기존에 그려져있던 빌딩 혹은 실외지도는 지워집니다.
         </p>
         <pre>
             <code className={styles.code}>{`
@@ -68,8 +70,8 @@ const mapOption = {
 }
 // 실외지도가 있는 지도에서 floor 를 입력하지 않으면 기본층은 실외지도로 가장 먼저 실외지도가 그려지게 됩니다.
 const map = await dabeeoMaps.showMap(mapContainer, mapOption, mapData); // 1. 1번 빌딩 1층 표출
-await map.context.addBuilding(buildingId, floorId); // 2. 다른 빌딩의 다른 층 표출 (1번 빌딩 제거)
-await map.context.changeFloor(floorId) // 3. 다른 층으로 이동 (다른 빌딩의 층으로도 가능)
+await map.context.addBuilding(buildingId, floorId); // 2.1. 다른 빌딩의 다른 층 표출 (1번 빌딩 제거)
+await map.context.changeFloor(floorId) // 2.2. 다른 층으로 이동 (다른 빌딩의 층으로도 가능)
             `}</code>
         </pre>
         <p>
