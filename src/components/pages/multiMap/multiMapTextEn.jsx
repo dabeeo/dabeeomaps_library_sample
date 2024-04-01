@@ -53,19 +53,23 @@ map.context.removeBuilding(buildingId); // 4. Remove the drawn building
             <br />
             1.2. If no floor is specified, the outdoor map will be drawn first.
             <br />
-            2. Use addBuilding to switch between buildings or outdoor maps.
+            2. To switch between buildings or outdoor maps, you can move to the desired building or floor using addBuilding <b>or</b> changeFloor.
             <br />
-            2.1. When moving to a building or outdoor map, the previously drawn building or outdoor map will be removed.
+            2.1. When using addBuilding(buildingId, floorId), you can move to a specific floor of a specific building.
+            <br />
+            2.2. Without using addBuilding(), you can also move to floors of different buildings using changeFloor().
+            <br />
+            2.3. When moving to a building or outdoor map, the previously drawn building or outdoor map will be cleared.
         </p>
         <pre>
             <code className={styles.code}>{`
 const mapOption = {
     floor: building1_floor1_id,
-};
-
-// When "floor" is not entered, the default floor is the outdoor map, which is drawn first.
+}
+// If you do not specify the floor when there is an outdoor map, the default floor will be the outdoor map, which will be drawn first.
 const map = await dabeeoMaps.showMap(mapContainer, mapOption, mapData); // 1. Displaying Building 1, Floor 1
-await map.context.addBuilding(buildingId, floorId); // 2. Displaying another floor (Removing Building 1)
+await map.context.addBuilding(buildingId, floorId); // 2. Displaying a Different Floor of a Different Building (Removing Building 1)
+await map.context.changeFloor(floorId) // 3. Moving to a Different Floor (Also Possible to Move to a Floor of a Different Building) 
         `}</code>
         </pre>
         <p>
