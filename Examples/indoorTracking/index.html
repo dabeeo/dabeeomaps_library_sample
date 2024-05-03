@@ -108,8 +108,8 @@
         </div>
     </body>
     <!-- <script type="text/javascript" src="../../build/dabeeomaps-4.0.0.js"></script> -->
-    <script type="text/javascript" src="https://api-assets.dabeeomaps.com/upload/library/dabeeomaps-4.0-latest.js"></script>
-    <!-- <script type="text/javascript" src="https://api-assets.dabeeomaps.com/upload/library/dabeeomaps-4.0-pre-release.js"></script> -->
+    <!-- <script type="text/javascript" src="https://api-assets.dabeeomaps.com/upload/library/dabeeomaps-4.0-latest.js"></script> -->
+    <script type="text/javascript" src="https://api-assets.dabeeomaps.com/upload/library/dabeeomaps-4.0-pre-release.js"></script>
     <!-- <script type="text/javascript" src="https://assets.dabeeomaps.com/upload/library/dabeeomaps-4.0.0.js"></script> -->
 
     <script type="module">
@@ -141,7 +141,6 @@
         let failCount = 0;
 
         function addHeightSelectButton() {
-            alert('키를 선택하세요');
             const selectElement = document.getElementById('selectHeight');
             const option = document.createElement('option');
             option.value = String('키선택');
@@ -479,6 +478,7 @@
             const statusInfo = document.createElement('div');
             statusInfo.classList.add('statusInfo');
             statusSummary?.parentNode?.insertBefore(statusInfo, statusSummary.nextSibling);
+            alert(' 정확한 측정을 위하여 휴대폰을 8자로 흔들어주세요. \n 시작전에  키를 선택하세요');
 
             // 1. 지도 데이터 가져오기
             const mapData = await dabeeoMaps.getMapData({
