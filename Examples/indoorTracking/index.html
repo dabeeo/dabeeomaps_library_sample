@@ -25,13 +25,20 @@
                 border: none;
             }
             button {
-                margin-top: 6px;
+                margin: 2px 6px;
                 background-color: #04aa6d;
                 color: white;
-                padding: 5px 6px;
+                padding: 6px 7px;
                 border: none;
                 font: bold;
+                font-size: 1rem;
                 border-radius: 5px;
+            }
+            #selectHeight {
+                border-radius: 5px;
+                color: #222222;
+                background-color: #eaf3f0;
+                font-size: 1rem;
             }
             #map {
                 width: 100vw;
@@ -160,8 +167,8 @@
         function addHeightSelectButton() {
             const selectElement = document.getElementById('selectHeight');
             const option = document.createElement('option');
-            option.value = String('키선택');
-            option.appendChild(document.createTextNode(String('키선택')));
+            option.value = String('키(신장) 설정하세요');
+            option.appendChild(document.createTextNode(String('키(신장) 설정하세요')));
             selectElement.appendChild(option);
             for (let i = 155; i < 191; i++) {
                 const newOption = document.createElement('option');
@@ -174,7 +181,7 @@
             selectElement.addEventListener('change', async (e) => {
                 // 기존 메뉴와 맵 삭제
                 height = Number(e.target.value);
-                console.log('키 선택 ', height);
+                console.log('키(신장) 설정하세요 ', height);
             });
         }
 
