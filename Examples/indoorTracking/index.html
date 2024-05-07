@@ -66,7 +66,7 @@
                 top: 120px;
                 width: 30%;
                 height: 50vh;
-                height: fit-content;
+                overflow-y: auto;
                 z-index: 999;
                 background-color: rgba(255, 255, 255, 0.4);
             }
@@ -88,7 +88,7 @@
             <select id="selectHeight"></select>
             <button id="indoorStart">indooor tracking 시작</button>
             <button id="indoorStop">indooor tracking 종료</button>
-            <!-- <button id="routeSimulationSet">모의주행 시작</button> -->
+            <button id="routeSimulationSet">모의주행</button>
             <!-- <button id="routeSimulationClear">모의주행 삭제</button> -->
             <button id="statusDiv">상태</button>
             <!-- <button id="heading">Heading On/Off</button> -->
@@ -120,18 +120,34 @@
         const clientId = '6FLO-0RJQDv9oPd_mgAJX0';
         const clientSecret = '4ff90a5feffb4d5d785994e981cf3924';
         const floor = 'FL-vevccrt2oto33702';
-        const startPosition = { x: 1745, y: 1470 };
-        const routeOption = {
-            origin: { position: { x: 1745, y: 1470.0054499999987 }, floorId: 'FL-vevccrt2oto33702' },
-            destination: { position: { x: 2129, y: 443 }, floorId: 'FL-vevccrt2oto33702' },
-            waypoints: [
-                { position: { x: 3267.539027881402, y: 2447.4114557785815 }, floorId: 'FL-vevccrt2oto33702' },
-                { position: { x: 3950.685717806341, y: 2484.7710403838337 }, floorId: 'FL-vevccrt2oto33702' },
-                { position: { x: 3625.1236233889877, y: 499.3759727904726 }, floorId: 'FL-vevccrt2oto33702' },
-                { position: { x: 2840.572346678315, y: 499.3759727904726 }, floorId: 'FL-vevccrt2oto33702' },
-            ],
-        };
+        const startPosition = [
+            { x: 1745, y: 1470 },
+            { x: 2129, y: 443 },
+        ];
+        const routeOption = [
+            {
+                origin: { position: { x: 1745, y: 1470.0054499999987 }, floorId: 'FL-vevccrt2oto33702' },
+                destination: { position: { x: 2129, y: 443 }, floorId: 'FL-vevccrt2oto33702' },
+                waypoints: [
+                    { position: { x: 3267.539027881402, y: 2447.4114557785815 }, floorId: 'FL-vevccrt2oto33702' },
+                    { position: { x: 3950.685717806341, y: 2484.7710403838337 }, floorId: 'FL-vevccrt2oto33702' },
+                    { position: { x: 3625.1236233889877, y: 499.3759727904726 }, floorId: 'FL-vevccrt2oto33702' },
+                    { position: { x: 2840.572346678315, y: 499.3759727904726 }, floorId: 'FL-vevccrt2oto33702' },
+                ],
+            },
+            {
+                origin: { position: { x: 2129, y: 443 }, floorId: 'FL-vevccrt2oto33702' },
+                destination: { position: { x: 1745, y: 1470.0054499999987 }, floorId: 'FL-vevccrt2oto33702' },
+                waypoints: [
+                    { position: { x: 2840.572346678315, y: 499.3759727904726 }, floorId: 'FL-vevccrt2oto33702' },
+                    { position: { x: 3625.1236233889877, y: 499.3759727904726 }, floorId: 'FL-vevccrt2oto33702' },
+                    { position: { x: 3950.685717806341, y: 2484.7710403838337 }, floorId: 'FL-vevccrt2oto33702' },
+                    { position: { x: 3267.539027881402, y: 2447.4114557785815 }, floorId: 'FL-vevccrt2oto33702' },
+                ],
+            },
+        ];
 
+        let testNumber = 1;
         let heading = true;
         let focus = true;
         let currentPosition = { x: 0, y: 0 };
@@ -139,6 +155,7 @@
         let height = 0;
         let count = 0;
         let failCount = 0;
+        const statusInfo = document.createElement('div');
 
         function addHeightSelectButton() {
             const selectElement = document.getElementById('selectHeight');
@@ -165,8 +182,8 @@
         function mylocationSet(map) {
             console.log('onPath threshold', 3, 'will arrival', 4, 'arrival', 1);
             const locationOption = {
-                x: startPosition.x,
-                y: startPosition.y,
+                x: startPosition[testNumber].x,
+                y: startPosition[testNumber].y,
                 iconOption: {
                     iconUrl: 'https://assets.dabeeomaps.com/image/ico/indoorlocation.png',
                     width: 60,
@@ -185,11 +202,11 @@
                 },
             };
             map.mylocation.set(locationOption); // myLocation 생성
-            map.control.moveTo({ position: startPosition, transition: true }); // 지정한좌표를 화면 중앙으로
+            map.control.moveTo({ position: startPosition[testNumber], transition: true }); // 지정한좌표를 화면 중앙으로
         }
 
         async function getRoute(mapData) {
-            const naviResponse = await mapData.getRoute(routeOption);
+            const naviResponse = await mapData.getRoute(routeOption[testNumber]);
             console.log('모의주행 경로 정보', naviResponse.recommendation);
             totalDistance = naviResponse.recommendation.totalDistance / 100;
             console.log('전체 경로 길이', totalDistance.toFixed(), '미터 ');
@@ -199,7 +216,7 @@
         // indoor service 시작
         async function mylocationIndoorStart(map) {
             const indoorTrackingOption = {
-                position: startPosition, // My location coordinates
+                position: startPosition[testNumber], // My location coordinates
                 height, // 키(신장)
                 focus: true, // 내위치 마커가 항상 지도 중심에 올 지 여부 설정
                 heading: true, // 내위치 마커의 방향이 항상 전방을 가리키도록 할 지 여부 설정
@@ -227,17 +244,17 @@
             map.routeSimulation.set(naviResponse?.recommendation, naviOption);
         }
 
-        function resetValues(statusInfo) {
+        function resetValues() {
             count = 0;
             failCount = 0;
             statusInfo.innerHTML = '';
         }
 
         // indoor tracking service 시작
-        function indoorStart(mapData, map, statusInfo) {
+        function indoorStart(mapData, map) {
             const button = document.getElementById('indoorStart');
             button.addEventListener('click', async () => {
-                resetValues(statusInfo);
+                resetValues();
                 if (height === 0) {
                     alert('키를 먼저 선택해주세요');
                     return;
@@ -342,7 +359,7 @@
             return distance;
         }
 
-        function updateStatusDiv(event, statusSummary, statusInfo) {
+        function updateStatusDiv(event, statusSummary) {
             statusSummary.style.color = 'white';
 
             count++;
@@ -418,7 +435,7 @@
             });
         }
 
-        function trackingMoveEventTest(map, mapContainer, statusSummary, statusInfo) {
+        function trackingMoveEventTest(map, mapContainer, statusSummary) {
             // tracking-move
             mapContainer.addEventListener('tracking-move', (e) => {
                 console.log('tracking-move에 대한 결과값: ', e.detail);
@@ -431,7 +448,7 @@
                 if (distance !== event.distance_from_previous * 100) {
                     console.log('계산한 위치와 이벤트로 온위치 오차 에러 distance error!', distance);
                 }
-                updateStatusDiv(event, statusSummary, statusInfo);
+                updateStatusDiv(event, statusSummary);
                 updateStats(event);
             });
         }
@@ -471,12 +488,30 @@
 
         async function init() {
             console.log('indoorTracking Test');
+            const currentUrl = window.location.href;
+
+            // URL을 파싱하여 URLSearchParams 객체 생성
+            const urlParams = new URLSearchParams(new URL(currentUrl).search);
+
+            // 'no' 매개변수 값 가져오기
+            testNumber = Number(urlParams.get('testNumber')) || 0;
+            console.log(testNumber);
 
             // 키 입력
             addHeightSelectButton();
             const statusSummary = document.getElementById('statusDiv');
-            const statusInfo = document.createElement('div');
             statusInfo.classList.add('statusInfo');
+            function scrollToBottom() {
+                // 스크롤 위치를 항상 최하단으로 이동합니다.
+                statusInfo.scrollTop = statusInfo.scrollHeight;
+            }
+
+            // statusInfoElement 요소에 내용이 추가될 때마다 scrollToBottom 함수를 호출합니다.
+            statusInfo.addEventListener('DOMSubtreeModified', scrollToBottom);
+
+            // 초기에도 한번 실행하여 초기 상태를 설정합니다.
+            scrollToBottom();
+
             statusSummary?.parentNode?.insertBefore(statusInfo, statusSummary.nextSibling);
             alert(' 정확한 측정을 위하여 휴대폰을 8자로 흔들어주세요. \n 시작전에  키를 선택하세요');
 
@@ -493,16 +528,16 @@
                 framerate: 60,
                 controlOption: {
                     zoom: 21,
-                    pan: startPosition,
+                    pan: startPosition[testNumber],
                 },
                 floor,
             };
             const map = await dabeeoMaps.showMap(mapContainer, mapOption, mapData);
             if (!map) return;
 
-            indoorStart(mapData, map, statusInfo); // indoor tracking 시작
+            indoorStart(mapData, map); // indoor tracking 시작
             indoorStop(map); // indoor tracking 종료
-            // initRouteSimulation(mapData, map); // 모의주행 시작
+            initRouteSimulation(mapData, map); // 모의주행 시작
             // clearRouteSimulation(map); // 모의주행 종료
 
             // initIndoorHeadingOnOff(map); // Heading on/off
@@ -510,7 +545,7 @@
 
             // event handling
             trackingCompleteEventTest(map, mapContainer); // tracking-complete 이벤트 및 map.mylocation.indoorStop() 테스트
-            trackingMoveEventTest(map, mapContainer, statusSummary, statusInfo); // tracking-move 이벤트 테스트
+            trackingMoveEventTest(map, mapContainer, statusSummary); // tracking-move 이벤트 테스트
             mylocationMapOutEventTest(map, mapContainer); // mylocation-map-out 이벤트 테스트
             mylocationMapInTest(map, mapContainer); // mylocation-map-in 이벤트 테스트
 
