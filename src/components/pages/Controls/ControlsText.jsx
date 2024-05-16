@@ -9,7 +9,7 @@ const ControlsText = (
             optional 속성으로 transition 속성을 true로 설정하면 카메라가 부드럽게 움직입니다. default는 false입니다.
             <br />
         </p>
-        <div className={styles.texts}>2D / 3D 로 카메라 모드를 전환합니다.</div>
+        <div className={styles.texts}>2D / 3D 로 카메라 모드를 전환합니다. 단 전환시 poi, object, tag등은 초기상태로 reset 됩니다. </div>
         <pre>
             <code className={styles.code}>map.control.changeCamera("3D"); // 2D | 3D 중 원하는 차원을 입력하시면 됩니다</code>
         </pre>
