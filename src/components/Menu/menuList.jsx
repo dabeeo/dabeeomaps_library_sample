@@ -27,6 +27,8 @@ import Events from '../pages/Events/Events';
 import ReactText from '../pages/ReactPage/ReactPage';
 import MultiMapText from '../pages/multiMap/multiMapText';
 import MultiMapTextEn from '../pages/multiMap/multiMapTextEn';
+import GeoreferencingMapText from '../pages/Georeferencing/georeferencingMapText';
+import GeoreferencingMapTextEn from '../pages/Georeferencing/georeferencingMapTextEn';
 
 const menuList = [
     { id: 'getStarted', ko: '시작하기', en: 'Get Started', code: 'getStarted', koPage: textKo, enPage: textEn },
@@ -45,7 +47,8 @@ const menuList = [
     { id: 'model', ko: '3dModel 올리기', en: '3d model', code: 'models', koPage: ModelText, enPage: ModelText },
     { id: 'events', ko: '이벤트', en: 'Event', code: '', koPage: Events, enPage: Events },
     { id: 'react', ko: 'React 사용', en: 'Using React', code: 'react', koPage: ReactText, enPage: ReactText },
-    { id: 'multiMap', ko: '통합지도', en: 'Multi Map', code: 'multiMap_GeoOn', koPage: MultiMapText, enPage: MultiMapTextEn },
+    { id: 'multiMap', ko: '통합지도', en: 'Multi Map', code: 'multiMap', koPage: MultiMapText, enPage: MultiMapTextEn },
+    { id: 'georeferencing', ko: '통합지도', en: 'Multi Map', code: 'multiMap', koPage: GeoreferencingMapText, enPage: GeoreferencingMapTextEn },
 ];
 
 export default menuList;
