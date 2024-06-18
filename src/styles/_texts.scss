@@ -31,9 +31,20 @@ $color: #000;
     }
 
     .texts {
+        width: 90%;
         margin-top: 10px;
         font-size: 15px;
         line-height: 1.5 * $fontSize;
+        div {
+            padding-left: 0px;
+        }
+    }
+    .details {
+        width: 90%;
+        margin-top: 10px;
+        font-size: 15px;
+        line-height: 1.5 * $fontSize;
+        text-indent: 35px;
     }
 
     .code {
@@ -69,5 +80,9 @@ $color: #000;
                 color: #550074;
             }
         }
+    }
+
+    .textGroup {
+        text-indent: 20px;
     }
 }

@@ -4,20 +4,22 @@
     <body>
         <div class="inputContainer">
             <div class="container">
-                <select type="text" class="inline-input" name="floorList"></select>
-                <button type="button" class="button-menu" name="changeFloor">change floor</button>
                 <button type="button" class="button-menu" name="getRouteOn">getRouteOn</button>
                 <button type="button" class="button-menu" name="start">start</button>
                 <button type="button" class="button-menu" name="stop">stop</button>
                 <button type="button" class="button-menu" name="clear">clear</button>
             </div>
             <div class="container2">
-                <select type="text" class="inline-input" name="removeBuildingList"></select>
-                <button type="button" class="button-menu" name="removeBuilding">remove building</button>
+                <label class="menu">change floor</label>
+                <select type="text" class="inline-input" name="floorList"></select>
             </div>
             <div class="container3">
+                <label class="menu">remove building</label>
+                <select type="text" class="inline-input" name="removeBuildingList"></select>
+            </div>
+            <div class="container4">
+                <label class="menu">add building</label>
                 <select type="text" class="inline-input" name="addBuildingList"></select>
-                <button type="button" class="button-menu" name="addBuilding">add building</button>
             </div>
         </div>
         <div id="map" class="map"></div>
@@ -26,13 +28,6 @@
     <script>
         let mapData = null;
         let map = null;
-
-        // addBuilding 의 대상이 되는 building id
-        let selectedAddBuildingId = null;
-        // removeBuilding 의 대상이 되는 building id
-        let selectedRemoveBuildingId = null;
-        // changeFloor 의 대상이 되는 floor id
-        let selectedFloorId = null;
 
         async function init() {
             const dabeeoMaps = new dabeeo.Maps();
@@ -58,25 +53,29 @@
             // mapOption으로 mapContainer에 map 그리기
             map = await dabeeoMaps.showMap(mapContainer, mapOption, mapData);
 
-            initMenu(); // addBuilding, removeBuilding, changeFloor 를 하기 위한 selectBox option 생성 및 추가하는 코드
-
             //////////////////////////////// API 샘플 및 사용 예제 요약
-            addBuildingTest(); // map.context.addBuilding() 테스트 코드
-            removeBuildingTest(); // map.context.removeBuilding() 테스트 코드
-            changeFloorTest(); // map.context.changeFloor() 테스트 코드
+            addBuildingEventTest(); // addBuilding 테스트 코드
+            removeBuildingEventTest(); // removeBuilding 테스트 코드
+            changeFloorEventTest(); // changeFloor 테스트 코드
             routeSimulationTest(); // routeSimualtion 테스트 코드
             /////////////////////////////////////////////////////
         }
 
         init();
 
-        function initMenu() {
+        // addBuilding 테스트 코드
+        function addBuildingEventTest() {
             // mapData.dataBuilding 중 indoor 만 filter 하여 list 를 만듦
             const buildings = mapData.dataBuilding.getBuildings().filter((building) => building.buildingType === 'indoor');
 
+            // selectBox element 를 찾아 저장
             const addBuildingSelectBoxElement = document.querySelector("[name='addBuildingList']");
-            const removeBuildingSelectBoxElement = document.querySelector("[name='removeBuildingList']");
-            const floorSelectBoxElement = document.querySelector("[name='floorList']");
+
+            // 초기 빈 option 생성
+            const addBuildingInitOption = document.createElement('option');
+            addBuildingInitOption.value = '';
+            addBuildingInitOption.appendChild(document.createTextNode(''));
+            addBuildingSelectBoxElement.appendChild(addBuildingInitOption);
 
             // filter 한 building 을 조회하며 selectBox 의 option 생성 및 추가
             for (const building of buildings) {
@@ -85,13 +84,57 @@
                 addBuildingOption.value = building.id;
                 addBuildingOption.appendChild(document.createTextNode(building.name[0].text));
                 addBuildingSelectBoxElement.appendChild(addBuildingOption);
+            }
 
+            // add building selectBox 에 change 이벤트를 추가, change 가 발생했을 때 선택된 빌딩의 기본 층을 그림
+            addBuildingSelectBoxElement.addEventListener('change', async (e) => {
+                await map.context.addBuilding(e.target.value);
+            });
+        }
+
+        // removeBuilding 테스트 코드
+        function removeBuildingEventTest() {
+            // mapData.dataBuilding 중 indoor 만 filter 하여 list 를 만듦
+            const buildings = mapData.dataBuilding.getBuildings().filter((building) => building.buildingType === 'indoor');
+
+            // selectBox element 를 찾아 저장
+            const removeBuildingSelectBoxElement = document.querySelector("[name='removeBuildingList']");
+
+            // 초기값으로 빈 option 을 추가
+            const removeBuildingInitOption = document.createElement('option');
+            removeBuildingInitOption.value = '';
+            removeBuildingInitOption.appendChild(document.createTextNode(''));
+            removeBuildingSelectBoxElement.appendChild(removeBuildingInitOption);
+
+            // filter 한 building 을 조회하며 selectBox 의 option 생성 및 추가
+            for (const building of buildings) {
                 // removeBuilding SelectBox option 생성 및 추가
                 const removeBuildingOption = document.createElement('option');
                 removeBuildingOption.value = building.id;
                 removeBuildingOption.appendChild(document.createTextNode(building.name[0].text));
                 removeBuildingSelectBoxElement.appendChild(removeBuildingOption);
+            }
 
+            // remove building selectBox 에 change 이벤트를 추가, change 가 발생했을 때 선택된 빌딩을 removeBuilding을 통해 제거
+            removeBuildingSelectBoxElement.addEventListener('change', function (e) {
+                map.context.removeBuilding(e.target.value);
+            });
+        }
+
+        // changeFloor 테스트 코드
+        function changeFloorEventTest() {
+            // mapData.dataBuilding 중 indoor 만 filter 하여 list 를 만듦
+            const buildings = mapData.dataBuilding.getBuildings().filter((building) => building.buildingType === 'indoor');
+
+            const floorSelectBoxElement = document.querySelector("[name='floorList']");
+
+            const changeFloorInitOption = document.createElement('option');
+            changeFloorInitOption.value = '';
+            changeFloorInitOption.appendChild(document.createTextNode(''));
+            floorSelectBoxElement.appendChild(changeFloorInitOption);
+
+            // filter 한 building 을 조회하며 selectBox 의 option 생성 및 추가
+            for (const building of buildings) {
                 // building 안의 floor 를 조회하며 floorSelectBox option 생성 및 추가
                 const floors = building.floors;
                 for (const floor of floors) {
@@ -102,50 +145,10 @@
                 }
             }
 
-            // add building selectBox 의 첫번째 값을 selectedAddBuildingId 에 넣어줌 (초기값 설정)
-            selectedAddBuildingId = addBuildingSelectBoxElement.options[0].value;
-
-            // add building selectBox 에 change 이벤트를 추가, change 가 발생했을 때 선택된 값을 selectedAddBuildingId 에 넣어줌
-            addBuildingSelectBoxElement.addEventListener('change', function (e) {
-                selectedAddBuildingId = e.target.value;
-            });
-
-            // remove building selectBox 의 첫번째 값을 selectedRemoveBuildingId 에 넣어줌 (초기값 설정)
-            selectedRemoveBuildingId = removeBuildingSelectBoxElement.options[0].value;
-
-            // remove building selectBox 에 change 이벤트를 추가, change 가 발생했을 때 선택된 값을 selectedRemoveBuildingId 에 넣어줌
-            removeBuildingSelectBoxElement.addEventListener('change', function (e) {
-                selectedRemoveBuildingId = e.target.value;
-            });
-
-            // floor selectBox 의 첫번째 값을 selectedFloorId 에 넣어줌 (초기값 설정)
-            selectedFloorId = floorSelectBoxElement.options[0].value;
-
-            // floor selectBox 에 change 이벤트를 추가, change 가 발생했을 때 선택된 값을 selectedFloorId 에 넣어줌
-            floorSelectBoxElement.addEventListener('change', function (e) {
-                selectedFloorId = e.target.value;
-            });
-        }
-
-        function addBuildingTest() {
-            // button click event 추가, addBuilding() 함수 호출 시 await 를 붙여야 함, 선택된 빌딩 추가
-            document.querySelector("[name='addBuilding']").addEventListener('click', async function () {
-                await map.context.addBuilding(selectedAddBuildingId);
-            });
-        }
-
-        function removeBuildingTest() {
-            // button click event 추가, removeBuilding() 함수 호출, 선택된 building 제거
-            document.querySelector("[name='removeBuilding']").addEventListener('click', function () {
-                map.context.removeBuilding(selectedRemoveBuildingId);
-            });
-        }
-
-        function changeFloorTest() {
-            // button click event 추가, floorChange() 함수 호출시 await 를 붙여야 함, 선택된 floor 로 층변경
-            // 현재 그려져있지 않은 building 의 층으로는 층변경 할 수 없음
-            document.querySelector("[name='changeFloor']").addEventListener('click', async function () {
-                await map.context.changeFloor(selectedFloorId);
+            // floor selectBox 에 change 이벤트를 추가, change 가 발생했을 때 선택된 floor 로 층변경 이벤트 발생
+            // addBuilding() 함수 호출 시 await 를 붙여야 함, 선택된 빌딩 추가
+            floorSelectBoxElement.addEventListener('change', async (e) => {
+                await map.context.changeFloor(e.target.value);
             });
         }
 
@@ -204,9 +207,8 @@
             document.querySelector("[name='start']").addEventListener('click', async function () {
                 const animOption = {
                     twoFloorsNavigationDuration: 1000,
-                    speedRate: 40,
+                    speedRate: 8,
                     removeIcon: false,
-                    zoom: 20.4,
                     markerOptions: {
                         iconUrl: 'https://assets.dabeeomaps.com/image/ico/img_person-3x.png',
                         width: 30,
