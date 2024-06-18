@@ -35,7 +35,8 @@ body {
     left: 10px;
 }
 
-.button-menu {
+.button-menu,
+.menu {
     width: 201px;
     height: 24px;
     background-color: #f5f6f9;
@@ -45,6 +46,11 @@ body {
     outline: none;
     font-weight: bold;
     margin-bottom: 5px;
+}
+
+.menu {
+    font-size: 14;
+    line-height: 24px;
 }
 
 .inline-input {
@@ -70,4 +76,8 @@ body {
 
 .pointY {
     margin-top: 5px;
+}
+
+button {
+    cursor: pointer;
 }

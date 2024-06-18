@@ -21,6 +21,9 @@ const Example = () => {
         'gpsTracking',
         'navigation',
         'tag',
+        'multiMap_GeoOn',
+        'multiMap_GoeOff',
+        'multiMap_BuildingMask',
         'heatmap',
         'models',
         'geojson',
@@ -28,9 +31,6 @@ const Example = () => {
         'modelKbg',
         'tiling',
         'tts',
-        'multiMap',
-        'multiMapGeoreferencingOff',
-        'multiMapBuildingMaskClickEvent',
     ];
 
     const location = useLocation();
