@@ -23,7 +23,7 @@ const Example = () => {
         'tag',
         'multiMap_GeoOn',
         'multiMap_GeoOff',
-        'multiMap_buildingMask',
+        'multiMap_BuildingMask',
         'heatmap',
         'models',
         'geojson',
