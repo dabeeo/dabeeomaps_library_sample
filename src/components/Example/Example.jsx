@@ -22,7 +22,7 @@ const Example = () => {
         'navigation',
         'tag',
         'multiMap_GeoOn',
-        'multiMap_GeoOFf',
+        'multiMap_GeoOff',
         'multiMap_buildingMask',
         'heatmap',
         'models',
