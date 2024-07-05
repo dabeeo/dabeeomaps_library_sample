@@ -23,7 +23,24 @@
     </div>
     <script type="module" >
       Cesium.Ion.defaultAccessToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJlZjExOWQwMC1kYzAxLTRkMWItODlkYi1lZTBlZDMwODUxMDkiLCJpZCI6MTc0MDU5LCJpYXQiOjE3MDI0Mjk2OTd9.kXkbjmi5g_uc2C1W792H1eyzEYFcD7MJ2btivj4For0";
-      const viewer = new Cesium.Viewer("app");
+      const viewer = new Cesium.Viewer("app",{
+       
+        contextOptions: {
+    webgl: {
+      // antialias: true, // 안티 앨리어싱 사용
+      depth: true, // 깊이 버퍼 사용
+      // stencil: true, // 스텐실 버퍼 사용
+      // premultipliedAlpha: true, // 사전 곱셈된 알파 사용
+      // preserveDrawingBuffer: false, // 그리기 버퍼 유지
+      failIfMajorPerformanceCaveat: true, // 성능 경고 무시
+      powerPreference: "high-performance", // WebGL 드라이버에 성능 기반 설정 전달
+      // pixelRatio: undefined, // 픽셀 비율
+      webgl2: true, // WebGL 2 사용
+    },
+  },
+      });
+      viewer._cesiumWidget._creditContainer.style.display = "none";
+
       const assetsList = [
         2386135, 2387624, 2387625, 2387627, 2387628, 2387629, 2387632, 2387633,
         2387634, 2387635, 2387639, 2387647, 2387650, 2387651, 2387652, 2387655,

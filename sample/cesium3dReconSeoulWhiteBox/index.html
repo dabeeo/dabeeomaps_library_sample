@@ -23,7 +23,7 @@
     </div>
     <script type="module" >
       Cesium.Ion.defaultAccessToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJlZjExOWQwMC1kYzAxLTRkMWItODlkYi1lZTBlZDMwODUxMDkiLCJpZCI6MTc0MDU5LCJpYXQiOjE3MDI0Mjk2OTd9.kXkbjmi5g_uc2C1W792H1eyzEYFcD7MJ2btivj4For0";
-      const viewer = new Cesium.Viewer("app", { animation: false,
+      const viewer = new Cesium.Viewer("app", { 
   // skyBox: false,
   // // 응답이 있어야 rendering update 되는 항목
   // // requestRenderMode: true,
@@ -79,21 +79,6 @@ viewer._cesiumWidget._creditContainer.style.display = "none";
       2649034, 2649035, 2649036, 2649037, 2649038, 
       2649040, 2649041, 2649042, 2649043, 2649047, 
       2649049
-        // 2386135, 2387624, 2387625, 2387627, 2387628, 2387629, 2387632, 2387633,
-        // 2387634, 2387635, 2387639, 2387647, 2387650, 2387651, 2387652, 2387655,
-        // 2387719, 2387720, 2387721, 2387723, 2387724, 2387725, 2387728, 2387735,
-        // 2387737, 2387775, 2387776, 2387777, 2387778, 2387779, 2387780, 2387781,
-        // 2387782, 2387792, 2387794, 2387796, 2387797, 2387798, 2387800, 2387802,
-        // 2387803, 2387804, 2387805, 2387806, 2387852, 2387855, 2387856, 2387858,
-        // 2387861, 2387862, 2387863, 2387864, 2387865, 2387902, 2387903, 2387905,
-        // 2387906, 2387911, 2387912, 2387913, 2387970, 2387972, 2387974, 2387978,
-        // 2387979, 2387980, 2388059, 2388060, 2388063, 2388064, 2388065, 2388066,
-        // 2388067, 2388068, 2388069, 2388170, 2388171, 2388172, 2388175, 2388176,
-        // 2388177, 2388178, 2388179, 2388180, 2388183, 2388184, 2388185, 2388187,
-        // 2388188, 2388189, 2388191, 2388192, 2388195, 2388197, 2388198, 2388200,
-        // 2388201, 2388204, 2388209, 2388210, 2388211, 2388212, 2388213, 2388214,
-        // 2388215, 2388216, 2388217, 2388218, 2388219, 2388220, 2388221, 2388222,
-        // 2388223, 2388224, 2388225, 2388226, 2388227,
       ];
       let promiseArry = [];
         try {
@@ -115,7 +100,7 @@ viewer._cesiumWidget._creditContainer.style.display = "none";
             ) {
               tileset.style = new Cesium.Cesium3DTileStyle(extras.ion.defaultStyle);
             }
-            await viewer.zoomTo(tileset);
+            // await viewer.zoomTo(tileset);
 
             return viewer.scene.primitives.add(tileset);
           });
@@ -130,6 +115,19 @@ viewer._cesiumWidget._creditContainer.style.display = "none";
         } catch (error) {
           console.log(error);
         }
+
+        setTimeout(
+  () =>
+    viewer.camera.flyTo({
+      destination: Cesium.Cartesian3.fromDegrees(127.147117, 37.511847, 800.0),
+      orientation: {
+        heading: Cesium.Math.toRadians(radian),
+        pitch: Cesium.Math.toRadians(-35.0),
+        roll: 0.0,
+      },
+    }),
+  5000
+);
     </script>
 
   </body>
