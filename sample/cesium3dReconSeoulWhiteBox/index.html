@@ -100,8 +100,9 @@ viewer._cesiumWidget._creditContainer.style.display = "none";
           promiseArry = assetsList.map(async ( asset, index)=>{
             const resource = await Cesium.IonResource.fromAssetId(asset);
             const tileset = await Cesium.Cesium3DTileset.fromUrl(resource, {
-              skipLevelOfDetail: true,  //email 내용 
-              baseScreenSpaceError: 8000, //email 내용 
+              dynamicScreenSpaceErrorHeightFalloff: 0.01,
+              skipLevelOfDetail: true, //email 내용
+              baseScreenSpaceError: 8000, //email 내용
               skipScreenSpaceErrorFactor: 8,
               skipLevels: 1,
               maximumScreenSpaceError: 8,
