@@ -53,6 +53,8 @@
     },
   },
 });
+let radian = 280.0;
+let minus = 50.0;
 viewer._cesiumWidget._creditContainer.style.display = "none";
       const assetsList = [ //  2648428,
       2648423, 2648424, 2648425, 2648426, 2648427, 
@@ -117,17 +119,17 @@ viewer._cesiumWidget._creditContainer.style.display = "none";
         }
 
         setTimeout(
-  () =>
-    viewer.camera.flyTo({
-      destination: Cesium.Cartesian3.fromDegrees(127.147117, 37.511847, 800.0),
-      orientation: {
-        heading: Cesium.Math.toRadians(radian),
-        pitch: Cesium.Math.toRadians(-35.0),
-        roll: 0.0,
-      },
-    }),
-  5000
-);
+        () =>
+          viewer.camera.flyTo({
+            destination: Cesium.Cartesian3.fromDegrees(127.147117, 37.511847, 800.0),
+            orientation: {
+              heading: Cesium.Math.toRadians(radian),
+              pitch: Cesium.Math.toRadians(-35.0),
+              roll: 0.0,
+            },
+          }),
+        3000
+      );
     </script>
 
   </body>
