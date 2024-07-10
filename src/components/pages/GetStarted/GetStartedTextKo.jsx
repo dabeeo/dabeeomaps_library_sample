@@ -56,27 +56,22 @@ const dabeeoMaps = new Maps();`}</code>
         </pre>
         <div className={styles.miniTitle}>3. 지도 데이터를 불러옵니다.</div>
         <div className={styles.texts}>지도데이터는 한번만 가져오면 됩니다. 지도를 삭제하였다가 다시그려도 지도데이터를 다시 불러올 필요없습니다. </div>
+        <div className={styles.texts}>studio4의 지도를 가져오기 위해서는 서버타입을 지정해줘야 합니다. </div>
         <pre>
             <code className={styles.code}>
                 {`const mapData = await dabeeoMaps.getMapData({
     clientId: "[불러올 지도의 clientId]",
-    clientSecret: "[불러올 지도의 clientSecret]"
+    clientSecret: "[불러올 지도의 clientSecret]",
+    serverType: 'SERVER_STUDIO4'
 });`}
             </code>
         </pre>
         <div className={styles.miniTitle}>4. 지도를 그립니다.</div>
-        <div className={styles.texts}>
-            showMap()을 호출하여 지도를 HTML 영역에 그립니다. HTML 영역, 지도 옵션, 지도 데이터를 인자로 넘깁니다.
-            <br />
-            <strong>
-                지도를 삭제하였다가 다시 그리는 경우 지도데이터를 다시 가져올 필요없습니다.
-                <br /> 그러나 지도를 렌더링하는 데 사용하였던 메모리를 해제하기 위하여 map.context.cleanup() 호출해야 합니다.
-            </strong>
-        </div>
+        <div className={styles.texts}>showMap()을 호출하여 지도를 HTML 영역에 그립니다. HTML 영역, 지도 옵션, 지도 데이터를 인자로 넘깁니다.</div>
         <pre>
             <code className={styles.code}>
                 {`const mapContainer = document.getElementById("[지도를 렌더링할 HTML Element]");            
-const mapOption = Object.assign();                                               
+const mapOption = {camera: '3d'}
 const map = await dabeeoMaps.showMap(mapContainer, mapOption, mapData);     `}
             </code>
         </pre>
