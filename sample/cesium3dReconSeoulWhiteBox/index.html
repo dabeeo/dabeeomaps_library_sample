@@ -40,9 +40,6 @@
   // // 바닥 Image 설정
   // // globe: false,
   terrainShadows: true,
-  terrainProvider: await Cesium.CesiumTerrainProvider.fromIonAssetId(2669353, {
-    requestVertexNormals: true,
-  }),
 
   contextOptions: {
     webgl: {
@@ -63,7 +60,15 @@ let radian = 280.0;
 let minus = 50.0;
 viewer._cesiumWidget._creditContainer.style.display = "none";
 scene.globe.depthTestAgainstTerrain = true;
-
+const setTerrain = async () => {
+  viewer.terrainProvider = await Cesium.CesiumTerrainProvider.fromIonAssetId(
+    2669353,
+    {
+      requestVertexNormals: true,
+    }
+  );
+};
+setTerrain();
       const assetsList = [ 
 
       2669354, 2669355, 2669356, 2669357, 2669358, 2669359, 2669360, 2669361,
@@ -77,7 +82,17 @@ scene.globe.depthTestAgainstTerrain = true;
   2669414, 2669415, 2669416, 2669417, 2669418,
 
   // 새로운 모델
-// dem 
+// dem
+  2666874, 2666878, 2666881, 2666885, 2666889, 2666894,
+  2666899, 2666907, 2666911, 2666915,
+  2666150, 2666153, 2666155, 2666157, 2666159, 2666162, 2666164, 2666166,
+  2666169, 2666172, 2666197, 2666199, 2666202, 2666205, 2666207, 2666210,
+  2666218, 2666223, 2666233, 2666236, 2666240, 2666243, 2666245, 2666248,
+  2666250, 2666253, 2666256, 2666258, 2666261, 2666263, 2666266, 2666271,
+  2666273, 2666276, 2666278, 2666283, 2666285, 2666339, 2666358, 2666361,
+  2666364, 2666366, 2666368, 2666371, 2666373, 2666376, 2666378, 2666382,
+  2666387, 2666389, 2666391, 2666393,
+  
   
   2666395, 2666397, 2666401, 2666403,
   2666405, 2666408, 2666410, 2666412, 2666416, 2666420, 2666423, 2666425,
