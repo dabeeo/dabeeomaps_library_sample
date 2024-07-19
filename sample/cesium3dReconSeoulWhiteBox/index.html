@@ -59,7 +59,7 @@
 let radian = 280.0;
 let minus = 50.0;
 viewer._cesiumWidget._creditContainer.style.display = "none";
-scene.globe.depthTestAgainstTerrain = true;
+viewer.scene.globe.depthTestAgainstTerrain = true;
 const setTerrain = async () => {
   viewer.terrainProvider = await Cesium.CesiumTerrainProvider.fromIonAssetId(
     2669353,
