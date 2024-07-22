@@ -1,145 +1,59 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script src="https://cesium.com/downloads/cesiumjs/releases/1.110/Build/Cesium/Cesium.js"></script>
-    <link href="https://cesium.com/downloads/cesiumjs/releases/1.110/Build/Cesium/Widgets/widgets.css" rel="stylesheet">
+    <link
+      href="https://cesium.com/downloads/cesiumjs/releases/1.110/Build/Cesium/Widgets/widgets.css"
+      rel="stylesheet"
+    />
     <style>
+      #info {
+        background-color: rgba(0, 0, 0, 0.75);
+      }
+
+      /* .lil-gui .gui-stats {
+        line-height: var(--widget-height);
+        padding: var(--padding);
+      } */
+      .lil-gui {
+        position: absolute !important;
+        top: 10px;
+        left: 10px;
+      }
       body {
         margin: 0;
         padding: 0;
       }
-      
-      #app {
-        position: absolute; top: 0; right: 0; bottom: 0; left: 0;
+      #container {
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
       }
     </style>
-
-    <title>Cesium 3D Recon Seoul 106 whiteBox</title>
+    <title>3D Recon Seoul 106 Demo Page</title>
+    <script type="importmap">
+      {
+        "imports": {
+          "three": "../build/three.module.js",
+          "three/addons/": "./jsm/"
+        }
+      }
+    </script>
+    <script type="module" crossorigin src="./assets/index-2f28c849.js"></script>
   </head>
   <body>
-    <div id="app">
-    </div>
-    <script type="module" >
-      Cesium.Ion.defaultAccessToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJlZjExOWQwMC1kYzAxLTRkMWItODlkYi1lZTBlZDMwODUxMDkiLCJpZCI6MTc0MDU5LCJpYXQiOjE3MDI0Mjk2OTd9.kXkbjmi5g_uc2C1W792H1eyzEYFcD7MJ2btivj4For0";
-      const viewer = new Cesium.Viewer("app", { 
-// animation: false,
-  // skyBox: false,
-  // 응답이 있어야 rendering update 되는 항목
-  // requestRenderMode: true,
-  baseLayerPicker: false,
-  // geocoder: false,
-  homeButton: false,
-  // infoBox: false,
-  sceneModePicker: false,
-  terrainShadows: true,
-  // selectionIndicator: false,
-  // timeline: false,
-  // navigationHelpButton: false,
-  // navigationInstructionsInitiallyVisible: false,
-  scene3DOnly: true,
-  // 바닥 Image 설정
-  // globe: false,
-  // terrain: Cesium.Terrain.fromWorldTerrain(),,
-  contextOptions: {
-    webgl: {
-      // antialias: true, // 안티 앨리어싱 사용
-      depth: true, // 깊이 버퍼 사용
-      // stencil: true, // 스텐실 버퍼 사용
-      // premultipliedAlpha: true, // 사전 곱셈된 알파 사용
-      // preserveDrawingBuffer: false, // 그리기 버퍼 유지
-      failIfMajorPerformanceCaveat: true, // 성능 경고 무시
-      powerPreference: "high-performance", // WebGL 드라이버에 성능 기반 설정 전달
-      // pixelRatio: undefined, // 픽셀 비율
-      webgl2: true, // WebGL 2 사용
-      
-    },
-  },
-});
-let radian = 280.0;
-let minus = 50.0;
-viewer._cesiumWidget._creditContainer.style.display = "none";
-viewer.scene.globe.depthTestAgainstTerrain = true;
-viewer.scene.globe.enableLighting = true;
+    <!-- <div id="info">
 
-const setTerrain = async () => {
-  viewer.terrainProvider = await Cesium.CesiumTerrainProvider.fromIonAssetId(
-    2670083,
-    {
-      requestVertexNormals: true,
-    }
-  );
-};
-setTerrain();
-      const assetsList = [ 
-     // 2669362, 2669364, 2669367, 2669520
-  2669366, 2669368, 2669363, 2669376,
-  // 새로운 asset
-  2669354, 2669355, 2669356, 2669357, 2669358, 2669359, 2669360, 2669361,
-  2669370, 2669371, 2669372, 2669373, 2669374, 2669375, 2669377, 2669378,
-  2669379, 2669380, 2669382, 2669383, 2669384, 2669385, 2669386, 2669387,
-  2669388, 2669389, 2669390, 2669391, 2669392, 2669393, 2669394, 2669395,
-  2669396, 2669397, 2669398, 2669399, 2669400, 2669401, 2669403, 2669405,
-  2669406, 2669407, 2669408, 2669409, 2669410, 2669411, 2669412, 2669413,
-  2669414, 2669415, 2669416, 2669417, 2669418, 2669489, 2669490, 2669491,
-  2669492, 2669493, 2669494, 2669495, 2669496, 2669498, 2669500, 2669501,
-  2669502, 2669503, 2669504, 2669506, 2669507, 2669509, 2669510, 2669511,
-  2669513, 2669514, 2669515, 2669516, 2669517, 2669518, 2669519, 2669522,
-  2669523, 2669524, 2669525, 2669526, 2669527, 2669528, 2669529, 2669531,
-  2669533, 2669534, 2669535, 2669537, 2669539, 2669540, 2669541, 2669542,
-  2669543, 2669544, 2669545, 2669546, 2669547, 2669548, 2669549, 2669551,
-  2669552, 2669553, 2669554, 2669555,
-      ];
-      let promiseArry = [];
-        try {
-          promiseArry = assetsList.map(async ( asset, index)=>{
-            const resource = await Cesium.IonResource.fromAssetId(asset);
-            const tileset = await Cesium.Cesium3DTileset.fromUrl(resource, {
-              dynamicScreenSpaceErrorHeightFalloff: 0.01,
-              skipLevelOfDetail: true, //email 내용
-              baseScreenSpaceError: 8000, //email 내용
-              skipScreenSpaceErrorFactor: 8,
-              skipLevels: 1,
-              maximumScreenSpaceError: 8,
-            });
-            const extras = tileset.asset.extras;
-            if (
-              Cesium.defined(extras) &&
-              Cesium.defined(extras.ion) &&
-              Cesium.defined(extras.ion.defaultStyle)
-            ) {
-              tileset.style = new Cesium.Cesium3DTileStyle(extras.ion.defaultStyle);
-            }
-            // await viewer.zoomTo(tileset);
+      <a href="https://threejs.org" target="_blank" rel="noopener">three.js</a> webgl - instancing - performance
+  
+    </div> -->
 
-            return viewer.scene.primitives.add(tileset);
-          });
-          try {
-            // viewer.entities = entityCollection;
-            await Promise.all(promiseArry);
-          } catch (e) {
-              // default value: empty array
-            console.error('promise-all', e);
-          }
-
-        } catch (error) {
-          console.log(error);
-        }
-
-        setTimeout(
-        () =>
-          viewer.camera.flyTo({
-            destination: Cesium.Cartesian3.fromDegrees(127.147117, 37.511847, 800.0),
-            orientation: {
-              heading: Cesium.Math.toRadians(radian),
-              pitch: Cesium.Math.toRadians(-35.0),
-              roll: 0.0,
-            },
-          }),
-        3000
-      );
-    </script>
-
+    <div id="container"></div>
+    <!-- -->
+    
   </body>
 </html>
