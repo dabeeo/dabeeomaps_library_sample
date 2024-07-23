@@ -278,6 +278,11 @@
                 // 내위치 마커 그리기
                 mylocationSet(map);
 
+                await map.mylocation.trackingOff(); // navigation tracking 중단
+                await map.mylocation.indoorStop(); // indoor tracking service 종료
+                map.mylocation.clear(); // 내위치 마커 삭제
+                map.routeSimulation.clear(); // 모의주행 경로 삭제
+
                 // indoor tracking service 시작
                 const result = await mylocationIndoorStart(map);
                 if (result) {
