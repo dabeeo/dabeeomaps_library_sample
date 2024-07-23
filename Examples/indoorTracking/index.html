@@ -186,7 +186,7 @@
         }
 
         // 내위치 마커 표출
-        function mylocationSet(map) {
+        async function mylocationSet(map) {
             console.log('onPath threshold', 3, 'will arrival', 4, 'arrival', 1);
             const locationOption = {
                 x: startPosition[testNumber].x,
@@ -208,7 +208,7 @@
                     arrivedRadius: 1, // 도착 범위 반경
                 },
             };
-            map.mylocation.set(locationOption); // myLocation 생성
+            await map.mylocation.set(locationOption); // myLocation 생성
             map.control.moveTo({ position: startPosition[testNumber], transition: true }); // 지정한좌표를 화면 중앙으로
         }
 
@@ -271,17 +271,16 @@
                     DeviceMotionEvent.requestPermission();
                 }
                 alert('Indoor Tracking 서비스를 시작합니다');
+                await map.mylocation.trackingOff(); // navigation tracking 중단
+                await map.mylocation.indoorStop(); // indoor tracking service 종료
+                map.mylocation.clear(); // 내위치 마커 삭제
+                map.routeSimulation.clear(); // 모의주행 경로 삭제
 
                 // 경로구하기
                 const naviResponse = await getRoute(mapData);
 
                 // 내위치 마커 그리기
-                mylocationSet(map);
-
-                await map.mylocation.trackingOff(); // navigation tracking 중단
-                await map.mylocation.indoorStop(); // indoor tracking service 종료
-                map.mylocation.clear(); // 내위치 마커 삭제
-                map.routeSimulation.clear(); // 모의주행 경로 삭제
+                await mylocationSet(map);
 
                 // indoor tracking service 시작
                 const result = await mylocationIndoorStart(map);
