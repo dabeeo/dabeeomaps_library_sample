@@ -36,8 +36,17 @@
 
             //// render a map
             const mapOption = {
-                // camera: '2d',
-                ambientLight: 0.03,
+                // camera: '2d', //default '3d'
+                controlOption: {
+                    zoom: 19, // 0~24
+                    // rotate: 20,
+                    // pan: {
+                    //     // 중심좌표, default는 지도 중심
+                    //     x: 2000,
+                    //     y: 2200,
+                    // },
+                    tilt: 30,
+                },
             };
             map = await dabeeoMaps.showMap(mapContainer, mapOption, mapData);
 
