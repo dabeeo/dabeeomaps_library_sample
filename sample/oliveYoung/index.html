@@ -86,7 +86,7 @@
             mapContainer.addEventListener('poi-click', (e) => {
                 console.log('poi click', e.detail);
                 const floor = mapData.dataFloor.find({ id: e.detail[0].floorId });
-                alert(`${e.detail[0].title} - ${floor.name[0].text}`);
+                alert(`poi Id: ${e.detail[0].id},  \nfloor Id: ${e.detail[0].floorId}`);
             });
         }
 
