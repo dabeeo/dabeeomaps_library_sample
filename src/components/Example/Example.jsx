@@ -20,6 +20,7 @@ const Example = () => {
         'myLocation',
         'gpsTracking',
         'navigation',
+        'navigation_Delay',
         'tag',
         'multiMap_GeoOn',
         'multiMap_GeoOff',

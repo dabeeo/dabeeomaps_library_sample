@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <link rel="icon" href="../dabeeo_ci_symbol.png" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Navigation</title>
+    </head>
+    <link rel="stylesheet" href="../styles/styles.css" />
+    <style>
+        .modal {
+            position: fixed;
+            font-size: 1.2rem;
+            left: calc(100vw / 2 - 200px);
+            top: calc(100vh / 2 - 100px);
+            width: 400px;
+            height: 100px;
+            background-color: rgba(0, 0, 0, 0.7);
+            color: #fff;
+            padding-top: 40px;
+            text-align: center;
+            opacity: 0;
+            /* visibility: hidden; */
+            transform: scale(1.1);
+            transition: visibility 0s linear 0.25s, opacity 0.25s 0s, transform 0.25s;
+            z-index: 999;
+        }
+
+        .hide {
+            opacity: 0;
+        }
+    </style>
+    <body>
+        <div class="modal">modal</div>
+        <div class="container">
+            <button type="button" class="button-menu">floor</button>
+            <select type="text" class="inline-input" name="floor"></select>
+        </div>
+
+        <div class="container2">
+            <button type="button" class="button-menu" name="set">draw route</button>
+            <button type="button" class="button-menu" name="clear">clear route</button>
+            <button type="button" class="button-menu" name="start">start animation</button>
+            <button type="button" class="button-menu" name="stop">stop animation</button>
+        </div>
+        <div class="container5" name="naviList"></div>
+        <div id="map" class="map"></div>
+    </body>
+    <script type="text/javascript" src="https://api-assets.dabeeomaps.com/upload/library/dabeeomaps-4.0-latest.js"></script>
+    <script>
+        const dabeeoMaps = new dabeeo.Maps();
+        let mapData = null;
+        let map = null;
+        const mapContainer = document.getElementById('map');
+
+        async function init() {
+            //fetch a map
+            mapData = await dabeeoMaps.getMapData({
+                clientId: '75hb8YSnAokb-sZ04aDR91',
+                clientSecret: '0f7ad84f160c7b3fd1849a7920af718b',
+            });
+
+            //get route information
+            const naviResponse = await getRoute();
+            console.log(mapData);
+            initFloorMenu();
+
+            console.log(naviResponse);
+
+            // render a map
+            const mapOption = Object.assign({
+                // camera: "2d"
+            });
+            map = await dabeeoMaps.showMap(mapContainer, mapOption, mapData);
+
+            const controlOption = {
+                mouseOption: {
+                    enableZoom: true,
+                    enableRotate: false,
+                    enablePan: true,
+                    enableTilt: false,
+                    buttonOption: {
+                        left: 'PAN',
+                        middle: 'ZOOM',
+                        right: 'ROTATE',
+                    },
+                },
+                touchOption: {
+                    enableZoom: true,
+                    enableRotate: false,
+                    enablePan: true,
+                    enableTilt: false,
+                },
+            };
+
+            //disable camera rotation with mouse
+            // map.control.setOption(controlOption);
+
+            //initialize events
+            initFloorEvent();
+
+            initRouteEvent(naviResponse);
+            initWillChangeFloor(); // 모의주행시 층이 바뀔 것이라는 이벤트를 받을 때 해야 할 동작을 정의합니다.
+        }
+
+        async function getRoute() {
+            const routeOption = {
+                origin: {
+                    poiId: 'PO-WgCv1-qBo8094', // 사업전략부 (11 floor)
+                    floorId: 'FL-t4vqgyek3jnb8146',
+                },
+                // destination: {
+                //     poiId: "PO-NMvw3E0pe1690", // 플랫폼사업부 회의실 (11 floor )
+                //     floorId: "FL-t4vqgyek3jnb8146"
+                // },
+                destination: {
+                    poiId: 'PO-9InVzIGv20417', // 남자화장실 (2 floor )
+                    floorId: 'FL-vf3q07spbmsw8132',
+                },
+                type: ['recommendation', 'elevator'],
+            };
+            const routeOption2 = {
+                origin: {
+                    position: { x: 1000, y: 1000 },
+                    floorId: 'FL-t4vqgyek3jnb8146',
+                },
+                destination: {
+                    position: { x: 1000, y: 1000 },
+                    floorId: 'FL-vf3q07spbmsw8132',
+                },
+                type: ['recommendation', 'elevator'],
+            };
+            const naviResponse = await mapData.getRoute(routeOption);
+            return naviResponse;
+        }
+
+        function initRouteEvent(naviResponse) {
+            document.querySelector("[name='set']").addEventListener('click', function () {
+                map.routeSimulation.clear();
+                const element = document.querySelector("[name='naviList']");
+                element.innerHTML = '';
+                setRoute(naviResponse);
+                showRouteInfo(naviResponse);
+            });
+
+            document.querySelector("[name='clear']").addEventListener('click', function () {
+                map.routeSimulation.clear();
+                const element = document.querySelector("[name='naviList']");
+                element.innerHTML = '';
+            });
+
+            document.querySelector("[name='start']").addEventListener('click', function () {
+                map.routeSimulation.start({
+                    changeFloorDelay: 3000, // 모의주행시 층변경이 일어나는 경우 다른층으로 가기전에 지연할 수 있도록 시간을 정의한다 3000 = 3초
+                    speedRate: 30, // 모의주행 애니메이션의 속도를 정의한다. defulat 10
+                });
+            });
+
+            document.querySelector("[name='stop']").addEventListener('click', function () {
+                map.routeSimulation.stop();
+            });
+        }
+        function showRouteInfo(naviResponse) {
+            const element = document.querySelector("[name='naviList']");
+
+            // navigation list 버튼 추가
+            console.log('NavigationResponse.navigationList 에 대한 결과값', naviResponse.recommendation.navigationList);
+            naviResponse.recommendation.navigationList?.forEach((item, index, arr) => {
+                let { poiTitle, floorName, move, direction, distance, transportation } = getNavigationListData(item);
+                const button = document.createElement('button');
+                button.type = 'button';
+                button.className = 'button-menu';
+                button.style.width = '400px';
+
+                if (move) button.onclick = move;
+                if (poiTitle === undefined) poiTitle = '';
+                if (transportation === '걷기') {
+                    button.textContent = `${poiTitle}(${floorName})에서 ${direction}하여 ${distance}m 만큼 ${transportation}(으)로 이동`;
+                } else {
+                    button.textContent = `${poiTitle}(${floorName})에서 ${transportation}(으)로 이동`;
+                }
+                if (index === arr.length - 1) button.textContent = `${poiTitle}(${floorName}) 도착 `;
+
+                element.appendChild(button);
+            });
+        }
+
+        function getNavigationListData(item) {
+            let poiTitle, direction, distance, transportation, floorName, move;
+
+            if (item.poi) poiTitle = item.poi.title;
+            if (item.direction) direction = item.direction;
+            if (item.distance) distance = item.distance;
+            if (item.transportation) transportation = item.transportation;
+            if (item.floorId) {
+                const floorData = mapData.dataFloor.getFloors().find((floor) => floor.id === item.floorId);
+                floorName = floorData?.name[0].text;
+            }
+            if (item.move)
+                move = () => {
+                    item.move(map);
+                }; // 해당 navigation 경로로 이동하는 함수 저장
+
+            return {
+                poiTitle,
+                floorName,
+                move,
+                direction,
+                distance,
+                transportation,
+            };
+        }
+        function setRoute(naviResponse) {
+            const naviOption = {
+                defaultLineOption: {
+                    // lineColor: '#0000ff',
+                    solidLineEnabled: true,
+                    solidLineWidth: 10,
+                }, // 기본 주행선 옵션
+            };
+            map.routeSimulation.set(naviResponse.recommendation);
+        }
+
+        function initFloorMenu() {
+            //floor data
+            const dataFloor = mapData.dataFloor;
+            const floorInfo = dataFloor.getFloors();
+            const mapDefaultFloor = dataFloor.getDefaultFloor();
+            let element = document.querySelector("[name='floor']");
+
+            for (const floor of floorInfo) {
+                let newOption = document.createElement('option');
+                newOption.value = floor.id;
+                newOption.appendChild(document.createTextNode(floor.name[0].text));
+                element.appendChild(newOption);
+            }
+            element.value = mapDefaultFloor.id;
+        }
+
+        function initFloorEvent() {
+            const optionDefaultFloor = map.context.getMapOptions().floor;
+            let element = document.querySelector("[name='floor']");
+            element.value = optionDefaultFloor;
+            element.addEventListener('change', async function (e) {
+                const floor = e.target.value;
+                await map.context.changeFloor(floor);
+            });
+        }
+
+        // 모의주행 층변경시 딜레이되는 시간동안 popup을 표출하도록 정의한다
+        // changeFloorDelay 을 3000으로 주었으니 3000 ms 지난 후 다시 원상 복귀하도록 한다
+        function initWillChangeFloor() {
+            mapContainer.addEventListener('floor-changing', function (e) {
+                if (e.detail === null) return;
+                let currentFloor = e.detail.floor.current.name[0].text;
+                let nextFloor = e.detail.floor.next.name[0].text;
+                let transCode = e.detail.transCode;
+                let modal = document.querySelector('.modal');
+                console.log(e.detail);
+                modal.innerHTML = currentFloor + '에서 ' + nextFloor + '로 이동합니다';
+                modal.style.opacity = '100';
+                setTimeout(() => {
+                    modal.style.opacity = 0;
+                }, 3000);
+            });
+        }
+
+        init();
+    </script>
+</html>
