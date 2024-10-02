@@ -13,6 +13,7 @@ const Example = () => {
         'mapOption',
         'objects',
         'pois',
+        'pois_click',
         'controls',
         'focus',
         'mapContext',
