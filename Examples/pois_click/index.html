@@ -81,7 +81,7 @@
                 console.log(`${e.type} 에 대한 결과값`, e.detail);
                 const pois = e.detail;
                 pois[0].metadatas.forEach((poi) => {
-                    if (poi.fieldKey === 'URL') {
+                    if (poi.fieldKey === 'URL' && poi.value[0].value) {
                         modal.style.display = 'block'; // 모달 열기
                         const iframe = document.getElementById('iframe');
                         const title = document.getElementById('title');
