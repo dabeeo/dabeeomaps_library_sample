@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <link rel="icon" href="../dabeeo_ci_symbol.png" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>[Dabeeo:png로 다운받기]</title>
+    </head>
+    <link rel="stylesheet" href="../styles/styles.css" />
+    <body>
+        <div class="container">
+            <button type="button" class="button-menu" name="convert_image">현재층 png로 다운받기</button>
+        </div>
+
+        <div class="container2">
+            <button type="button" class="button-menu">floor</button>
+            <select type="text" class="inline-input" name="floor"></select>
+        </div>
+
+        <div id="map" class="map"></div>
+    </body>
+    <script type="text/javascript" src="https://api-assets.dabeeomaps.com/upload/library/dabeeomaps-4.0-latest.js"></script>
+
+    <script>
+        const dabeeoMaps = new dabeeo.Maps();
+        async function init() {
+            //// fetch a map
+            const mapData = await dabeeoMaps.getMapData({
+                // mapId: ' 5b3f6b73-a776-4c3e-bfeb-a7fb9e6374ec',
+                clientId: '3MrGeFmA4pmbvAwMokptMM',
+                clientSecret: '870ef2eaff24681efc9cf2430af71bd3',
+                serverType: 'SERVER_STUDIO4',
+            });
+
+            const dataFloor = mapData.dataFloor;
+            // default value is defined in DabeeoMap Editor
+            initFloorMenu(dataFloor.getFloors(), dataFloor.getDefaultFloor());
+
+            //// render a map
+            const mapOption = {
+                camera: '2d',
+                graphicLibrary: '2d', // png 의 해상도를 올리기 위해 graphic library를 2d를 사용하기를 권장합니다.
+            };
+            const mapContainer = document.getElementById('map');
+            const map = await dabeeoMaps.showMap(mapContainer, mapOption, mapData);
+
+            ////event listener initialization
+            initFloorEvent(map, map.context.getMapOptions().floor);
+            initConverToImg(map);
+        }
+
+        function initConverToImg(map) {
+            let element = document.querySelector("[name='convert_image']");
+
+            element.addEventListener('click', function (e) {
+                map.context.convertToImg({ ratio: 4, filename: 'captureMap' }); // ratio는 5까지 가능하며 클수록 고해상도를 지원합니다.
+            });
+        }
+
+        function initFloorMenu(floorInfo, mapDefaultFloor) {
+            let element = document.querySelector("[name='floor']");
+
+            for (const floor of floorInfo) {
+                let newOption = document.createElement('option');
+                newOption.value = floor.id;
+                newOption.appendChild(document.createTextNode(floor.name[0].text));
+                element.appendChild(newOption);
+            }
+            element.value = mapDefaultFloor.id;
+        }
+
+        function initFloorEvent(map, optionDefaultFloor) {
+            let element = document.querySelector("[name='floor']");
+            element.value = optionDefaultFloor;
+            element.addEventListener('change', async function (e) {
+                const floor = e.target.value;
+                await map.context.changeFloor(floor);
+            });
+        }
+
+        init();
+    </script>
+</html>

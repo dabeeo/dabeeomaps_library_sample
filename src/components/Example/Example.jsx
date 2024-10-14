@@ -17,6 +17,7 @@ const Example = () => {
         'controls',
         'focus',
         'mapContext',
+        'downloadPng',
         'marker',
         'myLocation',
         'gpsTracking',

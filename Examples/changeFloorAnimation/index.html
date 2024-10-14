@@ -23,6 +23,7 @@
             /* visibility: hidden; */
             transform: scale(1.1);
             transition: visibility 0s linear 0.25s, opacity 0.25s 0s, transform 0.25s;
+            z-index: 100;
         }
 
         .hide {
@@ -33,12 +34,11 @@
     <body>
         <div class="modal">modal</div>
 
-        <div class="menu">
-            <div class="container">
-                <button type="button" id="changeFloorAnimation" class="button-menu">모의주행시 층변경 알림</button>
-                <button type="button" id="simulationAnimation" class="button-menu" style="margin-top: 5px">모의주행시 층변경 애니메이션</button>
-            </div>
+        <div class="container">
+            <button type="button" id="changeFloorAnimation" class="button-menu">모의주행시 층변경 알림</button>
+            <button type="button" id="simulationAnimation" class="button-menu" style="margin-top: 5px">모의주행시 층변경 애니메이션</button>
         </div>
+
         <div id="map" class="map"></div>
     </body>
 
@@ -119,7 +119,7 @@
                 framerate: 60,
                 controlOption: {
                     zoom: 19,
-                    rotate: 10,
+                    // rotate: 10,
                     tilt: 30,
                     // pan: {
                     //     x: 2000,
