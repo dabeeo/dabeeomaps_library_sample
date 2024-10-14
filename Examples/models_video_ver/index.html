@@ -38,7 +38,7 @@
             const mapContainer = document.getElementById('map');
 
             //mapOption 정의
-            const mapOption = Object.assign({});
+            const mapOption = Object.assign({ camera: '3d' });
 
             //mapOption으로 mapContainer에 map 그리기
             const map = await dabeeoMaps.showMap(mapContainer, mapOption, mapData);
