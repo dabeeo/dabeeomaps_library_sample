@@ -88,6 +88,12 @@
                         title.innerHTML = pois[0].title;
                         iframe.src = poi.value[0].value;
                         // window.open(poi.value[0].value, 'popupWindow', 'width=600,height=400,scrollbars=yes');
+                    } else if (poi.fieldKey === 'Name' && poi.value[0].value) {
+                        modal.style.display = 'block'; // 모달 열기
+                        const iframe = document.getElementById('iframe');
+                        const title = document.getElementById('title');
+                        title.innerHTML = pois[0].title + poi.value[0].value;
+                        // window.open(poi.value[0].value, 'popupWindow', 'width=600,height=400,scrollbars=yes');
                     }
                 });
                 span.onclick = function () {
