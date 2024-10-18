@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+        <!-- <link rel="stylesheet" href="style.css" /> -->
+        <link rel="stylesheet" href="../styles/styles.css" />
+        <style>
+            .tag-container {
+                z-index: 10;
+                border-radius: 10px;
+                outline: 1px solid gray;
+                padding: 10px;
+                text-align: center;
+                background-color: rgba(250, 250, 250, 0.8);
+            }
+            .tag-container:hover {
+                z-index: 200 !important;
+            }
+            .tag-container div {
+                color: red;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="viewport" class="map">
+            <div class="container">
+                <button type="button" class="inline-input" name="set">create</button>
+                <button type="button" class="inline-input" name="movePostion">movePostion</button>
+                <button type="button" class="inline-input" name="clear">remove</button>
+            </div>
+        </div>
+    </body>
+    <script type="text/javascript" src="https://api-assets.dabeeomaps.com/upload/library/dabeeomaps-4.0-latest.js"></script>
+
+    <script>
+        const dabeeoMaps = new dabeeo.Maps();
+
+        async function init() {
+            const mapData = await dabeeoMaps.getMapData({
+                clientId: '3QUNV6dUkjZ9L_bztHLMbr',
+                clientSecret: 'ebe9e83d29c11ce3b9063987ef552c45',
+            });
+
+            const mapOption = Object.assign({});
+            const mapContainer = document.getElementById('viewport');
+            const map = await dabeeoMaps.showMap(mapContainer, mapOption, mapData);
+
+            function createChildTag(tag, text, color, className) {
+                const childTag = document.createElement('div');
+                childTag.style.color = color;
+                childTag.innerHTML = text;
+                childTag.className = className;
+                tag.appendChild(childTag);
+            }
+
+            function createTag(x, y) {
+                const tag = document.createElement('div');
+                tag.className = 'tag-container';
+
+                createChildTag(tag, '로봇 테스트', '#187975', 'robotname');
+                createChildTag(tag, `x: ${x}`, '#bf1f71', 'xcoord');
+                createChildTag(tag, `y: ${y}`, '#121347', 'ycoord');
+
+                const option = {
+                    position: { x: x, y: y, z: 100 },
+                    tag: tag,
+                    pos: 'LEFT',
+                    floorId: 'FL-AmlAitN2q0405',
+                };
+
+                item = map.tag.set(option);
+                tag.id = item.id;
+                console.log(item);
+
+                tag.addEventListener('click', (e) => {
+                    console.log('clicked tag');
+                    map.tag.clear(tag.id);
+                });
+            }
+
+            createTag(100, 200);
+
+            let x;
+            let y;
+            document.querySelector('[name="set"]').addEventListener('click', function () {
+                x = 230;
+                y = 200;
+                const location = {
+                    x,
+                    y,
+                    iconOption: {
+                        iconUrl: 'https://assets.dabeeomaps.com/upload/library/assets/robot_icon.png',
+                        width: 200,
+                        height: 200,
+                    },
+                    // animate: {
+                    //     color: '#00ff00',
+                    //     opacity: 0.4,
+                    //     desireScale: 2,
+                    // },
+                };
+
+                map.mylocation.set(location);
+            });
+
+            document.querySelector('[name="movePostion"]').addEventListener('click', function () {
+                x += 10;
+                map.mylocation.setPosition({ x, y });
+                xelement = document.querySelector('.xcoord').innerHTML = `x: ${x}`;
+                yelement = document.querySelector('.ycoord').innerHTML = `y: ${y}`;
+            });
+
+            document.querySelector('[name="clear"]').addEventListener('click', function () {
+                map.mylocation.clear();
+            });
+        }
+        init();
+    </script>
+</html>
