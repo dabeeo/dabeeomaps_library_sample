@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <link rel="icon" href="../dabeeo_ci_symbol.png" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>findClosestPois example</title>
+        <link rel="stylesheet" href="../styles/styles.css" />
+    </head>
+    <body>
+        <div class="container">
+            <button type="button" class="button-menu" name="getDistance">getDistance</button>
+            <button type="button" class="button-menu" name="findClosestPois">findClosestPois</button>
+            <button type="button" class="button-menu" name="clearMarker">clearMarker</button>
+        </div>
+        <div class="container2">
+            <button type="button" class="button-menu">floor</button>
+            <select type="text" class="inline-input" name="floor"></select>
+        </div>
+
+        <div id="map" class="map"></div>
+    </body>
+    <script type="text/javascript" src="https://api-assets.dabeeomaps.com/upload/library/dabeeomaps-4.0-latest.js"></script>
+
+    <script>
+        /*
+        getDistance()는 비용이 많이 드는 함수이므로(백엔드서버에 각 모든 poi에 대한 경로찾기 요청해야 함) 동일한 효과를 갖는 findClosestPois() 사용을 권장합니다. 
+        getDistance(): 특정 좌표에서 해당 카테고리 중 가장 가까운 poi 순서대로 정렬하기 
+        findClosestPois(): 특정층에서 해당 카테고리가 있는 가장 가까운 층의 poi 찾기 
+         */
+        const dabeeoMaps = new dabeeo.Maps();
+        let mapData;
+        let map;
+        async function init() {
+            //// fetch a map
+            mapData = await dabeeoMaps.getMapData({
+                //  'studio4_DID_올리브영_명동타운점_test': {
+                // mapId: 'b13a685d-029d-4a85-869e-fe2d8dadaf21',
+                clientId: 'ejb5P7EIQp2af4SnzvrNEU',
+                clientSecret: 'ad7883ef8c108b24fd66f0532771cdfa',
+                serverType: 'SERVER_STUDIO4',
+            });
+
+            //// render a map
+            const mapOption = {};
+            const mapContainer = document.getElementById('map');
+            map = await dabeeoMaps.showMap(mapContainer, mapOption, mapData);
+
+            const categories = mapData.dataMapInfo.getPoiCategories();
+            console.log('categories', categories);
+            const floors = mapData.dataFloor.getFloors();
+            console.log('floors', floors);
+
+            const floorId = 'f52efdc4-5e27-4883-a9ee-79ab40af3a64'; // 1층
+            const origin = { position: { x: 400, y: 1500 }, floorId }; // 1층 현재위치
+            const categoryCode = 'ee64ee3f-12a3-4220-b82f-883c10c56714'; // 화장실
+            const pois = mapData.dataPoi.find({ categoryCode }); // categoryCode에 해당하는 poi 찾기 (검증하기 위해 찾아봄)
+            console.log('화장실 카테고리에 해당하는 pois', pois);
+
+            ////event listener initialization
+            initCameraMenu(map);
+            // default value is defined in DabeeoMap Editor
+            initFloorMenu();
+
+            function initCameraMenu(map) {
+                document.querySelector("[name='getDistance']").addEventListener('click', async function (e) {
+                    // 현재 위치 마커로 표출
+                    map.markers.set({ marker: [{ x: 400, y: 1500, floorId, iconOption: { iconUrl: './img_marker_blue-3x.png' } }] });
+
+                    // 현재위치에서 카테고리 코드에 해당하는 모든 poi와의 거리를 각각 계산, 가까운 순서대로 sorting
+                    const distanceList = await mapData.getCategoryDistance(origin, categoryCode);
+                    console.log('distanceList', distanceList);
+
+                    // 가까운 순서대로 인덱스를 데이터로 넣어서 마커 표출, 마커클릭시 데이터 확인 가능
+                    const markerList = distanceList.map((item, index) => ({
+                        x: item.poi.position.x,
+                        y: item.poi.position.y,
+                        floorId: item.poi?.floorId,
+                        data: { index },
+                    }));
+                    map.markers.set({ marker: markerList });
+                });
+
+                document.querySelector("[name='findClosestPois']").addEventListener('click', function () {
+                    // 현재층에서 가장 가까운 층의 Poi들을 반환
+                    const poisList = mapData.dataPoi.findClosestPois({ categoryCode, floorId });
+                    console.log('poisList', poisList);
+                    if (!poisList) return;
+                    if (Array.isArray(poisList)) {
+                        const markerList = poisList.map((item) => ({
+                            x: item.position.x,
+                            y: item.position.y,
+                            floorId: item.floorId,
+                        }));
+                        map.markers.set({ marker: markerList });
+                    } else {
+                        const markerList = [
+                            {
+                                x: poisList.position.x,
+                                y: poisList.position.y,
+                                floorId: poisList.floorId,
+                            },
+                        ];
+                        map.markers.set({ marker: markerList });
+                    }
+                });
+
+                document.querySelector("[name='clearMarker']").addEventListener('click', function () {
+                    map.markers.clearAll();
+                });
+            }
+
+            function initFloorMenu() {
+                //floor data
+                const dataFloor = mapData.dataFloor;
+                const floorInfo = dataFloor.getFloors();
+                const mapDefaultFloor = dataFloor.getDefaultFloor();
+                let element = document.querySelector("[name='floor']");
+
+                for (const floor of floorInfo) {
+                    let newOption = document.createElement('option');
+                    newOption.value = floor.id;
+                    newOption.appendChild(document.createTextNode(floor.name[0].text));
+                    element.appendChild(newOption);
+                }
+                element.value = mapDefaultFloor.id;
+            }
+
+            function initFloorEvent() {
+                const optionDefaultFloor = map.context.getMapOptions().floor;
+                let element = document.querySelector("[name='floor']");
+                element.value = optionDefaultFloor;
+                element.addEventListener('change', async function (e) {
+                    const floor = e.target.value;
+                    await map.context.changeFloor(floor);
+                });
+            }
+        }
+
+        init();
+    </script>
+</html>

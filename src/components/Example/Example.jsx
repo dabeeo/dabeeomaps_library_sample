@@ -14,6 +14,7 @@ const Example = () => {
         'objects',
         'pois',
         'pois_click',
+        'findClosestPois',
         'controls',
         'focus',
         'mapContext',
