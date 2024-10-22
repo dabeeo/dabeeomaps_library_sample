@@ -59,11 +59,12 @@
             console.log('화장실 카테고리에 해당하는 pois', pois);
 
             ////event listener initialization
-            initCameraMenu(map);
+            initMenu(map);
             // default value is defined in DabeeoMap Editor
             initFloorMenu();
+            initFloorEvent();
 
-            function initCameraMenu(map) {
+            function initMenu(map) {
                 document.querySelector("[name='getDistance']").addEventListener('click', async function (e) {
                     // 현재 위치 마커로 표출
                     map.markers.set({ marker: [{ x: 400, y: 1500, floorId, iconOption: { iconUrl: './img_marker_blue-3x.png' } }] });
