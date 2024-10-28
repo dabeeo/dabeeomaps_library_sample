@@ -27,19 +27,20 @@
         /*
         getDistance()는 비용이 많이 드는 함수이므로(백엔드서버에 각 모든 poi에 대한 경로찾기 요청해야 함) 동일한 효과를 갖는 findClosestPois() 사용을 권장합니다. 
         getDistance(): 특정 좌표에서 해당 카테고리 중 가장 가까운 poi 순서대로 정렬하기 
-        findClosestPois(): 특정층에서 해당 카테고리가 있는 가장 가까운 층의 poi 찾기 
+        findClosestPois(): 특정층에서 지정한 조건에 해당하는  가장 가까운 층의 poi 찾기 
          */
+
         const dabeeoMaps = new dabeeo.Maps();
         let mapData;
         let map;
         async function init() {
             //// fetch a map
             mapData = await dabeeoMaps.getMapData({
-                //  'studio4_DID_올리브영_명동타운점_test': {
-                // mapId: 'b13a685d-029d-4a85-869e-fe2d8dadaf21',
-                clientId: 'ejb5P7EIQp2af4SnzvrNEU',
-                clientSecret: 'ad7883ef8c108b24fd66f0532771cdfa',
-                serverType: 'SERVER_STUDIO4',
+                // studio4_롯데타워몰
+                // findClosestPois(new)
+                // mapId: '70817caa-4ae7-4bdf-b2c1-c6dcbe600b4a',
+                clientId: '7wp8TEkmQHRb9PlEfWaVSr',
+                clientSecret: 'd4e472cb4bcfc264d963e5492a4520e2',
             });
 
             //// render a map
@@ -52,12 +53,6 @@
             const floors = mapData.dataFloor.getFloors();
             console.log('floors', floors);
 
-            const floorId = 'f52efdc4-5e27-4883-a9ee-79ab40af3a64'; // 1층
-            const origin = { position: { x: 400, y: 1500 }, floorId }; // 1층 현재위치
-            const categoryCode = 'ee64ee3f-12a3-4220-b82f-883c10c56714'; // 화장실
-            const pois = mapData.dataPoi.find({ categoryCode }); // categoryCode에 해당하는 poi 찾기 (검증하기 위해 찾아봄)
-            console.log('화장실 카테고리에 해당하는 pois', pois);
-
             ////event listener initialization
             initMenu(map);
             // default value is defined in DabeeoMap Editor
@@ -66,6 +61,12 @@
 
             function initMenu(map) {
                 document.querySelector("[name='getDistance']").addEventListener('click', async function (e) {
+                    const floorId = 'f52efdc4-5e27-4883-a9ee-79ab40af3a64'; // 1층
+                    const origin = { position: { x: 400, y: 1500 }, floorId }; // 1층 현재위치
+                    const categoryCode = 'ee64ee3f-12a3-4220-b82f-883c10c56714'; // 화장실
+                    const pois = mapData.dataPoi.find({ categoryCode }); // categoryCode에 해당하는 poi 찾기 (검증하기 위해 찾아봄)
+                    console.log('화장실 카테고리에 해당하는 pois', pois);
+
                     // 현재 위치 마커로 표출
                     map.markers.set({ marker: [{ x: 400, y: 1500, floorId, iconOption: { iconUrl: './img_marker_blue-3x.png' } }] });
 
@@ -84,8 +85,17 @@
                 });
 
                 document.querySelector("[name='findClosestPois']").addEventListener('click', function () {
-                    // 현재층에서 가장 가까운 층의 Poi들을 반환
-                    const poisList = mapData.dataPoi.findClosestPois({ categoryCode, floorId });
+                    // 지정한 층에서 가장 가까운 층의 Poi들을 반환
+                    // const poisList = mapData.dataPoi.findClosestPois({ categoryCode, floorId });
+
+                    // 새로 추가된 옵션으로 검색 1층에서 가장 가까운 층의 해당 poi 찾기
+                    const poisList = mapData.dataPoi.findClosestPois({
+                        fieldKey: 'categoryCode',
+                        value: 'L003M009S011',
+                        floorId: 'cca30325-d77b-414f-b984-ba15d5620261', // 1F
+                        // floorId: 'ced8057a-c6db-4905-9dfd-2339ec21522f', // 2F
+                    });
+
                     console.log('poisList', poisList);
                     if (!poisList) return;
                     if (Array.isArray(poisList)) {
