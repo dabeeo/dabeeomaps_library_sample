@@ -19,7 +19,12 @@ const ControlsText = (
             <code className={styles.code}>map.control.getCameraType()</code>
         </pre>
 
-        <div className={styles.text}>카메라를 원하는 좌표로 이동시키는 동작을 합니다.</div>
+        <div className={styles.text}>
+            카메라를 원하는 좌표로 이동시키는 동작을 합니다. <br />{' '}
+            <strong> 해당층의 특정 좌표로 카메라를 움직이고자 할 때 해당 층으로 이동 후에 move를 해야 정상적으로 동작합니다.</strong>
+            <br />
+        </div>
+
         <pre>
             <code className={styles.code}>
                 {`const position = { x: number, y: number };              // 이동하고자 하는 좌표의 x, y값
