@@ -21,7 +21,8 @@
 
         <div id="map" class="map"></div>
     </body>
-    <script type="text/javascript" src="https://api-assets.dabeeomaps.com/upload/library/dabeeomaps-4.0-latest.js"></script>
+    <!-- <script type="text/javascript" src="https://api-assets.dabeeomaps.com/upload/library/dabeeomaps-4.0-latest.js"></script> -->
+    <script type="text/javascript" src="https://assets.dabeeomaps.com/upload/library/dabeeomaps-04.78.03.js"></script>
 
     <script>
         /*
@@ -87,11 +88,23 @@
                 document.querySelector("[name='findClosestPois']").addEventListener('click', function () {
                     // 지정한 층에서 가장 가까운 층의 Poi들을 반환
                     // const poisList = mapData.dataPoi.findClosestPois({ categoryCode, floorId });
+                    const position = { x: 3000, y: 1200 };
+
+                    map.markers.set({
+                        marker: [
+                            {
+                                x: position.x,
+                                y: position.y,
+                                iconOption: { iconUrl: 'https://assets.dabeeomaps.com/image/ico/img_marker_blue-3x.png', width: 40 },
+                            },
+                        ],
+                    });
 
                     // 새로 추가된 옵션으로 검색 1층에서 가장 가까운 층의 해당 poi 찾기
                     const poisList = mapData.dataPoi.findClosestPois({
                         fieldKey: 'categoryCode',
                         value: 'L003M009S011',
+                        position,
                         floorId: 'cca30325-d77b-414f-b984-ba15d5620261', // 1F
                         // floorId: 'ced8057a-c6db-4905-9dfd-2339ec21522f', // 2F
                     });
@@ -99,10 +112,11 @@
                     console.log('poisList', poisList);
                     if (!poisList) return;
                     if (Array.isArray(poisList)) {
-                        const markerList = poisList.map((item) => ({
+                        const markerList = poisList.map((item, index) => ({
                             x: item.position.x,
                             y: item.position.y,
                             floorId: item.floorId,
+                            iconOption: { iconUrl: index === 0 ? 'https://assets.dabeeomaps.com/image/ico/olive_ico_marker.png' : undefined, width: 30 },
                         }));
                         map.markers.set({ marker: markerList });
                     } else {
