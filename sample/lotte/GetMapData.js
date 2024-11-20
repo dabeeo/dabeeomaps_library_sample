@@ -1,13 +1,11 @@
 import { mapList } from './mapList.js';
 
 export class GetMapData {
-    constructor(dabeeoMaps, mapContainer, mapInfo, mapOption, context, menuClass) {
+    constructor(dabeeoMaps, mapContainer, mapOption, context) {
         this.dabeeoMaps = dabeeoMaps;
         this.mapContainer = mapContainer;
-        this.mapInfo = mapInfo;
         this.mapOption = mapOption;
         this.context = context;
-        this.menuClass = menuClass;
         this.menu = null;
         this.gui = null;
         this.setting = null;
@@ -23,6 +21,8 @@ export class GetMapData {
     }
 
     async getMapData(value) {
+        console.log('getMapData:getMapData');
+
         if (value < 0) {
             alert('select a map ');
             return;
@@ -39,12 +39,12 @@ export class GetMapData {
 
         this.menu = this.gui.addFolder('Map Menu');
         this.menu.open();
-        // this.mapInfo.init(this.menu, mapData);
         this.mapOption.init(this.menu, mapData, this.mapContainer);
-        const map = await this.mapOption.showMap(value);
+        await this.mapOption.showMap(value);
     }
 
     async getMap(value) {
+        console.log('GetMapData:getMap');
         this.removeMenu();
 
         const option = {
@@ -58,12 +58,12 @@ export class GetMapData {
         this.menu = this.gui.addFolder('Map Menu');
         this.menu.open();
 
-        // this.mapInfo.init(this.menu, mapData);
         this.mapOption.init(this.menu, mapData, this.mapContainer);
-        const map = await this.mapOption.showMap(value);
+        await this.mapOption.showMap(value);
     }
 
     init(gui) {
+        console.log('GetMapData:init');
         this.gui = gui;
         this.setting = {
             mapIndex: -1,

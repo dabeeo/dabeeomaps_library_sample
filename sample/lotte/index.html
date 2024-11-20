@@ -29,13 +29,11 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/dat-gui/0.7.9/dat.gui.min.js"></script>
 
     <!-- <script type="text/javascript" src="https://assets.dabeeomaps.com/upload/library/dabeeomaps-04.24.01.js"></script> -->
-    <script type="text/javascript" src="https://api-assets.dabeeomaps.com/upload/library/dabeeomaps-4.0-latest.js"></script>
+    <script type="text/javascript" src="https://api-assets.dabeeomaps.com/upload/library/dabeeomaps-04.79.01.js"></script>
 
     <script type="module">
-        import { MapInfo } from './MapInfo.js';
         import { MapOption } from './MapOption.js';
         import { ContextMenu } from './ContextMenu.js';
-        import { SimulationMenu } from './SimulationMenu.js';
         import { GetMapData } from './GetMapData.js';
 
         const gui = new dat.GUI({ width: 300 });
@@ -45,10 +43,8 @@
         async function init() {
             const mapContainer = document.querySelector('.map');
             const context = new ContextMenu();
-            const simulationMenu = new SimulationMenu();
-            const mapInfo = new MapInfo();
-            const mapOption = new MapOption(dabeeoMaps, context, simulationMenu);
-            const getMapData = new GetMapData(dabeeoMaps, mapContainer, mapInfo, mapOption, context, simulationMenu);
+            const mapOption = new MapOption(dabeeoMaps, context);
+            const getMapData = new GetMapData(dabeeoMaps, mapContainer, mapOption, context);
 
             const mapGui = getMapData.init(gui);
         }
