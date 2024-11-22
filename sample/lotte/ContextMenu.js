@@ -35,6 +35,7 @@ export class ContextMenu {
             camera: currentCameraMode,
             language: currentLang.lang,
             convertToImg: this.convertToImg.bind(this),
+            convertToImgAllFloor: this.convertToImgAllFloor.bind(this),
         };
         this.menu = this.gui.addFolder('옵션 변경');
         this.menu.open();
@@ -42,11 +43,16 @@ export class ContextMenu {
         // this.menu.add(mapContext, 'camera', ['2D', '3D']).name('2d/3d').onChange(this.changeCamera.bind(this));
         this.menu.add(setting, 'language', langSetting).name('language').onChange(this.changeLanguage.bind(this)).listen();
         this.menu.add(setting, 'convertToImg').name('download png');
+        this.menu.add(setting, 'convertToImgAllFloor').name('download png all floors');
         return this.menu;
     }
 
     convertToImg() {
         this.map.context.convertToImg({ ratio: 5, filename: 'test-image' });
+    }
+
+    convertToImgAllFloor() {
+        this.map.context.convertToImg({ ratio: 5, filename: 'test-image', floorAll: true });
     }
 
     changeFloor(value) {
