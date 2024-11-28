@@ -6,7 +6,7 @@ $color: #000;
 
     p {
         max-width: 1000px;
-        font-size: 15px;
+        font-size: 18px;
         line-height: 30px;
         margin: 20px;
         margin-left: 0;
@@ -14,12 +14,12 @@ $color: #000;
 
     .title {
         font-weight: bold;
-        font-size: 24px;
+        font-size: 36px;
         margin: 50px 0;
     }
 
     .middleTitle {
-        margin-bottom: 20px;
+        margin-bottom: 26px;
         font-weight: bold;
         font-size: 20px;
     }
@@ -27,13 +27,14 @@ $color: #000;
     .miniTitle {
         margin-top: 30px;
         font-weight: 500;
-        font-size: 20px;
+        font-size: 22px;
+        line-height: 1.4;
     }
 
     .texts {
         width: 90%;
         margin-top: 10px;
-        font-size: 15px;
+        font-size: 18px;
         line-height: 1.5 * $fontSize;
         div {
             padding-left: 0px;
@@ -42,7 +43,7 @@ $color: #000;
     .details {
         width: 90%;
         margin-top: 10px;
-        font-size: 15px;
+        font-size: 18px;
         line-height: 1.5 * $fontSize;
         text-indent: 35px;
     }

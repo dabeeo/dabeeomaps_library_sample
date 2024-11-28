@@ -16,7 +16,7 @@ const Section = ({ lang }) => {
                 {menuList.map((menu) => (
                     <Route key={menu.id} path={`/${menu.id}`} element={<GetText code={menu.code} context={lang === 'ko' ? menu.koPage : menu.enPage} />} />
                 ))}
-                <Route path='/releaseNote' element={<ReleaseNote />} />
+                <Route path="/releaseNote" element={<ReleaseNote />} />
             </Routes>
         </div>
     );

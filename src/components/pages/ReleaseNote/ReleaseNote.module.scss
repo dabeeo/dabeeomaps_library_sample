@@ -1,9 +1,7 @@
+@import '../../../styles/texts';
+
 .releaseNote {
     padding-top: 1rem;
-    
-    .title {
-        font-weight: bold;
-        font-size: 24px;
-        margin: 50px 0;
-    }
+
+    @include texts;
 }
