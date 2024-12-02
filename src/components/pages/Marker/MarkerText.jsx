@@ -31,16 +31,16 @@ const MarkerText = (
         repeat?: number;    /** repeat: (optional) animate 횟수, undefined이면 무한 반복 */
         opacity?: number;   /** opacity : (optional) animate 투명도 정도 (소수점) min: 0 max:1 */
     };
-    iconOption: {
-        iconUrl: string;    /** marker의 이미지 url */
-        width: number;      /** marker의 넓이 값 */
-        height: number;     /** marker의 높이 값 */
-        anchor: {           /** marker의 중심점 (left/bottom이 0,0이고 right/top이 1,1)*/
+    iconOption?: {
+        iconUrl?: string;    /** marker의 이미지 url */
+        width?: number;      /** marker의 넓이 값 */
+        height?: number;     /** marker의 높이 값 */
+        anchor?: {           /** marker의 중심점 (left/bottom이 0,0이고 right/top이 1,1)*/
             x: number;
             y: number;
         },
-    floorId: string,                        // 각 마커의 층을 지정. 미지정시 default는  현재층,
-    data: any,                              // 마커를 클릭했을 때 반환할 정보
+    floorId?: string,                        // 각 마커의 층을 지정. 미지정시 default는  현재층,
+    data?: any,                              // 마커를 클릭했을 때 반환할 정보
                 }`}
             </code>
         </pre>
