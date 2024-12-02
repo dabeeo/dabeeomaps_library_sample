@@ -48,7 +48,14 @@
                     initFloorEvent();
 
                     markerId = await map.markers.set({
-                        marker: [{ x: 3000, y: 2000, animate: { duration: 1000, repeat: 3, opacity: 0.1 } }],
+                        marker: [{ x: 1500, y: 2000, fixedSize: true }],
+                    });
+                    markerId = await map.markers.set({
+                        marker: [{ x: 2000, y: 2000, fixedSize: false }],
+                    });
+
+                    markerId = await map.markers.set({
+                        marker: [{ x: 2500, y: 2000, animate: { duration: 1000, repeat: 3, opacity: 0.1 } }],
                     });
 
                     document.querySelector("[name='set']").addEventListener('click', function () {

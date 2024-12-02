@@ -22,19 +22,26 @@ const MarkerText = (
         </p>
         <pre>
             <code className={styles.code}>
-                {`
-    x: number,                      // 마커의 x좌표
-    y: number,                      // 마커의 y좌표
+                {`{
+    x: number;              /* marker가 위치할 좌표의 x축 값*/
+    y: number;              /* marker가 위치할 좌표의 y축 값 */
+    fixedSize?: boolean;    /* marker 의 크기가 줌에 따라 항상 동일한 사이즈를 유지할 지 여부 default 는 true, 줌에 따라 사이즈가 변경됨, false 인 경우 입력한 마커 사이즈에 따라 size 가 고정됨 */
+    animate?: {             /* animate : 아이콘의 animate 속성*/
+        duration?: number;  /** duration: (optional) animate 주기 */
+        repeat?: number;    /** repeat: (optional) animate 횟수, undefined이면 무한 반복 */
+        opacity?: number;   /** opacity : (optional) animate 투명도 정도 (소수점) min: 0 max:1 */
+    };
     iconOption: {
-        iconUrl: string,                     // marker의 이미지 url
-        width: number,                      // 마커의 넓이
-        height: number,                     // 마커의 높이
-        positionZ: number,                  // 마커의 Z좌표
-        visibleIcon: boolean                // 마커를 보여줄지 말지 여부. default는 true
-    },
+        iconUrl: string;    /** marker의 이미지 url */
+        width: number;      /** marker의 넓이 값 */
+        height: number;     /** marker의 높이 값 */
+        anchor: {           /** marker의 중심점 (left/bottom이 0,0이고 right/top이 1,1)*/
+            x: number;
+            y: number;
+        },
     floorId: string,                        // 각 마커의 층을 지정. 미지정시 default는  현재층,
     data: any,                              // 마커를 클릭했을 때 반환할 정보
-`}
+                }`}
             </code>
         </pre>
         <div className={styles.texts}>marker 그리는 메소드는 다음과 같습니다. 동기방식으로 사용하고 id를 받아야 합니다.</div>
@@ -63,7 +70,9 @@ const MarkerText = (
         <pre>
             <code className={styles.code}>map.markers.clearAll();</code>
         </pre>
-        <div className={styles.texts}>실행 예제는 다음과 같습니다.</div>
+        <div className={styles.texts}>
+            실행 예제는 다음과 같습니다. marker의 속성에 fixedSize를 준 경우와 애니메이션 속성을 준 경우입니다. 줌을 변경하여 동작의 차이를 확인하기 바랍니다.
+        </div>
     </div>
 );
 
