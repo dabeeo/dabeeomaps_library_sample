@@ -48,14 +48,14 @@
                     initFloorEvent();
 
                     markerId = await map.markers.set({
-                        marker: [{ x: 1500, y: 2000, fixedSize: true }],
+                        marker: [{ x: 1500, y: 2000, fixedSize: true, data: 'fixedSize True' }],
                     });
                     markerId = await map.markers.set({
-                        marker: [{ x: 2000, y: 2000, fixedSize: false }],
+                        marker: [{ x: 2000, y: 2000, fixedSize: false, data: 'fixedSize false' }],
                     });
 
                     markerId = await map.markers.set({
-                        marker: [{ x: 2500, y: 2000, animate: { duration: 1000, repeat: 3, opacity: 0.1 } }],
+                        marker: [{ x: 2500, y: 2000, animate: { duration: 1000, repeat: 3, opacity: 0.1 }, data: 'animate repeat3 ' }],
                     });
 
                     markerId = await map.markers.set({
@@ -63,6 +63,7 @@
                             {
                                 x: 3000,
                                 y: 2000,
+                                data: 'scale',
                                 fixedSize: false,
                                 animate: { duration: 1000, scale: 3 },
                                 iconOption: {
@@ -89,6 +90,10 @@
                     document.querySelector("[name='clear']").addEventListener('click', function () {
                         // map.markers.clear(markerId);
                         map.markers.clearAll();
+                    });
+
+                    mapContainer.addEventListener('marker-click', (e) => {
+                        console.log(e.detail[0].userData.data);
                     });
 
                     function initFloorMenu() {
