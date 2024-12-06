@@ -24,7 +24,7 @@
         </div>
         <div id="viewport" class="map"></div>
     </body>
-    <script type="text/javascript" src="https://api-assets.dabeeomaps.com/upload/library/dabeeomaps-04.80.01.js"></script>
+    <script type="text/javascript" src="https://api-assets.dabeeomaps.com/upload/library/dabeeomaps-04.80.02.js"></script>
 
     <script>
         const dabeeoMaps = new dabeeo.Maps();
@@ -56,6 +56,20 @@
 
                     markerId = await map.markers.set({
                         marker: [{ x: 2500, y: 2000, animate: { duration: 1000, repeat: 3, opacity: 0.1 } }],
+                    });
+
+                    markerId = await map.markers.set({
+                        marker: [
+                            {
+                                x: 3000,
+                                y: 2000,
+                                fixedSize: false,
+                                animate: { duration: 1000, scale: 3 },
+                                iconOption: {
+                                    anchor: { x: 0.5, y: 0.5 },
+                                },
+                            },
+                        ],
                     });
 
                     document.querySelector("[name='set']").addEventListener('click', function () {
