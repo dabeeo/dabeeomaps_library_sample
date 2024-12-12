@@ -26,6 +26,7 @@ const Example = () => {
         'navigation_Delay',
         'tag',
         'multiMap_GeoOn',
+        'multiMap_GeoOn2',
         'multiMap_GeoOff',
         'multiMap_BuildingMask',
         'heatmap',

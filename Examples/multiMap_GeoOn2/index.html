@@ -1,0 +1,242 @@
+<html>
+    <head></head>
+    <link rel="stylesheet" href="../styles/styles.css" />
+    <body>
+        <div class="inputContainer">
+            <div class="container">
+                <button type="button" class="button-menu" name="getRouteOn">getRouteOn</button>
+                <button type="button" class="button-menu" name="start">start</button>
+                <button type="button" class="button-menu" name="stop">stop</button>
+                <button type="button" class="button-menu" name="clear">clear</button>
+            </div>
+            <div class="container2">
+                <label class="menu">change floor</label>
+                <select type="text" class="inline-input" name="floorList"></select>
+            </div>
+            <div class="container3">
+                <label class="menu">remove building</label>
+                <select type="text" class="inline-input" name="removeBuildingList"></select>
+            </div>
+            <div class="container4">
+                <label class="menu">add building</label>
+                <select type="text" class="inline-input" name="addBuildingList"></select>
+            </div>
+        </div>
+        <div id="map" class="map"></div>
+    </body>
+    <script type="text/javascript" src="https://api-assets.dabeeomaps.com/upload/library/dabeeomaps-4.0-latest.js"></script>
+    <script>
+        let mapData = null;
+        let map = null;
+
+        async function init() {
+            const dabeeoMaps = new dabeeo.Maps();
+
+            // mapDataOption 정의 (통합지도)
+            const mapDataOption = {
+                // mapId: '9400907b-08ac-4fc4-a74e-f5c701c5b7fe',
+                clientId: '1H_Fpq9zkOY9o7NXGwAPqc',
+                clientSecret: '1c177e120c495659293824fdcf9c994d',
+            };
+
+            // mapData 가져오기
+            mapData = await dabeeoMaps.getMapData(mapDataOption);
+
+            // mapContainer
+            const mapContainer = document.getElementById('map');
+
+            // mapOption 정의
+            const mapOption = {
+                camera: '2d',
+                enableGeoreferencing: true,
+                framerate: 60,
+            };
+
+            // mapOption으로 mapContainer에 map 그리기
+            map = await dabeeoMaps.showMap(mapContainer, mapOption, mapData);
+
+            //////////////////////////////// API 샘플 및 사용 예제 요약
+            addBuildingEventTest(); // addBuilding 테스트 코드
+            removeBuildingEventTest(); // removeBuilding 테스트 코드
+            changeFloorEventTest(); // changeFloor 테스트 코드
+            routeSimulationTest(); // routeSimualtion 테스트 코드
+            /////////////////////////////////////////////////////
+        }
+
+        init();
+
+        // addBuilding 테스트 코드
+        function addBuildingEventTest() {
+            // mapData.dataBuilding 중 indoor 만 filter 하여 list 를 만듦
+            const buildings = mapData.dataBuilding.getBuildings().filter((building) => building.buildingType === 'indoor');
+
+            // selectBox element 를 찾아 저장
+            const addBuildingSelectBoxElement = document.querySelector("[name='addBuildingList']");
+
+            // 초기 빈 option 생성
+            const addBuildingInitOption = document.createElement('option');
+            addBuildingInitOption.value = '';
+            addBuildingInitOption.appendChild(document.createTextNode(''));
+            addBuildingSelectBoxElement.appendChild(addBuildingInitOption);
+
+            // filter 한 building 을 조회하며 selectBox 의 option 생성 및 추가
+            for (const building of buildings) {
+                // addBuilding SelectBox option 생성 및 추가
+                const addBuildingOption = document.createElement('option');
+                addBuildingOption.value = building.id;
+                addBuildingOption.appendChild(document.createTextNode(building.name[0].text));
+                addBuildingSelectBoxElement.appendChild(addBuildingOption);
+            }
+
+            // add building selectBox 에 change 이벤트를 추가, change 가 발생했을 때 선택된 빌딩의 기본 층을 그림
+            addBuildingSelectBoxElement.addEventListener('change', async (e) => {
+                await map.context.addBuilding(e.target.value);
+            });
+        }
+
+        // removeBuilding 테스트 코드
+        function removeBuildingEventTest() {
+            // mapData.dataBuilding 중 indoor 만 filter 하여 list 를 만듦
+            const buildings = mapData.dataBuilding.getBuildings().filter((building) => building.buildingType === 'indoor');
+
+            // selectBox element 를 찾아 저장
+            const removeBuildingSelectBoxElement = document.querySelector("[name='removeBuildingList']");
+
+            // 초기값으로 빈 option 을 추가
+            const removeBuildingInitOption = document.createElement('option');
+            removeBuildingInitOption.value = '';
+            removeBuildingInitOption.appendChild(document.createTextNode(''));
+            removeBuildingSelectBoxElement.appendChild(removeBuildingInitOption);
+
+            // filter 한 building 을 조회하며 selectBox 의 option 생성 및 추가
+            for (const building of buildings) {
+                // removeBuilding SelectBox option 생성 및 추가
+                const removeBuildingOption = document.createElement('option');
+                removeBuildingOption.value = building.id;
+                removeBuildingOption.appendChild(document.createTextNode(building.name[0].text));
+                removeBuildingSelectBoxElement.appendChild(removeBuildingOption);
+            }
+
+            // remove building selectBox 에 change 이벤트를 추가, change 가 발생했을 때 선택된 빌딩을 removeBuilding을 통해 제거
+            removeBuildingSelectBoxElement.addEventListener('change', function (e) {
+                map.context.removeBuilding(e.target.value);
+            });
+        }
+
+        // changeFloor 테스트 코드
+        function changeFloorEventTest() {
+            // mapData.dataBuilding 중 indoor 만 filter 하여 list 를 만듦
+            const buildings = mapData.dataBuilding.getBuildings().filter((building) => building.buildingType === 'indoor');
+
+            const floorSelectBoxElement = document.querySelector("[name='floorList']");
+
+            const changeFloorInitOption = document.createElement('option');
+            changeFloorInitOption.value = '';
+            changeFloorInitOption.appendChild(document.createTextNode(''));
+            floorSelectBoxElement.appendChild(changeFloorInitOption);
+
+            // filter 한 building 을 조회하며 selectBox 의 option 생성 및 추가
+            for (const building of buildings) {
+                // building 안의 floor 를 조회하며 floorSelectBox option 생성 및 추가
+                const floors = building.floors;
+                for (const floor of floors) {
+                    const floorOption = document.createElement('option');
+                    floorOption.value = floor.id;
+                    floorOption.appendChild(document.createTextNode(`${building.name[0].text} ${floor.name[0].text}`));
+                    floorSelectBoxElement.appendChild(floorOption);
+                }
+            }
+
+            // floor selectBox 에 change 이벤트를 추가, change 가 발생했을 때 선택된 floor 로 층변경 이벤트 발생
+            // addBuilding() 함수 호출 시 await 를 붙여야 함, 선택된 빌딩 추가
+            floorSelectBoxElement.addEventListener('change', async (e) => {
+                await map.context.changeFloor(e.target.value);
+            });
+        }
+
+        function routeSimulationTest() {
+            // button click event 추가, 버튼 클릭 시 마포티타운 건물에서 실외지도를 거쳐 프론트원 건물로 가는 길찾기 경로 표출
+            document.querySelector("[name='getRouteOn']").addEventListener('click', async function () {
+                // option 에 따른 경로 검색
+                const naivResponse = await mapData.getRoute({
+                    // 마포티타운 건물 8층의 poi
+                    origin: {
+                        poiId: 'dd94549b-82f8-467c-a80b-cb87d441aeb7',
+                        floorId: 'f2299bb5-58c7-4425-8210-dbeece84f4c4',
+                    },
+
+                    // 프론트원 건물 1층의 poi
+                    destination: {
+                        poiId: 'a53eb76b-2826-4f26-b408-44adf7e8f6ce',
+                        floorId: 'e1992398-f25f-49fa-9daa-fc6adf340029',
+                    },
+                    type: ['recommendation'],
+                });
+                const naviOption = {
+                    origin: {
+                        markerOptions: {
+                            width: 30,
+                            height: 30,
+                            visibleIcon: true,
+                        },
+                    }, // 출발지 아이콘 및 주행선
+                    destination: {
+                        markerOptions: {
+                            width: 50,
+                            height: 50,
+                            visibleIcon: true,
+                        },
+                        lineOptions: {
+                            lineColor: '#ffbb00',
+                            solidLineEnabled: true,
+                            solidLineWidth: 20,
+                        },
+                    }, // 도착지 아이콘 및 주행선
+
+                    defaultLineOption: {
+                        lineColor: '#ffbb00',
+                        solidLineEnabled: true,
+                        solidLineWidth: 5,
+                        solidLineCap: 'round',
+                        solidLineJoin: 'round',
+                    }, // 기본 주행선 옵션
+                    lineDivide: false, // 네비게이션 선 분할여부 결정 (false 인 경우, defaultLineOption 만 사용)
+                };
+                // 구한 경로를 지도에 표출
+                await map.routeSimulation.set(naivResponse.recommendation, naviOption);
+            });
+
+            // button click event 추가, 버튼 클릭 시 길찾기 시뮬레이션을 start
+            document.querySelector("[name='start']").addEventListener('click', async function () {
+                const animOption = {
+                    twoFloorsNavigationDuration: 1000,
+                    speedRate: 13,
+                    zoom: 19,
+                    removeIcon: false,
+                    markerOptions: {
+                        iconUrl: 'https://assets.dabeeomaps.com/image/ico/img_person-3x.png',
+                        width: 30,
+                        height: 30,
+                        anchor: {
+                            x: 0.5,
+                            y: 0.5,
+                        },
+                    },
+                    enableFloorMotionCSS: true,
+                    changeFloorDelay: 500,
+                };
+                await map.routeSimulation.start(animOption);
+            });
+
+            // button click event 추가, 버튼 클릭 시 길찾기 시뮬레이션을 stop
+            document.querySelector("[name='stop']").addEventListener('click', function () {
+                map.routeSimulation.stop();
+            });
+
+            // button click event 추가, 버튼 클릭 시 길찾기 경로 제거
+            document.querySelector("[name='clear']").addEventListener('click', function () {
+                map.routeSimulation.clear();
+            });
+        }
+    </script>
+</html>
