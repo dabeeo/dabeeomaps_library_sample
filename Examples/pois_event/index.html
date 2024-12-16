@@ -5,7 +5,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>[pois]</title>
-        <link rel="stylesheet" href="style.css" />
+        <!-- <link rel="stylesheet" href="style.css" /> -->
         <style>
             /* 모달 스타일 */
             .modal {
@@ -73,7 +73,9 @@
             //mapContainer
             const mapContainer = document.getElementById('map');
             //mapOption 정의
-            const mapOption = {};
+            const mapOption = {
+                enableMouseMoveEvent: true, // mouse hover를 사용하기 위해서 option을 설정해야 합니다.
+            };
             //mapOption으로 mapContainer에 map 그리기
             map = await dabeeoMaps.showMap(mapContainer, mapOption, mapData);
             console.log(map);
@@ -99,6 +101,14 @@
                 span.onclick = function () {
                     modal.style.display = 'none'; // 모달 닫기
                 };
+            });
+            mapContainer?.addEventListener('poi-mouse-enter', (e) => {
+                e.target.style.cursor = 'pointer';
+                console.log(`${e.type} 에 대한 결과값`, e.detail);
+            });
+            mapContainer?.addEventListener('poi-mouse-leave', (e) => {
+                e.target.style.cursor = 'default';
+                console.log(`${e.type} 에 대한 결과값`, e.detail);
             });
             console.log('test: [pois]');
         }

@@ -13,7 +13,7 @@ const Example = () => {
         'mapOption',
         'objects',
         'pois',
-        'pois_click',
+        'pois_event',
         'findClosestPois',
         'controls',
         'focus',
