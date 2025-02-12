@@ -1,0 +1,52 @@
+name: Deploy to S3 and CloudFront
+
+on:
+    push:
+        branches: ['master']
+
+jobs:
+    deploy:
+        runs-on: ubuntu-latest
+        strategy:
+            matrix:
+                node-version: [14.x]
+        steps:
+            - name: Extract branch name
+              shell: bash
+              run: echo "branch=${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}" >> $GITHUB_OUTPUT
+              id: extract_branch
+
+            - name: check inputs.env
+              run: echo "${{ steps.extract_branch.outputs.branch }}"
+
+            # 1. Checkout repository
+            - name: Checkout code
+              uses: actions/checkout@v3
+
+            # 2. Set up Node.js
+            - name: Node.js
+              uses: actions/setup-node@v3
+              with:
+                  node-version: ${{ matrix.node-version }}
+                  cache: 'npm'
+
+            # 3. Set up AWS CLI
+            - name: Set up AWS CLI
+              uses: aws-actions/configure-aws-credentials@v1
+              with:
+                  aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY }}
+                  aws-secret-access-key: ${{ secrets.AWS_SECRET_KEY }}
+                  aws-region: ap-northeast-2
+
+            # 4. Build your project
+            - name: Install dependencies
+              run: npm install
+
+            - name: Build `prod` project
+              if: ${{ steps.extract_branch.outputs.branch == 'master' }}
+              run: npm run build
+
+            # 5. Deploy your project
+            - name: Deploy `prod` project
+              if: ${{ steps.extract_branch.outputs.branch == 'master' }}
+              run: npm run deploy
