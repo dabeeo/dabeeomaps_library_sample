@@ -19,18 +19,7 @@ jobs:
             - name: check inputs.env
               run: echo "${{ steps.extract_branch.outputs.branch }}"
 
-            # 1. Checkout repository
-            - name: Checkout code
-              uses: actions/checkout@v3
-
-            # 2. Set up Node.js
-            - name: Node.js
-              uses: actions/setup-node@v3
-              with:
-                  node-version: ${{ matrix.node-version }}
-                  cache: 'npm'
-
-            # 3. Set up AWS CLI
+            # 2. Set up AWS CLI
             - name: Set up AWS CLI
               uses: aws-actions/configure-aws-credentials@v1
               with:
@@ -38,15 +27,19 @@ jobs:
                   aws-secret-access-key: ${{ secrets.AWS_SECRET_KEY }}
                   aws-region: ap-northeast-2
 
-            # 4. Build your project
+            - uses: actions/checkout@v4
+            - name: Use Node.js
+              uses: actions/setup-node@v4
+              with:
+                  node-version: '18.x'
             - name: Install dependencies
-              run: npm install
-
-            - name: Build `prod` project
-              if: ${{ steps.extract_branch.outputs.branch == 'master' }}
-              run: npm run build
-
-            # 5. Deploy your project
-            - name: Deploy `prod` project
-              if: ${{ steps.extract_branch.outputs.branch == 'master' }}
-              run: npm run deploy
+              run: |
+                  if [ -e yarn.lock ]; then
+                  yarn install --frozen-lockfile
+                  elif [ -e package-lock.json ]; then
+                  npm ci
+                  else
+                  npm i
+                  fi
+            - run: npm run build
+            - run: npm run deploy
