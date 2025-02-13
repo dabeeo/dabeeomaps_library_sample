@@ -32,7 +32,6 @@
     "browserslist": {
         "production": [
             ">0.2%",
-            "not dead",
             "not op_mini all"
         ],
         "development": [
@@ -43,7 +42,6 @@
     },
     "devDependencies": {
         "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
-        "@babel/plugin-transform-parameters": "^7.25.9",
         "prettier": "2.7.1"
     }
 }
