@@ -24,6 +24,7 @@ const Example = () => {
         'gpsTracking',
         'navigation',
         'navigation_Delay',
+        'navigationMinTransfer',
         'tag',
         'multiMap_GeoOn',
         'multiMap_GeoOn2',

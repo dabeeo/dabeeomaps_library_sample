@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>routeSimulation</title>
+        <style>
+            body {
+                margin: 0;
+                padding: 0;
+            }
+
+            .menu {
+                position: fixed;
+                z-index: 1000; /* 다른 요소 위에 배치 */
+            }
+            #map {
+                box-sizing: border-box;
+                margin: 0;
+                padding: 0;
+                width: 100vw;
+                height: 100vh;
+                border: 1px solid black;
+            }
+            span,
+            select {
+                font-family: Arial, sans-serif; /* 동일한 폰트 패밀리 적용 */
+                font-size: 0.8rem; /* 동일한 폰트 크기 적용 */
+                vertical-align: middle; /* 수직 정렬을 맞추기 위해 사용 */
+            }
+            select {
+                max-width: 100px; /* 최대 넓이 */
+                min-width: 40px; /* 최소 넓이 */
+            }
+            input {
+                width: 30px;
+            }
+        </style>
+    </head>
+
+    <body>
+        <div class="menu">
+            <select class="changeFloor"></select>
+            <button class="startUseOption">옵션 사용 스타트 (경로: 1F -> B3F 이동)</button>
+            <button class="startNotUseOption">옵션 미사용 스타트 (경로: 1F -> B2F -> B3F 이동)</button>
+            <button class="stop">Stop</button>
+        </div>
+        <div id="map" class="map"></div>
+    </body>
+    <script type="text/javascript" src="https://api-assets.dabeeomaps.com/upload/library/dabeeomaps-04.82.01.js"></script>
+
+    <script type="module">
+        import { changeFloorSelectMenu } from '../util/jsTestUtil.js';
+        let mapData = null;
+        let map = null;
+
+        const originPoi = "e4b943b0-51a2-438b-831a-541234f11675"
+        const originFloorId = "e24735e5-c31d-43ad-aaf0-5ec98cda06eb"
+
+        const destPoi = "b76148ae-ddc1-4dd8-a386-0f79c23f134e"
+        const destFloorId = "faa2f785-45ff-4732-b760-cfaa05ab8357"
+
+        const naviOption = {
+            lineDivide: true, // 네비게이션 선 분할여부 결정 (false 인 경우, defaultLineOption 만 사용)
+            defaultLineOption: {
+                // 기본 주행선 옵션
+                lineColor: '#00ffff', // navigation 주행 라인의 색상을 지정
+                lineSpotSize: 10, // 주행선의 점의 굵기를 지정합니다. 주행선의 속성이 점선일 경우 적용됩니다.
+                lineSpotInterval: 30, // 주행선의 점간의 간격을 지정합니다. 숫자가 커질수록 실선에 가깝게 보입니다.
+                lineSpotAnimate: true, // 점선 애니메이션 활성화 여부
+                lineSpotAnimateSpeed: 0.2, // 점선 애니메이션 속도
+                solidLineEnabled: true, // 주행라인의 속성을 결정합니다. false일 때는 점선, true일 때는 실선으로 그려집니다. default는 false.
+                solidLineWidth: 5, // 실선의 굵기입니다. default는 1
+                solidLineJoin: 'bevel', // 실선 접합 부분의 모양을 지정합니다.('round', 'bevel', 'miter')
+                solidLineCap: 'butt', // 실선 끝 부분 모양을 지정합니다.('round', 'butt', 'square')
+            }
+        }
+
+        async function init() {
+            const dabeeoMaps = new dabeeo.Maps();
+
+            mapData = await dabeeoMaps.getMapData({
+                // 코엑스 테스트베드
+                mapId: '9400907b-08ac-4fc4-a74e-f5c701c5b7fe',
+                clientId: '1H_Fpq9zkOY9o7NXGwAPqc',
+                clientSecret: '1c177e120c495659293824fdcf9c994d',
+                serverType: 'SERVER_STUDIO4',
+            });
+            const mapContainer = document.getElementById('map');
+
+            const mapOption = {
+                enableGeoreferencing: true
+            };
+            map = await dabeeoMaps.showMap(mapContainer, mapOption, mapData);
+
+            const selectFloor = document.querySelector('.changeFloor');
+            changeFloorSelectMenu(mapData, map, selectFloor, 'changeFloor');
+            
+            // test code begins
+            document.querySelector('.startUseOption').addEventListener('click', async () => {
+                map.routeSimulation.clear();
+
+                let origin = {
+                    poiId: originPoi,
+                    floorId: originFloorId
+                }
+
+                let destination= {
+                    poiId: destPoi,
+                    floorId: destFloorId
+                }
+
+                let option = {
+                    isMinimumTransfer: true,
+                    notPreferredFloorIds: [
+                        "e65a1d6d-97fa-45a9-b29b-d01de39f7460", // B2
+                        "faa2f785-45ff-4732-b760-cfaa05ab8357", // B3
+                        "cfb5a365-7d2b-4e4a-a816-f0f36373f18f" // B4
+                    ],
+                }
+
+                const type = 'recommendation'
+
+                const route = { origin, destination, type: [type], option};
+
+                console.log('routeOption:', route);
+                const naviResponse = await mapData.getRoute(route);
+
+                await map.routeSimulation.set(naviResponse[type], naviOption);
+
+                const anim = { speedRate: 30 };
+                const result = await map.routeSimulation.start(anim);
+            });
+
+            document.querySelector('.startNotUseOption').addEventListener('click', async () => {
+                map.routeSimulation.clear();
+
+                let origin = {
+                    poiId: originPoi,
+                    floorId: originFloorId
+                }
+
+                let destination= {
+                    poiId: destPoi,
+                    floorId: destFloorId
+                }
+
+                const type = 'recommendation'
+
+                const route = { origin, destination, type: [type]};
+
+                console.log('routeOption:', route);
+                const naviResponse = await mapData.getRoute(route);
+
+                await map.routeSimulation.set(naviResponse[type], naviOption);
+
+                const anim = { speedRate: 30 };
+                const result = await map.routeSimulation.start(anim);
+            });
+
+            document.querySelector('.stop').addEventListener('click', () => {
+                map.routeSimulation.stop();
+            });
+        }
+
+        init();
+    </script>
+</html>
