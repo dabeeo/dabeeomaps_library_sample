@@ -51,15 +51,14 @@
     <script type="text/javascript" src="https://api-assets.dabeeomaps.com/upload/library/dabeeomaps-04.82.01.js"></script>
 
     <script type="module">
-        import { changeFloorSelectMenu } from '../util/jsTestUtil.js';
         let mapData = null;
         let map = null;
 
-        const originPoi = "e4b943b0-51a2-438b-831a-541234f11675"
-        const originFloorId = "e24735e5-c31d-43ad-aaf0-5ec98cda06eb"
+        const originPoi = 'e4b943b0-51a2-438b-831a-541234f11675';
+        const originFloorId = 'e24735e5-c31d-43ad-aaf0-5ec98cda06eb';
 
-        const destPoi = "b76148ae-ddc1-4dd8-a386-0f79c23f134e"
-        const destFloorId = "faa2f785-45ff-4732-b760-cfaa05ab8357"
+        const destPoi = 'b76148ae-ddc1-4dd8-a386-0f79c23f134e';
+        const destFloorId = 'faa2f785-45ff-4732-b760-cfaa05ab8357';
 
         const naviOption = {
             lineDivide: true, // 네비게이션 선 분할여부 결정 (false 인 경우, defaultLineOption 만 사용)
@@ -74,8 +73,8 @@
                 solidLineWidth: 5, // 실선의 굵기입니다. default는 1
                 solidLineJoin: 'bevel', // 실선 접합 부분의 모양을 지정합니다.('round', 'bevel', 'miter')
                 solidLineCap: 'butt', // 실선 끝 부분 모양을 지정합니다.('round', 'butt', 'square')
-            }
-        }
+            },
+        };
 
         async function init() {
             const dabeeoMaps = new dabeeo.Maps();
@@ -90,39 +89,39 @@
             const mapContainer = document.getElementById('map');
 
             const mapOption = {
-                enableGeoreferencing: true
+                enableGeoreferencing: true,
             };
             map = await dabeeoMaps.showMap(mapContainer, mapOption, mapData);
 
             const selectFloor = document.querySelector('.changeFloor');
             changeFloorSelectMenu(mapData, map, selectFloor, 'changeFloor');
-            
+
             // test code begins
             document.querySelector('.startUseOption').addEventListener('click', async () => {
                 map.routeSimulation.clear();
 
                 let origin = {
                     poiId: originPoi,
-                    floorId: originFloorId
-                }
+                    floorId: originFloorId,
+                };
 
-                let destination= {
+                let destination = {
                     poiId: destPoi,
-                    floorId: destFloorId
-                }
+                    floorId: destFloorId,
+                };
 
                 let option = {
                     isMinimumTransfer: true,
                     notPreferredFloorIds: [
-                        "e65a1d6d-97fa-45a9-b29b-d01de39f7460", // B2
-                        "faa2f785-45ff-4732-b760-cfaa05ab8357", // B3
-                        "cfb5a365-7d2b-4e4a-a816-f0f36373f18f" // B4
+                        'e65a1d6d-97fa-45a9-b29b-d01de39f7460', // B2
+                        'faa2f785-45ff-4732-b760-cfaa05ab8357', // B3
+                        'cfb5a365-7d2b-4e4a-a816-f0f36373f18f', // B4
                     ],
-                }
+                };
 
-                const type = 'recommendation'
+                const type = 'recommendation';
 
-                const route = { origin, destination, type: [type], option};
+                const route = { origin, destination, type: [type], option };
 
                 console.log('routeOption:', route);
                 const naviResponse = await mapData.getRoute(route);
@@ -133,22 +132,48 @@
                 const result = await map.routeSimulation.start(anim);
             });
 
+            function changeFloorSelectMenu(mapData, map, element) {
+                if (!element) {
+                    console.log('changeFloorSelectMenu: element가 없습니다');
+                    return;
+                }
+                const { floors } = mapData.dataFloor;
+                const titleOption = document.createElement('option');
+                titleOption.innerText = 'changeFloor';
+                element.appendChild(titleOption);
+                const curLangauge = mapData.dataLanguage.getDefaultLanguage();
+
+                floors.forEach((floor) => {
+                    const option = document.createElement('option');
+                    if (Array.isArray(floor.name)) option.innerText = floor.name.find((item) => item.lang === curLangauge.lang).text;
+                    else option.innerText = floor.name;
+                    option.value = floor.id;
+                    if (floor.id === mapData.dataMapInfo.getDefaultFloorId()) option.selected = true;
+
+                    element.appendChild(option);
+                });
+
+                element.addEventListener('change', (e) => {
+                    map.context.changeFloor(e.target.value);
+                });
+            }
+
             document.querySelector('.startNotUseOption').addEventListener('click', async () => {
                 map.routeSimulation.clear();
 
                 let origin = {
                     poiId: originPoi,
-                    floorId: originFloorId
-                }
+                    floorId: originFloorId,
+                };
 
-                let destination= {
+                let destination = {
                     poiId: destPoi,
-                    floorId: destFloorId
-                }
+                    floorId: destFloorId,
+                };
 
-                const type = 'recommendation'
+                const type = 'recommendation';
 
-                const route = { origin, destination, type: [type]};
+                const route = { origin, destination, type: [type] };
 
                 console.log('routeOption:', route);
                 const naviResponse = await mapData.getRoute(route);
