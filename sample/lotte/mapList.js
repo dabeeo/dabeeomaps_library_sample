@@ -42,7 +42,7 @@ export const mapList = [
     { name: `아울렛 (광교점)`, mapId: `MP-rl7x2s354awg6681`, clientId: `d3B6Qtx2Ayk8nIC0dCmiEL`, clientSecret: `5252d765352972ac64bcc1a2d3d1f4de` },
     { name: `아울렛 (이시아폴리스점)`, mapId: `MP-skscui6sh0e06273`, clientId: `4lk_0EM0QpcaurYZ7EJidB`, clientSecret: `4d662c2582e2a0f4348a7ae7d995e6d1` },
     { name: `백화점 (센텀시티점)`, mapId: `MP-t4yfisdhfc4z0435`, clientId: `c3z0PdO0AsW8VqInOFcZ4J`, clientSecret: `8d1671cf4446aa4bfd5184f10423096b` },
-    { name: `롯데몰 (은평점)`, mapId: `MP-s103941jppo33717`, cleintId: `aVN-NKzP4gX80iDP5tSoCd`, clientSecret: `2c0a79b1e38502de1f74e55e7a49326a` },
+    { name: `롯데몰 (은평점)`, mapId: `MP-s103941jppo33717`, clientId: `aVN-NKzP4gX80iDP5tSoCd`, clientSecret: `2c0a79b1e38502de1f74e55e7a49326a` },
     { name: `백화점 (잠실점)`, mapId: `MP-t4hucz7j983a7782`, clientId: `fh8CHL6h4QM92Pw9PWQNpJ`, clientSecret: `dee25c840af1970aebb44b1f8a618410` },
     { name: `백화점 (광복점)`, mapId: `MP-t4f4548o3rkz0219`, clientId: `2Ldvf0xv4M0aV259PrcYTZ`, clientSecret: `fc0c5331d429adfcdf7f644237930923` },
     { name: `백화점 (상인점)`, mapId: `MP-1hbjaces2qvy06902`, clientId: `7eE28_makTl837b5TB_1g7`, clientSecret: `105fa340294c4e82e4cd7c3b73b785bb` },
