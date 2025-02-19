@@ -14,7 +14,7 @@ export class ContextMenu {
         this.map = map;
         this.mapContainer = mapContainer;
         this.mapContainer.addEventListener('floor-changed', (e) => {
-            console.log('floor-changed 에 대한 결과값', e.detail);
+            // console.log('floor-changed 에 대한 결과값', e.detail);
             setting.floor = e.detail.id;
         });
 
