@@ -16,7 +16,7 @@ const ReactText = (
             <br />
             아래 soure link로 이동하시면 React 예제 source code를 확인하실 수 있습니다.
             <br />
-            <a href="https://github.com/dabeeo/dabeeomaps-react-sample" target="_blank" rel="noreferrer">
+            <a href="https://github.com/dabeeo/dabeeomaps_library_typescript_sample" target="_blank" rel="noreferrer">
                 [React 예제 소스]
             </a>
             <br />
