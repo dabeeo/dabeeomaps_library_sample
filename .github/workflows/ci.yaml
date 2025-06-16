@@ -1,0 +1,41 @@
+name: Deploy to S3 and CloudFront
+
+on:
+    push:
+        branches: ['master']
+
+jobs:
+    deploy:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Extract branch name
+              shell: bash
+              run: echo "branch=${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}" >> $GITHUB_OUTPUT
+              id: extract_branch
+
+            - name: check inputs.env
+              run: echo "${{ steps.extract_branch.outputs.branch }}"
+
+            # 2. Set up AWS CLI
+            - name: Set up AWS CLI
+              uses: aws-actions/configure-aws-credentials@v1
+              with:
+                  aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY }}
+                  aws-secret-access-key: ${{ secrets.AWS_SECRET_KEY }}
+                  aws-region: ap-northeast-2
+
+            - uses: actions/checkout@v4
+            - name: Use Node.js
+              uses: actions/setup-node@v4
+              with:
+                  node-version: 18
+
+            - name: Install dependencies
+              run: |
+                  if [ -e yarn.lock ]; then
+                  yarn install --frozen-lockfile
+                  elif [ -e package-lock.json ]; then
+                  npm ci
+                  else
+                  npm i && npm run build && npm run deploy
+                  fi
