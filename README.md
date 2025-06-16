@@ -20,7 +20,5 @@ API Reference는 아래 링크를 참고하세요.
 
 -   Reference : [http://api-doc.dabeeomaps.com/](http://api-doc.dabeeomaps.com/)
 
-- api를 사용하여 바로 프로그램을 시작할 수 있는 샘플 깃 리스트입니다. 
-    - https://github.com/dabeeo/dabeeomaps-react-sample :  javascript api 4 react sample page  (권한 요청)
-    - https://github.com/dabeeo/dabeeomaps_library_boilerplate : javascript api 4 npm install sample page
-    - https://github.com/dabeeo/dabeeomaps_library_typescript_sample : javascrip api 4 npm install typescript page
+-   api를 사용하여 바로 프로그램을 시작할 수 있는 샘플 깃 리스트입니다.
+    -   https://github.com/dabeeo/dabeeomaps_library_typescript_sample : javascrip api 4 npm install typescript page
