@@ -2,7 +2,7 @@ name: Deploy to S3 and CloudFront
 
 on:
     push:
-        branches: ['chore/02130900-jode-gitActions']
+        branches: ['master']
 
 jobs:
     deploy:
