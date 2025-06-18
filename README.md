@@ -1,7 +1,8 @@
 # DABEEO API 4.0 SAMPLE PAGE
+![Screenshot 2025-06-18 at 4 51 38 PM](https://github.com/user-attachments/assets/805e9c7e-6349-402a-ba28-491eb86e25d8)
 
 이 공간은 dabeeo api library 4를 사용하기 위한 가이드와 샘플 페이지를 제공하는 곳입니다. \
-Examples 폴더에 다양한 예제가 있어서 이를 활용하면 쉽게 지도 서비스 페이지를 구성할 수 있습니다.
+Examples과 sample 폴더에 다양한 예제가 있어서 이를 활용하면 쉽게 지도 서비스 페이지를 구성할 수 있습니다.
 자세한 사항은 아래 링크를 참고하세요.
 
 다비오 지도 라이브러리는 npm으로 배포되므로 npm을 이용하여 사용할 수 있습니다.
