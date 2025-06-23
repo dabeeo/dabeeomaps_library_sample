@@ -45,7 +45,7 @@ export const mapList = [
     { name: `롯데몰 (은평점)`, mapId: `MP-s103941jppo33717`, clientId: `aVN-NKzP4gX80iDP5tSoCd`, clientSecret: `2c0a79b1e38502de1f74e55e7a49326a` },
     { name: `백화점 (잠실점)`, mapId: `MP-t4hucz7j983a7782`, clientId: `fh8CHL6h4QM92Pw9PWQNpJ`, clientSecret: `dee25c840af1970aebb44b1f8a618410` },
     { name: `백화점 (광복점)`, mapId: `MP-t4f4548o3rkz0219`, clientId: `2Ldvf0xv4M0aV259PrcYTZ`, clientSecret: `fc0c5331d429adfcdf7f644237930923` },
-    { name: `백화점 (상인점)`, mapId: `MP-1hbjaces2qvy06902`, clientId: `7eE28_makTl837b5TB_1g7`, clientSecret: `105fa340294c4e82e4cd7c3b73b785bb` },
+    { name: `백화점 (상인점)`, mapId: `MP-1hbjaces2qvy06902`, clientId: `fEZh2BKWQSt924YvEycKPn`, clientSecret: `7dc4eeeecd4840706076fde010a16410` },
     { name: `백화점 (안산점)`, mapId: `MP-1jym3j6li4wmq0433`, clientId: `dD78o5nu4mtam8hhbqa-T4`, clientSecret: `e47d66e7409069004e095bbbf50a5464` },
     { name: `백화점 (관악점)`, mapId: `MP-1jym2r2ef6y448893`, clientId: `7qJ4Pfs_Q-H9B4pfAETTdB`, clientSecret: `f33ae43468e2743da08f9f636642b67c` },
     { name: `백화점 (포항점)`, mapId: `MP-1k1ty6cmjmcfa5381`, clientId: `6Nh-Fb_c4UH9jsXMCFmD4A`, clientSecret: `cb6612d321f69caee2f728548cad5077` },

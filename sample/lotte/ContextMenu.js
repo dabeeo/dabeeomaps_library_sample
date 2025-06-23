@@ -48,11 +48,11 @@ export class ContextMenu {
     }
 
     convertToImg() {
-        this.map.context.convertToImg({ ratio: 5, filename: 'test-image' });
+        this.map.context.convertToImg({ ratio: 5 });
     }
 
     convertToImgAllFloor() {
-        this.map.context.convertToImg({ ratio: 5, filename: 'test-image', floorAll: true });
+        this.map.context.convertToImg({ ratio: 5, floorAll: true });
     }
 
     changeFloor(value) {
