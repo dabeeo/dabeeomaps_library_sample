@@ -40,18 +40,22 @@ const map = await dabeeoMaps.showMap(mapContaienr, mapOption, mapData)
                     </code>
                 </pre>
                 <div className={styles.texts}> 2. changeFloor 혹은 addBuilding을 통해 실내지도를 추가, 층을 변경할 수 있습니다. (여러개 동시 가능)</div>
+                <div className={styles.texts}> 또한, addAllBuilding을 통해 모든 실내지도 빌딩을 추가할 수 있습니다.</div>
                 <pre>
                     <code className={styles.code}>
                         {` 
-await map.context.addBuilding(buildingId, floorId) 
+// 또한, await map.context.addAllBuilding() 을 사용하여 모든 실내지도 빌딩 추가 가능
+await map.context.addBuilding(buildingId, floorId)
 await map.context.changeFloor(floorId)
 `}
                     </code>
                 </pre>
                 <div className={styles.texts}> 3. removeBuilding을 통해 실외지도 위에 그려진 실내지도를 제거합니다.</div>
+                <div className={styles.texts}> 또한, removeAllBuilding을 통해 모든 실내지도 빌딩을 제거할 수 있습니다.</div>
                 <pre>
                     <code className={styles.code}>
                         {` 
+// 또한, map.context.removeAllBuilding() 으로 모든 빌딩을 제거할 수 있음
 map.context.removeBuilding(buildingId); // 실외지도 위에 그려져있는 특정 빌딩 제거
 `}
                     </code>
