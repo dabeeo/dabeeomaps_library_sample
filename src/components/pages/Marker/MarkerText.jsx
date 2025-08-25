@@ -31,6 +31,30 @@ const MarkerText = (
         repeat?: number;    /** repeat: (optional) animate 횟수, undefined이면 무한 반복 */
         opacity?: number;   /** opacity : (optional) animate 투명도 정도 (소수점) min: 0 max:1 */
     };
+    textOption?: {
+        text?: string;           /** marker의 하단에 표시할 텍스트 */
+        fontSize?: number;       /** 텍스트 폰트 사이즈 */
+        fontWeight?: number;     /** 텍스트 폰트 굵기 */
+        opacity?: number;        /** 텍스트 투명도 */
+        letterSpacing?: number;  /** 텍스트 간의 간격 */
+        lineSpacing?: number;    /** 텍스트 줄간의 간격 */
+        align?: string;          /** 텍스트 정렬 (LEFT | MIDDLE | RIGHT) */
+        color?: string;          /** 텍스트 색상 */
+        padding?: {              /** 텍스트 상하좌우 패딩 */
+            horizontal: number;
+            vertical: number;
+        };
+        strokeStyle?: {
+            color?: string;        /** 텍스트 윤곽선 색상 */
+            width?: number;        /** 텍스트 윤곽선 굵기 */
+            opacity?: number;      /** 텍스트 윤곽선 투명도 */
+        };
+        backgroundStyle?: {
+            opacity?: number;      /** 텍스트 하이라이트 투명도 */
+            color?: string;        /** 텍스트 하이라이트 색상 */
+            borderRadius?: number; /** 텍스트 하이라이트 경계면 굴곡 */
+        };
+    }
     iconOption?: {
         iconUrl?: string;    /** marker의 이미지 url */
         width?: number;      /** marker의 넓이 값 */

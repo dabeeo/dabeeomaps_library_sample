@@ -45,7 +45,9 @@ const NavigationTextEn = (
                 floorId: [Floor ID of waypoints]
             }
         ],
-        retResponse: boolean                    // Option for the return value, if set to true, the required time and distance are returned. If false, only the required time is returned.
+        option: {
+          isBarrierFreeRoute: true, // Barrier-free route guidance request
+        },
     }
 
     map.routeSimulation.setRoute(routeOption);

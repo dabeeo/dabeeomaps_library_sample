@@ -36,8 +36,8 @@ map.routeSimulation.clear()                                 //경로 지우기
         </pre>
 
         <div className={styles.texts}>
-            <br /> 해당 목적지까지의 경로를 받은 후에 경로에 대한 정보(예: 10m 걷기 후 좌회전) 는 아래 속성에 저장되어 있습니다. 이를 이용하여 경로에 대한
-            설명을 안내할 수 있습니다.
+            <br /> 해당 목적지까지의 경로를 받은 후에 경로에 대한 정보(예: 10m 걷기 후 좌회전) 는 아래 속성에 저장되어 있습니다. 이를 이용하여 경로에 대한 설명을 안내할 수
+            있습니다.
         </div>
         <p>
             {' '}
@@ -79,6 +79,9 @@ transportation: "걷기"           //현지점에서 다음 지점까지의 이�
       floorId: "FL-t4vqgyek3jnb8146",
     }
   ],
+  option: {
+    isBarrierFreeRoute: true, // 교통약자를 위한 길찾기 요청
+  },
 }
 //Position으로 설정하는 경우 
 const des ={
@@ -101,6 +104,9 @@ const des ={
         floorId: "FL-rhg41w7x6vy15369"
       }
     ],
+    option: {
+      isBarrierFreeRoute: true, // 교통약자를 위한 길찾기 요청
+    },
   },
 
 const naviResponse = await mapData.getRoute(des);

@@ -13,6 +13,40 @@ const MapContextTextEn = (
         </p>
         <div className={styles.texts}>To switch floors, call the following method.</div>
         <code className={styles.code}>map.context.changeFloor([변경할 층 ID]);</code>
+        <div className={styles.texts}>Switches to the floor corresponding to the given floor name.</div>
+        <div className={styles.texts}>
+            If there is a floor among the currently rendered buildings that has a map name matching the currently rendered language, it will switch to that floor.
+        </div>
+        <div className={styles.texts}>This must be handled asynchronously.</div>
+        <pre>
+            <code className={styles.code}>await map.context.changeFloorByName([floor name to change]);</code>
+        </pre>
+
+        <div className={styles.texts}>
+            <br />
+            Retrieves the buildings currently displayed on the screen.
+        </div>
+        <pre>
+            <code className={styles.code}>{`
+const filterOptions = {
+    sortOption:{
+        /** Sorts by distance from the given center. 
+         * If no center is provided (default), the distance is calculated from the camera position. */
+        center: {
+            x:1500,
+            y:1000,
+            z:0
+        }, 
+        /** If true, sorts in ascending order (ASC): from smaller to larger values. 
+         * If false, sorts in descending order (DESC): from larger to smaller values. (default = true) */
+        byAsc: true 
+    }
+ }
+ 
+ const buildings = map.pois.getCurrentBuildings(filterOptions);
+ 
+`}</code>
+        </pre>
         <div className={styles.texts}>You can hide the POI of the corresponding ID by calling the following method.</div>
         <code className={styles.code}>map.context.hide([POI ID]);</code>
         <div className={styles.texts}>If you call the following method, you can show the POI of the corresponding ID.</div>
